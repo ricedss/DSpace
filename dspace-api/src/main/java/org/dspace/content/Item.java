@@ -46,6 +46,8 @@ import org.dspace.storage.rdbms.TableRowIterator;
 import org.dspace.utils.DSpace;
 import org.dspace.versioning.VersioningService;
 
+import org.dspace.app.util.CitationManager;
+
 /**
  * Class representing an item in DSpace.
  * <P>
@@ -60,6 +62,8 @@ import org.dspace.versioning.VersioningService;
  * @author Martin Hald
  * @version $Revision$
  */
+/** Ying Jin updated for citation generation **/
+
 public class Item extends DSpaceObject
 {
     /**
@@ -122,6 +126,9 @@ public class Item extends DSpaceObject
 
         // Cache ourselves
         context.cache(this, row.getIntColumn("item_id"));
+         if(this.isArchived()){
+            updateCitation();// YJ added this for citation configuration
+        }
     }
 
     private TableRowIterator retrieveMetadata() throws SQLException
@@ -1457,6 +1464,38 @@ public class Item extends DSpaceObject
     }
 
     /**
+     * SWB added
+     *  Finds an Item's primary bitstream, if present
+     * @return the item's primary Bitstream, or null if there isn't one
+     */
+    public Bitstream getPrimaryBitstream() {
+        try
+        {
+            Bundle[] bundles = getBundles("ORIGINAL");
+            if (bundles != null && bundles.length > 0)
+            {
+                Bitstream[] bitstreams = bundles[0].getBitstreams();
+                if (bitstreams != null && bitstreams.length > 0)
+                {
+                    int primaryBitstreamID = bundles[0].getPrimaryBitstreamID();
+                    for (Bitstream b : Arrays.asList(bitstreams))
+                    {
+                        if (b.getID() == primaryBitstreamID)
+                        {
+                            return b;
+                        }
+                    }
+                }
+            }
+        }
+        catch (SQLException e)
+        {
+        }
+
+        return null;
+    }
+
+    /**
      * Remove just the DSpace license from an item This is useful to update the
      * current DSpace license, in case the user must accept the DSpace license
      * again (either the item was rejected, or resumed after saving)
@@ -1619,7 +1658,20 @@ public class Item extends DSpaceObject
 
                 // Store the calculated place number, reset the stored flag, and cache the metadatafield
                 placeNum[dcIdx] = current;
-                storedDC[dcIdx] = false;
+
+                //storedDC[dcIdx] = false;
+
+                // YJ added this "if condition". This makes sure that when citation is configured,
+                // it would not write back to the database.
+                if (!(CitationManager.isConfiged()
+                		&& ("identifier".equals(dcv.element))
+                		&& ("citation".equals(dcv.qualifier)))){
+                	storedDC[dcIdx] = false;
+                }else{
+                	storedDC[dcIdx] = true;
+                }
+
+
                 dcFields[dcIdx] = getMetadataField(dcv);
                 if (dcFields[dcIdx] == null)
                 {
@@ -1810,8 +1862,14 @@ public class Item extends DSpaceObject
                 dublinCoreChanged = false;
             }
 
-            ourContext.addEvent(new Event(Event.MODIFY, Constants.ITEM, getID(), null));
-            modified = false;
+            if (modified)
+            {
+                if(this.isArchived()){
+                    updateCitation(); // YJ added this for citation configuration
+                }
+                ourContext.addEvent(new Event(Event.MODIFY, Constants.ITEM, getID(), null));
+                modified = false;
+            }
         }
     }
 
@@ -2841,6 +2899,29 @@ public class Item extends DSpaceObject
             }
 
             return null;
+        }
+    }
+
+
+        /**
+     * YJ added this for citation generation
+     */
+    private void updateCitation() {
+        // citation is configed?
+        List<DCValue> dublinCore = getMetadata();
+
+        if(CitationManager.isConfiged() && dublinCore != null){
+            // Make a DCValue object
+            DCValue dcv = new DCValue();
+            dcv.schema = MetadataSchema.DC_SCHEMA;
+            dcv.element = "identifier";
+            dcv.qualifier = "citation";
+
+            String dcvalue = CitationManager.getCitationString(this);
+            if (( dcvalue != null) && dcvalue.length() > 0){
+                dcv.value = dcvalue;
+                addMetadata(dcv.schema, dcv.element, dcv.qualifier, null, dcv.value);
+            }
         }
     }
 }

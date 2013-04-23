@@ -17,6 +17,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.awt.image.BufferedImage;
 
 import org.apache.log4j.Logger;
 import org.dspace.checker.BitstreamInfoDAO;
@@ -33,6 +34,12 @@ import edu.sdsc.grid.io.local.LocalFile;
 import edu.sdsc.grid.io.srb.SRBAccount;
 import edu.sdsc.grid.io.srb.SRBFile;
 import edu.sdsc.grid.io.srb.SRBFileSystem;
+import gov.lanl.adore.djatoka.DjatokaDecodeParam;
+import gov.lanl.adore.djatoka.IExtract;
+import gov.lanl.adore.djatoka.DjatokaException;
+import gov.lanl.adore.djatoka.io.IWriter;
+import gov.lanl.adore.djatoka.io.FormatFactory;
+import gov.lanl.adore.djatoka.kdu.KduExtractExe;
 
 /**
  * <P>
@@ -523,6 +530,62 @@ public class BitstreamStorageManager
 		GeneralFile file = getFile(bitstream);
 
 		return (file != null) ? FileFactory.newFileInputStream(file) : null;
+    }
+
+    /**
+     * Ying added this for JPEG2000 retrieval
+     * (JPEG2000 impl) Retrieve the bits for the bitstream with ID. If the bitstream does not
+     * exist, or is marked deleted, returns null.
+     *
+     * @param context
+     *            The current context
+     * @param id
+     *            The ID of the bitstream to retrieve
+     * @exception IOException
+     *                If a problem occurs while retrieving the bits
+     * @exception SQLException
+     *                If a problem occurs accessing the RDBMS
+     *
+     * @return The stream of bits, or null
+     */
+    public static BufferedImage retrieveBI(Context context, int id, String format)
+            throws SQLException, IOException
+    {
+        TableRow bitstream = DatabaseManager.find(context, "bitstream", id);
+
+		GeneralFile file = getFile(bitstream);
+
+        if(format.equals("image/jp2")){
+            DjatokaDecodeParam params = new DjatokaDecodeParam();
+            String input = file.getAbsolutePath();
+            System.out.println("In BitstreamStorageManager: inputfile path is "+ input);
+            IExtract extractImpl = new KduExtractExe();
+            try{
+                BufferedImage bi = extractImpl.process(input, params);
+                //FormatFactory fmtFactory = new FormatFactory();
+                //IWriter w = fmtFactory.getWriter(format);
+                //ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                //w.write(bi, baos);
+                //ByteArrayInputStream bais = new ByteArrayInputStream(baos.toByteArray());
+
+                //return bais;
+                return bi;
+            }catch(DjatokaException de){
+                de.getStackTrace();
+            }
+        }
+        return null;
+    }
+
+    /**
+     * Ying added this for JPEG2000 retrieval, return the absolute full path of the bitstream file
+     */
+    public static String getFilename(Context context, int id)
+            throws SQLException, IOException
+    {
+        TableRow bitstream = DatabaseManager.find(context, "bitstream", id);
+        GeneralFile file = getFile(bitstream);
+        return file.getCanonicalPath();
     }
 
     /**

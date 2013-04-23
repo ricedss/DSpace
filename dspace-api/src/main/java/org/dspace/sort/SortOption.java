@@ -336,4 +336,22 @@ public class SortOption
         
         return null;
     }
+
+    /**
+     * Ying added this method - Get the default sort option by given handler and type
+     *  for ECE to setup default author sort-by by issue-date
+     * @return
+     * @throws SortException
+     */
+    public static SortOption getDefaultSortOptionByHandler(String handler, String type) throws SortException
+    {
+        String defaultSortBy;
+         if ( ((defaultSortBy = ConfigurationManager.getProperty("webui.itemlist.sort-option." + handler.replaceAll("/", ".") + "." + type + ".default"))) != null)
+            {
+                SortOption so = getSortOption(Integer.parseInt(defaultSortBy));
+                return so;
+             }
+        return null;
+    }
+
 }

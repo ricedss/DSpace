@@ -727,7 +727,7 @@ public class ConfigurableBrowse extends AbstractDSpaceTransformer implements
             params.scope.setSortBy(sortBy);
             
             params.scope.setJumpToItem(RequestUtils.getIntParameter(request, BrowseParams.JUMPTO_ITEM));
-            params.scope.setOrder(request.getParameter(BrowseParams.ORDER));
+            // params.scope.setOrder(request.getParameter(BrowseParams.ORDER));
             int offset = RequestUtils.getIntParameter(request, BrowseParams.OFFSET);
             params.scope.setOffset(offset > 0 ? offset : 0);
             params.scope.setResultsPerPage(RequestUtils.getIntParameter(request, BrowseParams.RESULTS_PER_PAGE));
@@ -744,11 +744,46 @@ public class ConfigurableBrowse extends AbstractDSpaceTransformer implements
             params.scope.setJumpToValueLang(decodeFromURL(request.getParameter(BrowseParams.JUMPTO_VALUE_LANG)));
             params.scope.setFilterValueLang(decodeFromURL(request.getParameter(BrowseParams.FILTER_VALUE_LANG)));
 
+            // Ying for ECE to generate correct order of author browse result
+
+            String sortByOrder = request.getParameter(BrowseParams.ORDER);
+            // do it when it is on the second level
             // Filtering to a value implies this is a second level browse
             if (params.scope.getFilterValue() != null)
             {
+
+
+
+                // Ying for ECE to setup default author sort-by by issue-date
+
+                if (dso instanceof Collection){
+                    Collection col = (Collection)dso;
+                    try{
+                        SortOption so = SortOption.getDefaultSortOptionByHandler(col.getHandle(), type);
+                        if (so != null){
+                            sortBy = so.getNumber();
+                        }
+                    }catch (SortException se){
+
+                    }
+                }
+                params.scope.setSortBy(sortBy);
+
+                //END Ying for ECE to setup default author sort-by by issue-date
+
                 params.scope.setBrowseLevel(1);
+
+                if (sortByOrder == null){
+                    // get the setup from config
+                    if (dso instanceof Collection){
+                        Collection col = (Collection)dso;
+                        sortByOrder = getSortByOrderByHandler(col.getHandle(), type);
+                    }
+                }
+
             }
+            params.scope.setOrder(sortByOrder);
+            // END Ying for ECE to generate correct order of author browse result
 
             // if year and perhaps month have been selected, we translate these
             // into "startsWith"
@@ -968,6 +1003,20 @@ public class ConfigurableBrowse extends AbstractDSpaceTransformer implements
         }
         
         return trailMessage;
+    }
+
+    /*
+     * Ying added this method to trace the setup for default order
+     * getSortByOrderByHandler
+     * @param handler
+      *@param type
+     * @return default order - desc/asc
+     */
+    private String getSortByOrderByHandler(String handler, String type){
+       String defaultOrder = ConfigurationManager.getProperty("webui.itemlist.sort-option." + handler.replaceAll("/", ".") + "." + type + ".orderdefault");
+
+       return defaultOrder;
+
     }
 }
 
