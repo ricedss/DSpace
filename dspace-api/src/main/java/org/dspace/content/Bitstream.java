@@ -339,6 +339,26 @@ public class Bitstream extends DSpaceObject
         addDetails("Source");
     }
 
+    /** Ying added this for customized bitstream format display */
+    public String getFilename()
+    {
+        try
+        {
+            return BitstreamStorageManager.getFilename(bContext, getID());
+        }
+        catch (IOException e)
+        {
+            e.printStackTrace();
+            return null;
+        }
+        catch (SQLException e)
+        {
+            e.printStackTrace();
+            return null;
+        }
+    }
+    /** END Ying added this for customized bitstream format display */
+
     /**
      * Get the description of this bitstream - optional free text, typically
      * provided by a user at submission time

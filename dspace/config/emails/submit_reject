@@ -6,7 +6,7 @@
 # {3}  Reason for the rejection
 # {4}  Link to 'My DSpace' page
 #
-Subject: DSpace: Submission Rejected
+Subject: scholarship.rice.edu: Submission Rejected
 
 You submitted: {0}
 
@@ -17,7 +17,5 @@ with the following explanation:
 
 {3}
 
-Your submission has not been deleted.  You can access it from your
-"My DSpace" page: {4}
-
-DSpace
+Your submission has not been deleted.  You can access your submissions
+here: {4}

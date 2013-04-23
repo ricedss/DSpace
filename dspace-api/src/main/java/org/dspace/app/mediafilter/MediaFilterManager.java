@@ -498,17 +498,34 @@ public class MediaFilterManager
      */
     public static boolean filterItem(Context c, Item myItem) throws Exception
     {
-        // get 'original' bundles
-        Bundle[] myBundles = myItem.getBundles("ORIGINAL");
+        // Sid updated this for TEI
         boolean done = false;
-        for (int i = 0; i < myBundles.length; i++)
+
+        // Check whether the item is special
+        Bitstream primaryBitstream = myItem.getPrimaryBitstream();
+        if (primaryBitstream != null
+                && primaryBitstream.getFormat().getMIMEType().equals("text/xml")
+                && myItem.getDC("format", "xmlschema", Item.ANY).length > 0)
         {
-        	// now look at all of the bitstreams
-            Bitstream[] myBitstreams = myBundles[i].getBitstreams();
-            
-            for (int k = 0; k < myBitstreams.length; k++)
+            // for XML texts, only filter the main TEI XML document. All the images don't need
+            //  thumbnails, and in fact, they just cause performance problems.
+            done = filterBitstream(c, myItem, primaryBitstream);
+        }
+        // END Sid updated this for TEI
+        else
+        {
+            // Normal item -- filter all bitstreams.
+            // get 'original' bundles
+            Bundle[] myBundles = myItem.getBundles("ORIGINAL");
+            for (int i = 0; i < myBundles.length; i++)
             {
-            	done |= filterBitstream(c, myItem, myBitstreams[k]);
+            	// now look at all of the bitstreams
+                Bitstream[] myBitstreams = myBundles[i].getBitstreams();
+
+                for (int k = 0; k < myBitstreams.length; k++)
+                {
+                	done |= filterBitstream(c, myItem, myBitstreams[k]);
+                }
             }
         }
         return done;
@@ -734,7 +751,19 @@ public class MediaFilterManager
             return false;
         }
         
-        InputStream destStream = formatFilter.getDestinationStream(source.retrieve());
+        // Ying updated this for JPEG2000 Thumbnail generation
+        InputStream destStream;
+        String specialmedias = ConfigurationManager.getProperty("filter.org.dspace.app.mediafilter.JPEG2000Filter.inputFormats");
+        specialmedias = specialmedias + ", " + ConfigurationManager.getProperty("filter.org.dspace.app.mediafilter.VIDEOAUDIOFilter.inputFormats");
+        //System.out.println(specialmedias + "[" + source.getFilename()+"]" + source.getID() + "---" +  item.getHandle());
+        if(specialmedias.indexOf(source.getFormat().getMIMEType().trim()) >= 0){
+            //System.out.println("getting destStream!!! " + source.getFilename() + "== " + source.getName() + "=== " + source.getID() + " ====== " + formatFilter.getFormatString());
+            destStream = formatFilter.getDestinationStream(source.getFilename(), source.getName(), source.getID());
+        }else{
+            destStream = formatFilter.getDestinationStream(source.retrieve());
+        }
+
+        // END Ying updated this for JPEG2000 Thumbnail generation
         if (destStream == null)
         {
             if (!isQuiet)

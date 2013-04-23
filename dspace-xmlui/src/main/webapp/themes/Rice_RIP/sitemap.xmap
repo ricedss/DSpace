@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  sitemap.xmap
+
+  Version: $Revision: 1.6 $
+ 
+  Date: $Date: 2006/07/27 22:54:52 $
+ 
+-->
+<map:sitemap xmlns:map="http://apache.org/cocoon/sitemap/1.0">
+	<map:pipelines>
+		<!-- 
+			Define global theme variables that are used later in this 
+			sitemap. Two variables are typically defined here, the theme's 
+			path and name. The path is the directory name where this theme 
+			is located, such as "Reference" for the reference theme. The 
+			theme's name is used only for descriptive purposes to describe 
+			the theme.		
+		-->
+        <map:component-configurations>
+            <global-variables>
+                <theme-path>Rice</theme-path><!-- just reference the Rice theme for most things -->
+                <theme-name>Rice RIP Theme</theme-name>
+            </global-variables>
+        </map:component-configurations>
+        <map:pipeline>
+
+			<!-- Deliver static theme content -->
+			<map:match pattern="themes/*/Rice_RIP/**">
+				<map:read src="{2}"/>
+			</map:match>
+			
+			<!-- Handle dynamic content (aka the normal HTML page) -->
+			<map:match pattern="**">
+				<map:generate type="file" src="cocoon://DRI/{1}"/>
+				
+				<!-- Add special metadata elements to the DRI page -->
+			    <!-- Step 2 Add page metadata -->
+                        <map:transform type="IncludePageMeta">
+                            <map:parameter name="stylesheet.screen#2" value="rice.css"/>
+                            <map:parameter name="theme.path" value="{global:theme-path}"/>
+                            <map:parameter name="theme.name" value="{global:theme-name}"/>
+                        </map:transform>
+                        <!-- javascript files follow -->
+			            <map:transform type="IncludePageMeta">
+
+                            <!-- MMS: Not sure if this jscript.js file is actually needed.  It apparently came with the Periodicals theme/XSL.  -->
+                            <map:parameter name="javascript#1" value="../Rice/jscript.js"/>
+                            <map:parameter name="javascript#2" value="jquery-1.2.1.js"/>
+                            <map:parameter name="javascript#3" value="../Rice/scripts.js"/>
+
+			            </map:transform>
+				
+				<!-- Handle the special search case output -->
+				<map:match type="request" pattern="hidesearch">
+					<map:transform type="IncludePageMeta">
+						<map:parameter name="search.hideForm" value="TRUE"/>
+					</map:transform>
+				</map:match>
+	
+				<!-- Debuging output -->
+				<map:match type="request" pattern="XML">
+					<map:serialize type="xml"/>
+				</map:match>
+				
+				<!-- Step 3: Transform to XHTML -->
+				<map:transform src="Rice_RIP.xsl"/>
+
+				<!-- Step 4: Localize the page -->
+				<map:act type="locale">
+					<map:transform type="i18n">
+						<map:parameter name="locale" value="{locale}"/>						
+					</map:transform>
+				</map:act>
+				
+				<!-- Remove any leftover i18n or dri namespaces from the final document -->
+				<map:transform type="NamespaceFilter" src="http://di.tamu.edu/DRI/1.0/"/>
+				<map:transform type="NamespaceFilter" src="http://apache.org/cocoon/i18n/2.1"/>
+				<map:transform type="NamespaceFilter" src="http://www.loc.gov/mods/v3"/>
+				<map:transform type="NamespaceFilter" src="http://www.w3.org/TR/xlink/"/>
+				<map:transform type="NamespaceFilter" src="http://www.dspace.org/xmlns/dspace/dim"/>
+				<map:transform type="NamespaceFilter" src="http://purl.org/dc/elements/1.1/"/>
+				<map:transform type="NamespaceFilter" src="http://www.loc.gov/METS/"/>
+				
+				<!-- the above transformers don't seem to be removing all namespaces
+				     the following transformation will use XSL to remove them -->
+				<map:transform src="../Rice/final.xsl"/>
+				
+				<!--For ie6 browser, we also strip out the <?xml... declaration to ensure standards mode -->
+			    <map:select type="browser">
+			        <map:when test="explorer6">
+			            <map:serialize type="html"/>
+			        </map:when>
+			        <map:otherwise>
+			            <map:serialize type="xhtml"/>
+			        </map:otherwise>
+			    </map:select>
+			</map:match>
+		</map:pipeline>
+	</map:pipelines>
+</map:sitemap>

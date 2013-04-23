@@ -172,10 +172,66 @@
         <!-- <theme name="Test Theme 2" regex="community-list" path="theme2/"/> -->
 
         <!-- Mirage theme, @mire contributed theme, default since DSpace 3.0 -->
-        <theme name="Atmire Mirage Theme" regex=".*" path="Mirage/" />
+        <!--theme name="Atmire Mirage Theme" regex=".*" path="Mirage/" /-->
 
         <!-- Reference theme, the default Manakin XMLUI layout up to DSpace 1.8 -->
         <!-- <theme name="Default Reference Theme" regex=".*" path="Reference/" /> -->
+
+        <!--theme name="TIMEA Theme" handle="123456789/1" path="TIMEA/"/-->
+        <!--theme name="ECE Theme" handle="1911/10563" path="Rice_ECE/"/--> <!-- ECE Publication -->
+        <!--theme name="ECE Theme" handle="1911/21945" path="Rice_ECE/"/--> <!-- CMC Publication -->
+        <!--theme name="ECE Theme" handle="1911/21661" path="Rice_ECE/"/--> <!-- DSP Publication -->
+        <!--theme name="ETD" handle="1911/13110" path="Rice_ETD/"/> -->
+        <!--<theme name="Shepherd School" handle="1911/43628" path="Rice_Shepherd/"/>-->
+          <!--theme name="Americas Theme" handle="1911/9219" path="Americas/"/-->
+          <!--theme name="Rice Periodical Theme" handle="1911/27631" path="Periodicals/"/-->
+
+        <!-- Mirage theme, @mire contribution of new theme to support easier development and branding -->
+        <!-- <theme name="Atmire Mirage Theme" regex=".*" path="Mirage/" /> -->
+
+        <!--theme name="Rice Centennial" handle="1911/35948" path="Rice_Centennial/"/--><!-- History of Rice University-->
+        <!--theme name="Rice Centennial" handle="1911/35950" path="Rice_Centennial/"/--> <!-- Rice University General Announcements -->
+        <!--theme name="Rice Centennial" handle="1911/35952" path="Rice_Centennial/"/--> <!-- Rice University Presidential Inauguration Speeches-->
+        <!--theme name="CTTL Theme " handle="1911/61419" path="Rice_CTTL/"/>
+        <theme name="Rice Commencement Theme " handle="1911/61371" path="Rice_Commencement/"/>
+        <theme name="CTTL Theme" handle="1911/61419" path="Rice_CTTL/"/>
+           <theme name="Rice WRC Historical Theme " handle="1911/61405" path="Rice_WRCHistorical/"/>
+           <theme name="Rice RIP Theme" handle="1911/8328" path="Rice_RIP/"/>
+        <theme name="Rice Thresher Theme" handle="1911/64890" path="Rice_Thresher/"/> -->
+
+        <!-- !!!!!!!!!!!!  dspacetest !!!!!!!!!!!!!!!!! -->
+<!--        <theme name="TIMEA Theme" handle="1911/2918" path="TIMEA/"/>
+        <theme name="ECE Theme" handle="1911/2946" path="Rice_ECE/"/>
+        <theme name="Americas Theme" handle="1911/6238" path="Americas/"/>
+        <theme name="Rice Periodical Theme" handle="1911/7852" path="Periodicals/"/>
+        <theme name="Shepherd School" handle="1911/3775" path="Rice_Shepherd/"/>
+        <theme name="Rice Centennial Theme" handle="1911/53150" path="Rice_Centennial/"/>
+        <theme name="Rice Centennial Theme" handle="1911/53154" path="Rice_Centennial/"/>
+        <theme name="Rice Centennial Theme" handle="1911/53152" path="Rice_Centennial/"/>
+        <theme name="Test Theme" handle="123456789/2" path="TestCommunity/"/> -->
+
+              <!-- theme name="Music School Theme" handle="1911/3775" path="Flash/"/ -->
+
+        <!-- !!!!!!!!!!!!  dspaceland !!!!!!!!!!!!!!!!! -->
+        <theme name="TIMEA Theme" handle="1911/2918" path="TIMEA/"/>
+        <theme name="ECE Theme" handle="1911/2946" path="Rice_ECE/"/>
+        <theme name="Americas Theme" handle="1911/6238" path="Americas/"/>
+        <theme name="Rice Periodical Theme" handle="1911/8598" path="Periodicals/"/>
+        <theme name="Shepherd School" handle="1911/3775" path="Rice_Shepherd/"/>
+        <!--theme name="Rice Centennial" handle="123456789/3" path="Rice_Centennial/"/-->
+        <theme name="Rice RIP Theme" handle="1911/63322" path="Rice_RIP/"/>
+        <!--theme name="Rice MP4 Theme" handle="123456789/3" path="Rice_MP4/"/-->
+
+        <!-- theme name="Music School Theme" handle="1911/3775" path="Flash/"/ -->
+
+        <!-- !!!!!!!!!!!!  dspacedev !!!!!!!!!!!!!!!!! -->
+        <!-- <theme name="TIMEA Theme" handle="1911/31" path="TIMEA/"/> -->
+        <!-- <theme name="ECE Theme" handle="1911/10" path="Rice_ECE/"/> -->
+        <!-- <theme name="Americas Theme" handle="123456789/1" path="Americas/"/> -->
+        <!-- ddev --><!-- <theme name="Americas Theme" handle="123456789/1" path="Flash/"/> -->
+
+        <!-- Default theme -->
+		<theme name="Default Theme" regex=".*" path="Rice/"/>
 
         <!-- Classic theme, inspired by the JSP UI -->
         <!-- <theme name="Classic" regex=".*" path="Classic/" /> -->
