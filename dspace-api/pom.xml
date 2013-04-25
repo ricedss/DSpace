@@ -467,11 +467,11 @@
               <artifactId>jai_codec</artifactId>
                <version>1.1</version>
            </dependency>
-           <dependency>
+<!--           <dependency>
               <groupId>jai_core</groupId>
               <artifactId>jai_core</artifactId>
                <version>1.1</version>
-           </dependency>
+           </dependency>-->
            <dependency>
               <groupId>mlibwrapper_jai</groupId>
               <artifactId>mlibwrapper_jai</artifactId>
@@ -496,11 +496,11 @@
            <!-- ***********************************
                all dependency for XPDF
                *********************************** -->
-              <dependency>
+<!--              <dependency>
                  <groupId>com.sun.media</groupId>
                  <artifactId>jai_imageio</artifactId>
                  <version>1.0_01</version>
-              </dependency>
+              </dependency>-->
     </dependencies>
 
 </project>
