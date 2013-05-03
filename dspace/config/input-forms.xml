@@ -217,7 +217,7 @@
             <required></required>
           </field>
 
-            <field>
+<!--            <field>
          <dc-schema>dc</dc-schema>
          <dc-element>embargo</dc-element>
          <dc-qualifier>terms</dc-qualifier>
@@ -227,7 +227,7 @@
          <hint>If required, select embargo terms.</hint>
          <required></required>
          </field>
-
+-->
             <field>
               <dc-schema>dc</dc-schema>
               <dc-element>contributor</dc-element>
@@ -809,7 +809,7 @@
             <required>You must enter at least the year.</required>
           </field>
 
-            <field>
+<!--            <field>
          <dc-schema>dc</dc-schema>
          <dc-element>embargo</dc-element>
          <dc-qualifier>terms</dc-qualifier>
@@ -817,9 +817,9 @@
          <label>Embargo Terms</label>
          <input-type value-pairs-name="embargo_terms">dropdown</input-type>
          <hint>If required, select embargo terms.</hint>
-         <!--required></required-->
+         <required></required>
          </field>
-
+-->
 
           <field>
             <dc-schema>dc</dc-schema>
@@ -1395,6 +1395,7 @@
         <hint>xmlui.Submission.submit.DescribeStep.hint.traditional.dateissued</hint>
         <required>You must enter at least the year.</required>
       </field>
+<!--
             <field>
          <dc-schema>dc</dc-schema>
          <dc-element>embargo</dc-element>
@@ -1403,9 +1404,9 @@
          <label>Embargo Terms</label>
          <input-type value-pairs-name="embargo_terms">dropdown</input-type>
          <hint>If required, select embargo terms.</hint>
-         <!--required></required-->
+         <required></required>
          </field>
-
+-->
       <field>
         <dc-schema>dc</dc-schema>
         <dc-element>publisher</dc-element>
@@ -2216,7 +2217,7 @@ it, please enter the types and the actual numbers or codes below.</hint>
            <hint>xmlui.Submission.submit.DescribeStep.hint.traditional.alternativetitle</hint>
            <required></required>
          </field>
-
+<!--
          <field>
          <dc-schema>dc</dc-schema>
          <dc-element>embargo</dc-element>
@@ -2225,9 +2226,9 @@ it, please enter the types and the actual numbers or codes below.</hint>
          <label>Embargo Terms</label>
          <input-type value-pairs-name="embargo_terms">dropdown</input-type>
          <hint>If required, select embargo terms.</hint>
-         <!--required></required-->
+         <required></required>
          </field>
-
+-->
          <field>
            <dc-schema>dc</dc-schema>
            <dc-element>date</dc-element>

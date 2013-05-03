@@ -61,7 +61,8 @@ else
 fi
 
 
-
+# for running jp2
+. /server/data/tomcat/bin/setenv.sh
 
 #Allow user to specify java options through JAVA_OPTS variable
 if [ "$JAVA_OPTS" = "" ]; then
