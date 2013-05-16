@@ -318,115 +318,6 @@
                             </xsl:choose>
                         </a>
                     </xsl:when>
-                    <xsl:when test="@MIMETYPE='audio/x-mp3'">
-                        <!-- with JWPlayer 6 -->
-                        <div id="{$streamingfilename}">Loading the player...</div>
-                         <script type="text/javascript">
-
-
-                           jwplayer('<xsl:value-of select="$streamingfilename"/>').setup({
-
-     playlist: [{
-
-         sources: [{
-                           file: "rtmp://fldp.rice.edu/vod/mp4:dspaceFLstream/<xsl:value-of select='$streamingfilename'/>"
-         },{
-                           file: "/themes/Rice/streaming/<xsl:value-of select='$streamingfilename'/>"
-         }]
-     }],
-     height: 10,
-  rtmp: {
-                  bufferlength: 10
-          },
-     primary: "flash",
-     width: 640
- });
-                         </script>
-</xsl:when>
-                    <!-- Ying added this for mp4 streaming -->
-                    <xsl:when test="@MIMETYPE='video/mp4'">  
-		      <!--html 5 only-->
-                        
-                        <!-- "Video For Everybody" http://camendesign.com/code/video_for_everybody -->
-                        <!--xsl:variable name="fullurl" select="exec(concat('javascript:getfullURL(',$bitstreamurl,')'))"/-->
-   
-<!--                     <xsl:if test="$browser='non-firefox'">
-                            <video controls="controls" width="640" height="360">
-
-
-                                <source src="http://scholarship.rice.edu/{$bitstreamurl}" type="video/mp4"/>
-                                <object type="application/x-shockwave-flash" data="http://player.longtailvideo.com/player.swf" width="640" height="360">
-                                    <param name="movie" value="http://player.longtailvideo.com/player.swf" />
-                                    <param name="allowFullScreen" value="true" />
-                                    <param name="wmode" value="transparent" />
-                                    <param name="flashVars" value="controlbar=over&amp;file=http%3A%2F%2Fscholarship.rice.edu%2F{$bitstreamurl}" />
-                                </object>
-                            </video>
-                            <p>
-                                <strong>Download video:</strong> <a href="http://scholarship.rice.edu/{$bitstreamurl}">MP4 format</a>
-                            </p>
-                        </xsl:if>
-                        <xsl:if test="$browser = 'firefox'">
-                                <object type="application/x-shockwave-flash" data="http://player.longtailvideo.com/player.swf" width="640" height="360">
-                                    <param name="movie" value="http://player.longtailvideo.com/player.swf" />
-                                    <param name="allowFullScreen" value="true" />
-                                    <param name="wmode" value="transparent" />
-                                    <param name="flashVars" value="controlbar=over&amp;file=http%3A%2F%2Fscholarship.rice.edu%2F{$bitstreamurl}" />
-                                </object>
-
-                            <p>
-                                <strong>Download video:</strong> <a href="http://scholarship.rice.edu/{$bitstreamurl}">MP4 format</a>
-                            </p>
-                        </xsl:if>
-
-
--->
-<!--                                
-file: "rtmp://fldp.rice.edu/vod/mp4:dspaceFLstream/<xsl:value-of select='$streamingfilename'/>"
-
-
-    playlist: [{
-
-        sources: [{ 
-			  file: "rtmp://fldp.rice.edu/vod/mp4:dspaceFLstream/video.mp4"
-        },{
-            file: "http://scholarship.rice.edu/<xsl:value-of select='$bitstreamurl'/>"
-        }]
-    }],
-    height: 360,
-    primary: "flash",
-    width: 640
--->
-
-
-
-                        <!-- with JWPlayer 6 -->
-                        <div id="{$streamingfilename}">Loading the player...</div>
-                        <script type="text/javascript">
-                          
-			  
-                          jwplayer('<xsl:value-of select="$streamingfilename"/>').setup({
-   
-    playlist: [{
-
-        sources: [{ 
-			  file: "rtmp://fldp.rice.edu/vod/mp4:dspaceFLstream/<xsl:value-of select='$streamingfilename'/>"
-        },{
-			  file: "/themes/Rice/streaming/<xsl:value-of select='$streamingfilename'/>"
-        }]
-    }],
-    height: 360,
- rtmp: {
-                 bufferlength: 10
-         },
-    primary: "flash",
-    width: 640
-});
-                        </script>
-
-
-
-                </xsl:when>
 
                     <xsl:otherwise>
                         <a>
@@ -486,6 +377,7 @@ file: "rtmp://fldp.rice.edu/vod/mp4:dspaceFLstream/<xsl:value-of select='$stream
                 <xsl:choose>
                     <xsl:when test="$context/mets:fileSec/mets:fileGrp[@USE='THUMBNAIL']/
                         mets:file[@GROUPID=current()/@GROUPID]">
+
                         <xsl:choose>
                             <xsl:when test="@MIMETYPE='image/jp2'">
                                 <a class="image-link" href="javascript:showJPEG2000Viewer('{$bitstreamurl}')">
@@ -537,6 +429,42 @@ file: "rtmp://fldp.rice.edu/vod/mp4:dspaceFLstream/<xsl:value-of select='$stream
                                     </img>
                                 </a>
                             </xsl:when>
+
+			    <xsl:when test="@MIMETYPE='video/mp4'">
+			      
+                              <!-- With JWPlayer 6 -->
+<!--
+
+-->
+
+                              <div id="{$streamingfilename}">Loading the player...</div>
+			      <xsl:variable name="mp4thumb" select="$context/mets:fileSec/mets:fileGrp[@USE='THUMBNAIL']/
+								    mets:file[@GROUPID=current()/@GROUPID]/mets:FLocat[@LOCTYPE='URL']/@xlink:href"/> 
+                              <script type="text/javascript">
+				
+				
+				jwplayer('<xsl:value-of select="$streamingfilename"/>').setup({
+				
+				playlist: [{
+    				image: "<xsl:value-of select='$mp4thumb'/>",
+				sources: [{
+				  file: "rtmp://fldp.rice.edu/vod/mp4:dspaceFLstream/<xsl:value-of select='$streamingfilename'/>"
+				},{
+				  file: "/themes/Rice/streaming/<xsl:value-of select='$streamingfilename'/>"
+				}]
+				}],
+				height: 360,
+				rtmp: {
+				  bufferlength: 10
+				},
+				primary: "flash",
+				width: 640
+				});
+                              </script>
+
+			    </xsl:when>
+			    
+
                             <xsl:otherwise>
                                 <a class="image-link">
                                     <xsl:attribute name="href">
@@ -582,6 +510,90 @@ file: "rtmp://fldp.rice.edu/vod/mp4:dspaceFLstream/<xsl:value-of select='$stream
                                     <img alt="Quicktime Logo" src="/themes/Rice/images/quick-logo.png" />
                                 </a>
                             </xsl:when>
+                    <!-- Ying added this for mp4 streaming -->
+                    <xsl:when test="@MIMETYPE='video/mp4'">
+                      <!--html 5 only-->
+
+                        <!-- "Video For Everybody" http://camendesign.com/code/video_for_everybody -->
+                        <!--xsl:variable name="fullurl" select="exec(concat('javascript:getfullURL(',$bitstreamurl,')'))"/-->
+
+<!--                     <xsl:if test="$browser='non-firefox'">                                                                                                                                                                            
+                            <video controls="controls" width="640" height="360">                                                                                                                                                           
+                                                                                                                                                                                                                                           
+                                                                                                                                                                                                                                           
+                                <source src="http://scholarship.rice.edu/{$bitstreamurl}" type="video/mp4"/>                                                                                                                               
+                                <object type="application/x-shockwave-flash" data="http://player.longtailvideo.com/player.swf" width="640" height="360">                                                                                   
+                                    <param name="movie" value="http://player.longtailvideo.com/player.swf" />                                                                                                                              
+                                    <param name="allowFullScreen" value="true" />                                                                                                                                                          
+                                    <param name="wmode" value="transparent" />                                                                                                                                                             
+                                    <param name="flashVars" value="controlbar=over&amp;file=http%3A%2F%2Fscholarship.rice.edu%2F{$bitstreamurl}" />                                                                                        
+                                </object>                                                                                                                                                                                                  
+                            </video>                                                                                                                                                                                                       
+                            <p>                                                                                                                                                                                                            
+                                <strong>Download video:</strong> <a href="http://scholarship.rice.edu/{$bitstreamurl}">MP4 format</a>                                                                                                      
+                            </p>                                                                                                                                                                                                           
+                        </xsl:if>                                                                                                                                                                                                          
+                        <xsl:if test="$browser = 'firefox'">                                                                                                                                                                               
+                                <object type="application/x-shockwave-flash" data="http://player.longtailvideo.com/player.swf" width="640" height="360">                                                                                   
+                                    <param name="movie" value="http://player.longtailvideo.com/player.swf" />                                                                                                                              
+                                    <param name="allowFullScreen" value="true" />                                                                                                                                                          
+                                    <param name="wmode" value="transparent" />                                                                                                                                                             
+                                    <param name="flashVars" value="controlbar=over&amp;file=http%3A%2F%2Fscholarship.rice.edu%2F{$bitstreamurl}" />                                                                                        
+                                </object>                                                                                                                                                                                                  
+                                                                                                                                                                                                                                           
+                            <p>                                                                                                                                                                                                            
+                                <strong>Download video:</strong> <a href="http://scholarship.rice.edu/{$bitstreamurl}">MP4 format</a>                                                                                                      
+                            </p>                                                                                                                                                                                                           
+                        </xsl:if>                                                                                                                                                                                                          
+                                                                                                                                                                                                                                           
+                                                                                                                                                                                                                                           
+--><!--                                                                                                                                                                                                                                       
+file: "rtmp://fldp.rice.edu/vod/mp4:dspaceFLstream/<xsl:value-of select='$streamingfilename'/>"                                                                                                                                            
+                                                                                                                                                                                                                                           
+                                                                                                                                                                                                                                           
+    playlist: [{                                                                                                                                                                                                                           
+                                                                                                                                                                                                                                           
+        sources: [{                                                                                                                                                                                                                        
+                          file: "rtmp://fldp.rice.edu/vod/mp4:dspaceFLstream/video.mp4"                                                                                                                                                    
+        },{                                                                                                                                                                                                                                
+            file: "http://scholarship.rice.edu/<xsl:value-of select='$bitstreamurl'/>"                                                                                                                                                     
+        }]                                                                                                                                                                                                                                 
+    }],                                                                                                                                                                                                                                    
+    height: 360,                                                                                                                                                                                                                           
+    primary: "flash",                                                                                                                                                                                                                      
+    width: 640                                                                                                                                                                                                                             
+-->
+
+
+
+                        <!-- with JWPlayer 6 -->
+		      <xsl:variable name="mp4thumb" select="$context/mets:fileSec/mets:fileGrp[@USE='THUMBNAIL']/
+                                                            mets:file[@GROUPID=current()/@GROUPID]/mets:FLocat[@LOCTYPE='URL']/@xlink:href"/> 
+
+                        <div id="{$streamingfilename}">Loading the player...</div>
+                        <script type="text/javascript">
+			  
+                          jwplayer('<xsl:value-of select="$streamingfilename"/>').setup({
+
+    playlist: [{
+    				image: "<xsl:value-of select='$mp4thumb'/>",
+        sources: [{
+                          file: "rtmp://fldp.rice.edu/vod/mp4:dspaceFLstream/<xsl:value-of select='$streamingfilename'/>"
+        },{
+                          file: "/themes/Rice/streaming/<xsl:value-of select='$streamingfilename'/>"
+        }]
+    }],
+    height: 360,
+ rtmp: {
+                 bufferlength: 10
+         },
+    primary: "flash",
+    width: 640
+});
+                        </script>
+
+                </xsl:when>
+
                             <xsl:otherwise>
                                 <a>
                                     <xsl:attribute name="href">
