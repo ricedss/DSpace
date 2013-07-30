@@ -52,4 +52,21 @@
     </xsl:template>
     
     
+    <!-- ============================================                                                                                                                                                 
+                     Reference listings                                                                                                                                                               
+         ============================================ -->
+
+    <!-- Ying (via MMS): Find the first thumbnail to display in summary list page. -->
+    <xsl:template match="mets:fileGrp[@USE='THUMBNAIL']/mets:file" mode="thumbnail">
+        <xsl:if test="position()=2">
+            <a href="{ancestor::mets:METS/@OBJID}">
+                <img alt="Thumbnail">
+                    <xsl:attribute name="src">
+                        <xsl:value-of select="mets:FLocat[@LOCTYPE='URL']/@xlink:href" />
+                    </xsl:attribute>
+                </img>
+            </a>
+        </xsl:if>
+    </xsl:template>
+
 </xsl:stylesheet>
