@@ -17,7 +17,7 @@
 
   <context-param>
     <param-name>dspace-config</param-name>
-    <param-value>/server/sw/dspace/config/dspace.cfg</param-value>
+    <param-value>${dspace.dir}/config/dspace.cfg</param-value>
     <description>
       The location of the main DSpace configuration file
     </description>
@@ -26,7 +26,7 @@
     <!-- new ConfigurationService initialization for dspace.dir -->
     <context-param>
       <param-name>dspace.dir</param-name>
-      <param-value>/server/sw/dspace</param-value>
+      <param-value>${dspace.dir}</param-value>
       <description>
         The location of the main DSpace configuration file
       </description>

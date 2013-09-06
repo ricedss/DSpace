@@ -35,7 +35,7 @@
           <xsl:call-template name="standardAttributes">
             <xsl:with-param name="class">ds-option-set</xsl:with-param>
           </xsl:call-template>
-          <ul class="ds-simple-list"><
+          <ul class="ds-simple-list">
             <xsl:apply-templates select="*[not(self::dri:head)]" mode="nested"/>
           </ul>
         </div>

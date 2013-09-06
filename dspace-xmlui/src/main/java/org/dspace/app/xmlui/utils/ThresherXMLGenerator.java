@@ -92,7 +92,7 @@ public class ThresherXMLGenerator
 
         public static void main(String[] argv) throws Exception
         {
-            String filePath = "/server/sw/dspace/config/externalXML";
+            String filePath = "/server/data/dspace/config/externalXML";
 
             // create an options object and populate it
             CommandLineParser parser = new PosixParser();

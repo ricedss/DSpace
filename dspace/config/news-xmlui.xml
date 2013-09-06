@@ -1,15 +1,23 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <document xmlns="http://di.tamu.edu/DRI/1.0/" xmlns:i18n="http://apache.org/cocoon/i18n/2.1" version="1.1">
-<body>
-<div id="file.news.div.news" n="news" rend="primary">
-<head>DSpace Repository</head>
-<p>DSpace is a digital service that collects, preserves, and distributes digital material. Repositories are important tools for preserving an organization&apos;s legacy; they facilitate digital preservation and scholarly communication.</p>
-</div>
-</body>
-<options/>
-<meta>
-<userMeta/>
-<pageMeta/>
-<repositoryMeta/>
-</meta>
+	<body>
+		<div id="file.news.div.news" n="news" rend="primary">
+            <!-- SERVER-SPECIFIC -->
+			<!-- Dspace test, dev and land --><!--head>Welcome to Rice University's digital scholarship archive (development server)</head-->
+            <!-- Dspace --> <head>Welcome to Rice University's digital scholarship archive</head>
+			<p>This is Rice's institutional repository, a web site where the university's intellectual output
+				is shared, managed, searched, and preserved. Most materials come from Rice faculty members'
+				research, electronic theses and dissertations, and digitized collections of rare or unique books,
+				images, musical performances, and manuscripts. The archive runs on DSpace, an open source software package.</p>
+			<p>Do you have questions about this archive?  Read our
+				<xref target="https://owlspace-ccm.rice.edu/access/wiki/site/91656f53-9adf-45c4-000e-b5072d163d17/faq.html">FAQ</xref>.</p>
+	  </div>
+	</body>
+	<options/>
+	<meta>
+		<userMeta/>
+		<pageMeta/>
+		<repositoryMeta/>
+	</meta>
 </document>
+
