@@ -78,6 +78,7 @@
 				<!-- javascript files follow -->
 				<map:transform type="IncludePageMeta">
 					<map:parameter name="javascript#1" value="jquery-1.2.1.js"/>
+					<map:parameter name="javascript#3" value="../Rice/jwplayer/jwplayer.js"/>
 					<map:parameter name="javascript#2" value="scripts.js"/>
 				</map:transform>
 				

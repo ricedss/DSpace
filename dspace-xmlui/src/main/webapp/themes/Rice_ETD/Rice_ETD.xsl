@@ -39,6 +39,7 @@
         <xsl:apply-templates select="." mode="description"/>
         <!-- Ying: add the "Citation" row. -->
         <xsl:apply-templates select="." mode="citation"/>
+
         <xsl:apply-templates select="." mode="uri"/>
         <xsl:apply-templates select="." mode="date"/>
     </xsl:template>

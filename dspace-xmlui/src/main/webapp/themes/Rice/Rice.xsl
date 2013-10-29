@@ -53,7 +53,7 @@
             <xsl:otherwise>0</xsl:otherwise>
         </xsl:choose>
     </xsl:variable>
-    <xsl:variable name="numberOfItems"> 
+    <xsl:variable name="numberOfItems">
         <xsl:choose>
             <xsl:when test="dri:document/dri:body/dri:div/dri:div[@n='community-view']">
                 <xsl:value-of select="document(concat('cocoon:/',dri:document/dri:body/dri:div/dri:div[@n='community-view']/dri:referenceSet/dri:reference/@url))/mets:METS/mets:dmdSec/mets:mdWrap/mets:xmlData/dim:dim/dim:field[@element='format' and @qualifier='extent']"/>
@@ -116,6 +116,7 @@
             <a class="ds-deposit-your-work" href="http://openaccess.rice.edu/ir-submission-process/">
                 <img  src="/themes/Rice/images/deposit_your_work-01.png" alt="deposit_your_work" />
             </a>
+
         </div>
     </xsl:template>
     
