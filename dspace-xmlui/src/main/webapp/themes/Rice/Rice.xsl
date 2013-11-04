@@ -39,7 +39,8 @@
     <!-- MMS: Variables defined once for use in multiple places -->
     <xsl:variable name="repositoryURL" select="dri:document/dri:meta/dri:pageMeta/dri:trail[1]/@target"/>
     <xsl:variable name="communityURL" select="dri:document/dri:meta/dri:pageMeta/dri:trail[2]/@target"/>
-    <xsl:variable name="contextURL" select="dri:document/dri:meta/dri:pageMeta/dri:trail[position()=last()]/@target"/>
+    <!--xsl:variable name="contextURL" select="dri:document/dri:meta/dri:pageMeta/dri:trail[position()=last()]/@target"/-->
+    <xsl:variable name="contextURL" select="dri:document/dri:meta/dri:pageMeta/dri:metadata[@element='request'][@qualifier='URI']"/>
     <xsl:variable name="level">
         <xsl:choose>
             <xsl:when test="dri:document/dri:options/dri:list/dri:list/dri:head/i18n:text='xmlui.ArtifactBrowser.Navigation.head_this_community'">community</xsl:when>
@@ -757,7 +758,7 @@
                 <!-- MMS: The first "See all" link -->
                 <div id="see-all">
                     <xsl:text>(</xsl:text>
-                    <a href="{$seeMoreURL}">
+                    <a href="/{$seeMoreURL}">
                         <!-- i18n: see all -->
                         <i18n:text>xmlui.Rice.SeeAll</i18n:text>
                     </a>
@@ -787,7 +788,7 @@
                 </div>
                 <!-- MMS: The second "See all" link, more explicit than the first, since it's farther from the title -->
                 <p class="more">
-                    <a href="{$seeMoreURL}">
+                    <a href="/{$seeMoreURL}">
                         <i18n:translate>
                             <xsl:choose>
                                 <xsl:when test="$level='community'">
