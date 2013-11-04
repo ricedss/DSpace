@@ -35,7 +35,7 @@
           <xsl:call-template name="standardAttributes">
             <xsl:with-param name="class">ds-option-set</xsl:with-param>
           </xsl:call-template>
-          <ul class="ds-simple-list"><
+          <ul class="ds-simple-list">
             <xsl:apply-templates select="*[not(self::dri:head)]" mode="nested"/>
           </ul>
         </div>
@@ -51,9 +51,12 @@
         </xsl:call-template>
         <i18n:text>xmlui.Americas.BrowseCollection</i18n:text>
         <xsl:text> </xsl:text>
-        <a href="{ancestor::dri:document/dri:meta/dri:pageMeta/dri:trail[3]/@target}">
+        <!--a href="{ancestor::dri:document/dri:meta/dri:pageMeta/dri:trail[3]/@target}">
           <xsl:apply-templates select="ancestor::dri:document/dri:meta/dri:pageMeta/dri:trail[3]/text()"/>
-        </a>
+        </a-->
+          <a href="/{dri:document/dri:meta/dri:pageMeta/dri:metadata[@element='request'][@qualifier='URI']}">
+            <xsl:apply-templates select="ancestor::dri:document/dri:meta/dri:pageMeta/dri:metadata[@element='request'][@qualifier='URI']/text()"/>
+          </a>
       </h3>
     </xsl:template>
 
