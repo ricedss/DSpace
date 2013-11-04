@@ -55,7 +55,7 @@
           <xsl:apply-templates select="ancestor::dri:document/dri:meta/dri:pageMeta/dri:trail[3]/text()"/>
         </a-->
           <a href="/{dri:document/dri:meta/dri:pageMeta/dri:metadata[@element='request'][@qualifier='URI']}">
-            <xsl:apply-templates select="ancestor::dri:document/dri:meta/dri:pageMeta/dri:metadata[@element='request'][@qualifier='URI']/text()"/>
+            <xsl:apply-templates select="ancestor::dri:document/dri:meta/dri:pageMeta/dri:trail[3]/text()"/>
           </a>
       </h3>
     </xsl:template>
@@ -257,18 +257,34 @@
                             <!-- MMS: Recycle the contextual links instead of hard-coding them. Hopefully they're always the same for community level vs. collection level. -->
                             <xsl:for-each select="dri:list/dri:list[@n='context']/dri:item">
                                 <li>
-                                    <a href="{ancestor::dri:document/dri:meta/dri:pageMeta/dri:trail[2]/@target}/browse{substring-after(dri:xref/@target,'browse')}">
-                                        <xsl:choose>
-                                            <!-- MMS: For browsing, use label of "Dates" instead of "By Issue Date" -->
-                                            <xsl:when test="dri:xref/i18n:text/node()='xmlui.ArtifactBrowser.Navigation.browse_dateissued'">
-                                                <!-- i18n: Dates -->
-                                                <i18n:text>xmlui.ArtifactBrowser.CommunityViewer.browse_dates</i18n:text>
-                                            </xsl:when>
-                                            <xsl:otherwise>
-                                                <xsl:copy-of select="dri:xref"/>
-                                            </xsl:otherwise>
-                                        </xsl:choose>
-                                    </a>
+                                    <xsl:if test="dri:list/dri:list/dri:head[node()='xmlui.ArtifactBrowser.Navigation.head_this_collection']">
+                                        <a href="{ancestor::dri:document/dri:meta/dri:pageMeta/dri:trail[2]/@target}/browse{substring-after(dri:xref/@target,'browse')}">
+                                            <xsl:choose>
+                                                <!-- MMS: For browsing, use label of "Dates" instead of "By Issue Date" -->
+                                                <xsl:when test="dri:xref/i18n:text/node()='xmlui.ArtifactBrowser.Navigation.browse_dateissued'">
+                                                    <!-- i18n: Dates -->
+                                                    <i18n:text>xmlui.ArtifactBrowser.CommunityViewer.browse_dates</i18n:text>
+                                                </xsl:when>
+                                                <xsl:otherwise>
+                                                    <xsl:copy-of select="dri:xref"/>
+                                                </xsl:otherwise>
+                                            </xsl:choose>
+                                        </a>
+                                    </xsl:if>
+                                    <xsl:if test="dri:list/dri:list/dri:head[node()!='xmlui.ArtifactBrowser.Navigation.head_this_collection']">
+                                        <a href="/{dri:xref/@target}">
+                                            <xsl:choose>
+                                                <!-- MMS: For browsing, use label of "Dates" instead of "By Issue Date" -->
+                                                <xsl:when test="dri:xref/i18n:text/node()='xmlui.ArtifactBrowser.Navigation.browse_dateissued'">
+                                                    <!-- i18n: Dates -->
+                                                    <i18n:text>xmlui.ArtifactBrowser.CommunityViewer.browse_dates</i18n:text>
+                                                </xsl:when>
+                                                <xsl:otherwise>
+                                                    <xsl:copy-of select="dri:xref"/>
+                                                </xsl:otherwise>
+                                            </xsl:choose>
+                                        </a>
+                                    </xsl:if>
                                 </li>
                             </xsl:for-each>
                         </ul>
