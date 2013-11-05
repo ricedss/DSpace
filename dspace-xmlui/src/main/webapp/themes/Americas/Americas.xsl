@@ -257,7 +257,7 @@
                             <!-- MMS: Recycle the contextual links instead of hard-coding them. Hopefully they're always the same for community level vs. collection level. -->
                             <xsl:for-each select="dri:list/dri:list[@n='context']/dri:item">
                                 <li>
-                                    <xsl:if test="dri:list/dri:list/dri:head[node()='xmlui.ArtifactBrowser.Navigation.head_this_collection']">
+                                    <xsl:if test="../dri:head[node()='xmlui.ArtifactBrowser.Navigation.head_this_collection']">
                                         <a href="{ancestor::dri:document/dri:meta/dri:pageMeta/dri:trail[2]/@target}/browse{substring-after(dri:xref/@target,'browse')}">
                                             <xsl:choose>
                                                 <!-- MMS: For browsing, use label of "Dates" instead of "By Issue Date" -->
@@ -271,8 +271,8 @@
                                             </xsl:choose>
                                         </a>
                                     </xsl:if>
-                                    <xsl:if test="dri:list/dri:list/dri:head[node()!='xmlui.ArtifactBrowser.Navigation.head_this_collection']">
-                                        <a href="/{dri:xref/@target}">
+                                    <xsl:if test="../dri:head[node()!='xmlui.ArtifactBrowser.Navigation.head_this_collection']">
+                                        <a href="{dri:xref/@target}">
                                             <xsl:choose>
                                                 <!-- MMS: For browsing, use label of "Dates" instead of "By Issue Date" -->
                                                 <xsl:when test="dri:xref/i18n:text/node()='xmlui.ArtifactBrowser.Navigation.browse_dateissued'">

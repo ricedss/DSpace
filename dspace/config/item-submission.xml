@@ -309,6 +309,13 @@
            <workflow-editable>true</workflow-editable>
          </step>
 
+          <step>
+              <heading>submit.progressbar.upload</heading>
+              <processing-class>org.dspace.submit.step.UploadWithEmbargoStep</processing-class>
+              <xmlui-binding>org.dspace.app.xmlui.aspect.submission.submit.UploadWithEmbargoStep</xmlui-binding>
+              <workflow-editable>true</workflow-editable>
+          </step>
+
           <!--Step 4 will be to Verify/Review everything -->
           <step>
            <heading>submit.progressbar.verify</heading>
