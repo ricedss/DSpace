@@ -24,4 +24,6 @@ META-INF/
 
 ## Ignore all *.properties file, EXCEPT build.properties (the default)
 *.properties
-!build.properties
+# SWB actually, ignore build.properties, too. It contains passwords, and git is/may be public.
+#!build.properties
+build.properties
