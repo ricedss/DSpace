@@ -196,13 +196,13 @@
         <theme name="Rice Thresher Theme" handle="1911/64890" path="Rice_Thresher/"/>
 
         <!-- !!!!!!!!!!!!  dspaceland !!!!!!!!!!!!!!!!! -->
-        <theme name="TIMEA Theme" handle="1911/2918" path="TIMEA/"/>
-        <theme name="ECE Theme" handle="1911/2946" path="Rice_ECE/"/>
-        <theme name="Americas Theme" handle="1911/6238" path="Americas/"/>
-        <theme name="Rice Periodical Theme" handle="1911/8598" path="Periodicals/"/>
-        <theme name="Shepherd School" handle="1911/3775" path="Rice_Shepherd/"/>
+        <!--<theme name="TIMEA Theme" handle="1911/2918" path="TIMEA/"/>-->
+        <!--<theme name="ECE Theme" handle="1911/2946" path="Rice_ECE/"/>-->
+        <!--<theme name="Americas Theme" handle="1911/6238" path="Americas/"/>-->
+        <!--<theme name="Rice Periodical Theme" handle="1911/8598" path="Periodicals/"/>-->
+        <!--<theme name="Shepherd School" handle="1911/3775" path="Rice_Shepherd/"/>-->
         <!--theme name="Rice Centennial" handle="123456789/3" path="Rice_Centennial/"/-->
-        <theme name="Rice RIP Theme" handle="1911/63322" path="Rice_RIP/"/>
+        <!--<theme name="Rice RIP Theme" handle="1911/63322" path="Rice_RIP/"/>-->
         <!--theme name="Rice MP4 Theme" handle="123456789/3" path="Rice_MP4/"/-->
         <!-- theme name="Music School Theme" handle="1911/3775" path="Flash/"/ -->
 

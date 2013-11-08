@@ -130,6 +130,7 @@
 				          return true;
 				}
             </script>
+
             
             <xsl:for-each select="/dri:document/dri:meta/dri:pageMeta/dri:metadata[@element='javascript'][not(@qualifier)]">
                 <script type="text/javascript">
@@ -167,6 +168,9 @@
 				</script>
             </xsl:if>
             
+	    <!-- Ying added this key to activate jwplayer analytics -->
+	    <!--script type="text/javascript">jwplayer.key="Wntm1vNVaEE9HkzSe42YA5n26se24g2VpQ+cew==";</script-->
+
             <xsl:variable name="page_title" select="/dri:document/dri:meta/dri:pageMeta/dri:metadata[@element='title']" />
             <title>
                 <xsl:choose>
@@ -257,6 +261,35 @@
                             </xsl:choose>
                         </a>
                     </xsl:when>
+		 <!--   <xsl:when test="@MIMETYPE='audio/x-mp3'">
+
+    -->                        <!-- With JWPlayer 6 -->
+<!--
+                              <div id="{$streamingfilename}">Loading the player...</div>
+
+                              <script type="text/javascript">
+
+
+                                jwplayer('<xsl:value-of select="$streamingfilename"/>').setup({
+
+                                playlist: [{
+
+                                sources: [{
+                                  file: "rtmp://fldp.rice.edu/vod/mp3:dspaceFLstream/<xsl:value-of select='$streamingfilename'/>"
+                                },{
+                                  file: "/themes/Rice/streaming/<xsl:value-of select='$streamingfilename'/>"
+                                }]
+                                }],
+
+                                rtmp: {
+                                  bufferlength: 10
+                                },
+                                primary: "flash",
+                                height: 30
+                                });
+                              </script>
+
+                        </xsl:when>-->
                     <!-- SWB No. This link goes to the actual bitstream; they can stream it from the streaming links.
                          <xsl:when test="@MIMETYPE='audio/x-mp3'">
                          <a href="javascript:streamingIt('win', '{$streamingfilename}', '{$streamingfilename}')">
@@ -273,7 +306,7 @@
                          </xsl:choose>
                          </a>
                          </xsl:when> -->
-                    <xsl:when test="@MIMETYPE='video/x-ms-wvx'">
+                    <!--xsl:when test="@MIMETYPE='video/x-ms-wvx'">
                         <a href="javascript:streamingIt('win', '{$streamingfilename}', '{$streamingfilename}')">
                             <xsl:choose>
                                 <xsl:when test="string-length(mets:FLocat[@LOCTYPE='URL']/@xlink:title) > 50">
@@ -317,7 +350,7 @@
                                 </xsl:otherwise>
                             </xsl:choose>
                         </a>
-                    </xsl:when>
+                    </xsl:when-->
 
                     <xsl:otherwise>
                         <a>
@@ -398,7 +431,7 @@
                                         </xsl:attribute>
                                     </img>
                                 </a>
-                            </xsl:when> -->
+                            </xsl:when> 
                             <xsl:when test="@MIMETYPE='video/x-ms-wvx'">
                                 <a class="image-link" href="javascript:streamingIt('win', '{$streamingfilename}', '{$streamingfilename}')">
                                     <img alt="Thumbnail">
@@ -428,14 +461,11 @@
                                         </xsl:attribute>
                                     </img>
                                 </a>
-                            </xsl:when>
+                            </xsl:when>-->
 
 			    <xsl:when test="@MIMETYPE='video/mp4'">
 			      
                               <!-- With JWPlayer 6 -->
-<!--
-
--->
 
                               <div id="{$streamingfilename}">Loading the player...</div>
 			      <xsl:variable name="mp4thumb" select="$context/mets:fileSec/mets:fileGrp[@USE='THUMBNAIL']/
@@ -453,16 +483,50 @@
 				  file: "/themes/Rice/streaming/<xsl:value-of select='$streamingfilename'/>"
 				}]
 				}],
-				height: 360,
+
 				rtmp: {
 				  bufferlength: 10
 				},
 				primary: "flash",
-				width: 640
+				stretching: "exactfit",
+				height: 180,
+				width: 320
+		
+
 				});
                               </script>
 
 			    </xsl:when>
+			    <xsl:when test="@MIMETYPE='audio/x-mp3'">
+
+                            <!-- With JWPlayer 6 -->
+
+                              <div id="{$streamingfilename}">Loading the player...</div>
+
+                              <script type="text/javascript">
+
+
+                                jwplayer('<xsl:value-of select="$streamingfilename"/>').setup({
+
+                                playlist: [{
+
+                                sources: [{
+                                  file: "rtmp://fldp.rice.edu/vod/mp3:dspaceFLstream/<xsl:value-of select='$streamingfilename'/>"
+                                },{
+                                  file: "/themes/Rice/streaming/<xsl:value-of select='$streamingfilename'/>"
+                                }]
+                                }],
+
+                                rtmp: {
+                                  bufferlength: 10
+                                },
+                                primary: "flash",
+                                height: 30
+                                });
+                              </script>
+
+                        </xsl:when>
+
 			    
 
                             <xsl:otherwise>
@@ -494,7 +558,7 @@
                                 <a href="javascript:streamingIt('real', '{$streamingfilename}', '{$streamingfilename}')">
                                     <img alt="Real Logo" src="/themes/Rice/images/real-logo.png" />
                                 </a>
-                            </xsl:when> -->
+                            </xsl:when> 
                             <xsl:when test="@MIMETYPE='video/x-ms-wvx'">
                                 <a href="javascript:streamingIt('win', '{$streamingfilename}', '{$streamingfilename}')">
                                     <img alt="WMP Logo" src="/themes/Rice/images/wmp-logo.png" />
@@ -509,7 +573,7 @@
                                 <a href="javascript:streamingIt('qt', '{$streamingfilename}', '{$streamingfilename}')">
                                     <img alt="Quicktime Logo" src="/themes/Rice/images/quick-logo.png" />
                                 </a>
-                            </xsl:when>
+                            </xsl:when> -->
                     <!-- Ying added this for mp4 streaming -->
                     <xsl:when test="@MIMETYPE='video/mp4'">
                       <!--html 5 only-->
@@ -575,24 +639,55 @@ file: "rtmp://fldp.rice.edu/vod/mp4:dspaceFLstream/<xsl:value-of select='$stream
 			  
                           jwplayer('<xsl:value-of select="$streamingfilename"/>').setup({
 
-    playlist: [{
-    				image: "<xsl:value-of select='$mp4thumb'/>",
-        sources: [{
+			  playlist: [{
+    			  image: "<xsl:value-of select='$mp4thumb'/>",
+			  sources: [{
                           file: "rtmp://fldp.rice.edu/vod/mp4:dspaceFLstream/<xsl:value-of select='$streamingfilename'/>"
-        },{
+			  },{
                           file: "/themes/Rice/streaming/<xsl:value-of select='$streamingfilename'/>"
-        }]
-    }],
-    height: 360,
- rtmp: {
-                 bufferlength: 10
-         },
-    primary: "flash",
-    width: 640
-});
+			  }]
+			  }],
+			  
+			  rtmp: {
+			  bufferlength: 10
+			  },
+			  primary: "flash",
+			  stretching: "exactfit",
+			  height: 180,
+			  width: 320
+			  
+			  });
                         </script>
+                    </xsl:when>
+		    <xsl:when test="@MIMETYPE='audio/x-mp3'">
 
-                </xsl:when>
+                            <!-- With JWPlayer 6 -->
+
+                              <div id="{$streamingfilename}">Loading the player...</div>
+
+                              <script type="text/javascript">
+
+
+                                jwplayer('<xsl:value-of select="$streamingfilename"/>').setup({
+
+                                playlist: [{
+
+                                sources: [{
+                                  file: "rtmp://fldp.rice.edu/vod/mp3:dspaceFLstream/<xsl:value-of select='$streamingfilename'/>"
+                                },{
+                                  file: "/themes/Rice/streaming/<xsl:value-of select='$streamingfilename'/>"
+                                }]
+                                }],
+
+                                rtmp: {
+                                  bufferlength: 10
+                                },
+                                primary: "flash",
+                                height: 30
+                                });
+                              </script>
+
+                        </xsl:when>
 
                             <xsl:otherwise>
                                 <a>

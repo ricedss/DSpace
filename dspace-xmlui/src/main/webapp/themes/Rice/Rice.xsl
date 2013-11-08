@@ -39,7 +39,8 @@
     <!-- MMS: Variables defined once for use in multiple places -->
     <xsl:variable name="repositoryURL" select="dri:document/dri:meta/dri:pageMeta/dri:trail[1]/@target"/>
     <xsl:variable name="communityURL" select="dri:document/dri:meta/dri:pageMeta/dri:trail[2]/@target"/>
-    <xsl:variable name="contextURL" select="dri:document/dri:meta/dri:pageMeta/dri:trail[position()=last()]/@target"/>
+    <!--xsl:variable name="contextURL" select="dri:document/dri:meta/dri:pageMeta/dri:trail[position()=last()]/@target"/-->
+    <xsl:variable name="contextURL" select="dri:document/dri:meta/dri:pageMeta/dri:metadata[@element='request'][@qualifier='URI']"/>
     <xsl:variable name="level">
         <xsl:choose>
             <xsl:when test="dri:document/dri:options/dri:list/dri:list/dri:head/i18n:text='xmlui.ArtifactBrowser.Navigation.head_this_community'">community</xsl:when>
@@ -53,7 +54,7 @@
             <xsl:otherwise>0</xsl:otherwise>
         </xsl:choose>
     </xsl:variable>
-    <xsl:variable name="numberOfItems"> 
+    <xsl:variable name="numberOfItems">
         <xsl:choose>
             <xsl:when test="dri:document/dri:body/dri:div/dri:div[@n='community-view']">
                 <xsl:value-of select="document(concat('cocoon:/',dri:document/dri:body/dri:div/dri:div[@n='community-view']/dri:referenceSet/dri:reference/@url))/mets:METS/mets:dmdSec/mets:mdWrap/mets:xmlData/dim:dim/dim:field[@element='format' and @qualifier='extent']"/>
@@ -116,6 +117,7 @@
             <a class="ds-deposit-your-work" href="http://openaccess.rice.edu/ir-submission-process/">
                 <img  src="/themes/Rice/images/deposit_your_work-01.png" alt="deposit_your_work" />
             </a>
+
         </div>
     </xsl:template>
     
@@ -756,7 +758,7 @@
                 <!-- MMS: The first "See all" link -->
                 <div id="see-all">
                     <xsl:text>(</xsl:text>
-                    <a href="{$seeMoreURL}">
+                    <a href="/{$seeMoreURL}">
                         <!-- i18n: see all -->
                         <i18n:text>xmlui.Rice.SeeAll</i18n:text>
                     </a>
@@ -786,7 +788,7 @@
                 </div>
                 <!-- MMS: The second "See all" link, more explicit than the first, since it's farther from the title -->
                 <p class="more">
-                    <a href="{$seeMoreURL}">
+                    <a href="/{$seeMoreURL}">
                         <i18n:translate>
                             <xsl:choose>
                                 <xsl:when test="$level='community'">

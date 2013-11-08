@@ -405,7 +405,10 @@
                 </xsl:otherwise>
             </xsl:choose>
         </xsl:variable>
-        <!-- Get the duration text for use below. -->
+       <xsl:variable name="streamingfilename">
+            <xsl:value-of select="@ID"/>_<xsl:value-of select="mets:FLocat/@xlink:title"/>
+        </xsl:variable>
+         <!-- Get the duration text for use below. -->
         <xsl:variable name="fileduration">
             <xsl:choose>
                 <xsl:when test="contains(mets:FLocat[@LOCTYPE='URL']/@xlink:label, '(')">
@@ -484,15 +487,32 @@
                 <td>
                     <xsl:choose>
                         <xsl:when test="@MIMETYPE='audio/x-mp3'">
-                            <xsl:variable name="streamingfilename">
-                                <xsl:value-of select="@ID"/>_<xsl:value-of select="mets:FLocat/@xlink:title"/>
-                            </xsl:variable>
-                            <a href="javascript:streamingIt('win', '{$streamingfilename}', '{$streamingfilename}')">
-                                <img alt="WMP Logo" src="/themes/Rice/images/wmp-logo.png" />                                
-                            </a>
-                            <a href="javascript:streamingIt('real', '{$streamingfilename}', '{$streamingfilename}')">
-                                <img alt="WMP Logo" src="/themes/Rice/images/real-logo.png" />                                
-                            </a>
+                            <!-- With JWPlayer 6 -->
+
+                              <div id="{$streamingfilename}">Loading the player...</div>
+
+                              <script type="text/javascript">
+                                
+                                
+                                jwplayer('<xsl:value-of select="$streamingfilename"/>').setup({
+                                
+                                playlist: [{
+
+                                sources: [{
+                                  file: "rtmp://fldp.rice.edu/vod/mp3:dspaceFLstream/<xsl:value-of select='$streamingfilename'/>"
+                                },{
+                                  file: "/themes/Rice/streaming/<xsl:value-of select='$streamingfilename'/>"
+                                }]
+                                }],
+
+                                rtmp: {
+                                  bufferlength: 10
+                                },
+                                primary: "flash",
+                                height: 30
+                                });
+                              </script>
+
                         </xsl:when>
                         <xsl:otherwise>
                             <a>

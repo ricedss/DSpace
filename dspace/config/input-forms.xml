@@ -68,7 +68,16 @@
             <hint>Last name, e.g. Smith First name ( e.g. Donald Jr. </hint>
             <required></required>
           </field>
-
+        <field>
+            <dc-schema>dc</dc-schema>
+            <dc-element>contributor</dc-element>
+            <dc-qualifier>editor</dc-qualifier>
+            <repeatable>true</repeatable>
+            <label>Editors</label>
+            <input-type>name</input-type>
+            <hint>Editor of book. Can enter multiple names.</hint>
+            <required></required>
+          </field>
           <field>
             <dc-schema>dc</dc-schema>
             <dc-element>title</dc-element>
@@ -76,7 +85,7 @@
             <repeatable>false</repeatable>
             <label>Title</label>
             <input-type>onebox</input-type>
-            <hint>Enter full title as appears on article.</hint>
+            <hint>Article or chapter title. Enter full title.</hint>
             <required>You must enter a main title for this item.</required>
           </field>
 
@@ -141,9 +150,9 @@
               <dc-element>citation</dc-element>
               <dc-qualifier>journalTitle</dc-qualifier>
               <repeatable>false</repeatable>
-              <label>Journal Title</label>
+              <label>Journal or Book Title</label>
               <input-type>onebox</input-type>
-              <hint>Title of journal.</hint>
+              <hint>Title of journal or book.</hint>
               <required></required>
             </field>
 
@@ -204,6 +213,18 @@
             <hint>Enter the name of the publisher.</hint>
             <required></required>
           </field>
+
+            <field>
+               <dc-schema>dc</dc-schema>
+               <dc-element>pubplace</dc-element>
+               <dc-qualifier></dc-qualifier>
+               <repeatable>false</repeatable>
+               <label>Publisher Location</label>
+               <input-type>onebox</input-type>
+               <hint>If item is Book or Book Chapter, enter publisher location, e.g. New York, NY.</hint>
+               <required></required>
+             </field>
+
 
           <field>
             <dc-schema>dc</dc-schema>
