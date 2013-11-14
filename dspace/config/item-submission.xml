@@ -18,19 +18,19 @@
  <!-- for handle "default".                                                -->
  <submission-map>
      <!-- SERVER-SPECIFIC -->
-     <!-- dspacetest, dev and land --> <name-map collection-handle="1911/2946" submission-name="ECESteps" />
-       <!-- dspacetest, dev and land --> <name-map collection-handle="1911/55206" submission-name="CommencementSteps" />
-     <!-- dspace.rice.edu -->  <!--name-map collection-handle="1911/10563" submission-name="ECESteps" /--> <!-- ECE Publication -->
-       <!-- dspace.rice.edu -->  <!--name-map collection-handle="1911/21945" submission-name="ECESteps" /--> <!-- CMC Publication -->
-       <!-- dspace.rice.edu -->  <!--name-map collection-handle="1911/21661" submission-name="ECESteps" /--> <!-- DSP Publication -->
-       <!-- dspace.rice.edu -->  <!--name-map collection-handle="1911/61371" submission-name="CommencementSteps" /--> <!-- Commencement -->
+     <!--dspacetest, dev and land --> <!--name-map collection-handle="1911/2946" submission-name="ECESteps" /-->
+       <!-- dspacetest, dev and land --> <!--name-map collection-handle="1911/55206" submission-name="CommencementSteps" /-->
+     <!-- dspace.rice.edu -->  <name-map collection-handle="1911/10563" submission-name="ECESteps" /> <!-- ECE Publication -->
+       <!-- dspace.rice.edu -->  <name-map collection-handle="1911/21945" submission-name="ECESteps" /> <!-- CMC Publication -->
+       <!-- dspace.rice.edu -->  <name-map collection-handle="1911/21661" submission-name="ECESteps" /> <!-- DSP Publication -->
+       <!-- dspace.rice.edu -->  <name-map collection-handle="1911/61371" submission-name="CommencementSteps" /> <!-- Commencement -->
 
-       <!-- dspace.rice.edu -->  <!--name-map collection-handle="1911/61408" submission-name="CommencementSteps" /--> <!-- WRC Historical Event-->
-       <!-- dspace.rice.edu -->  <!--name-map collection-handle="1911/62306" submission-name="CommencementSteps" /--> <!-- WRC Historical Key Documents-->
-       <!-- dspace.rice.edu -->  <!--name-map collection-handle="1911/61406" submission-name="CommencementSteps" /--> <!-- WRC Historical People-->
-       <!-- dspace.rice.edu -->  <!--name-map collection-handle="1911/61407" submission-name="CommencementSteps" /--> <!-- WRC Historical Places-->
-       <!-- dspace.rice.edu -->  <!--name-map collection-handle="1911/61409" submission-name="CommencementSteps" /--> <!-- WRC Historical Sports-->
-       <!-- dspace.rice.edu -->  <!--name-map collection-handle="1911/61410" submission-name="CommencementSteps" /--> <!-- WRC Historical Various-->
+       <!-- dspace.rice.edu -->  <name-map collection-handle="1911/61408" submission-name="CommencementSteps" /> <!-- WRC Historical Event-->
+       <!-- dspace.rice.edu -->  <name-map collection-handle="1911/62306" submission-name="CommencementSteps" /> <!-- WRC Historical Key Documents-->
+       <!-- dspace.rice.edu -->  <name-map collection-handle="1911/61406" submission-name="CommencementSteps" /> <!-- WRC Historical People-->
+       <!-- dspace.rice.edu -->  <name-map collection-handle="1911/61407" submission-name="CommencementSteps" /> <!-- WRC Historical Places-->
+       <!-- dspace.rice.edu -->  <name-map collection-handle="1911/61409" submission-name="CommencementSteps" /> <!-- WRC Historical Sports-->
+       <!-- dspace.rice.edu -->  <name-map collection-handle="1911/61410" submission-name="CommencementSteps" /> <!-- WRC Historical Various-->
 
    <!--name-map collection-handle="default" submission-name="traditional" /-->
      <name-map collection-handle="default" submission-name="facultypub" />
@@ -301,14 +301,14 @@
          </step>
 
          <!--Step 3 will be to Upload the item-->
-         <step>
+ <!--        <step>
            <heading>submit.progressbar.upload</heading>
            <processing-class>org.dspace.submit.step.UploadStep</processing-class>
            <jspui-binding>org.dspace.app.webui.submit.step.JSPUploadStep</jspui-binding>
            <xmlui-binding>org.dspace.app.xmlui.aspect.submission.submit.UploadStep</xmlui-binding>
            <workflow-editable>true</workflow-editable>
          </step>
-
+ -->
           <step>
               <heading>submit.progressbar.upload</heading>
               <processing-class>org.dspace.submit.step.UploadWithEmbargoStep</processing-class>
@@ -325,7 +325,17 @@
            <workflow-editable>true</workflow-editable>
          </step>
 
-        <!--Step 5 will be to Sign off on the License-->
+          <!--Step 5 will be to select a Creative Commons License-->
+          <!-- Uncomment this step to allow the user to select a Creative Commons license -->
+          <step>
+            <heading>submit.progressbar.CClicense</heading>
+            <processing-class>org.dspace.submit.step.CCLicenseStep</processing-class>
+            <jspui-binding>org.dspace.app.webui.submit.step.JSPCCLicenseStep</jspui-binding>
+            <xmlui-binding>org.dspace.app.xmlui.aspect.submission.submit.CCLicenseStep</xmlui-binding>
+            <workflow-editable>false</workflow-editable>
+          </step>
+
+        <!--Step 6 will be to Sign off on the License-->
         <step>
           <heading>submit.progressbar.license</heading>
           <processing-class>org.dspace.submit.step.LicenseStep</processing-class>

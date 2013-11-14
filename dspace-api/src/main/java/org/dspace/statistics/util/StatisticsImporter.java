@@ -340,6 +340,8 @@ public class StatisticsImporter
                 if (dso instanceof Item) {
                     Item item = (Item) dso;
                     // Store the metadata
+                    // Ying removed currently broken!!! refer bug DS-1531
+                    /*
                     for (String storedField : metadataStorageInfo.keySet()) {
                         String dcField = metadataStorageInfo.get(storedField);
 
@@ -353,6 +355,7 @@ public class StatisticsImporter
                                     val.toLowerCase());
                         }
                     }
+                    */
                 }
 
                 SolrLogger.storeParents(sid, dso);

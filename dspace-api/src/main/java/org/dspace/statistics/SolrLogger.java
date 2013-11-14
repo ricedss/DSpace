@@ -181,6 +181,7 @@ public class SolrLogger
         }
 
         log.info("useProxies=" + useProxies);
+
     }
 
     /**

@@ -948,18 +948,6 @@
             <required></required>
           </field>
 
-   <!--       <field>
-            <dc-schema>dc</dc-schema>
-            <dc-element>citation</dc-element>
-            <dc-qualifier>journalTitle</dc-qualifier>
-            <repeatable>false</repeatable>
-            <label>Journal Title</label>
-            <input-type>onebox</input-type>
-            <hint>xmlui.Submission.submit.DescribeStep.hint.eceform.journaltitle</hint>
-            <required></required>
-          </field>
-
-   -->
             <field>
               <dc-schema>dc</dc-schema>
               <dc-element>citation</dc-element>
@@ -995,42 +983,7 @@
               <required></required>
             </field>
 
-   <!--
-            <field>
-              <dc-schema>dc</dc-schema>
-              <dc-element>citation</dc-element>
-              <dc-qualifier>conferenceName</dc-qualifier>
-              <repeatable>false</repeatable>
-              <label>Conference Name</label>
-              <input-type>onebox</input-type>
-              <hint>xmlui.Submission.submit.DescribeStep.hint.eceform.conferencename</hint>
-              <required></required>
-            </field>
-
-            <field>
-              <dc-schema>dc</dc-schema>
-              <dc-element>citation</dc-element>
-              <dc-qualifier>conferenceDate</dc-qualifier>
-              <repeatable>false</repeatable>
-              <label>Conference Date</label>
-              <input-type>onebox</input-type>
-              <hint>xmlui.Submission.submit.DescribeStep.hint.eceform.conferencedate</hint>
-              <required></required>
-            </field>
-
-
-            <field>
-              <dc-schema>dc</dc-schema>
-              <dc-element>citation</dc-element>
-              <dc-qualifier>location</dc-qualifier>
-              <repeatable>false</repeatable>
-              <label>Conference Location</label>
-              <input-type>onebox</input-type>
-              <hint></hint>
-              <required></required>
-            </field>
-   -->
-            <field>
+           <field>
               <dc-schema>dc</dc-schema>
               <dc-element>relation</dc-element>
               <dc-qualifier>project</dc-qualifier>
@@ -1074,86 +1027,13 @@
               <required></required>
             </field>
 
-    <!--        <field>
-              <dc-schema>dc</dc-schema>
-              <dc-element>citation</dc-element>
-              <dc-qualifier>bibtexName</dc-qualifier>
-              <repeatable>false</repeatable>
-              <label>Bibtex Name</label>
-              <input-type>onebox</input-type>
-              <hint></hint>
-              <required></required>
-            </field>
-            -->
-        </page>
-
-        <page number="2" type-name="Conference Paper">
-          <field>
-            <dc-schema>dc</dc-schema>
-            <dc-element>subject</dc-element>
-            <dc-qualifier></dc-qualifier>
-            <!-- An input-type of twobox MUST be marked as repeatable -->
-            <repeatable>true</repeatable>
-            <label>Subject Keywords</label>
-            <input-type>twobox</input-type>
-            <hint>xmlui.Submission.submit.DescribeStep.hint.eceform.subject</hint>
-            <required></required>
-            <vocabulary>srsc</vocabulary>
-          </field>
-
-          <field>
-            <dc-schema>dc</dc-schema>
-            <dc-element>description</dc-element>
-            <dc-qualifier>abstract</dc-qualifier>
-            <repeatable>false</repeatable>
-            <label>Abstract</label>
-            <input-type>textarea</input-type>
-            <hint>xmlui.Submission.submit.DescribeStep.hint.traditional.abstract</hint>
-            <required></required>
-          </field>
-
-          <field>
-            <dc-schema>dc</dc-schema>
-            <dc-element>description</dc-element>
-            <dc-qualifier>sponsorship</dc-qualifier>
-            <repeatable>true</repeatable>
-            <label>Sponsors</label>
-            <input-type>twobox</input-type>
-            <hint>xmlui.Submission.submit.DescribeStep.hint.eceform.sponsor </hint>
-            <required></required>
-          </field>
-
-   <!--         <field>
-              <dc-schema>dc</dc-schema>
-              <dc-element>citation</dc-element>
-              <dc-qualifier>volumeNumber</dc-qualifier>
-              <repeatable>false</repeatable>
-              <label>Volume Number</label>
-              <input-type>onebox</input-type>
-              <hint></hint>
-              <required></required>
-            </field>
-
-
-            <field>
-              <dc-schema>dc</dc-schema>
-              <dc-element>citation</dc-element>
-              <dc-qualifier>issueNumber</dc-qualifier>
-              <repeatable>false</repeatable>
-              <label>Number</label>
-              <input-type>onebox</input-type>
-              <hint></hint>
-              <required></required>
-            </field>
-   -->
-
-
          <field>
            <dc-schema>dc</dc-schema>
            <dc-element>citation</dc-element>
            <dc-qualifier>conferenceName</dc-qualifier>
            <repeatable>false</repeatable>
            <label>Conference Name</label>
+           <type-bind>Conference Paper</type-bind>
            <input-type>onebox</input-type>
            <hint>xmlui.Submission.submit.DescribeStep.hint.eceform.conferencename</hint>
            <required></required>
@@ -1165,6 +1045,7 @@
            <dc-qualifier>conferenceDate</dc-qualifier>
            <repeatable>false</repeatable>
            <label>Conference Date</label>
+             <type-bind>Conference Paper</type-bind>
            <input-type>onebox</input-type>
            <hint>xmlui.Submission.submit.DescribeStep.hint.eceform.conferencedate</hint>
            <required></required>
@@ -1176,104 +1057,12 @@
            <dc-element>citation</dc-element>
            <dc-qualifier>location</dc-qualifier>
            <repeatable>false</repeatable>
+             <type-bind>Conference Paper</type-bind>
            <label>Conference Location</label>
            <input-type>onebox</input-type>
            <hint></hint>
            <required></required>
          </field>
-
-         <field>
-           <dc-schema>dc</dc-schema>
-           <dc-element>citation</dc-element>
-           <dc-qualifier>pageNumber</dc-qualifier>
-           <repeatable>false</repeatable>
-           <label>Page Number(s)</label>
-           <input-type>onebox</input-type>
-           <hint></hint>
-           <required></required>
-         </field>
-
-         <field>
-           <dc-schema>dc</dc-schema>
-           <dc-element>relation</dc-element>
-           <dc-qualifier>project</dc-qualifier>
-           <repeatable>false</repeatable>
-           <label>Project</label>
-           <input-type>onebox</input-type>
-           <hint></hint>
-           <required></required>
-         </field>
-
-         <field>
-           <dc-schema>dc</dc-schema>
-           <dc-element>relation</dc-element>
-           <dc-qualifier>software</dc-qualifier>
-           <repeatable>false</repeatable>
-           <label>Software</label>
-           <input-type>onebox</input-type>
-           <hint></hint>
-           <required></required>
-         </field>
-
-         <field>
-           <dc-schema>dc</dc-schema>
-           <dc-element>description</dc-element>
-           <dc-qualifier>center</dc-qualifier>
-           <repeatable>false</repeatable>
-           <label>Center</label>
-           <input-type>onebox</input-type>
-           <hint></hint>
-           <required></required>
-         </field>
-
-         <field>
-           <dc-schema>dc</dc-schema>
-           <dc-element>subject</dc-element>
-           <dc-qualifier>other</dc-qualifier>
-           <repeatable>true</repeatable>
-           <label>Other Subjects</label>
-           <input-type>twobox</input-type>
-           <hint></hint>
-           <required></required>
-         </field>
-
-     </page>
-
-        <page number="2" type-name="Journal Paper">
-          <field>
-            <dc-schema>dc</dc-schema>
-            <dc-element>subject</dc-element>
-            <dc-qualifier></dc-qualifier>
-            <!-- An input-type of twobox MUST be marked as repeatable -->
-            <repeatable>true</repeatable>
-            <label>Subject Keywords</label>
-            <input-type>twobox</input-type>
-            <hint>xmlui.Submission.submit.DescribeStep.hint.eceform.subject</hint>
-            <required></required>
-            <vocabulary>srsc</vocabulary>
-          </field>
-
-          <field>
-            <dc-schema>dc</dc-schema>
-            <dc-element>description</dc-element>
-            <dc-qualifier>abstract</dc-qualifier>
-            <repeatable>false</repeatable>
-            <label>Abstract</label>
-            <input-type>textarea</input-type>
-            <hint>xmlui.Submission.submit.DescribeStep.hint.traditional.abstract</hint>
-            <required></required>
-          </field>
-
-          <field>
-            <dc-schema>dc</dc-schema>
-            <dc-element>description</dc-element>
-            <dc-qualifier>sponsorship</dc-qualifier>
-            <repeatable>true</repeatable>
-            <label>Sponsors</label>
-            <input-type>twobox</input-type>
-            <hint>xmlui.Submission.submit.DescribeStep.hint.eceform.sponsor </hint>
-            <required></required>
-          </field>
 
           <field>
             <dc-schema>dc</dc-schema>
@@ -1281,91 +1070,12 @@
             <dc-qualifier>journalTitle</dc-qualifier>
             <repeatable>false</repeatable>
             <label>Journal Title</label>
+              <type-bind>Journal Paper</type-bind>
             <input-type>onebox</input-type>
             <hint>xmlui.Submission.submit.DescribeStep.hint.eceform.journaltitle</hint>
             <required></required>
           </field>
 
-
-            <field>
-              <dc-schema>dc</dc-schema>
-              <dc-element>citation</dc-element>
-              <dc-qualifier>volumeNumber</dc-qualifier>
-              <repeatable>false</repeatable>
-              <label>Volume Number</label>
-              <input-type>onebox</input-type>
-              <hint></hint>
-              <required></required>
-            </field>
-
-
-            <field>
-              <dc-schema>dc</dc-schema>
-              <dc-element>citation</dc-element>
-              <dc-qualifier>issueNumber</dc-qualifier>
-              <repeatable>false</repeatable>
-              <label>Number</label>
-              <input-type>onebox</input-type>
-              <hint></hint>
-              <required></required>
-            </field>
-
-
-            <field>
-              <dc-schema>dc</dc-schema>
-              <dc-element>citation</dc-element>
-              <dc-qualifier>pageNumber</dc-qualifier>
-              <repeatable>false</repeatable>
-              <label>Page Number(s)</label>
-              <input-type>onebox</input-type>
-              <hint></hint>
-              <required></required>
-            </field>
-
-
-            <field>
-              <dc-schema>dc</dc-schema>
-              <dc-element>relation</dc-element>
-              <dc-qualifier>project</dc-qualifier>
-              <repeatable>false</repeatable>
-              <label>Project</label>
-              <input-type>onebox</input-type>
-              <hint></hint>
-              <required></required>
-            </field>
-
-            <field>
-              <dc-schema>dc</dc-schema>
-              <dc-element>relation</dc-element>
-              <dc-qualifier>software</dc-qualifier>
-              <repeatable>false</repeatable>
-              <label>Software</label>
-              <input-type>onebox</input-type>
-              <hint></hint>
-              <required></required>
-            </field>
-
-            <field>
-              <dc-schema>dc</dc-schema>
-              <dc-element>description</dc-element>
-              <dc-qualifier>center</dc-qualifier>
-              <repeatable>false</repeatable>
-              <label>Center</label>
-              <input-type>onebox</input-type>
-              <hint></hint>
-              <required></required>
-            </field>
-
-            <field>
-              <dc-schema>dc</dc-schema>
-              <dc-element>subject</dc-element>
-              <dc-qualifier>other</dc-qualifier>
-              <repeatable>true</repeatable>
-              <label>Other Subjects</label>
-              <input-type>twobox</input-type>
-              <hint></hint>
-              <required></required>
-            </field>
 
         </page>
       </form>
@@ -1416,19 +1126,8 @@
         <hint>xmlui.Submission.submit.DescribeStep.hint.traditional.dateissued</hint>
         <required>You must enter at least the year.</required>
       </field>
-<!--
-            <field>
-         <dc-schema>dc</dc-schema>
-         <dc-element>embargo</dc-element>
-         <dc-qualifier>terms</dc-qualifier>
-         <repeatable>false</repeatable>
-         <label>Embargo Terms</label>
-         <input-type value-pairs-name="embargo_terms">dropdown</input-type>
-         <hint>If required, select embargo terms.</hint>
-         <required></required>
-         </field>
--->
-      <field>
+
+    <field>
         <dc-schema>dc</dc-schema>
         <dc-element>publisher</dc-element>
         <dc-qualifier></dc-qualifier>
@@ -1439,18 +1138,7 @@
         <required></required>
       </field>
 
-   <!--       <field>
-        <dc-schema>dc</dc-schema>
-        <dc-element>relation</dc-element>
-        <dc-qualifier>ispartofseries</dc-qualifier>
-        <repeatable>true</repeatable>
-        <label>Series/Report No.</label>
-        <input-type>series</input-type>
-        <hint>Enter the series and number assigned to this item by your community.</hint>
-        <required></required>
-      </field>
-   -->
-      <field>
+    <field>
                 <dc-schema>dc</dc-schema>
         <dc-element>identifier</dc-element>
         <dc-qualifier></dc-qualifier>
@@ -1473,19 +1161,7 @@
           <required>You have to provide the type.</required>
         </field>
 
- <!--       <field>
-                  <dc-schema>dc</dc-schema>
-          <dc-element>language</dc-element>
-          <dc-qualifier>iso</dc-qualifier>
-          <repeatable>false</repeatable>
-          <label>Language</label>
-          <input-type value-pairs-name="common_iso_languages">dropdown</input-type>
-          <hint>Select the language of the main content of the item.  If the language does not appear in the list below, please select 'Other'.  If the content does not really have a language (for example,\
-  if it is a dataset or an image) please select 'N/A'.</hint>
-          <required></required>
-        </field>
- -->
-        <field>
+      <field>
                   <dc-schema>dc</dc-schema>
           <dc-element>contributor</dc-element>
           <dc-qualifier>editor</dc-qualifier>
@@ -1591,41 +1267,7 @@
            <hint></hint>
            <required></required>
          </field>
-<!--
-         <field>
-           <dc-schema>dc</dc-schema>
-           <dc-element>citation</dc-element>
-           <dc-qualifier>conferenceDate</dc-qualifier>
-           <repeatable>false</repeatable>
-           <label>Conference Date</label>
-           <input-type>onebox</input-type>
-           <hint>xmlui.Submission.submit.DescribeStep.hint.eceform.conferencedate</hint>
-           <required></required>
-         </field>
 
-         <field>
-           <dc-schema>dc</dc-schema>
-           <dc-element>citation</dc-element>
-           <dc-qualifier>location</dc-qualifier>
-           <repeatable>false</repeatable>
-           <label>Conference Location</label>
-           <input-type>onebox</input-type>
-           <hint></hint>
-           <required></required>
-         </field>
--->
-
- <!--        <field>
-           <dc-schema>dc</dc-schema>
-           <dc-element>citation</dc-element>
-           <dc-qualifier>bibtexName</dc-qualifier>
-           <repeatable>false</repeatable>
-           <label>Bibtex Name</label>
-           <input-type>onebox</input-type>
-           <hint></hint>
-           <required></required>
-         </field>
-         -->
      </page>
 </form>
 
@@ -1687,17 +1329,7 @@
          <required></required>
        </field>
 
-<!--       <field>
-		 <dc-schema>dc</dc-schema>
-         <dc-element>relation</dc-element>
-         <dc-qualifier>ispartofseries</dc-qualifier>
-         <repeatable>true</repeatable>
-         <label>Series/Report No.</label>
-         <input-type>series</input-type>
-         <hint>Enter the series and number assigned to this item by your community.</hint>
-         <required></required>
-       </field>
--->
+
        <field>
 		 <dc-schema>dc</dc-schema>
          <dc-element>identifier</dc-element>
@@ -1722,120 +1354,130 @@ it, please enter the types and the actual numbers or codes below.</hint>
          <required>You have to provide the type.</required>
        </field>
 
-<!--       <field>
-		 <dc-schema>dc</dc-schema>
-         <dc-element>language</dc-element>
-         <dc-qualifier>iso</dc-qualifier>
-         <repeatable>false</repeatable>
-         <label>Language</label>
-         <input-type value-pairs-name="common_iso_languages">dropdown</input-type>
-         <hint>Select the language of the main content of the item.  If the language does not appear in the list below, please select 'Other'.  If the content does not really have a language (for example, if it is a dataset or an image) please select 'N/A'.</hint>
-         <required></required>
-       </field>
-
-       <field>
-		 <dc-schema>dc</dc-schema>
-         <dc-element>contributor</dc-element>
-         <dc-qualifier>editor</dc-qualifier>
-         <repeatable>true</repeatable>
-         <label>Editors</label>
-         <input-type>name</input-type>
-         <hint>Enter the names of the editor(s) of this item below.</hint>
-         <required></required>
-       </field>
--->
      </page>
 
      <page number="2">
-       <field>
-		 <dc-schema>dc</dc-schema>
-         <dc-element>subject</dc-element>
-         <dc-qualifier></dc-qualifier>
-         <!-- An input-type of twobox MUST be marked as repeatable -->
-         <repeatable>true</repeatable>
-         <label>Subject Keywords</label>
-         <input-type>twobox</input-type>
-         <hint>xmlui.Submission.submit.DescribeStep.hint.eceform.subject</hint>
-         <required></required>
-         <vocabulary>srsc</vocabulary>
-       </field>
+          <field>
+            <dc-schema>dc</dc-schema>
+            <dc-element>subject</dc-element>
+            <dc-qualifier></dc-qualifier>
+            <!-- An input-type of twobox MUST be marked as repeatable -->
+            <repeatable>true</repeatable>
+            <label>Subject Keywords</label>
+            <input-type>twobox</input-type>
+            <hint>xmlui.Submission.submit.DescribeStep.hint.eceform.subject</hint>
+            <required></required>
+            <vocabulary>srsc</vocabulary>
+          </field>
 
-       <field>
-		 <dc-schema>dc</dc-schema>
-         <dc-element>description</dc-element>
-         <dc-qualifier>abstract</dc-qualifier>
-         <repeatable>false</repeatable>
-         <label>Abstract</label>
-         <input-type>textarea</input-type>
-         <hint>xmlui.Submission.submit.DescribeStep.hint.traditional.abstract</hint>
-         <required></required>
-       </field>
+          <field>
+            <dc-schema>dc</dc-schema>
+            <dc-element>description</dc-element>
+            <dc-qualifier>abstract</dc-qualifier>
+            <repeatable>false</repeatable>
+            <label>Abstract</label>
+            <input-type>textarea</input-type>
+            <hint>xmlui.Submission.submit.DescribeStep.hint.traditional.abstract</hint>
+            <required></required>
+          </field>
 
-       <field>
-		 <dc-schema>dc</dc-schema>
-         <dc-element>description</dc-element>
-         <dc-qualifier>sponsorship</dc-qualifier>
-         <repeatable>true</repeatable>
-         <label>Sponsors</label>
-         <input-type>twobox</input-type>
-         <hint>xmlui.Submission.submit.DescribeStep.hint.eceform.sponsor </hint>
-         <required></required>
-       </field>
+          <field>
+            <dc-schema>dc</dc-schema>
+            <dc-element>description</dc-element>
+            <dc-qualifier>sponsorship</dc-qualifier>
+            <repeatable>true</repeatable>
+            <label>Sponsors</label>
+            <input-type>twobox</input-type>
+            <hint>xmlui.Submission.submit.DescribeStep.hint.eceform.sponsor </hint>
+            <required></required>
+          </field>
 
-<!--       <field>
-		 <dc-schema>dc</dc-schema>
-         <dc-element>citation</dc-element>
-         <dc-qualifier>journalTitle</dc-qualifier>
-         <repeatable>false</repeatable>
-         <label>Journal Title</label>
-         <input-type>onebox</input-type>
-         <hint>xmlui.Submission.submit.DescribeStep.hint.eceform.journaltitle</hint>
-         <required></required>
-       </field>
-
--->
-         <field>
-           <dc-schema>dc</dc-schema>
-           <dc-element>citation</dc-element>
-           <dc-qualifier>volumeNumber</dc-qualifier>
-           <repeatable>false</repeatable>
-           <label>Volume Number</label>
-           <input-type>onebox</input-type>
-           <hint></hint>
-           <required></required>
-         </field>
+            <field>
+              <dc-schema>dc</dc-schema>
+              <dc-element>citation</dc-element>
+              <dc-qualifier>volumeNumber</dc-qualifier>
+              <repeatable>false</repeatable>
+              <label>Volume Number</label>
+              <input-type>onebox</input-type>
+              <hint></hint>
+              <required></required>
+            </field>
 
 
-         <field>
-           <dc-schema>dc</dc-schema>
-           <dc-element>citation</dc-element>
-           <dc-qualifier>issueNumber</dc-qualifier>
-           <repeatable>false</repeatable>
-           <label>Number</label>
-           <input-type>onebox</input-type>
-           <hint></hint>
-           <required></required>
-         </field>
+            <field>
+              <dc-schema>dc</dc-schema>
+              <dc-element>citation</dc-element>
+              <dc-qualifier>issueNumber</dc-qualifier>
+              <repeatable>false</repeatable>
+              <label>Number</label>
+              <input-type>onebox</input-type>
+              <hint></hint>
+              <required></required>
+            </field>
 
 
-         <field>
-           <dc-schema>dc</dc-schema>
-           <dc-element>citation</dc-element>
-           <dc-qualifier>pageNumber</dc-qualifier>
-           <repeatable>false</repeatable>
-           <label>Page Number(s)</label>
-           <input-type>onebox</input-type>
-           <hint></hint>
-           <required></required>
-         </field>
+            <field>
+              <dc-schema>dc</dc-schema>
+              <dc-element>citation</dc-element>
+              <dc-qualifier>pageNumber</dc-qualifier>
+              <repeatable>false</repeatable>
+              <label>Page Number(s)</label>
+              <input-type>onebox</input-type>
+              <hint></hint>
+              <required></required>
+            </field>
 
-<!--
+           <field>
+              <dc-schema>dc</dc-schema>
+              <dc-element>relation</dc-element>
+              <dc-qualifier>project</dc-qualifier>
+              <repeatable>false</repeatable>
+              <label>Project</label>
+              <input-type>onebox</input-type>
+              <hint></hint>
+              <required></required>
+            </field>
+
+            <field>
+              <dc-schema>dc</dc-schema>
+              <dc-element>relation</dc-element>
+              <dc-qualifier>software</dc-qualifier>
+              <repeatable>false</repeatable>
+              <label>Software</label>
+              <input-type>onebox</input-type>
+              <hint></hint>
+              <required></required>
+            </field>
+
+            <field>
+              <dc-schema>dc</dc-schema>
+              <dc-element>description</dc-element>
+              <dc-qualifier>center</dc-qualifier>
+              <repeatable>false</repeatable>
+              <label>Center</label>
+              <input-type>onebox</input-type>
+              <hint></hint>
+              <required></required>
+            </field>
+
+            <field>
+              <dc-schema>dc</dc-schema>
+              <dc-element>subject</dc-element>
+              <dc-qualifier>other</dc-qualifier>
+              <repeatable>true</repeatable>
+              <label>Other Subjects</label>
+              <input-type>twobox</input-type>
+              <hint></hint>
+              <required></required>
+            </field>
+
          <field>
            <dc-schema>dc</dc-schema>
            <dc-element>citation</dc-element>
            <dc-qualifier>conferenceName</dc-qualifier>
            <repeatable>false</repeatable>
            <label>Conference Name</label>
+           <type-bind>Conference Paper</type-bind>
            <input-type>onebox</input-type>
            <hint>xmlui.Submission.submit.DescribeStep.hint.eceform.conferencename</hint>
            <required></required>
@@ -1847,6 +1489,7 @@ it, please enter the types and the actual numbers or codes below.</hint>
            <dc-qualifier>conferenceDate</dc-qualifier>
            <repeatable>false</repeatable>
            <label>Conference Date</label>
+             <type-bind>Conference Paper</type-bind>
            <input-type>onebox</input-type>
            <hint>xmlui.Submission.submit.DescribeStep.hint.eceform.conferencedate</hint>
            <required></required>
@@ -1858,350 +1501,25 @@ it, please enter the types and the actual numbers or codes below.</hint>
            <dc-element>citation</dc-element>
            <dc-qualifier>location</dc-qualifier>
            <repeatable>false</repeatable>
-           <label>Conference Location</label>
-           <input-type>onebox</input-type>
-           <hint></hint>
-           <required></required>
-         </field>
--->
-         <field>
-           <dc-schema>dc</dc-schema>
-           <dc-element>relation</dc-element>
-           <dc-qualifier>project</dc-qualifier>
-           <repeatable>false</repeatable>
-           <label>Project</label>
-           <input-type>onebox</input-type>
-           <hint></hint>
-           <required></required>
-         </field>
-
-         <field>
-           <dc-schema>dc</dc-schema>
-           <dc-element>relation</dc-element>
-           <dc-qualifier>software</dc-qualifier>
-           <repeatable>false</repeatable>
-           <label>Software</label>
-           <input-type>onebox</input-type>
-           <hint></hint>
-           <required></required>
-         </field>
-
-         <field>
-           <dc-schema>dc</dc-schema>
-           <dc-element>description</dc-element>
-           <dc-qualifier>center</dc-qualifier>
-           <repeatable>false</repeatable>
-           <label>Center</label>
-           <input-type>onebox</input-type>
-           <hint>xmlui.Submission.submit.DescribeStep.hint.eceform.center</hint>
-           <required></required>
-         </field>
-
-         <field>
-           <dc-schema>dc</dc-schema>
-           <dc-element>subject</dc-element>
-           <dc-qualifier>other</dc-qualifier>
-           <repeatable>true</repeatable>
-           <label>Other Subjects</label>
-           <input-type>twobox</input-type>
-           <hint></hint>
-           <required></required>
-         </field>
-
- <!--        <field>
-           <dc-schema>dc</dc-schema>
-           <dc-element>citation</dc-element>
-           <dc-qualifier>bibtexName</dc-qualifier>
-           <repeatable>false</repeatable>
-           <label>Bibtex Name</label>
-           <input-type>onebox</input-type>
-           <hint></hint>
-           <required></required>
-         </field>
-         -->
-     </page>
-
-     <page number="2" type-name="Conference Paper">
-       <field>
-		 <dc-schema>dc</dc-schema>
-         <dc-element>subject</dc-element>
-         <dc-qualifier></dc-qualifier>
-         <!-- An input-type of twobox MUST be marked as repeatable -->
-         <repeatable>true</repeatable>
-         <label>Subject Keywords</label>
-         <input-type>twobox</input-type>
-         <hint>xmlui.Submission.submit.DescribeStep.hint.eceform.subject</hint>
-         <required></required>
-         <vocabulary>srsc</vocabulary>
-       </field>
-
-       <field>
-		 <dc-schema>dc</dc-schema>
-         <dc-element>description</dc-element>
-         <dc-qualifier>abstract</dc-qualifier>
-         <repeatable>false</repeatable>
-         <label>Abstract</label>
-         <input-type>textarea</input-type>
-         <hint>xmlui.Submission.submit.DescribeStep.hint.traditional.abstract</hint>
-         <required></required>
-       </field>
-
-       <field>
-		 <dc-schema>dc</dc-schema>
-         <dc-element>description</dc-element>
-         <dc-qualifier>sponsorship</dc-qualifier>
-         <repeatable>true</repeatable>
-         <label>Sponsors</label>
-         <input-type>twobox</input-type>
-         <hint>xmlui.Submission.submit.DescribeStep.hint.eceform.sponsor </hint>
-         <required></required>
-       </field>
-
-<!--         <field>
-           <dc-schema>dc</dc-schema>
-           <dc-element>citation</dc-element>
-           <dc-qualifier>volumeNumber</dc-qualifier>
-           <repeatable>false</repeatable>
-           <label>Volume Number</label>
-           <input-type>onebox</input-type>
-           <hint></hint>
-           <required></required>
-         </field>
-
-
-         <field>
-           <dc-schema>dc</dc-schema>
-           <dc-element>citation</dc-element>
-           <dc-qualifier>issueNumber</dc-qualifier>
-           <repeatable>false</repeatable>
-           <label>Number</label>
-           <input-type>onebox</input-type>
-           <hint></hint>
-           <required></required>
-         </field>
--->
-
-
-         <field>
-           <dc-schema>dc</dc-schema>
-           <dc-element>citation</dc-element>
-           <dc-qualifier>conferenceName</dc-qualifier>
-           <repeatable>false</repeatable>
-           <label>Conference Name</label>
-           <input-type>onebox</input-type>
-           <hint>xmlui.Submission.submit.DescribeStep.hint.eceform.conferencename</hint>
-           <required></required>
-         </field>
-
-         <field>
-           <dc-schema>dc</dc-schema>
-           <dc-element>citation</dc-element>
-           <dc-qualifier>conferenceDate</dc-qualifier>
-           <repeatable>false</repeatable>
-           <label>Conference Date</label>
-           <input-type>onebox</input-type>
-           <hint>xmlui.Submission.submit.DescribeStep.hint.eceform.conferencedate</hint>
-           <required></required>
-         </field>
-
-
-         <field>
-           <dc-schema>dc</dc-schema>
-           <dc-element>citation</dc-element>
-           <dc-qualifier>location</dc-qualifier>
-           <repeatable>false</repeatable>
+             <type-bind>Conference Paper</type-bind>
            <label>Conference Location</label>
            <input-type>onebox</input-type>
            <hint></hint>
            <required></required>
          </field>
 
-         <field>
-           <dc-schema>dc</dc-schema>
-           <dc-element>citation</dc-element>
-           <dc-qualifier>pageNumber</dc-qualifier>
-           <repeatable>false</repeatable>
-           <label>Page Number(s)</label>
-           <input-type>onebox</input-type>
-           <hint></hint>
-           <required></required>
-         </field>
-
-         <field>
-           <dc-schema>dc</dc-schema>
-           <dc-element>relation</dc-element>
-           <dc-qualifier>project</dc-qualifier>
-           <repeatable>false</repeatable>
-           <label>Project</label>
-           <input-type>onebox</input-type>
-           <hint></hint>
-           <required></required>
-         </field>
-
-         <field>
-           <dc-schema>dc</dc-schema>
-           <dc-element>relation</dc-element>
-           <dc-qualifier>software</dc-qualifier>
-           <repeatable>false</repeatable>
-           <label>Software</label>
-           <input-type>onebox</input-type>
-           <hint></hint>
-           <required></required>
-         </field>
-
-         <field>
-           <dc-schema>dc</dc-schema>
-           <dc-element>description</dc-element>
-           <dc-qualifier>center</dc-qualifier>
-           <repeatable>false</repeatable>
-           <label>Center</label>
-           <input-type>onebox</input-type>
-           <hint>xmlui.Submission.submit.DescribeStep.hint.eceform.center</hint>
-           <required></required>
-         </field>
-
-         <field>
-           <dc-schema>dc</dc-schema>
-           <dc-element>subject</dc-element>
-           <dc-qualifier>other</dc-qualifier>
-           <repeatable>true</repeatable>
-           <label>Other Subjects</label>
-           <input-type>twobox</input-type>
-           <hint></hint>
-           <required></required>
-         </field>
-
-     </page>
-
-     <page number="2" type-name="Journal Paper">
-       <field>
-		 <dc-schema>dc</dc-schema>
-         <dc-element>subject</dc-element>
-         <dc-qualifier></dc-qualifier>
-         <!-- An input-type of twobox MUST be marked as repeatable -->
-         <repeatable>true</repeatable>
-         <label>Subject Keywords</label>
-         <input-type>twobox</input-type>
-         <hint>xmlui.Submission.submit.DescribeStep.hint.eceform.subject</hint>
-         <required></required>
-         <vocabulary>srsc</vocabulary>
-       </field>
-
-       <field>
-		 <dc-schema>dc</dc-schema>
-         <dc-element>description</dc-element>
-         <dc-qualifier>abstract</dc-qualifier>
-         <repeatable>false</repeatable>
-         <label>Abstract</label>
-         <input-type>textarea</input-type>
-         <hint>xmlui.Submission.submit.DescribeStep.hint.traditional.abstract</hint>
-         <required></required>
-       </field>
-
-       <field>
-		 <dc-schema>dc</dc-schema>
-         <dc-element>description</dc-element>
-         <dc-qualifier>sponsorship</dc-qualifier>
-         <repeatable>true</repeatable>
-         <label>Sponsors</label>
-         <input-type>twobox</input-type>
-         <hint>xmlui.Submission.submit.DescribeStep.hint.eceform.sponsor </hint>
-         <required></required>
-       </field>
-
-       <field>
-		 <dc-schema>dc</dc-schema>
-         <dc-element>citation</dc-element>
-         <dc-qualifier>journalTitle</dc-qualifier>
-         <repeatable>false</repeatable>
-         <label>Journal Title</label>
-         <input-type>onebox</input-type>
-         <hint>xmlui.Submission.submit.DescribeStep.hint.eceform.journaltitle</hint>
-         <required></required>
-       </field>
-
-
-         <field>
-           <dc-schema>dc</dc-schema>
-           <dc-element>citation</dc-element>
-           <dc-qualifier>volumeNumber</dc-qualifier>
-           <repeatable>false</repeatable>
-           <label>Volume Number</label>
-           <input-type>onebox</input-type>
-           <hint></hint>
-           <required></required>
-         </field>
-
-
-         <field>
-           <dc-schema>dc</dc-schema>
-           <dc-element>citation</dc-element>
-           <dc-qualifier>issueNumber</dc-qualifier>
-           <repeatable>false</repeatable>
-           <label>Number</label>
-           <input-type>onebox</input-type>
-           <hint></hint>
-           <required></required>
-         </field>
-
-
-         <field>
-           <dc-schema>dc</dc-schema>
-           <dc-element>citation</dc-element>
-           <dc-qualifier>pageNumber</dc-qualifier>
-           <repeatable>false</repeatable>
-           <label>Page Number(s)</label>
-           <input-type>onebox</input-type>
-           <hint></hint>
-           <required></required>
-         </field>
-
-
-         <field>
-           <dc-schema>dc</dc-schema>
-           <dc-element>relation</dc-element>
-           <dc-qualifier>project</dc-qualifier>
-           <repeatable>false</repeatable>
-           <label>Project</label>
-           <input-type>onebox</input-type>
-           <hint></hint>
-           <required></required>
-         </field>
-
-         <field>
-           <dc-schema>dc</dc-schema>
-           <dc-element>relation</dc-element>
-           <dc-qualifier>software</dc-qualifier>
-           <repeatable>false</repeatable>
-           <label>Software</label>
-           <input-type>onebox</input-type>
-           <hint></hint>
-           <required></required>
-         </field>
-
-         <field>
-           <dc-schema>dc</dc-schema>
-           <dc-element>description</dc-element>
-           <dc-qualifier>center</dc-qualifier>
-           <repeatable>false</repeatable>
-           <label>Center</label>
-           <input-type>onebox</input-type>
-           <hint>xmlui.Submission.submit.DescribeStep.hint.eceform.center</hint>
-           <required></required>
-         </field>
-
-         <field>
-           <dc-schema>dc</dc-schema>
-           <dc-element>subject</dc-element>
-           <dc-qualifier>other</dc-qualifier>
-           <repeatable>true</repeatable>
-           <label>Other Subjects</label>
-           <input-type>twobox</input-type>
-           <hint></hint>
-           <required></required>
-         </field>
-
-     </page>
+          <field>
+            <dc-schema>dc</dc-schema>
+            <dc-element>citation</dc-element>
+            <dc-qualifier>journalTitle</dc-qualifier>
+            <repeatable>false</repeatable>
+            <label>Journal Title</label>
+              <type-bind>Journal Paper</type-bind>
+            <input-type>onebox</input-type>
+            <hint>xmlui.Submission.submit.DescribeStep.hint.eceform.journaltitle</hint>
+            <required></required>
+          </field>
+    </page>
    </form>
 
      <form name="physicsform">
@@ -2238,18 +1556,6 @@ it, please enter the types and the actual numbers or codes below.</hint>
            <hint>xmlui.Submission.submit.DescribeStep.hint.traditional.alternativetitle</hint>
            <required></required>
          </field>
-<!--
-         <field>
-         <dc-schema>dc</dc-schema>
-         <dc-element>embargo</dc-element>
-         <dc-qualifier>terms</dc-qualifier>
-         <repeatable>false</repeatable>
-         <label>Embargo Terms</label>
-         <input-type value-pairs-name="embargo_terms">dropdown</input-type>
-         <hint>If required, select embargo terms.</hint>
-         <required></required>
-         </field>
--->
          <field>
            <dc-schema>dc</dc-schema>
            <dc-element>date</dc-element>
@@ -2272,17 +1578,6 @@ it, please enter the types and the actual numbers or codes below.</hint>
            <required></required>
          </field>
 
-  <!--       <field>
-           <dc-schema>dc</dc-schema>
-           <dc-element>relation</dc-element>
-           <dc-qualifier>ispartofseries</dc-qualifier>
-           <repeatable>true</repeatable>
-           <label>Series/Report No.</label>
-           <input-type>series</input-type>
-           <hint>Enter the series and number assigned to this item by your community.</hint>
-           <required></required>
-         </field>
-  -->
          <field>
            <dc-schema>dc</dc-schema>
            <dc-element>identifier</dc-element>
@@ -2307,484 +1602,173 @@ it, please enter the types and the actual numbers or codes below.</hint>
            <required>You have to provide the type.</required>
          </field>
 
-  <!--       <field>
-           <dc-schema>dc</dc-schema>
-           <dc-element>language</dc-element>
-           <dc-qualifier>iso</dc-qualifier>
-           <repeatable>false</repeatable>
-           <label>Language</label>
-           <input-type value-pairs-name="common_iso_languages">dropdown</input-type>
-           <hint>Select the language of the main content of the item.  If the language does not appear in the list below, please select 'Other'.  If the content does not really have a language (for example, if it is a dataset or an image) please select 'N/A'.</hint>
-           <required></required>
-         </field>
-
-         <field>
-           <dc-schema>dc</dc-schema>
-           <dc-element>contributor</dc-element>
-           <dc-qualifier>editor</dc-qualifier>
-           <repeatable>true</repeatable>
-           <label>Editors</label>
-           <input-type>name</input-type>
-           <hint>Enter the names of the editor(s) of this item below.</hint>
-           <required></required>
-         </field>
-  -->
        </page>
 
-       <page number="2">
-         <field>
-           <dc-schema>dc</dc-schema>
-           <dc-element>subject</dc-element>
-           <dc-qualifier></dc-qualifier>
-           <!-- An input-type of twobox MUST be marked as repeatable -->
-           <repeatable>true</repeatable>
-           <label>Subject Keywords</label>
-           <input-type>twobox</input-type>
-           <hint>xmlui.Submission.submit.DescribeStep.hint.eceform.subject</hint>
-           <required></required>
-           <vocabulary>srsc</vocabulary>
-         </field>
+        <page number="2">
+          <field>
+            <dc-schema>dc</dc-schema>
+            <dc-element>subject</dc-element>
+            <dc-qualifier></dc-qualifier>
+            <!-- An input-type of twobox MUST be marked as repeatable -->
+            <repeatable>true</repeatable>
+            <label>Subject Keywords</label>
+            <input-type>twobox</input-type>
+            <hint>xmlui.Submission.submit.DescribeStep.hint.eceform.subject</hint>
+            <required></required>
+            <vocabulary>srsc</vocabulary>
+          </field>
+
+          <field>
+            <dc-schema>dc</dc-schema>
+            <dc-element>description</dc-element>
+            <dc-qualifier>abstract</dc-qualifier>
+            <repeatable>false</repeatable>
+            <label>Abstract</label>
+            <input-type>textarea</input-type>
+            <hint>xmlui.Submission.submit.DescribeStep.hint.traditional.abstract</hint>
+            <required></required>
+          </field>
+
+          <field>
+            <dc-schema>dc</dc-schema>
+            <dc-element>description</dc-element>
+            <dc-qualifier>sponsorship</dc-qualifier>
+            <repeatable>true</repeatable>
+            <label>Sponsors</label>
+            <input-type>twobox</input-type>
+            <hint>xmlui.Submission.submit.DescribeStep.hint.eceform.sponsor </hint>
+            <required></required>
+          </field>
+
+            <field>
+              <dc-schema>dc</dc-schema>
+              <dc-element>citation</dc-element>
+              <dc-qualifier>volumeNumber</dc-qualifier>
+              <repeatable>false</repeatable>
+              <label>Volume Number</label>
+              <input-type>onebox</input-type>
+              <hint></hint>
+              <required></required>
+            </field>
+
+
+            <field>
+              <dc-schema>dc</dc-schema>
+              <dc-element>citation</dc-element>
+              <dc-qualifier>issueNumber</dc-qualifier>
+              <repeatable>false</repeatable>
+              <label>Number</label>
+              <input-type>onebox</input-type>
+              <hint></hint>
+              <required></required>
+            </field>
+
+
+            <field>
+              <dc-schema>dc</dc-schema>
+              <dc-element>citation</dc-element>
+              <dc-qualifier>pageNumber</dc-qualifier>
+              <repeatable>false</repeatable>
+              <label>Page Number(s)</label>
+              <input-type>onebox</input-type>
+              <hint></hint>
+              <required></required>
+            </field>
+
+           <field>
+              <dc-schema>dc</dc-schema>
+              <dc-element>relation</dc-element>
+              <dc-qualifier>project</dc-qualifier>
+              <repeatable>false</repeatable>
+              <label>Project</label>
+              <input-type>onebox</input-type>
+              <hint></hint>
+              <required></required>
+            </field>
+
+            <field>
+              <dc-schema>dc</dc-schema>
+              <dc-element>relation</dc-element>
+              <dc-qualifier>software</dc-qualifier>
+              <repeatable>false</repeatable>
+              <label>Software</label>
+              <input-type>onebox</input-type>
+              <hint></hint>
+              <required></required>
+            </field>
+
+            <field>
+              <dc-schema>dc</dc-schema>
+              <dc-element>description</dc-element>
+              <dc-qualifier>center</dc-qualifier>
+              <repeatable>false</repeatable>
+              <label>Center</label>
+              <input-type>onebox</input-type>
+              <hint></hint>
+              <required></required>
+            </field>
+
+            <field>
+              <dc-schema>dc</dc-schema>
+              <dc-element>subject</dc-element>
+              <dc-qualifier>other</dc-qualifier>
+              <repeatable>true</repeatable>
+              <label>Other Subjects</label>
+              <input-type>twobox</input-type>
+              <hint></hint>
+              <required></required>
+            </field>
 
          <field>
-           <dc-schema>dc</dc-schema>
-           <dc-element>description</dc-element>
-           <dc-qualifier>abstract</dc-qualifier>
-           <repeatable>false</repeatable>
-           <label>Abstract</label>
-           <input-type>textarea</input-type>
-           <hint>xmlui.Submission.submit.DescribeStep.hint.traditional.abstract</hint>
-           <required></required>
-         </field>
-
-         <field>
-           <dc-schema>dc</dc-schema>
-           <dc-element>description</dc-element>
-           <dc-qualifier>sponsorship</dc-qualifier>
-           <repeatable>true</repeatable>
-           <label>Sponsors</label>
-           <input-type>twobox</input-type>
-           <hint>xmlui.Submission.submit.DescribeStep.hint.eceform.sponsor </hint>
-           <required></required>
-         </field>
-
-  <!--       <field>
            <dc-schema>dc</dc-schema>
            <dc-element>citation</dc-element>
-           <dc-qualifier>journalTitle</dc-qualifier>
+           <dc-qualifier>conferenceName</dc-qualifier>
            <repeatable>false</repeatable>
-           <label>Journal Title</label>
+           <label>Conference Name</label>
+           <type-bind>Conference Paper</type-bind>
            <input-type>onebox</input-type>
-           <hint>xmlui.Submission.submit.DescribeStep.hint.eceform.journaltitle</hint>
-           <required></required>
-         </field>
-
-  -->
-           <field>
-             <dc-schema>dc</dc-schema>
-             <dc-element>citation</dc-element>
-             <dc-qualifier>volumeNumber</dc-qualifier>
-             <repeatable>false</repeatable>
-             <label>Volume Number</label>
-             <input-type>onebox</input-type>
-             <hint></hint>
-             <required></required>
-           </field>
-
-
-           <field>
-             <dc-schema>dc</dc-schema>
-             <dc-element>citation</dc-element>
-             <dc-qualifier>issueNumber</dc-qualifier>
-             <repeatable>false</repeatable>
-             <label>Number</label>
-             <input-type>onebox</input-type>
-             <hint></hint>
-             <required></required>
-           </field>
-
-
-           <field>
-             <dc-schema>dc</dc-schema>
-             <dc-element>citation</dc-element>
-             <dc-qualifier>pageNumber</dc-qualifier>
-             <repeatable>false</repeatable>
-             <label>Page Number(s)</label>
-             <input-type>onebox</input-type>
-             <hint></hint>
-             <required></required>
-           </field>
-
-  <!--
-           <field>
-             <dc-schema>dc</dc-schema>
-             <dc-element>citation</dc-element>
-             <dc-qualifier>conferenceName</dc-qualifier>
-             <repeatable>false</repeatable>
-             <label>Conference Name</label>
-             <input-type>onebox</input-type>
-             <hint>xmlui.Submission.submit.DescribeStep.hint.eceform.conferencename</hint>
-             <required></required>
-           </field>
-
-           <field>
-             <dc-schema>dc</dc-schema>
-             <dc-element>citation</dc-element>
-             <dc-qualifier>conferenceDate</dc-qualifier>
-             <repeatable>false</repeatable>
-             <label>Conference Date</label>
-             <input-type>onebox</input-type>
-             <hint>xmlui.Submission.submit.DescribeStep.hint.eceform.conferencedate</hint>
-             <required></required>
-           </field>
-
-
-           <field>
-             <dc-schema>dc</dc-schema>
-             <dc-element>citation</dc-element>
-             <dc-qualifier>location</dc-qualifier>
-             <repeatable>false</repeatable>
-             <label>Conference Location</label>
-             <input-type>onebox</input-type>
-             <hint></hint>
-             <required></required>
-           </field>
-  -->
-           <field>
-             <dc-schema>dc</dc-schema>
-             <dc-element>relation</dc-element>
-             <dc-qualifier>project</dc-qualifier>
-             <repeatable>false</repeatable>
-             <label>Project</label>
-             <input-type>onebox</input-type>
-             <hint></hint>
-             <required></required>
-           </field>
-
-           <field>
-             <dc-schema>dc</dc-schema>
-             <dc-element>relation</dc-element>
-             <dc-qualifier>software</dc-qualifier>
-             <repeatable>false</repeatable>
-             <label>Software</label>
-             <input-type>onebox</input-type>
-             <hint></hint>
-             <required></required>
-           </field>
-
-           <field>
-             <dc-schema>dc</dc-schema>
-             <dc-element>description</dc-element>
-             <dc-qualifier>center</dc-qualifier>
-             <repeatable>false</repeatable>
-             <label>Center</label>
-             <input-type>onebox</input-type>
-             <hint>xmlui.Submission.submit.DescribeStep.hint.eceform.center</hint>
-             <required></required>
-           </field>
-
-           <field>
-             <dc-schema>dc</dc-schema>
-             <dc-element>subject</dc-element>
-             <dc-qualifier>other</dc-qualifier>
-             <repeatable>true</repeatable>
-             <label>Other Subjects</label>
-             <input-type>twobox</input-type>
-             <hint></hint>
-             <required></required>
-           </field>
-
-   <!--        <field>
-             <dc-schema>dc</dc-schema>
-             <dc-element>citation</dc-element>
-             <dc-qualifier>bibtexName</dc-qualifier>
-             <repeatable>false</repeatable>
-             <label>Bibtex Name</label>
-             <input-type>onebox</input-type>
-             <hint></hint>
-             <required></required>
-           </field>
-           -->
-       </page>
-
-       <page number="2" type-name="Conference Paper">
-         <field>
-           <dc-schema>dc</dc-schema>
-           <dc-element>subject</dc-element>
-           <dc-qualifier></dc-qualifier>
-           <!-- An input-type of twobox MUST be marked as repeatable -->
-           <repeatable>true</repeatable>
-           <label>Subject Keywords</label>
-           <input-type>twobox</input-type>
-           <hint>xmlui.Submission.submit.DescribeStep.hint.eceform.subject</hint>
-           <required></required>
-           <vocabulary>srsc</vocabulary>
-         </field>
-
-         <field>
-           <dc-schema>dc</dc-schema>
-           <dc-element>description</dc-element>
-           <dc-qualifier>abstract</dc-qualifier>
-           <repeatable>false</repeatable>
-           <label>Abstract</label>
-           <input-type>textarea</input-type>
-           <hint>xmlui.Submission.submit.DescribeStep.hint.traditional.abstract</hint>
-           <required></required>
-         </field>
-
-         <field>
-           <dc-schema>dc</dc-schema>
-           <dc-element>description</dc-element>
-           <dc-qualifier>sponsorship</dc-qualifier>
-           <repeatable>true</repeatable>
-           <label>Sponsors</label>
-           <input-type>twobox</input-type>
-           <hint>xmlui.Submission.submit.DescribeStep.hint.eceform.sponsor </hint>
-           <required></required>
-         </field>
-
-  <!--         <field>
-             <dc-schema>dc</dc-schema>
-             <dc-element>citation</dc-element>
-             <dc-qualifier>volumeNumber</dc-qualifier>
-             <repeatable>false</repeatable>
-             <label>Volume Number</label>
-             <input-type>onebox</input-type>
-             <hint></hint>
-             <required></required>
-           </field>
-
-
-           <field>
-             <dc-schema>dc</dc-schema>
-             <dc-element>citation</dc-element>
-             <dc-qualifier>issueNumber</dc-qualifier>
-             <repeatable>false</repeatable>
-             <label>Number</label>
-             <input-type>onebox</input-type>
-             <hint></hint>
-             <required></required>
-           </field>
-  -->
-
-
-           <field>
-             <dc-schema>dc</dc-schema>
-             <dc-element>citation</dc-element>
-             <dc-qualifier>conferenceName</dc-qualifier>
-             <repeatable>false</repeatable>
-             <label>Conference Name</label>
-             <input-type>onebox</input-type>
-             <hint>xmlui.Submission.submit.DescribeStep.hint.eceform.conferencename</hint>
-             <required></required>
-           </field>
-
-           <field>
-             <dc-schema>dc</dc-schema>
-             <dc-element>citation</dc-element>
-             <dc-qualifier>conferenceDate</dc-qualifier>
-             <repeatable>false</repeatable>
-             <label>Conference Date</label>
-             <input-type>onebox</input-type>
-             <hint>xmlui.Submission.submit.DescribeStep.hint.eceform.conferencedate</hint>
-             <required></required>
-           </field>
-
-
-           <field>
-             <dc-schema>dc</dc-schema>
-             <dc-element>citation</dc-element>
-             <dc-qualifier>location</dc-qualifier>
-             <repeatable>false</repeatable>
-             <label>Conference Location</label>
-             <input-type>onebox</input-type>
-             <hint></hint>
-             <required></required>
-           </field>
-
-           <field>
-             <dc-schema>dc</dc-schema>
-             <dc-element>citation</dc-element>
-             <dc-qualifier>pageNumber</dc-qualifier>
-             <repeatable>false</repeatable>
-             <label>Page Number(s)</label>
-             <input-type>onebox</input-type>
-             <hint></hint>
-             <required></required>
-           </field>
-           <field>
-             <dc-schema>dc</dc-schema>
-             <dc-element>relation</dc-element>
-             <dc-qualifier>project</dc-qualifier>
-             <repeatable>false</repeatable>
-             <label>Project</label>
-             <input-type>onebox</input-type>
-             <hint></hint>
-             <required></required>
-           </field>
-
-           <field>
-             <dc-schema>dc</dc-schema>
-             <dc-element>relation</dc-element>
-             <dc-qualifier>software</dc-qualifier>
-             <repeatable>false</repeatable>
-             <label>Software</label>
-             <input-type>onebox</input-type>
-             <hint></hint>
-             <required></required>
-           </field>
-
-           <field>
-             <dc-schema>dc</dc-schema>
-             <dc-element>description</dc-element>
-             <dc-qualifier>center</dc-qualifier>
-             <repeatable>false</repeatable>
-             <label>Center</label>
-             <input-type>onebox</input-type>
-             <hint>xmlui.Submission.submit.DescribeStep.hint.eceform.center</hint>
-             <required></required>
-           </field>
-
-           <field>
-             <dc-schema>dc</dc-schema>
-             <dc-element>subject</dc-element>
-             <dc-qualifier>other</dc-qualifier>
-             <repeatable>true</repeatable>
-             <label>Other Subjects</label>
-             <input-type>twobox</input-type>
-             <hint></hint>
-             <required></required>
-           </field>
-
-       </page>
-
-       <page number="2" type-name="Journal Paper">
-         <field>
-           <dc-schema>dc</dc-schema>
-           <dc-element>subject</dc-element>
-           <dc-qualifier></dc-qualifier>
-           <!-- An input-type of twobox MUST be marked as repeatable -->
-           <repeatable>true</repeatable>
-           <label>Subject Keywords</label>
-           <input-type>twobox</input-type>
-           <hint>xmlui.Submission.submit.DescribeStep.hint.eceform.subject</hint>
-           <required></required>
-           <vocabulary>srsc</vocabulary>
-         </field>
-
-         <field>
-           <dc-schema>dc</dc-schema>
-           <dc-element>description</dc-element>
-           <dc-qualifier>abstract</dc-qualifier>
-           <repeatable>false</repeatable>
-           <label>Abstract</label>
-           <input-type>textarea</input-type>
-           <hint>xmlui.Submission.submit.DescribeStep.hint.traditional.abstract</hint>
-           <required></required>
-         </field>
-         <field>
-           <dc-schema>dc</dc-schema>
-           <dc-element>description</dc-element>
-           <dc-qualifier>sponsorship</dc-qualifier>
-           <repeatable>true</repeatable>
-           <label>Sponsors</label>
-           <input-type>twobox</input-type>
-           <hint>xmlui.Submission.submit.DescribeStep.hint.eceform.sponsor </hint>
+           <hint>xmlui.Submission.submit.DescribeStep.hint.eceform.conferencename</hint>
            <required></required>
          </field>
 
          <field>
            <dc-schema>dc</dc-schema>
            <dc-element>citation</dc-element>
-           <dc-qualifier>journalTitle</dc-qualifier>
+           <dc-qualifier>conferenceDate</dc-qualifier>
            <repeatable>false</repeatable>
-           <label>Journal Title</label>
+           <label>Conference Date</label>
+             <type-bind>Conference Paper</type-bind>
            <input-type>onebox</input-type>
-           <hint>xmlui.Submission.submit.DescribeStep.hint.eceform.journaltitle</hint>
+           <hint>xmlui.Submission.submit.DescribeStep.hint.eceform.conferencedate</hint>
            <required></required>
          </field>
 
+        <field>
+           <dc-schema>dc</dc-schema>
+           <dc-element>citation</dc-element>
+           <dc-qualifier>location</dc-qualifier>
+           <repeatable>false</repeatable>
+             <type-bind>Conference Paper</type-bind>
+           <label>Conference Location</label>
+           <input-type>onebox</input-type>
+           <hint></hint>
+           <required></required>
+         </field>
 
-           <field>
-             <dc-schema>dc</dc-schema>
-             <dc-element>citation</dc-element>
-             <dc-qualifier>volumeNumber</dc-qualifier>
-             <repeatable>false</repeatable>
-             <label>Volume Number</label>
-             <input-type>onebox</input-type>
-             <hint></hint>
-             <required></required>
-           </field>
-
-
-           <field>
-             <dc-schema>dc</dc-schema>
-             <dc-element>citation</dc-element>
-             <dc-qualifier>issueNumber</dc-qualifier>
-             <repeatable>false</repeatable>
-             <label>Number</label>
-             <input-type>onebox</input-type>
-             <hint></hint>
-             <required></required>
-           </field>
-
-
-           <field>
-             <dc-schema>dc</dc-schema>
-             <dc-element>citation</dc-element>
-             <dc-qualifier>pageNumber</dc-qualifier>
-             <repeatable>false</repeatable>
-             <label>Page Number(s)</label>
-             <input-type>onebox</input-type>
-             <hint></hint>
-             <required></required>
-           </field>
+          <field>
+            <dc-schema>dc</dc-schema>
+            <dc-element>citation</dc-element>
+            <dc-qualifier>journalTitle</dc-qualifier>
+            <repeatable>false</repeatable>
+            <label>Journal Title</label>
+              <type-bind>Journal Paper</type-bind>
+            <input-type>onebox</input-type>
+            <hint>xmlui.Submission.submit.DescribeStep.hint.eceform.journaltitle</hint>
+            <required></required>
+          </field>
 
 
-           <field>
-             <dc-schema>dc</dc-schema>
-             <dc-element>relation</dc-element>
-             <dc-qualifier>project</dc-qualifier>
-             <repeatable>false</repeatable>
-             <label>Project</label>
-             <input-type>onebox</input-type>
-             <hint></hint>
-             <required></required>
-           </field>
-
-           <field>
-             <dc-schema>dc</dc-schema>
-             <dc-element>relation</dc-element>
-             <dc-qualifier>software</dc-qualifier>
-             <repeatable>false</repeatable>
-             <label>Software</label>
-             <input-type>onebox</input-type>
-             <hint></hint>
-             <required></required>
-           </field>
-
-           <field>
-             <dc-schema>dc</dc-schema>
-             <dc-element>description</dc-element>
-             <dc-qualifier>center</dc-qualifier>
-             <repeatable>false</repeatable>
-             <label>Center</label>
-             <input-type>onebox</input-type>
-             <hint>xmlui.Submission.submit.DescribeStep.hint.eceform.center</hint>
-             <required></required>
-           </field>
-
-           <field>
-             <dc-schema>dc</dc-schema>
-             <dc-element>subject</dc-element>
-             <dc-qualifier>other</dc-qualifier>
-             <repeatable>true</repeatable>
-             <label>Other Subjects</label>
-             <input-type>twobox</input-type>
-             <hint></hint>
-             <required></required>
-           </field>
-
-       </page>
+        </page>
      </form> <!--end of physics form with embargo enabled-->
 
 
