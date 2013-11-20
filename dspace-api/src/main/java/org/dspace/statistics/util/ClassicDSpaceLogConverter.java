@@ -329,7 +329,6 @@ public class ClassicDSpaceLogConverter {
         ClassicDSpaceLogConverter converter = new ClassicDSpaceLogConverter(context,
                                                                             line.hasOption('v'),
                                                                             newEvents);
-
         // Set up the log analyser
         try
         {
@@ -345,25 +344,30 @@ public class ClassicDSpaceLogConverter {
         if (line.hasOption('m'))
         {
             // Convert all the files
-            final File sample = new File(line.getOptionValue('i'));
-            File dir = sample.getParentFile();
+            // Ying updated this as it is broken -m
+            final File samplei = new File(line.getOptionValue('i'));
+            File diri = samplei.getParentFile();
             FilenameFilter filter = new FilenameFilter()
             {
                 public boolean accept(File dir, String name)
                 {
-                    return name.startsWith(sample.getName());
+                    return name.startsWith(samplei.getName());
                 }
             };
-            String[] children = dir.list(filter);
-            for (String in : children)
-            {
-                System.err.println(in);
-                String out = line.getOptionValue('o') +
-                             (dir.getAbsolutePath() +
-                              System.getProperty("file.separator") + in).substring(line.getOptionValue('i').length());
 
-                converter.convert(dir.getAbsolutePath() + System.getProperty("file.separator") + in, out);
+            final File sampleo = new File(line.getOptionValue('o'));
+            File diro = sampleo.getParentFile();
+
+            String[] childreni = diri.list(filter);
+            for (String in : childreni)
+            {
+                String inpath =   diri.getAbsolutePath() + System.getProperty("file.separator") + in;
+                //System.out.println("IN --- " + inpath);
+                String out = diro.getAbsolutePath() + System.getProperty("file.separator") + in;
+                //System.out.println("OUT ---- " + out);
+                converter.convert(inpath, out);
             }
+            // END Ying updated this as it is broken -m
         }
         else
         {

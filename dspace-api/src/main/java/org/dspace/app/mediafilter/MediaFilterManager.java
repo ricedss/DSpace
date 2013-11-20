@@ -739,8 +739,10 @@ public class MediaFilterManager
             }
         }
 
+        // Ying added/updated this to make sure the softlinks will be generated for video and audio even there are thumbnails there already
+        String vamedias = ConfigurationManager.getProperty("filter.org.dspace.app.mediafilter.VIDEOAUDIOFilter.inputFormats");
         // if exists and overwrite = false, exit
-        if (!overWrite && (existingBitstream != null))
+        if (!overWrite && (existingBitstream != null) && !(vamedias.indexOf(source.getFormat().getMIMEType().trim()) >= 0))
         {
             if (!isQuiet)
             {
@@ -750,11 +752,12 @@ public class MediaFilterManager
 
             return false;
         }
-        
-        // Ying updated this for JPEG2000 Thumbnail generation
+        // END Ying added/updated this to make sure the softlinks will be generated for video and audio even there are thumbnails there already
+
+        // Ying updated this for JPEG2000 Thumbnail generation / Video Audio filter
         InputStream destStream;
         String specialmedias = ConfigurationManager.getProperty("filter.org.dspace.app.mediafilter.JPEG2000Filter.inputFormats");
-        specialmedias = specialmedias + ", " + ConfigurationManager.getProperty("filter.org.dspace.app.mediafilter.VIDEOAUDIOFilter.inputFormats");
+        specialmedias = specialmedias + ", " + vamedias;
         //System.out.println(specialmedias + "[" + source.getFilename()+"]" + source.getID() + "---" +  item.getHandle());
         if(specialmedias.indexOf(source.getFormat().getMIMEType().trim()) >= 0){
             //System.out.println("getting destStream!!! " + source.getFilename() + "== " + source.getName() + "=== " + source.getID() + " ====== " + formatFilter.getFormatString());
