@@ -309,6 +309,13 @@
            <workflow-editable>true</workflow-editable>
          </step>
  -->
+          <!--Step 3 will be to Manage Item access.-->
+          <step>
+              <heading>submit.progressbar.access</heading>
+              <processing-class>org.dspace.submit.step.AccessStep</processing-class>
+              <xmlui-binding>org.dspace.app.xmlui.aspect.submission.submit.AccessStep</xmlui-binding>
+              <workflow-editable>true</workflow-editable>
+          </step>
           <step>
               <heading>submit.progressbar.upload</heading>
               <processing-class>org.dspace.submit.step.UploadWithEmbargoStep</processing-class>
