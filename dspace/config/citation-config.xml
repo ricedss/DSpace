@@ -207,8 +207,8 @@
                <field>
                  <dc-schema>dc</dc-schema>
                  <dc-element>date</dc-element>
-                 <dc-qualifier>created</dc-qualifier>
-                 <display-format format-it="thresher-date"> (@field@)</display-format>
+                 <dc-qualifier>issued</dc-qualifier>
+                 <display-format format-it="year-only"> (@field@)</display-format>
                </field>
 
 
