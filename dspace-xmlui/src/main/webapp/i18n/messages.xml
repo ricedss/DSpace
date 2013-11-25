@@ -1347,6 +1347,7 @@
 	<message key="xmlui.administrative.item.AddBitstreamForm.bundle.CC-LICENSE">Creative Commons Licenses</message>
     <message key="xmlui.administrative.item.AddBitstreamForm.bundle.MASTER">Masters</message>
     <message key="xmlui.administrative.item.AddBitstreamForm.bundle.PERMIT">Permit</message>
+    <message key="xmlui.administrative.item.AddBitstreamForm.bundle.HTML">HTML</message>
 	<message key="xmlui.administrative.item.AddBitstreamForm.file_label">File</message>
 	<message key="xmlui.administrative.item.AddBitstreamForm.file_help">Please enter the name of the file on your computer corresponding to your item. If you click "Browse...", a new window will appear in which you can locate and select the file from your computer.</message>
 	<message key="xmlui.administrative.item.AddBitstreamForm.description_label">Description</message>
