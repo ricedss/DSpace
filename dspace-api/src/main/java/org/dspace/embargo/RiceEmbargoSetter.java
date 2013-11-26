@@ -97,8 +97,8 @@ public class RiceEmbargoSetter extends DefaultEmbargoSetter
             //  so don't bother trying to make a date from it, especially since the DCDate constructor
             //  accepts numbers like '0' as valid dates (thinking we're referring to 0 A.D. or whatever).
             // Otherwise, try to interpret it as a valid lift date
-            // Ying updated this as "the year only" won't work
-            if (terms.length() > 0 && new DCDate(terms).toDate() != null) {
+            // Ying updated this to have end date input working
+            if (terms.length() > 0 ) {
                 return new DCDate(terms);
             }
         }
