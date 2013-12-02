@@ -153,7 +153,7 @@ public class JPEG2000Filter extends MediaFilter
 
         int[] sd = {(int)xmax, (int)ymax};
 
-        System.out.print("OUTPUT from JP2000 thumbnail.... xmax=" + xmax + ", ymax = " + ymax);
+        //System.out.print("OUTPUT from JP2000 thumbnail.... xmax=" + xmax + ", ymax = " + ymax);
 
         // from djatoka
         IExtract ex = new KduExtractExe();
@@ -165,13 +165,6 @@ public class JPEG2000Filter extends MediaFilter
         //BufferedImage buf = ex.process(source, params);
 //        String file = "/Users/yj4/projects/djatoka/48color600dpi.jp2";
         BufferedImage buf = ex.process(filename, params);
-        if (buf != null) {
-            System.out.print("Yes, buf is good!" + filename +"\n");
-
-        }else{
-            System.out.print("Yes, buf is NULL!" + filename +"\n");
-
-        }
 
         BufferedImage thumbnail = applyScaling(buf, params);
         /**

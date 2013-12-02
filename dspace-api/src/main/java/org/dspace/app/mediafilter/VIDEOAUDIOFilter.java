@@ -148,7 +148,7 @@ public class VIDEOAUDIOFilter extends MediaFilter
         String streaming_name = "file_" + ID + "_" + source;
         //String softpath_to_avfile =
         String cmd = "ln -sf " + softpath_to_avfile + " " + streaming_dir + "/" + streaming_name;
-        System.out.println("~~~~~~~~~~~~~~~  ~~ ~~ ~~ ~~ In VIDEOAUDIOFilter: cmd = " + cmd);
+        //System.out.println("~~~~~~~~~~~~~~~  ~~ ~~ ~~ ~~ In VIDEOAUDIOFilter: cmd = " + cmd);
         // call to generate the symbolic link
         Runtime.getRuntime().exec(cmd);
         return null;
