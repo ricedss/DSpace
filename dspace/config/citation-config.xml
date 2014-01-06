@@ -75,6 +75,9 @@
 	<name-map scope="1911/61409" citation-name="histimage-default"/> <!-- Sports -->
 	<name-map scope="1911/61410" citation-name="histimage-default"/> <!-- Various -->
 
+    <name-map scope="1911/70649" citation-name="histimage-default"/> <!-- Correspondence and ephemera from Lovett World Tour -->
+    <name-map scope="1911/70176" citation-name="histimage-default"/> <!-- Postcards collected on Lovett World Tour  -->
+    <name-map scope="1911/69482" citation-name="histimage-default"/> <!-- World Tour images by Carrington Weems -->
         <!-- dspaceland, dspacentest -->
 <!--        <name-map scope="1911/2946" citation-name="ece-default">
             <map-type document-type="Conference Paper" citation-name="ece-conference" />
