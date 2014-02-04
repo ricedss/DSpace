@@ -37,21 +37,15 @@ import org.apache.xpath.XPathAPI;
 import org.dspace.authorize.AuthorizeException;
 import org.dspace.authorize.AuthorizeManager;
 import org.dspace.authorize.ResourcePolicy;
-import org.dspace.content.Bitstream;
-import org.dspace.content.BitstreamFormat;
-import org.dspace.content.Bundle;
+import org.dspace.content.*;
 import org.dspace.content.Collection;
-import org.dspace.content.FormatIdentifier;
-import org.dspace.content.InstallItem;
-import org.dspace.content.Item;
-import org.dspace.content.MetadataField;
-import org.dspace.content.MetadataSchema;
-import org.dspace.content.WorkspaceItem;
 import org.dspace.core.ConfigurationManager;
 import org.dspace.core.Constants;
 import org.dspace.core.Context;
+import org.dspace.embargo.EmbargoManager;
 import org.dspace.eperson.EPerson;
 import org.dspace.eperson.Group;
+import org.dspace.event.Event;
 import org.dspace.handle.HandleManager;
 import org.dspace.search.DSIndexer;
 import org.dspace.workflow.WorkflowManager;
@@ -855,7 +849,7 @@ public class ItemImport
              * As a commit does not occur until after a successful add, it is safe to
              * do a delete as any error results in an aborted transaction without harming
              * the original item */
-            /*File handleFile = new File(sourceDir + File.separatorChar + newItemName + File.separatorChar + "handle");
+            File handleFile = new File(sourceDir + File.separatorChar + newItemName + File.separatorChar + "handle");
             // SWB fix bug - param should be "false" to not append to existing file if present
             PrintWriter handleOut = new PrintWriter(new FileWriter(handleFile, false));
             // END SWB
@@ -875,7 +869,7 @@ public class ItemImport
         }
     }
 
-    // Replace an item's contents without completely removing and re-creating it.
+    // Replace an item's contents without completely removing and re-creating it. This is way faster.
     private void replaceItem(Context c, Item myitem, String path, String itemname)
             throws AuthorizeException, SQLException, IOException, SAXException, ParserConfigurationException, TransformerException
     {
@@ -917,7 +911,8 @@ public class ItemImport
                     if (! alreadyPresent) {
                         myitem.addMetadata(val.schema, val.element, val.qualifier, val.language, val.value);
                     }
-                } else*/ if (myitem.getMetadata(val.schema, val.element, val.qualifier, Item.ANY).length == 0) {
+                } else*/
+                if (myitem.getMetadata(val.schema, val.element, val.qualifier, Item.ANY).length == 0) {
                     // for non-provenance, only restore if replacement didn't have any values for this element
                     myitem.addMetadata(val.schema, val.element, val.qualifier, val.language, val.value);
                 }
@@ -945,16 +940,10 @@ public class ItemImport
             c.addEvent(new Event(Event.MODIFY+Event.MODIFY_METADATA, Constants.ITEM, myitem.getID(), myitem.getHandle()));
 
             // set embargo lift date and take away read access if indicated.
-            DCDate liftDate = EmbargoManager.getEmbargoDate(c, myitem);
-            if (liftDate != null)
-            {
-                EmbargoManager.setEmbargo(c, myitem, liftDate);
-            }
+            EmbargoManager.setEmbargo(c, myitem);
         }
 
         c.commit();
-
-        return;
     }
 
     private void deleteItems(Context c, String mapFile) throws Exception

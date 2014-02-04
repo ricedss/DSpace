@@ -2108,7 +2108,66 @@ public class Item extends DSpaceObject
         // Finally remove item row
         DatabaseManager.delete(ourContext, itemRow);
     }
-    
+
+    /**
+     * Remove the metadata and bundles from current version. Bitstreams are deleted if
+     * they are not also included in another item.
+     *
+     * @throws SQLException
+     * @throws AuthorizeException
+     * @throws IOException
+     */
+    public void cleanItem() throws SQLException, AuthorizeException, IOException
+    {
+        // Check authorisation here. If we don't, it may happen that we remove the
+        // metadata but when getting to the point of removing the bundles we get an exception
+        // leaving the database in an inconsistent state
+        AuthorizeManager.authorizeAction(ourContext, this, Constants.ADD);
+
+        log.info(LogManager.getHeader(ourContext, "clean_item", "item_id=" + getID()));
+
+        // Remove from cache
+        ourContext.removeCached(this, getID());
+
+        // Remove from browse indices, if appropriate
+        /** XXX FIXME
+         ** Although all other Browse index updates are managed through
+         ** Event consumers, removing an Item *must* be done *here* (inline)
+         ** because otherwise, tables are left in an inconsistent state
+         ** and the DB transaction will fail.
+         ** Any fix would involve too much work on Browse code that
+         ** is likely to be replaced soon anyway.   --lcs, Aug 2006
+         **
+         ** NB Do not check to see if the item is archived - withdrawn /
+         ** non-archived items may still be tracked in some browse tables
+         ** for administrative purposes, and these need to be removed.
+         **/
+//               FIXME: there is an exception handling problem here
+        try
+        {
+            // Remove from indices and we will index the new data later
+            IndexBrowse ib = new IndexBrowse(ourContext);
+            ib.itemRemoved(this);
+        }
+        catch (BrowseException e)
+        {
+            log.error("caught exception: ", e);
+            throw new SQLException(e.getMessage(), e);
+        }
+
+        // Delete the metadata (in memory; will write to db when update is called)
+        List<DCValue> values = new ArrayList<DCValue>();
+        setMetadata(values);
+
+        // Remove bundles
+        Bundle[] bunds = getBundles();
+
+        for (int i = 0; i < bunds.length; i++)
+        {
+            removeBundle(bunds[i]);
+        }
+    }
+
     private void removeVersion() throws AuthorizeException, SQLException
     {
         VersioningService versioningService = new DSpace().getSingletonService(VersioningService.class);
