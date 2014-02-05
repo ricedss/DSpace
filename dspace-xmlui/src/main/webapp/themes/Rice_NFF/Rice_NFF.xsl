@@ -92,7 +92,7 @@
                     <xsl:when test="@n='dc_type_genre'">
                         <xsl:text>newsletters</xsl:text>
                     </xsl:when>
-                    <xsl:when test="@n='dc_subject'">
+                    <xsl:when test="@n='dc_subject_lcsh'">
                         <xsl:text>Academic libraries--Periodicals</xsl:text>
                     </xsl:when>
                     <xsl:when test="@n='dc_identifier_original'">
