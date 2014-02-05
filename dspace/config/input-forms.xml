@@ -32,6 +32,7 @@
      <!-- scholarship.rice.edu  --><name-map collection-handle="1911/61409" form-name="wrchistoricalform" /><!--Sports-->
      <!-- scholarship.rice.edu  --><name-map collection-handle="1911/61410" form-name="wrchistoricalform" /><!--Various-->
 
+     <!-- scholarship.rice.edu  --><name-map collection-handle="1911/75119" form-name="fondrennewsform" /><!--News from Fondren-->
 
  </form-map>
 
@@ -53,6 +54,192 @@
  <!-- serves as a 'this field is required' flag.                           -->
 
  <form-definitions>
+
+     <!-- Start Fondren News Form -->
+     <form name="fondrennewsform">
+        <page number="1">
+          <field>
+            <dc-schema>dc</dc-schema>
+            <dc-element>contributor</dc-element>
+            <dc-qualifier>author</dc-qualifier>
+            <repeatable>false</repeatable>
+            <label>Author</label>
+            <input-type>name</input-type>
+            <hint></hint>
+            <required>You must enter an Author for this item.</required>
+          </field>
+        <field>
+            <dc-schema>dc</dc-schema>
+            <dc-element>contributor</dc-element>
+            <dc-qualifier>publisher</dc-qualifier>
+            <repeatable>false</repeatable>
+            <label>Original Publisher</label>
+            <input-type>name</input-type>
+            <hint></hint>
+            <required>You must enter a publisher for this item.</required>
+          </field>
+            <field>
+              <dc-schema>dc</dc-schema>
+              <dc-element>date</dc-element>
+              <dc-qualifier>issued</dc-qualifier>
+              <repeatable>false</repeatable>
+              <label>Date</label>
+              <input-type>date</input-type>
+              <hint>Year of publication. Use Date and Time Formats (W3C-DTF) http://www.w3.org/TR/NOTE-datetime/ [YYYY].</hint>
+              <required>You must enter at least the year.</required>
+            </field>
+
+            <field>
+                <dc-schema>dc</dc-schema>
+                <dc-element>title</dc-element>
+                <dc-qualifier></dc-qualifier>
+                <repeatable>false</repeatable>
+                <label>Title</label>
+                <input-type>onebox</input-type>
+                <hint>Series title plus volume, issue and date. E.g. News From Fondren: Volume 22, No. 2, Spring 2013.</hint>
+                <required>You must enter a main title for this item.</required>
+            </field>
+
+  <!--          <field>
+              <dc-schema>dc</dc-schema>
+              <dc-element>type</dc-element>
+              <dc-qualifier></dc-qualifier>
+              <repeatable></repeatable>
+              <label>Type</label>
+              <input-type value-pairs-name="facultypub_types">dropdown</input-type>
+              <hint>Journal  for most.</hint>
+              <required>You have to provide the type.</required>
+            </field>                  -->
+            <field>
+              <dc-schema>dc</dc-schema>
+              <dc-element>description</dc-element>
+              <dc-qualifier>abstract</dc-qualifier>
+              <repeatable>true</repeatable>
+              <label>Abstract</label>
+              <input-type>textarea</input-type>
+              <hint></hint>
+              <required></required>
+            </field>
+            <field>
+               <dc-schema>dc</dc-schema>
+               <dc-element>digitization</dc-element>
+               <dc-qualifier>specifications</dc-qualifier>
+               <repeatable>true</repeatable>
+                <label>Digital Specifications</label>
+                <input-type>textarea</input-type>
+                <hint></hint>
+                <required></required>
+              </field>
+
+            <field>
+                <dc-schema>dc</dc-schema>
+                <dc-element>identifier</dc-element>
+                <dc-qualifier>digital</dc-qualifier>
+                <repeatable>false</repeatable>
+                <label>Digital Identifier</label>
+                <input-type>onebox</input-type>
+                <hint>Filenaming convention: acronym + Volume No. +Issue No. e.g. nff17no1.pdf.</hint>
+                <required></required>
+              </field>
+
+            <field>
+                <dc-schema>dc</dc-schema>
+                <dc-element>identifier</dc-element>
+                <dc-qualifier>original</dc-qualifier>
+                <repeatable>false</repeatable>
+                <label>Call No.</label>
+                <input-type>onebox</input-type>
+                <hint></hint>
+                <required></required>
+              </field>
+
+            <field>
+           <dc-schema>dc</dc-schema>
+             <dc-element>language</dc-element>
+             <dc-qualifier>iso</dc-qualifier>
+             <repeatable>true</repeatable>
+             <label>Language</label>
+             <input-type>onebox</input-type>
+             <hint>Defaults to English. Can include multiple languages.</hint>
+             <required></required>
+           </field>
+            <field>
+                 <dc-schema>dc</dc-schema>
+                 <dc-element>rights</dc-element>
+                 <dc-qualifier></dc-qualifier>
+                 <repeatable>false</repeatable>
+                 <label>Rights</label>
+                 <input-type>onebox</input-type>
+                 <hint></hint>
+                 <required>You have to provide the Rights.</required>
+               </field>
+            <field>
+                 <dc-schema>dc</dc-schema>
+                 <dc-element>rights</dc-element>
+                 <dc-qualifier>uri</dc-qualifier>
+                 <repeatable>true</repeatable>
+                 <label>Rights Url</label>
+                 <input-type>onebox</input-type>
+                 <hint></hint>
+                 <required>You have to provide the Rights Url.</required>
+               </field>
+
+            <field>
+              <dc-schema>dc</dc-schema>
+              <dc-element>type</dc-element>
+              <dc-qualifier>dcmi</dc-qualifier>
+              <repeatable>true</repeatable>
+              <label>Type</label>
+              <input-type>onebox</input-type>
+              <hint></hint>
+              <required>You have to provide the Type.</required>
+            </field>
+
+            <field>
+              <dc-schema>dc</dc-schema>
+              <dc-element>type</dc-element>
+              <dc-qualifier>genre</dc-qualifier>
+              <repeatable>true</repeatable>
+              <label>Genre</label>
+              <input-type>onebox</input-type>
+              <hint></hint>
+              <required>You have to provide the Genre.</required>
+            </field>
+            <field>
+                 <dc-schema>dc</dc-schema>
+                 <dc-element>format</dc-element>
+                 <dc-qualifier>extent</dc-qualifier>
+                 <repeatable>true</repeatable>
+                 <label>Pages</label>
+                 <input-type>onebox</input-type>
+                 <hint>No. of pages in PDF. e.g. 14 pp</hint>
+                 <required>You have to provide the Pages.</required>
+               </field>
+            <field>
+                  <dc-schema>dc</dc-schema>
+                  <dc-element>publisher</dc-element>
+                  <dc-qualifier></dc-qualifier>
+                  <repeatable>false</repeatable>
+                  <label>Electronic Publisher</label>
+                  <input-type>onebox</input-type>
+                  <hint></hint>
+                  <required>You have to provide the Electronic Publisher.</required>
+                </field>
+
+            <field>
+              <dc-schema>dc</dc-schema>
+              <dc-element>subject</dc-element>
+              <dc-qualifier>lcsh</dc-qualifier>
+              <!-- An input-type of twobox MUST be marked as repeatable -->
+              <repeatable>true</repeatable>
+              <label>Subject</label>
+              <input-type>onebox</input-type>
+              <hint></hint>
+              <required>You have to provide Subject.</required>
+            </field>
+
+        </page>
+      </form> <!-- end of Fondren News Form-->
 
 
      <!-- Start Faculty Publications form (our default form) -->

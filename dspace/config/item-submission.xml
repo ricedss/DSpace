@@ -32,6 +32,8 @@
        <!-- dspace.rice.edu -->  <name-map collection-handle="1911/61409" submission-name="CommencementSteps" /> <!-- WRC Historical Sports-->
        <!-- dspace.rice.edu -->  <name-map collection-handle="1911/61410" submission-name="CommencementSteps" /> <!-- WRC Historical Various-->
 
+     <!-- dspace.rice.edu -->  <name-map collection-handle="1911/75119" submission-name="NFFSteps" />
+
    <!--name-map collection-handle="default" submission-name="traditional" /-->
      <name-map collection-handle="default" submission-name="facultypub" />
 
@@ -352,6 +354,60 @@
         </step>
 
      </submission-process>
+
+     <!--This "facultypub" process defines the DEFAULT item submission process-->
+      <submission-process name="NFFSteps">
+
+        <!--Uncommment to display the SAMPLE step as your first step-->
+        <!--<step id="sample"/>-->
+
+          <!-- Step 1 - this is a non-interactive step which has no UI -->
+          <step>
+            <heading></heading>
+            <processing-class>org.dspace.submit.step.NonInteractiveStep</processing-class>
+            <workflow-editable>false</workflow-editable>
+          </step>
+
+          <!-- END Ying Remove initial questions step and add non-interactive step -->
+
+         <!--Step 2 will be to Describe the item.-->
+         <step>
+           <heading>submit.progressbar.describe</heading>
+           <processing-class>org.dspace.submit.step.DescribeStep</processing-class>
+           <jspui-binding>org.dspace.app.webui.submit.step.JSPDescribeStep</jspui-binding>
+           <xmlui-binding>org.dspace.app.xmlui.aspect.submission.submit.DescribeStep</xmlui-binding>
+           <workflow-editable>true</workflow-editable>
+         </step>
+
+         <!--Step 3 will be to Upload the item-->
+         <step>
+           <heading>submit.progressbar.upload</heading>
+           <processing-class>org.dspace.submit.step.UploadStep</processing-class>
+           <jspui-binding>org.dspace.app.webui.submit.step.JSPUploadStep</jspui-binding>
+           <xmlui-binding>org.dspace.app.xmlui.aspect.submission.submit.UploadStep</xmlui-binding>
+           <workflow-editable>true</workflow-editable>
+         </step>
+          <!--Step 3 will be to Manage Item access.-->
+  <!--        <step>
+              <heading>submit.progressbar.access</heading>
+              <processing-class>org.dspace.submit.step.AccessStep</processing-class>
+              <xmlui-binding>org.dspace.app.xmlui.aspect.submission.submit.AccessStep</xmlui-binding>
+              <workflow-editable>true</workflow-editable>
+          </step> -->
+
+          <!--Step 4 will be to Verify/Review everything -->
+          <step>
+           <heading>submit.progressbar.verify</heading>
+           <processing-class>org.dspace.submit.step.VerifyStep</processing-class>
+            <jspui-binding>org.dspace.app.webui.submit.step.JSPVerifyStep</jspui-binding>
+           <xmlui-binding>org.dspace.app.xmlui.aspect.submission.submit.ReviewStep</xmlui-binding>
+           <workflow-editable>true</workflow-editable>
+         </step>
+
+
+     </submission-process>
+<!-- End of NFFSteps-->
+
 
      <submission-process name="ECESteps">
 
