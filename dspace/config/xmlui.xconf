@@ -195,6 +195,8 @@
         <theme name="Rice RIP Theme" handle="1911/8328" path="Rice_RIP/"/>
         <theme name="Rice Thresher Theme" handle="1911/64890" path="Rice_Thresher/"/>
 
+        <theme name="Rice NFF Theme" handle="1911/75119" path="Rice_NFF/"/>
+
         <!-- !!!!!!!!!!!!  dspaceland !!!!!!!!!!!!!!!!! -->
         <!--<theme name="TIMEA Theme" handle="1911/2918" path="TIMEA/"/>-->
         <!--<theme name="ECE Theme" handle="1911/2946" path="Rice_ECE/"/>-->
