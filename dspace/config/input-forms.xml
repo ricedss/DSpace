@@ -33,6 +33,7 @@
      <!-- scholarship.rice.edu  --><name-map collection-handle="1911/61410" form-name="wrchistoricalform" /><!--Various-->
 
      <!-- scholarship.rice.edu  --><name-map collection-handle="1911/75119" form-name="fondrennewsform" /><!--News from Fondren-->
+     <!-- scholarship.rice.edu  --><name-map collection-handle="1911/71399" form-name="archivethefuture" /><!--Recovery of a Heritage in the Making-->
 
  </form-map>
 
@@ -54,7 +55,212 @@
  <!-- serves as a 'this field is required' flag.                           -->
 
  <form-definitions>
+     <!-- Start Recovery of a Heritage in the Making -->
+     <form name="archivethefuture">
+        <page number="1">
+          <field>
+            <dc-schema>dc</dc-schema>
+            <dc-element>contributor</dc-element>
+            <dc-qualifier>author</dc-qualifier>
+            <repeatable>true</repeatable>
+            <label>Authors</label>
+            <input-type>name</input-type>
+            <hint>Last name, e.g. Smith First name ( e.g. Donald Jr. </hint>
+            <required></required>
+          </field>
+        <field>
+            <dc-schema>dc</dc-schema>
+            <dc-element>contributor</dc-element>
+            <dc-qualifier>editor</dc-qualifier>
+            <repeatable>true</repeatable>
+            <label>Editors</label>
+            <input-type>name</input-type>
+            <hint>Editor of book. Can enter multiple names.</hint>
+            <required></required>
+          </field>
+          <field>
+            <dc-schema>dc</dc-schema>
+            <dc-element>title</dc-element>
+            <dc-qualifier></dc-qualifier>
+            <repeatable>false</repeatable>
+            <label>Title</label>
+            <input-type>onebox</input-type>
+            <hint>Article or chapter title. Enter full title.</hint>
+            <required>You must enter a main title for this item.</required>
+          </field>
 
+            <field>
+              <dc-schema>dc</dc-schema>
+              <dc-element>type</dc-element>
+              <dc-qualifier></dc-qualifier>
+              <repeatable></repeatable>
+              <label>Type</label>
+              <input-type>onebox</input-type>
+              <hint></hint>
+              <required>You have to provide the type.</required>
+            </field>
+
+            <field>
+              <dc-schema>dc</dc-schema>
+              <dc-element>type</dc-element>
+              <dc-qualifier>dcmi</dc-qualifier>
+              <repeatable></repeatable>
+              <label>Content Format</label>
+              <input-type value-pairs-name="facultypub_typedcmi">dropdown</input-type>
+              <hint>Most resources are text. When there are multiple entries, choose primary format. 'Moving Image' refers to video files.</hint>
+              <required>You have to provide the content format.</required>
+            </field>
+        <field>
+	   <dc-schema>dc</dc-schema>
+         <dc-element>language</dc-element>
+         <dc-qualifier>iso</dc-qualifier>
+         <repeatable>true</repeatable>
+         <label>Language</label>
+         <input-type value-pairs-name="common_iso_languages">dropdown</input-type>
+         <hint>Defaults to English. Can include multiple languages.</hint>
+         <required></required>
+       </field>
+            <field>
+              <dc-schema>dc</dc-schema>
+              <dc-element>subject</dc-element>
+              <dc-qualifier>keyword</dc-qualifier>
+              <!-- An input-type of twobox MUST be marked as repeatable -->
+              <repeatable>true</repeatable>
+              <label>Subject Keywords</label>
+              <input-type>twobox</input-type>
+              <hint>Enter keywords one at a time. Use  button after each keyword to create the list.</hint>
+              <required></required>
+              <vocabulary>srsc</vocabulary>
+            </field>
+
+            <field>
+              <dc-schema>dc</dc-schema>
+              <dc-element>description</dc-element>
+              <dc-qualifier>abstract</dc-qualifier>
+              <repeatable>false</repeatable>
+              <label>Abstract</label>
+              <input-type>textarea</input-type>
+              <hint>Enter abstract of item.</hint>
+              <required></required>
+            </field>
+
+
+          <field>
+            <dc-schema>dc</dc-schema>
+            <dc-element>date</dc-element>
+            <dc-qualifier>issued</dc-qualifier>
+            <repeatable>false</repeatable>
+            <label>Date of Issue</label>
+            <input-type>date</input-type>
+            <hint>Date published.</hint>
+            <required>You must enter at least the year.</required>
+          </field>
+
+            <field>
+              <dc-schema>dc</dc-schema>
+              <dc-element>citation</dc-element>
+              <dc-qualifier>pageNumber</dc-qualifier>
+              <repeatable>false</repeatable>
+              <label>Page Number(s)</label>
+              <input-type>onebox</input-type>
+              <hint></hint>
+              <required></required>
+            </field>
+
+
+          <field>
+            <dc-schema>dc</dc-schema>
+            <dc-element>contributor</dc-element>
+            <dc-qualifier>publisher</dc-qualifier>
+            <repeatable>false</repeatable>
+            <label>Publisher</label>
+            <input-type>onebox</input-type>
+            <hint>Enter the name of the publisher.</hint>
+            <required></required>
+          </field>
+
+            <field>
+               <dc-schema>dc</dc-schema>
+               <dc-element>pubplace</dc-element>
+               <dc-qualifier></dc-qualifier>
+               <repeatable>false</repeatable>
+               <label>Publisher Location</label>
+               <input-type>onebox</input-type>
+               <hint>If item is Book or Book Chapter, enter publisher location, e.g. New York, NY.</hint>
+               <required></required>
+             </field>
+
+
+          <field>
+            <dc-schema>dc</dc-schema>
+            <dc-element>identifier</dc-element>
+            <dc-qualifier></dc-qualifier>
+            <!-- An input-type of qualdrop_value MUST be marked as repeatable -->
+            <repeatable>true</repeatable>
+            <label>Identifiers</label>
+            <input-type value-pairs-name="facultypub_identifiers">qualdrop_value</input-type>
+            <hint>If the item has any identification numbers associated with it. When available, DOI (digital object identifier) MUST be entered. </hint>
+            <required></required>
+          </field>
+
+<!--            <field>
+         <dc-schema>dc</dc-schema>
+         <dc-element>embargo</dc-element>
+         <dc-qualifier>terms</dc-qualifier>
+         <repeatable>false</repeatable>
+         <label>Embargo Terms</label>
+         <input-type value-pairs-name="embargo_terms">dropdown</input-type>
+         <hint>If required, select embargo terms.</hint>
+         <required></required>
+         </field>
+-->
+            <field>
+              <dc-schema>dc</dc-schema>
+              <dc-element>contributor</dc-element>
+              <dc-qualifier>center</dc-qualifier>
+              <repeatable>true</repeatable>
+              <label>Affiliated Rice lab (s), center (s), or institute (s)</label>
+              <input-type>onebox</input-type>
+              <hint>Enter name of affiliated Rice lab (s), center (s), or institute (s). Enter names one at a time. Use  button after each name to create the list.</hint>
+              <required></required>
+            </field>
+
+            <field>
+              <dc-schema>dc</dc-schema>
+              <dc-element>contributor</dc-element>
+              <dc-qualifier>funder</dc-qualifier>
+              <repeatable>true</repeatable>
+              <label>Sponsor</label>
+              <input-type>onebox</input-type>
+              <hint>If grant-funded, list name of sponsor (s) and funding number (s). Enter the name of sponsor and award number one at a time. Use  button after each sponsor to create the list.</hint>
+              <required></required>
+            </field>
+
+        <field>
+           <dc-schema>dc</dc-schema>
+           <dc-element>citation</dc-element>
+           <dc-qualifier>conferenceName</dc-qualifier>
+           <repeatable>false</repeatable>
+           <label>Conference</label>
+           <input-type>onebox</input-type>
+           <hint>If paper presented at conference, enter the name of conference.</hint>
+           <required></required>
+         </field>
+
+         <field>
+           <dc-schema>dc</dc-schema>
+           <dc-element>citation</dc-element>
+           <dc-qualifier>conferenceDate</dc-qualifier>
+           <repeatable>false</repeatable>
+           <label>Conference Date</label>
+           <input-type>onebox</input-type>
+           <hint>If paper presented at conference, enter conference date. YYYY-MM-DD.</hint>
+           <required></required>
+         </field>
+
+        </page>
+     </form>
+    <!-- End of Recovery of a Heritage in the Making : archivethefuture-->
      <!-- Start Fondren News Form -->
      <form name="fondrennewsform">
         <page number="1">
