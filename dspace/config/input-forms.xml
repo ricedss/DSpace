@@ -270,7 +270,7 @@
             <dc-qualifier>author</dc-qualifier>
             <repeatable>false</repeatable>
             <label>Author</label>
-            <input-type>name</input-type>
+            <input-type>onebox</input-type>
             <hint></hint>
             <required>You must enter an Author for this item.</required>
           </field>
@@ -320,7 +320,7 @@
               <dc-schema>dc</dc-schema>
               <dc-element>description</dc-element>
               <dc-qualifier>abstract</dc-qualifier>
-              <repeatable>true</repeatable>
+              <repeatable>false</repeatable>
               <label>Abstract</label>
               <input-type>textarea</input-type>
               <hint></hint>
@@ -383,7 +383,7 @@
                  <dc-schema>dc</dc-schema>
                  <dc-element>rights</dc-element>
                  <dc-qualifier>uri</dc-qualifier>
-                 <repeatable>true</repeatable>
+                 <repeatable>false</repeatable>
                  <label>Rights Url</label>
                  <input-type>onebox</input-type>
                  <hint></hint>
@@ -415,7 +415,7 @@
                  <dc-schema>dc</dc-schema>
                  <dc-element>format</dc-element>
                  <dc-qualifier>extent</dc-qualifier>
-                 <repeatable>true</repeatable>
+                 <repeatable>false</repeatable>
                  <label>Pages</label>
                  <input-type>onebox</input-type>
                  <hint>No. of pages in PDF. e.g. 14 pp</hint>
