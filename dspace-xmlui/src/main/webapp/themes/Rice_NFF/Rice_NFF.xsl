@@ -81,10 +81,10 @@
                         <xsl:text>eng</xsl:text>
                     </xsl:when>
                     <xsl:when test="@n='dc_rights'">
-                        <xsl:text>Rights to this material belong to Rice University.</xsl:text>
+                        <xsl:text>Rights to this material belong to Rice University. This work is licensed under a Creative Commons Attribution 3.0 Unported License. </xsl:text>
                     </xsl:when>
                     <xsl:when test="@n='dc_rights_uri'">
-                        <xsl:text>This work is licensed under a Creative Commons Attribution 3.0 Unported License. http://creativecommons.org/licenses/by/3.0/</xsl:text>
+                        <xsl:text>http://creativecommons.org/licenses/by/3.0/</xsl:text>
                     </xsl:when>
                     <xsl:when test="@n='dc_type_dcmi'">
                         <xsl:text>Text</xsl:text>
