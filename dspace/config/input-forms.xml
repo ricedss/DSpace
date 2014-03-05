@@ -631,7 +631,7 @@
             <required></required>
           </field>
 
-<!--            <field>
+            <field>
          <dc-schema>dc</dc-schema>
          <dc-element>embargo</dc-element>
          <dc-qualifier>terms</dc-qualifier>
@@ -641,7 +641,7 @@
          <hint>If required, select embargo terms.</hint>
          <required></required>
          </field>
--->
+
             <field>
               <dc-schema>dc</dc-schema>
               <dc-element>contributor</dc-element>
