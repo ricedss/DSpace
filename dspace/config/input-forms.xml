@@ -2983,7 +2983,7 @@ it, please enter the types and the actual numbers or codes below.</hint>
    <value-pairs value-pairs-name="embargo_terms" dc-term="embargo.terms">
      <pair>
        <displayed-value>N/A</displayed-value>
-       <stored-value>none</stored-value>
+       <stored-value>0 day</stored-value>
      </pair>
      <pair>
        <displayed-value>6 months</displayed-value>
