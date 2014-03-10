@@ -115,7 +115,7 @@ public class PDFPageCount extends AbstractCurationTask
                     }catch (Exception ex){
 
                     }
-                    countTable.put(item.getHandle() + " " + bs.getName(), pagecount);
+                    countTable.put(item.getHandle() + "," + bs.getName(), pagecount);
                 }
 
 
