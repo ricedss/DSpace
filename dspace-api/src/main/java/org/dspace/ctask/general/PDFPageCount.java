@@ -105,7 +105,8 @@ public class PDFPageCount extends AbstractCurationTask
 
                 if(bsformat.equals("application/pdf")){
                     try{
-                        pagecount = pageCount(bs.retrieve());
+			//                        pagecount = pageCount(bs.retrieve());
+                        pagecount = pageCount(bs.getFilename());
                     }catch (IOException ioe){
                         throw new IOException(ioe.getMessage(), ioe);
                     }catch (SQLException sqlE){
@@ -145,31 +146,32 @@ public class PDFPageCount extends AbstractCurationTask
         {
             throw new IOException(sqlE.getMessage(), sqlE);
         }
-    }
+    } 
 
-    private String pageCount(InputStream sourceStream)
+    private String pageCount(String filename)
         throws Exception
     {
     // sanity check: xpdf paths are required. can cache since it won't change
 
-    File sourceTmp = File.createTempFile("DSfilt",".pdf");
-    sourceTmp.deleteOnExit();
+    //File sourceTmp = File.createTempFile("DSfilt",".pdf");
+    //sourceTmp.deleteOnExit();
     int status = 0;
     try
     {
-        OutputStream sto = new FileOutputStream(sourceTmp);
-        Utils.copy(sourceStream, sto);
-        sto.close();
-        sourceStream.close();
+        //OutputStream sto = new FileOutputStream(sourceTmp);
+        //Utils.copy(sourceStream, sto);
+        //sto.close();
+        //sourceStream.close();
 
         String pdfinfoCmd[] = XPDF_PDFINFO_COMMAND.clone();
         pdfinfoCmd[0] = pdfinfoPath;
-        pdfinfoCmd[pdfinfoCmd.length-1] = sourceTmp.toString();
+        pdfinfoCmd[pdfinfoCmd.length-1] = filename;
         BufferedReader lr = null;
         try
         {
             MatchResult pages = null;  // Ying added this for pdf page counts
 
+	    System.out.println("===pdfinfoCmd: " + filename );
             Process pdfProc = Runtime.getRuntime().exec(pdfinfoCmd);
             lr = new BufferedReader(new InputStreamReader(pdfProc.getInputStream()));
             String line;
@@ -200,10 +202,11 @@ public class PDFPageCount extends AbstractCurationTask
             {
                 lr.close();
             }
+            //sourceStream.close();
         }
     }finally
         {
-            if (!sourceTmp.delete())
+            /*if (!sourceTmp.delete())
             {
                 //log.error("Unable to delete temporary source");
             }
@@ -211,7 +214,7 @@ public class PDFPageCount extends AbstractCurationTask
             if (status != 0)
             {
                 //log.error("PDF conversion proc failed, exit status=" + status + ", file=" + sourceTmp);
-            }
+            } */
         }
 
 
