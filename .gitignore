@@ -5,6 +5,7 @@ target/
 .settings/
 .project
 .classpath
+.DS_STORE
 
 ## Ignore project files created by IntelliJ IDEA
 *.iml
@@ -27,3 +28,6 @@ META-INF/
 # SWB actually, ignore build.properties, too. It contains passwords, and git is/may be public.
 #!build.properties
 build.properties
+
+## Ignore all files with ~ ending which is a backup of old version
+*~
