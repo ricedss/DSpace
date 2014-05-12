@@ -75,11 +75,11 @@
 					<map:parameter name="theme.path" value="{global:theme-path}"/>
 					<map:parameter name="theme.name" value="{global:theme-name}"/>
 				</map:transform>
-				<!-- javascript filess follow -->
+				<!-- javascript files follow -->
 				<map:transform type="IncludePageMeta">
-					<map:parameter name="javascript#2" value="jquery-1.2.1.js"/>
-					<map:parameter name="javascript#3" value="scripts.js"/>
-                    <map:parameter name="javascript#4" value="jwplayer/jwplayer.js"/>
+					<map:parameter name="javascript#1" value="jquery-1.2.1.js"/>
+					<map:parameter name="javascript#2" value="scripts.js"/>
+                    <map:parameter name="javascript#3" value="jwplayer/jwplayer.js"/>
 				</map:transform>
 				
 				<!-- Debuging output -->
