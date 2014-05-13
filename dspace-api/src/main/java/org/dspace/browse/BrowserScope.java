@@ -52,7 +52,7 @@ public class BrowserScope
     private String startsWith;
 
     /** the number of results per page to display */
-    private int resultsPerPage = 20;
+    private int resultsPerPage = 60;
 
     /** the Collection to which to restrict */
     private Collection collection;
