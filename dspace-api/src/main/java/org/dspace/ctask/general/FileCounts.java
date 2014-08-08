@@ -5,7 +5,7 @@
  *
  * http://www.dspace.org/license/
  */
-package org.dspace.curate;
+package org.dspace.ctask.general;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -17,6 +17,10 @@ import org.dspace.content.Bundle;
 import org.dspace.content.DSpaceObject;
 import org.dspace.content.Item;
 import org.dspace.core.Context;
+import org.dspace.curate.AbstractCurationTask;
+import org.dspace.curate.Curator;
+import org.dspace.curate.Distributive;
+
 
 /**
  * FileCount is to give the report of MASTER counts for each item in a collection/community
@@ -80,7 +84,7 @@ public class FileCounts extends AbstractCurationTask
             for (String handle : countTable.keySet())
             {
                 sb.append(String.format("%s", handle)).
-                        append(String.format("%6d\n", countTable.get(handle)));
+                        append(String.format("%6d\n | ", countTable.get(handle)));
             }
             report(sb.toString());
             setResult(sb.toString());

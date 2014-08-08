@@ -779,7 +779,10 @@
 	<!-- org.dspace.app.xmlui.Submission.submit.CCLicenseStep -->
         <message key="xmlui.Submission.submit.CCLicenseStep.ccws_error">An error occurred ... {0}</message>
         <message key="xmlui.Submission.submit.CCLicenseStep.head">License Your Work</message>
-        <message key="xmlui.Submission.submit.CCLicenseStep.info1">If you wish, you may add a <a href="http://creativecommons.org/">Creative Commons</a> License to your item. <strong>Creative Commons licenses govern what people who read your work may then do with it.</strong></message>
+        <message key="xmlui.Submission.submit.CCLicenseStep.info1">If you wish, you may add a <a href="http://creativecommons.org/">Creative Commons</a> License to your item. <strong>Creative Commons licenses govern what people who read your work may then do with it.</strong> <br />
+<strong>Creative Commons:</strong> Choose a license that defines the terms on which others may use your work, including attribution. <br /><br />
+<strong>CC0:</strong> Creative Commons Universal “No Rights Reserved.” If you are the copyright holder of your work, allows others to “freely build upon, enhance and reuse the works for any purposes without restriction under copyright law.”<br />
+<strong>Public domain:</strong> For works whose intellectual property rights have expired or been forfeited and may be freely used, with attribution.</message>
         <message key="xmlui.Submission.submit.CCLicenseStep.submit_choose_creative_commons">Choose a license</message>
         <message key="xmlui.Submission.submit.CCLicenseStep.submit_to_creative_commons">Proceed to Creative Commons website to select a license</message>
         <message key="xmlui.Submission.submit.CCLicenseStep.license">License Type</message>
@@ -1347,6 +1350,7 @@
 	<message key="xmlui.administrative.item.AddBitstreamForm.bundle.CC-LICENSE">Creative Commons Licenses</message>
     <message key="xmlui.administrative.item.AddBitstreamForm.bundle.MASTER">Masters</message>
     <message key="xmlui.administrative.item.AddBitstreamForm.bundle.PERMIT">Permit</message>
+    <message key="xmlui.administrative.item.AddBitstreamForm.bundle.HTML">HTML</message>
 	<message key="xmlui.administrative.item.AddBitstreamForm.file_label">File</message>
 	<message key="xmlui.administrative.item.AddBitstreamForm.file_help">Please enter the name of the file on your computer corresponding to your item. If you click "Browse...", a new window will appear in which you can locate and select the file from your computer.</message>
 	<message key="xmlui.administrative.item.AddBitstreamForm.description_label">Description</message>
@@ -2449,5 +2453,7 @@
     <message key="xmlui.Rice_ETD.Degree">Degree</message>
 
     <message key="xmlui.statistics.visits.top10item">Top 10 Visited Items</message>
+    <message key="xmlui.dri2xhtml.METS-1.0.item-doi">DOI</message>
+    <message key="xmlui.dri2xhtml.METS-1.0.item-keyword">Keyword</message>
 
 </catalogue>

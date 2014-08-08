@@ -37,21 +37,15 @@ import org.apache.xpath.XPathAPI;
 import org.dspace.authorize.AuthorizeException;
 import org.dspace.authorize.AuthorizeManager;
 import org.dspace.authorize.ResourcePolicy;
-import org.dspace.content.Bitstream;
-import org.dspace.content.BitstreamFormat;
-import org.dspace.content.Bundle;
+import org.dspace.content.*;
 import org.dspace.content.Collection;
-import org.dspace.content.FormatIdentifier;
-import org.dspace.content.InstallItem;
-import org.dspace.content.Item;
-import org.dspace.content.MetadataField;
-import org.dspace.content.MetadataSchema;
-import org.dspace.content.WorkspaceItem;
 import org.dspace.core.ConfigurationManager;
 import org.dspace.core.Constants;
 import org.dspace.core.Context;
+import org.dspace.embargo.EmbargoManager;
 import org.dspace.eperson.EPerson;
 import org.dspace.eperson.Group;
+import org.dspace.event.Event;
 import org.dspace.handle.HandleManager;
 import org.dspace.search.DSIndexer;
 import org.dspace.workflow.WorkflowManager;
@@ -133,6 +127,7 @@ public class ItemImport
 
             options.addOption("a", "add", false, "add items to DSpace");
             options.addOption("b", "add-bte", false, "add items to DSpace via Biblio-Transformation-Engine (BTE)");
+            options.addOption("f", "fileadd", false, "add files to existing items in DSpace");
             options.addOption("r", "replace", false, "replace items in mapfile");
             options.addOption("d", "delete", false,
                     "delete items listed in mapfile");
@@ -187,6 +182,11 @@ public class ItemImport
             if (line.hasOption('a'))
             {
                 command = "add";
+            }
+
+            if (line.hasOption('f'))
+            {
+                command = "fileadd";
             }
 
             if (line.hasOption('r'))
@@ -278,7 +278,7 @@ public class ItemImport
                         .println("Error - must run with either add, replace, or remove (run with -h flag for details)");
                 System.exit(1);
             }
-            else if ("add".equals(command) || "replace".equals(command))
+            else if ("add".equals(command) || "replace".equals(command) || "fileadd".equals(command))
             {
                 if (sourcedir == null)
                 {
@@ -304,7 +304,7 @@ public class ItemImport
                     System.exit(1);
                 }
 
-                if (collections == null)
+                if (collections == null && !"fileadd".equals(command))
                 {
                     System.out
                             .println("Error - at least one destination collection must be specified");
@@ -453,8 +453,8 @@ public class ItemImport
             // find collections
             Collection[] mycollections = null;
 
-            // don't need to validate collections set if command is "delete"
-            if (!"delete".equals(command))
+            // don't need to validate collections set if command is "delete" or "fileadd"
+            if (! ("delete".equals(command) || "fileadd".equals(command)))
             {
                 System.out.println("Destination collections:");
 
@@ -561,6 +561,10 @@ public class ItemImport
                 if ("add".equals(command))
                 {
                     myloader.addItems(c, mycollections, sourcedir, mapfile, template);
+                }
+                else if ("fileadd".equals(command))
+                {
+                    myloader.addFilesToItems(c, mycollections, sourcedir, mapfile, template);
                 }
                 else if ("replace".equals(command))
                 {
@@ -731,6 +735,72 @@ public class ItemImport
         }
     }
 
+    private void addFilesToItems(Context c, Collection[] mycollections,
+            String sourceDir, String mapFile, boolean template) throws Exception
+    {
+        // verify the source directory
+        File d = new java.io.File(sourceDir);
+
+        if (d == null || !d.isDirectory())
+        {
+            System.out.println("Error, cannot open source directory " + sourceDir);
+            System.exit(1);
+        }
+
+        // read in HashMap first, to get list of handles & source dirs
+        Map<String, String> myHash = readMapFile(mapFile);
+
+        // for each handle, add the new files
+        for (Map.Entry<String, String> mapEntry : myHash.entrySet())
+        {
+            // get the old handle
+            String newItemName = mapEntry.getKey();
+            String oldHandle = mapEntry.getValue();
+
+            Item oldItem = null;
+
+            if (oldHandle.indexOf('/') != -1)
+            {
+                System.out.println("\tUpdating:  " + oldHandle);
+
+                // add new item, locate old one
+                oldItem = (Item) HandleManager.resolveToObject(c, oldHandle);
+            }
+            else
+            {
+                oldItem = Item.find(c, Integer.parseInt(oldHandle));
+            }
+
+            System.out.println("Adding files from directory " + newItemName);
+
+            Item myitem = null;
+            if (!isTest)
+            {
+                myitem = oldItem;
+            }
+
+            // add the bitstreams from the contents file
+            // process contents file, add bitstreams and bundles, return any
+            // non-standard permissions
+            List<String> options = processContentsFile(c, myitem, sourceDir
+                    + File.separatorChar + newItemName, "contents");
+
+            // set permissions if specified in contents file
+            if (options.size() > 0)
+            {
+                System.out.println("Processing options");
+                processOptions(c, myitem, options);
+            }
+
+            // write sequence numbers for new bitstreams, update modtime, issue event
+            if (myitem != null)
+                myitem.update();
+
+            c.commit();
+            c.clearCache();
+        }
+    }
+
     private void replaceItems(Context c, Collection[] mycollections,
             String sourceDir, String mapFile, boolean template) throws Exception
     {
@@ -780,7 +850,9 @@ public class ItemImport
              * do a delete as any error results in an aborted transaction without harming
              * the original item */
             File handleFile = new File(sourceDir + File.separatorChar + newItemName + File.separatorChar + "handle");
-            PrintWriter handleOut = new PrintWriter(new FileWriter(handleFile, true));
+            // SWB fix bug - param should be "false" to not append to existing file if present
+            PrintWriter handleOut = new PrintWriter(new FileWriter(handleFile, false));
+            // END SWB
 
             if (handleOut == null)
             {
@@ -790,10 +862,88 @@ public class ItemImport
             handleOut.println(oldHandle);
             handleOut.close();
 
-            deleteItem(c, oldItem);
-            addItem(c, mycollections, sourceDir, newItemName, null, template);
+            /*deleteItem(c, oldItem);
+            addItem(c, mycollections, sourceDir, newItemName, null, template);*/
+            replaceItem(c, oldItem, sourceDir, newItemName);
             c.clearCache();
         }
+    }
+
+    // Replace an item's contents without completely removing and re-creating it. This is way faster.
+    private void replaceItem(Context c, Item myitem, String path, String itemname)
+            throws AuthorizeException, SQLException, IOException, SAXException, ParserConfigurationException, TransformerException
+    {
+        System.out.println("Replacing item with directory " + itemname);
+
+        // before cleanup the metadata, save the fields that would normally be generated by InstallItem.populateMetadata()
+        // and also handle metadata
+        List<DCValue> saved = new ArrayList<DCValue>();
+        saved.addAll(Arrays.asList(myitem.getMetadata("dc","date","available",Item.ANY)));
+        saved.addAll(Arrays.asList(myitem.getMetadata("dc","date","accessioned",Item.ANY)));
+        saved.addAll(Arrays.asList(myitem.getMetadata("dc","date","issued",Item.ANY)));
+        saved.addAll(Arrays.asList(myitem.getMetadata("dc","identifier","uri",Item.ANY)));
+        saved.addAll(Arrays.asList(myitem.getMetadata("dc","description","provenance",Item.ANY)));
+
+        // remove all metadata, bitstreams, and bundles.
+        // keep handle, item permissions, item mapping, item statistics, etc.
+        if (! isTest) {
+            myitem.cleanItem();
+        } else {
+            myitem = null;
+        }
+
+        // load replacement metadata
+        loadMetadata(c, myitem, path + File.separatorChar + itemname + File.separatorChar);
+
+        // restore each saved metadata value
+        if (! isTest) {
+            for (DCValue val : saved) {
+                // disable special treatment of provenance
+                /*if (val.schema.equals("dc") && val.element.equals("description") && val.qualifier.equals("provenance")) {
+                    // for provenance, always restore it unless the exact same value is already present from replacement
+                    boolean alreadyPresent = false;
+                    for (DCValue existing : myitem.getMetadata("dc","description","provenance",Item.ANY)) {
+                        if (existing.value.equals(val.value)) {
+                            alreadyPresent = true;
+                            break;
+                        }
+                    }
+                    if (! alreadyPresent) {
+                        myitem.addMetadata(val.schema, val.element, val.qualifier, val.language, val.value);
+                    }
+                } else*/
+                if (myitem.getMetadata(val.schema, val.element, val.qualifier, Item.ANY).length == 0) {
+                    // for non-provenance, only restore if replacement didn't have any values for this element
+                    myitem.addMetadata(val.schema, val.element, val.qualifier, val.language, val.value);
+                }
+            }
+
+            // make a new provenance string and add it
+            String now = DCDate.getCurrent().toString();
+            EPerson e = c.getCurrentUser();
+            String prov = "Item contents replaced by "+e.getFullName()+" ("+e.getEmail()+") on "+now+"\n";
+            myitem.addMetadata("dc", "description", "provenance", "en", prov);
+        }
+
+        // add replacement bitstreams
+        List<String> options = processContentsFile(c, myitem, path + File.separatorChar + itemname, "contents");
+
+        // set permissions if specified in contents file
+        if (options.size() > 0)
+        {
+            System.out.println("Processing options");
+            processOptions(c, myitem, options);
+        }
+
+        if (! isTest) {
+            myitem.update();
+            c.addEvent(new Event(Event.MODIFY+Event.MODIFY_METADATA, Constants.ITEM, myitem.getID(), myitem.getHandle()));
+
+            // set embargo lift date and take away read access if indicated.
+            EmbargoManager.setEmbargo(c, myitem);
+        }
+
+        c.commit();
     }
 
     private void deleteItems(Context c, String mapFile) throws Exception

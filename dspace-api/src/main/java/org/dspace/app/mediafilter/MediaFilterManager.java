@@ -762,6 +762,11 @@ public class MediaFilterManager
         if(specialmedias.indexOf(source.getFormat().getMIMEType().trim()) >= 0){
             //System.out.println("getting destStream!!! " + source.getFilename() + "== " + source.getName() + "=== " + source.getID() + " ====== " + formatFilter.getFormatString());
             destStream = formatFilter.getDestinationStream(source.getFilename(), source.getName(), source.getID());
+            if (!isQuiet)
+            {
+               System.out.println("FILTERED: bitstream " + source.getID()
+                    + " (item: " + item.getHandle() + ") and created the link contents.");
+            }
         }else{
             destStream = formatFilter.getDestinationStream(source.retrieve());
         }
@@ -769,7 +774,7 @@ public class MediaFilterManager
         // END Ying updated this for JPEG2000 Thumbnail generation
         if (destStream == null)
         {
-            if (!isQuiet)
+            if (!isQuiet && !(specialmedias.indexOf(source.getFormat().getMIMEType().trim()) >= 0))
             {
                 System.out.println("SKIPPED: bitstream " + source.getID()
                         + " (item: " + item.getHandle() + ") because filtering was unsuccessful");

@@ -26,6 +26,7 @@ import java.util.regex.Pattern;
 import javax.imageio.ImageIO;
 
 import org.apache.log4j.Logger;
+//import org.apache.oro.text.regex.MatchResult;
 import org.dspace.core.ConfigurationManager;
 import org.dspace.core.Utils;
 
@@ -86,6 +87,10 @@ public class XPDF2Thumbnail extends MediaFilter
     // match line in pdfinfo output that describes file's MediaBox
     private static final Pattern MEDIABOX_PATT = Pattern.compile(
         "^Page\\s+\\d+\\s+MediaBox:\\s+([\\.\\d-]+)\\s+([\\.\\d-]+)\\s+([\\.\\d-]+)\\s+([\\.\\d-]+)");
+
+    // -- Ying added for the pdf page counts
+    // match line in pdfinfo output that describes file's Pages
+    private static final Pattern PAGES_PATT = Pattern.compile("^Pages:\\s+([\\d]+)");
 
     // also from thumbnail.maxwidth in config
     private int maxwidth = 0;
@@ -169,6 +174,8 @@ public class XPDF2Thumbnail extends MediaFilter
             try
             {
                 MatchResult mediaBox = null;
+                MatchResult pages = null;  // Ying added this for pdf page counts
+
                 Process pdfProc = Runtime.getRuntime().exec(pdfinfoCmd);
                 lr = new BufferedReader(new InputStreamReader(pdfProc.getInputStream()));
                 String line;
@@ -179,6 +186,12 @@ public class XPDF2Thumbnail extends MediaFilter
                     if (mm.matches())
                     {
                         mediaBox = mm.toMatchResult();
+                    }
+                    // Ying added following for pdf page counts
+                    Matcher pp = PAGES_PATT.matcher(line);
+                    if (pp.matches())
+                    {
+                        pages = pp.toMatchResult();
                     }
                 }
                 int istatus = pdfProc.waitFor();
@@ -200,6 +213,10 @@ public class XPDF2Thumbnail extends MediaFilter
                     int maxdim = (int)Math.max(Math.abs(x1 - x0), Math.abs(y1 - y0));
                     dpi = Math.min(MAX_DPI, (MAX_PX * 72 / maxdim));
                     log.debug("DPI: pdfinfo method got dpi="+dpi+" for max dim="+maxdim+" (points, 1/72\")");
+
+                    // Ying added following for pdf page counts
+                    System.out.println("PDF PAGE COUNTS: " + pages.group(1));
+
                 }
             }
             catch (InterruptedException e)

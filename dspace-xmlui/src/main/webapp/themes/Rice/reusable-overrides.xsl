@@ -478,7 +478,7 @@
 				playlist: [{
     				image: "<xsl:value-of select='$mp4thumb'/>",
 				sources: [{
-				  file: "rtmp://fldp.rice.edu/vod/mp4:dspaceFLstream/<xsl:value-of select='$streamingfilename'/>"
+				  file: "rtmp://fldp.rice.edu/fondren/mp4:<xsl:value-of select='$streamingfilename'/>"
 				},{
 				  file: "/themes/Rice/streaming/<xsl:value-of select='$streamingfilename'/>"
 				}]
@@ -511,7 +511,7 @@
                                 playlist: [{
 
                                 sources: [{
-                                  file: "rtmp://fldp.rice.edu/vod/mp3:dspaceFLstream/<xsl:value-of select='$streamingfilename'/>"
+                                  file: "rtmp://fldp.rice.edu/fondren/mp3:<xsl:value-of select='$streamingfilename'/>"
                                 },{
                                   file: "/themes/Rice/streaming/<xsl:value-of select='$streamingfilename'/>"
                                 }]
@@ -642,7 +642,7 @@ file: "rtmp://fldp.rice.edu/vod/mp4:dspaceFLstream/<xsl:value-of select='$stream
 			  playlist: [{
     			  image: "<xsl:value-of select='$mp4thumb'/>",
 			  sources: [{
-                          file: "rtmp://fldp.rice.edu/vod/mp4:dspaceFLstream/<xsl:value-of select='$streamingfilename'/>"
+                          file: "rtmp://fldp.rice.edu/fondren/mp4:<xsl:value-of select='$streamingfilename'/>"
 			  },{
                           file: "/themes/Rice/streaming/<xsl:value-of select='$streamingfilename'/>"
 			  }]
@@ -673,7 +673,7 @@ file: "rtmp://fldp.rice.edu/vod/mp4:dspaceFLstream/<xsl:value-of select='$stream
                                 playlist: [{
 
                                 sources: [{
-                                  file: "rtmp://fldp.rice.edu/vod/mp3:dspaceFLstream/<xsl:value-of select='$streamingfilename'/>"
+                                  file: "rtmp://fldp.rice.edu/fondren/mp3:<xsl:value-of select='$streamingfilename'/>"
                                 },{
                                   file: "/themes/Rice/streaming/<xsl:value-of select='$streamingfilename'/>"
                                 }]

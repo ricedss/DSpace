@@ -5,7 +5,7 @@
  *
  * http://www.dspace.org/license/
  */
-package org.dspace.curate;
+package org.dspace.ctask.general;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -18,19 +18,21 @@ import org.dspace.content.DSpaceObject;
 import org.dspace.content.Item;
 import org.dspace.core.Context;
 
+import org.dspace.curate.AbstractCurationTask;
+import org.dspace.curate.Curator;
+import org.dspace.curate.Distributive;
+
 /**
- * FileCount is to give the report of License counts for each item in a collection/community
+ * FileCount is to give the report of PERMIT counts for each item in a collection/community
  *
  * @author Ying Jin
  */
 @Distributive
-public class LicenseCounts extends AbstractCurationTask
+public class PermitCounts extends AbstractCurationTask
 {
     // map of handle license
-    private Map<String, Integer>licenseTable = new HashMap<String, Integer>();
+    private Map<String, Integer>permitTable = new HashMap<String, Integer>();
 
-    // map of handle cc license
-    private Map<String, Integer> cclicenseTable = new HashMap<String, Integer>();
     /**
      * Perform the curation task upon passed DSO
      *
@@ -40,8 +42,7 @@ public class LicenseCounts extends AbstractCurationTask
     @Override
     public int perform(DSpaceObject dso) throws IOException
     {
-        licenseTable.clear();
-        cclicenseTable.clear();
+        permitTable.clear();
         distribute(dso);
         formatResults();
         return Curator.CURATE_SUCCESS;
@@ -52,12 +53,12 @@ public class LicenseCounts extends AbstractCurationTask
     {
         for (Bundle bundle : item.getBundles())
         {
-            if (bundle.getName().equalsIgnoreCase("LICENSE")){
+            if (bundle.getName().equalsIgnoreCase("PERMIT")){
                 String handle = item.getHandle();
                 for (Bitstream bs : bundle.getBitstreams())
                 {
 
-                    Integer count = licenseTable.get(handle);
+                    Integer count = permitTable.get(handle);
                     if (count == null)
                     {
                         count = 1;
@@ -66,26 +67,9 @@ public class LicenseCounts extends AbstractCurationTask
                     {
                         count += 1;
                     }
-                    licenseTable.put(handle, count);
+                    permitTable.put(handle, count);
                 }
             }
-	        else if (bundle.getName().equalsIgnoreCase("CC-LICENSE")) {
-                    String handle = item.getHandle();
-                    for (Bitstream bs : bundle.getBitstreams())
-                    {
-
-                        Integer count = cclicenseTable.get(handle);
-                        if (count == null)
-                        {
-                            count = 1;
-                        }
-                        else
-                        {
-                            count += 1;
-                        }
-                        cclicenseTable.put(handle, count);
-                    }
-    	    }
         }
     }
     
@@ -95,18 +79,11 @@ public class LicenseCounts extends AbstractCurationTask
         {
             Context c = new Context();
             StringBuilder sb = new StringBuilder();
-	    sb.append("LICENSE Count - \n");
-            for (String handle : licenseTable.keySet())
+	    sb.append("PERMIT Count - \n | ");
+            for (String handle : permitTable.keySet())
             {
                 sb.append(String.format("%s", handle)).
-                        append(String.format("%6d\n", licenseTable.get(handle)));
-            }
-
-	    sb.append("\n\nCC-LICENSE Count - \n");
-            for (String handle : cclicenseTable.keySet())
-            {
-                sb.append(String.format("%s", handle)).
-                        append(String.format("%6d\n", cclicenseTable.get(handle)));
+                        append(String.format("%6d\n | ", permitTable.get(handle)));
             }
             report(sb.toString());
             setResult(sb.toString());
