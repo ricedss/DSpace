@@ -78,6 +78,13 @@
     <name-map scope="1911/70649" citation-name="histimage-default"/> <!-- Correspondence and ephemera from Lovett World Tour -->
     <name-map scope="1911/70176" citation-name="histimage-default"/> <!-- Postcards collected on Lovett World Tour  -->
     <name-map scope="1911/69482" citation-name="histimage-default"/> <!-- World Tour images by Carrington Weems -->
+
+        <name-map scope="1911/75565" citation-name="histimage-default"/> <!-- Oral History -->
+        <name-map scope="1911/75967" citation-name="histimage-default"/> <!-- Rice University Sports Videos -->
+        <name-map scope="1911/35948" citation-name="histimage-default"/> <!-- History of Rice University -->
+        <name-map scope="1911/35950" citation-name="histimage-default"/> <!-- Rice University General announcements  -->
+        <name-map scope="1911/35952" citation-name="histimage-default"/> <!-- Rice University Presidential Inauguration Speeches -->
+
         <!-- dspaceland, dspacentest -->
 <!--        <name-map scope="1911/2946" citation-name="ece-default">
             <map-type document-type="Conference Paper" citation-name="ece-conference" />
