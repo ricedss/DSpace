@@ -215,13 +215,13 @@
                 <div>
 
                     <xsl:variable name="cc" select="count(dim:field[@element='subject']/node())" />
-                    (<xsl:value-of select="$cc"/>)
+
                     <xsl:if test="$cc != 0">
                         <xsl:for-each select="dim:field[@element='subject']">
-                        <xsl:if test="position() &lt; 5">
+                        <xsl:if test="position() &lt;= 5">
                             <span>
-                                ((<xsl:value-of select="count(following-sibling::dim:field[@element='subject'])"/>))
-                                <xsl:copy-of select="node()"/> - here <xsl:value-of select="position()"></xsl:value-of>
+
+                                <xsl:copy-of select="node()"/>
                             </span>
                             <xsl:text>; </xsl:text>
                         </xsl:if>
@@ -240,8 +240,8 @@
                         <div  class="hiddenvalue">
                         <span>
                         <xsl:for-each select="dim:field[@element='subject']">
-                        <xsl:if test="position() >= 5">
-                                <xsl:copy-of select="node()"/> - there <xsl:value-of select="position()"></xsl:value-of>
+                        <xsl:if test="position() > 5">
+                                <xsl:copy-of select="node()"/>
                             <xsl:text>; </xsl:text>
                         </xsl:if>
                         </xsl:for-each>
