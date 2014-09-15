@@ -723,6 +723,8 @@
         </script>
 
         <script src="{$theme-path}/scripts/theme.js">&#160;</script>
+        <script src="{$theme-path}/scripts/jquery.collapsible.min.js">&#160;</script>
+        <script src="{$theme-path}/scripts/scripts.js">&#160;</script>
 
         <!-- add "shared" javascript from static, path is relative to webapp root -->
         <xsl:for-each select="/dri:document/dri:meta/dri:pageMeta/dri:metadata[@element='javascript'][@qualifier='url']">

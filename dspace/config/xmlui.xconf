@@ -82,7 +82,7 @@
         <!-- Base DSpace XMLUI Aspects for Display, Browse, Search, Admin, Login and Submission -->
         <aspect name="Displaying Artifacts" path="resource://aspects/ViewArtifacts/" />
         <aspect name="Browsing Artifacts" path="resource://aspects/BrowseArtifacts/" />
-        <aspect name="Searching Artifacts" path="resource://aspects/SearchArtifacts/" />
+<!--        <aspect name="Searching Artifacts" path="resource://aspects/SearchArtifacts/" />-->
         <aspect name="Administration" path="resource://aspects/Administrative/" />
         <aspect name="E-Person" path="resource://aspects/EPerson/" />
         <aspect name="Submission and Workflow" path="resource://aspects/Submission/" />
@@ -122,7 +122,7 @@
             (in the "Basic Features/Aspects" group) as leaving it on together
             with Discovery will cause UI overlap issues
         -->
-        <!-- <aspect name="Discovery" path="resource://aspects/Discovery/" /> -->
+        <aspect name="Discovery" path="resource://aspects/Discovery/" /> 
 
         <!-- ==============
              SWORDv1 Client
@@ -177,18 +177,18 @@
         <!-- Reference theme, the default Manakin XMLUI layout up to DSpace 1.8 -->
         <!-- <theme name="Default Reference Theme" regex=".*" path="Reference/" /> -->
 
-        <theme name="TIMEA Theme" handle="123456789/1" path="TIMEA/"/>
-        <theme name="ECE Theme" handle="1911/10563" path="Rice_ECE/"/> <!-- ECE Publication -->
-        <theme name="ECE Theme" handle="1911/21945" path="Rice_ECE/"/> <!-- CMC Publication -->
-        <theme name="ECE Theme" handle="1911/21661" path="Rice_ECE/"/> <!-- DSP Publication -->
-        <theme name="ETD" handle="1911/13110" path="Rice_ETD/"/>
+         <!--<theme name="TIMEA Theme" handle="123456789/1" path="TIMEA/"/> -->
+        <!-- <theme name="ECE Theme" handle="1911/10563" path="Rice_ECE/"/> --><!-- ECE Publication -->
+         <!--<theme name="ECE Theme" handle="1911/21945" path="Rice_ECE/"/>--> <!-- CMC Publication -->
+         <!--<theme name="ECE Theme" handle="1911/21661" path="Rice_ECE/"/> --><!-- DSP Publication -->
+         <!--<theme name="ETD" handle="1911/13110" path="Rice_ETD/"/>
         <theme name="Shepherd School" handle="1911/71868" path="Rice_Shepherd/"/>
         <theme name="Americas Theme" handle="1911/9219" path="Americas/"/>
-        <theme name="Rice Periodical Theme" handle="1911/27631" path="Periodicals/"/>
-        <theme name="Rice Centennial" handle="1911/35948" path="Rice_Centennial/"/><!-- History of Rice University-->
-        <theme name="Rice Centennial" handle="1911/35950" path="Rice_Centennial/"/> <!-- Rice University General Announcements -->
-        <theme name="Rice Centennial" handle="1911/35952" path="Rice_Centennial/"/> <!-- Rice University Presidential Inauguration Speeches-->
-        <theme name="Rice Commencement Theme " handle="1911/61371" path="Rice_Commencement/"/>
+        <theme name="Rice Periodical Theme" handle="1911/27631" path="Periodicals/"/>   -->
+         <!--<theme name="Rice Centennial" handle="1911/35948" path="Rice_Centennial/"/>--><!-- History of Rice University-->
+         <!--<theme name="Rice Centennial" handle="1911/35950" path="Rice_Centennial/"/> --><!-- Rice University General Announcements -->
+         <!--<theme name="Rice Centennial" handle="1911/35952" path="Rice_Centennial/"/> --><!-- Rice University Presidential Inauguration Speeches-->
+         <!-- <theme name="Rice Commencement Theme " handle="1911/61371" path="Rice_Commencement/"/>
         <theme name="CTTL Theme" handle="1911/61419" path="Rice_CTTL/"/>
         <theme name="Rice WRC Historical Theme " handle="1911/61405" path="Rice_WRCHistorical/"/>
         <theme name="Rice HAAA Theme " handle="1911/36136" path="Rice_HAAA/"/>
@@ -196,7 +196,7 @@
         <theme name="Rice Thresher Theme" handle="1911/64890" path="Rice_Thresher/"/>
 
         <theme name="Rice NFF Theme" handle="1911/75119" path="Rice_NFF/"/>
-
+ -->
         <!-- !!!!!!!!!!!!  dspaceland !!!!!!!!!!!!!!!!! -->
         <!--<theme name="TIMEA Theme" handle="1911/2918" path="TIMEA/"/>-->
         <!--<theme name="ECE Theme" handle="1911/2946" path="Rice_ECE/"/>-->
@@ -209,7 +209,7 @@
         <!-- theme name="Music School Theme" handle="1911/3775" path="Flash/"/ -->
 
         <!-- Default Rice theme -->
-		<theme name="Default Theme" regex=".*" path="Rice/"/>
+		<theme name="Default Theme" regex=".*" path="Rice_Mirage2/"/>
 
         <!--
              For information on configuring the mobile theme, see:

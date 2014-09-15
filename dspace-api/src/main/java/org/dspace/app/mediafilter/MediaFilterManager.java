@@ -754,7 +754,7 @@ public class MediaFilterManager
         }
         // END Ying added/updated this to make sure the softlinks will be generated for video and audio even there are thumbnails there already
 
-        // Ying updated this for JPEG2000 Thumbnail generation / Video Audio filter
+       // Ying updated this for JPEG2000 Thumbnail generation / Video Audio filter
         InputStream destStream;
         String specialmedias = ConfigurationManager.getProperty("filter.org.dspace.app.mediafilter.JPEG2000Filter.inputFormats");
         specialmedias = specialmedias + ", " + vamedias;
@@ -771,7 +771,8 @@ public class MediaFilterManager
             destStream = formatFilter.getDestinationStream(source.retrieve());
         }
 
-        // END Ying updated this for JPEG2000 Thumbnail generation
+         // END Ying updated this for JPEG2000 Thumbnail generation
+
         if (destStream == null)
         {
             if (!isQuiet && !(specialmedias.indexOf(source.getFormat().getMIMEType().trim()) >= 0))
