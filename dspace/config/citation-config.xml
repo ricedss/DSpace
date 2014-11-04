@@ -67,6 +67,8 @@
 
 	<name-map scope="1911/64890" citation-name="thresher-default"/>
 
+        <name-map scope="1911/77130" citation-name="shepherd-pamphlets"/>
+
 	<!-- for historical image default-->
 	<name-map scope="1911/61408" citation-name="histimage-default"/> <!-- Events -->
 	<name-map scope="1911/62306" citation-name="histimage-default"/> <!-- Key Documents -->
@@ -85,6 +87,7 @@
         <name-map scope="1911/35950" citation-name="histimage-default"/> <!-- Rice University General announcements  -->
         <name-map scope="1911/35952" citation-name="histimage-default"/> <!-- Rice University Presidential Inauguration Speeches -->
 
+        <name-map scope="1911/77660" citation-name="dataset-default"/>
         <!-- dspaceland, dspacentest -->
 <!--        <name-map scope="1911/2946" citation-name="ece-default">
             <map-type document-type="Conference Paper" citation-name="ece-conference" />
@@ -161,6 +164,54 @@
 
     *************************************************************************  -->
 
+        <!-- ************************************************************************
+
+                      DEFAULT citation format for Dataset collection
+
+        ************************************************************************   -->
+        <citation name="dataset-default">
+
+            <!-- Author -->
+            <field>
+              <dc-schema>dc</dc-schema>
+              <dc-element>creator</dc-element>
+              <dc-qualifier></dc-qualifier>
+              <display-format multiple-value-seperator=", ">@field@.</display-format>
+            </field>
+
+            <!-- Year -->
+            <field>
+              <dc-schema>dc</dc-schema>
+              <dc-element>date</dc-element>
+              <dc-qualifier>issued</dc-qualifier>
+              <display-format format-it="year-only"> (@field@)</display-format>
+            </field>
+
+                <!-- Title -->
+               <field>
+                 <dc-schema>dc</dc-schema>
+                 <dc-element>title</dc-element>
+                 <dc-qualifier></dc-qualifier>
+                 <display-format> @field@.</display-format>
+               </field>
+
+            <!-- publisher -->
+           <field>
+             <dc-schema>dc</dc-schema>
+             <dc-element>publisher</dc-element>
+             <display-format> @field@. </display-format>
+           </field>
+
+                <!-- URI -->
+               <field>
+                 <dc-schema>dc</dc-schema>
+                 <dc-element>identifier</dc-element>
+                 <dc-qualifier>uri</dc-qualifier>
+                 <display-format> &lt;a href="@field@"&gt;@field@&lt;/a&gt;.</display-format>
+               </field>
+
+
+            </citation>
 
   <!-- ************************************************************************
 
@@ -197,6 +248,47 @@
 
             </citation>
 
+        <!-- ************************************************************************
+
+                              DEFAULT citation format for Shepherd Pamphlets
+
+                ************************************************************************   -->
+                <citation name="shepherd-pamphlets">
+
+                        <!-- Title -->
+                       <field>
+                         <dc-schema>dc</dc-schema>
+                         <dc-element>title</dc-element>
+                         <dc-qualifier></dc-qualifier>
+                         <display-format> @field@.</display-format>
+                       </field>
+
+                    <!-- Year -->
+                   <field>
+                     <dc-schema>dc</dc-schema>
+                     <dc-element>date</dc-element>
+                     <dc-qualifier>issued</dc-qualifier>
+                     <display-format format-it="year-only"> (@field@)</display-format>
+                   </field>
+
+                        <!-- publisher -->
+                       <field>
+                         <dc-schema>dc</dc-schema>
+                         <dc-element>publisher</dc-element>
+                         <display-format> @field@. </display-format>
+                       </field>
+
+
+                        <!-- URI -->
+                       <field>
+                         <dc-schema>dc</dc-schema>
+                         <dc-element>identifier</dc-element>
+                         <dc-qualifier>uri</dc-qualifier>
+                         <display-format> &lt;a href="@field@"&gt;@field@&lt;/a&gt;.</display-format>
+                       </field>
+
+
+                    </citation>
 
 
         <!-- ************************************************************************

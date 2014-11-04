@@ -1416,7 +1416,7 @@ public class SolrServiceImpl implements SearchService, IndexingService {
         return search(context, dso, query, false);
     }
     
-    public DiscoverResult search(Context context, DSpaceObject dso, DiscoverQuery discoveryQuery, boolean includeWithdrawn) throws SearchServiceException {
+    public DiscoverResult search(Context context, DSpaceObject dso, DiscoverQuery discoveryQuery, boolean includeUnDiscoverable) throws SearchServiceException {
         if(dso != null)
         {
             if (dso instanceof Community)
@@ -1430,14 +1430,14 @@ public class SolrServiceImpl implements SearchService, IndexingService {
                 discoveryQuery.addFilterQueries("handle:" + dso.getHandle());
             }
         }
-        return search(context, discoveryQuery, includeWithdrawn);
+        return search(context, discoveryQuery, includeUnDiscoverable);
 
     }
 
 
-    public DiscoverResult search(Context context, DiscoverQuery discoveryQuery, boolean includeWithdrawn) throws SearchServiceException {
+    public DiscoverResult search(Context context, DiscoverQuery discoveryQuery, boolean includeUnDiscoverable) throws SearchServiceException {
         try {
-            SolrQuery solrQuery = resolveToSolrQuery(context, discoveryQuery, includeWithdrawn);
+            SolrQuery solrQuery = resolveToSolrQuery(context, discoveryQuery, includeUnDiscoverable);
 
 
             QueryResponse queryResponse = getSolr().query(solrQuery);
@@ -1449,7 +1449,7 @@ public class SolrServiceImpl implements SearchService, IndexingService {
         }
     }
 
-    protected SolrQuery resolveToSolrQuery(Context context, DiscoverQuery discoveryQuery, boolean includeWithdrawn)
+    protected SolrQuery resolveToSolrQuery(Context context, DiscoverQuery discoveryQuery, boolean includeUnDiscoverable)
     {
         SolrQuery solrQuery = new SolrQuery();
 
@@ -1461,9 +1461,9 @@ public class SolrServiceImpl implements SearchService, IndexingService {
 
         solrQuery.setQuery(query);
             
-        if (!includeWithdrawn)
+        if (!includeUnDiscoverable)
         {
-        	solrQuery.addFilterQuery("NOT(withdrawn:true)");
+        	solrQuery.addFilterQuery("NOT(discoverable:false)");
 		}
 
         for (int i = 0; i < discoveryQuery.getFilterQueries().size(); i++)

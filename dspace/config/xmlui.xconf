@@ -178,25 +178,30 @@
         <!-- <theme name="Default Reference Theme" regex=".*" path="Reference/" /> -->
 
          <!--<theme name="TIMEA Theme" handle="123456789/1" path="TIMEA/"/> -->
-        <!-- <theme name="ECE Theme" handle="1911/10563" path="Rice_ECE/"/> --><!-- ECE Publication -->
-         <!--<theme name="ECE Theme" handle="1911/21945" path="Rice_ECE/"/>--> <!-- CMC Publication -->
-         <!--<theme name="ECE Theme" handle="1911/21661" path="Rice_ECE/"/> --><!-- DSP Publication -->
-         <!--<theme name="ETD" handle="1911/13110" path="Rice_ETD/"/>
-        <theme name="Shepherd School" handle="1911/71868" path="Rice_Shepherd/"/>
+         <!--
         <theme name="Americas Theme" handle="1911/9219" path="Americas/"/>
-        <theme name="Rice Periodical Theme" handle="1911/27631" path="Periodicals/"/>   -->
+    -->
          <!--<theme name="Rice Centennial" handle="1911/35948" path="Rice_Centennial/"/>--><!-- History of Rice University-->
          <!--<theme name="Rice Centennial" handle="1911/35950" path="Rice_Centennial/"/> --><!-- Rice University General Announcements -->
          <!--<theme name="Rice Centennial" handle="1911/35952" path="Rice_Centennial/"/> --><!-- Rice University Presidential Inauguration Speeches-->
          <!-- <theme name="Rice Commencement Theme " handle="1911/61371" path="Rice_Commencement/"/>
-        <theme name="CTTL Theme" handle="1911/61419" path="Rice_CTTL/"/>
         <theme name="Rice WRC Historical Theme " handle="1911/61405" path="Rice_WRCHistorical/"/>
         <theme name="Rice HAAA Theme " handle="1911/36136" path="Rice_HAAA/"/>
-        <theme name="Rice RIP Theme" handle="1911/8328" path="Rice_RIP/"/>
-        <theme name="Rice Thresher Theme" handle="1911/64890" path="Rice_Thresher/"/>
+
+ -->
+        <theme name="ETD" handle="1911/13110" path="Rice_ETD/"/>
+        <theme name="CTTL Theme" handle="1911/61419" path="Rice_CTTL/"/>
 
         <theme name="Rice NFF Theme" handle="1911/75119" path="Rice_NFF/"/>
- -->
+        <theme name="ECE Theme" handle="1911/10563" path="Rice_ECE/"/> <!-- ECE Publication -->
+        <theme name="ECE Theme" handle="1911/21945" path="Rice_ECE/"/> <!-- CMC Publication -->
+        <theme name="ECE Theme" handle="1911/21661" path="Rice_ECE/"/> <!-- DSP Publication -->
+
+        <theme name="Shepherd School" handle="1911/71868" path="Rice_Shepherd/"/>
+        <theme name="Rice Thresher Theme" handle="1911/64890" path="Rice_Thresher/"/>
+        <theme name="Rice RIP Theme" handle="1911/8328" path="Rice_RIP/"/>
+        <theme name="Rice Thresher Theme 1" handle="1911/27631" path="Rice_Thresher_1/"/>
+
         <!-- !!!!!!!!!!!!  dspaceland !!!!!!!!!!!!!!!!! -->
         <!--<theme name="TIMEA Theme" handle="1911/2918" path="TIMEA/"/>-->
         <!--<theme name="ECE Theme" handle="1911/2946" path="Rice_ECE/"/>-->
@@ -209,7 +214,7 @@
         <!-- theme name="Music School Theme" handle="1911/3775" path="Flash/"/ -->
 
         <!-- Default Rice theme -->
-		<theme name="Default Theme" regex=".*" path="Rice_Mirage2/"/>
+		<theme name="Mirage 2" regex=".*" path="Mirage2/"/>
 
         <!--
              For information on configuring the mobile theme, see:

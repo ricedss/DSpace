@@ -214,10 +214,21 @@
          <required></required>
          </field>
 -->
-            <field>
+<!--            <field>
               <dc-schema>dc</dc-schema>
               <dc-element>contributor</dc-element>
               <dc-qualifier>center</dc-qualifier>
+              <repeatable>true</repeatable>
+              <label>Affiliated Rice lab (s), center (s), or institute (s)</label>
+              <input-type>onebox</input-type>
+              <hint>Enter name of affiliated Rice lab (s), center (s), or institute (s). Enter names one at a time. Use  button after each name to create the list.</hint>
+              <required></required>
+            </field>
+-->
+            <field>
+              <dc-schema>dc</dc-schema>
+              <dc-element>contributor</dc-element>
+              <dc-qualifier>org</dc-qualifier>
               <repeatable>true</repeatable>
               <label>Affiliated Rice lab (s), center (s), or institute (s)</label>
               <input-type>onebox</input-type>
@@ -642,10 +653,21 @@
          <required></required>
          </field>
 
-            <field>
+<!--            <field>
               <dc-schema>dc</dc-schema>
               <dc-element>contributor</dc-element>
               <dc-qualifier>center</dc-qualifier>
+              <repeatable>true</repeatable>
+              <label>Affiliated Rice lab (s), center (s), or institute (s)</label>
+              <input-type>onebox</input-type>
+              <hint>Enter name of affiliated Rice lab (s), center (s), or institute (s). Enter names one at a time. Use  button after each name to create the list.</hint>
+              <required></required>
+            </field>
+ -->
+            <field>
+              <dc-schema>dc</dc-schema>
+              <dc-element>contributor</dc-element>
+              <dc-qualifier>org</dc-qualifier>
               <repeatable>true</repeatable>
               <label>Affiliated Rice lab (s), center (s), or institute (s)</label>
               <input-type>onebox</input-type>
