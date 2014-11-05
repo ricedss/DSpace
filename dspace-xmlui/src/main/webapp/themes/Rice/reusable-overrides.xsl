@@ -42,6 +42,7 @@
 
     <!-- MMS: Overriding from structural.xsl for the sole purpose of parsing dri:metadata[@element='xhtml_head_item'] (original comments removed). -->
     <xsl:template name="buildHead">
+	    <xsl:param name="extraGACode" select=""/>
         <head>
             <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
             <meta name="Generator">
@@ -101,7 +102,7 @@
             </xsl:if>
             
             <script type="text/javascript">
-				//Clear default text of emty text areas on focus
+				//Clear default text of empty text areas on focus
 				function tFocus(element)
 				{
 					if (element.value == '<i18n:text>xmlui.dri2xhtml.default.textarea.value</i18n:text>'){element.value='';}
@@ -154,20 +155,27 @@
                     </xsl:attribute>&#160;</script>
             </xsl:for-each>
             
-            <xsl:if test="/dri:document/dri:meta/dri:pageMeta/dri:metadata[@element='google'][@qualifier='analytics']">
-                <script type="text/javascript">
-					<xsl:text>var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");</xsl:text>
-					<xsl:text>document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));</xsl:text>
-				</script>
-                
-                <script type="text/javascript">
-					<xsl:text>try {</xsl:text>
-						<xsl:text>var pageTracker = _gat._getTracker("</xsl:text><xsl:value-of select="/dri:document/dri:meta/dri:pageMeta/dri:metadata[@element='google'][@qualifier='analytics']"/><xsl:text>");</xsl:text>
-						<xsl:text>pageTracker._trackPageview();</xsl:text>
-					<xsl:text>} catch(err) {}</xsl:text>
-				</script>
-            </xsl:if>
-            
+	        <!-- do each Google Universal Analytics code that is configured, but only if this is the
+	             production server. (Due to some stupid parameter collision bug, extra codes are given
+	             as 'google.extra' in sitemap.xmap. 'google.analytics' is sitewide, from dspace.cfg) -->
+	        <xsl:variable name="host_name" select="/dri:document/dri:meta/dri:pageMeta/dri:metadata[@element='request'][@qualifier='serverName']" />
+	        <xsl:if test="contains($host_name,'scholarship.rice.edu')">
+				<xsl:for-each select="/dri:document/dri:meta/dri:pageMeta/dri:metadata[@element='google'][@qualifier='analytics' or @qualifier='extra']">
+					<script type="text/javascript">
+						<xsl:text>try {</xsl:text>
+						<xsl:text>(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+	  ga('create', '</xsl:text>
+						<xsl:value-of select="."/>
+						<xsl:text>', 'auto');
+	  ga('send', 'pageview');</xsl:text>
+						<xsl:text>} catch(err) {}</xsl:text>
+					</script>
+				</xsl:for-each>
+	        </xsl:if>
+
 	    <!-- Ying added this key to activate jwplayer analytics -->
 	    <!--script type="text/javascript">jwplayer.key="Wntm1vNVaEE9HkzSe42YA5n26se24g2VpQ+cew==";</script-->
 

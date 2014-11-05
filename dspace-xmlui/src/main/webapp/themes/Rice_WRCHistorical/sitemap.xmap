@@ -74,6 +74,7 @@
 					<map:parameter name="stylesheet.screen#3" value="../Rice_WRCHistorical/wrchistorical.css"/>
 					<map:parameter name="theme.path" value="{global:theme-path}"/>
 					<map:parameter name="theme.name" value="{global:theme-name}"/>
+					<map:parameter name="google.extra" value="UA-29633606-1"/>
 				</map:transform>
 				<!-- javascript files follow -->
 				<map:transform type="IncludePageMeta">

@@ -121,7 +121,7 @@
         </div>
     </xsl:template>
     
-    <!-- MMS: Add Rice-specific links and message.  Add Google Analytics. -->
+    <!-- MMS: Add Rice-specific links and message. -->
     <xsl:template name="buildFooter">
         <div id="ds-footer">
             <xsl:call-template name="quick-links"/>
@@ -129,21 +129,6 @@
                 Managed by the <a href="http://library.rice.edu/services/dss/dss-home">Digital Scholarship Services</a> at <a href="http://library.rice.edu">Fondren Library</a>, <a href="http://www.rice.edu">Rice University</a>
             </p>
         </div>
-        <!--  adding for Google Analytics ==== YING, move this to head, shouldn't it be in the head??? -->
-        <!-- xsl:variable name="host_name" select="/dri:document/dri:meta/dri:pageMeta/dri:metadata[@element='request'][@qualifier='serverName']" />
-        <xsl:if test="contains($host_name,'scholarship.rice.edu')">-->
-            <!--  for production server -->
-<!--            <script type="text/javascript">
-                var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
-                document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
-            </script>
-            <script type="text/javascript">
-                try {
-                    var pageTracker = _gat._getTracker("UA-1316804-4");
-                    pageTracker._trackPageview();
-                } catch(err) {}
-            </script>
-        </xsl:if>  -->
     </xsl:template>
 
     <!-- MMS: "Home | FAQ | Contact Us" links provided at both top and bottom of page -->
