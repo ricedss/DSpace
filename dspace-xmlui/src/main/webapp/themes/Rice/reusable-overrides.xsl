@@ -156,24 +156,26 @@
             </xsl:for-each>
             
 	        <!-- do each Google Universal Analytics code that is configured, but only if this is the
-	             production server. (Due to some stupid parameter collision bug, extra codes are given
-	             as 'google.extra' in sitemap.xmap. 'google.analytics' is sitewide, from dspace.cfg) -->
+	        production server. (Due to some stupid parameter collision bug, extra codes are given
+	        as 'google.extra' in sitemap.xmap. 'google.analytics' is sitewide, from dspace.cfg) -->
 	        <xsl:variable name="host_name" select="/dri:document/dri:meta/dri:pageMeta/dri:metadata[@element='request'][@qualifier='serverName']" />
-	        <xsl:if test="contains($host_name,'scholarship.rice.edu')">
-				<xsl:for-each select="/dri:document/dri:meta/dri:pageMeta/dri:metadata[@element='google'][@qualifier='analytics' or @qualifier='extra']">
-					<script type="text/javascript">
-						<xsl:text>try {</xsl:text>
-						<xsl:text>(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-	  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-	  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-	  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-	  ga('create', '</xsl:text>
-						<xsl:value-of select="."/>
-						<xsl:text>', 'auto');
-	  ga('send', 'pageview');</xsl:text>
-						<xsl:text>} catch(err) {}</xsl:text>
-					</script>
-				</xsl:for-each>
+	        <xsl:if test="contains($host_name,'scholarship.rice.edu') and /dri:document/dri:meta/dri:pageMeta/dri:metadata[@element='google'][@qualifier='analytics']">
+	            <script type="text/javascript">
+	                <xsl:text>try {</xsl:text>
+	                <xsl:text>(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga'); </xsl:text>
+	                <xsl:text>ga('create', '</xsl:text>
+	                <xsl:value-of select="/dri:document/dri:meta/dri:pageMeta/dri:metadata[@element='google'][@qualifier='analytics']"/>
+	                <xsl:text>', 'auto'); ga('send', 'pageview'); </xsl:text>
+	                <xsl:for-each select="/dri:document/dri:meta/dri:pageMeta/dri:metadata[@element='google'][@qualifier='extra']">
+	                    <xsl:text>ga('create', '</xsl:text>
+	                    <xsl:value-of select="."/>
+	                    <xsl:text>', 'auto', {'name':'theme'}); ga('theme.send', 'pageview');</xsl:text>
+	                </xsl:for-each>
+	                <xsl:text>} catch(err) {}</xsl:text>
+	            </script>
 	        </xsl:if>
 
 	    <!-- Ying added this key to activate jwplayer analytics -->
