@@ -443,10 +443,8 @@
                 <value>dc.creator</value>
                 <value>dc.contributor.architect</value>
                 <value>dc.contributor.performer</value>
-                <value>dc.contributor.presenter</value>
-                <value>dc.contributor.sculptor</value>
-                <value>dc.contributor.translator</value>
                 <value>dc.contributor.illustrator</value>
+                <value>dc.contributor.photographer</value>
             </list>
         </property>
         <property name="facetLimit" value="10"/>
@@ -465,15 +463,15 @@
                 <value>dc.contributor.org</value>
                 <value>dc.contributor.committeeMember</value>
                 <value>dc.contributor.company</value>
-                <value>dc.contributor.composer</value>
                 <value>dc.contributor.conductor</value>
                 <value>dc.contributor.donor</value>
                 <value>dc.contributor.editor</value>
                 <value>dc.contributor.funder</value>
                 <value>dc.contributor.interviewer</value>
                 <value>dc.contributor.lecturer</value>
-                <value>dc.contributor.photographer</value>
                 <value>dc.contributor.publisher</value>
+                <value>dc.contributor.composer</value>
+                <value>dc.contributor.translator</value>
             </list>
         </property>
     </bean>
