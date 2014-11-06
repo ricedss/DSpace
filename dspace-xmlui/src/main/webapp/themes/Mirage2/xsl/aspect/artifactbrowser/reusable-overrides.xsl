@@ -195,6 +195,50 @@
             </div>
         </xsl:if>   -->
     </xsl:template>
+
+    <!-- we have no setup for xmlui.theme.mirage.item-list.emphasis, just hard coded with 'file' -->
+     <xsl:template name="itemSummaryList-DIM">
+        <xsl:variable name="itemWithdrawn" select="./mets:dmdSec/mets:mdWrap[@OTHERMDTYPE='DIM']/mets:xmlData/dim:dim/@withdrawn" />
+
+        <xsl:variable name="href">
+            <xsl:choose>
+                <xsl:when test="$itemWithdrawn">
+                    <xsl:value-of select="@OBJEDIT"/>
+                </xsl:when>
+                <xsl:otherwise>
+                    <xsl:value-of select="@OBJID"/>
+                </xsl:otherwise>
+            </xsl:choose>
+        </xsl:variable>
+
+        <!-- confman:getProperty('xmlui.theme.mirage.item-list.emphasis') -->
+        <xsl:variable name="emphasis" select="'file'"/>
+        <xsl:choose>
+            <xsl:when test="'file' = $emphasis">
+
+
+                <div class="item-wrapper row">
+                    <div class="col-sm-3 hidden-xs">
+                        <xsl:apply-templates select="./mets:fileSec" mode="artifact-preview">
+                            <xsl:with-param name="href" select="$href"/>
+                        </xsl:apply-templates>
+                    </div>
+
+                    <div class="col-sm-9">
+                        <xsl:apply-templates select="./mets:dmdSec/mets:mdWrap[@OTHERMDTYPE='DIM']/mets:xmlData/dim:dim"
+                                             mode="itemSummaryList-DIM-metadata">
+                            <xsl:with-param name="href" select="$href"/>
+                        </xsl:apply-templates>
+                    </div>
+
+                </div>
+            </xsl:when>
+            <xsl:otherwise>
+                <xsl:apply-templates select="./mets:dmdSec/mets:mdWrap[@OTHERMDTYPE='DIM']/mets:xmlData/dim:dim"
+                                     mode="itemSummaryList-DIM-metadata"><xsl:with-param name="href" select="$href"/></xsl:apply-templates>
+            </xsl:otherwise>
+        </xsl:choose>
+    </xsl:template>
     <!-- ============================================
                      Reference listings
          ============================================ -->
@@ -232,14 +276,14 @@
                 <!--h3><i18n:text>xmlui.dri2xhtml.METS-1.0.item-files-head</i18n:text></h3-->
                 <div class="file-list">
                     <xsl:apply-templates select="//mets:fileSec/mets:fileGrp[@USE='CONTENT' or @USE='ORIGINAL' or @USE='LICENSE' or @USE='CC-LICENSE']">
-                        <xsl:with-param name="context" select="."/>
+                        <xsl:with-param name="context" select="//mets:METS"/>
                         <xsl:with-param name="primaryBitstream" select="//mets:structMap[@TYPE='LOGICAL']/mets:div[@TYPE='DSpace Item']/mets:fptr/@FILEID"/>
                     </xsl:apply-templates>
                 </div>
             </xsl:when>
             <!-- Special case for handling ORE resource maps stored as DSpace bitstreams -->
             <xsl:when test="//mets:fileSec/mets:fileGrp[@USE='ORE']">
-                <xsl:apply-templates select="./mets:fileSec/mets:fileGrp[@USE='ORE']"/>
+                <xsl:apply-templates select="//mets:fileSec/mets:fileGrp[@USE='ORE']"/>
             </xsl:when>
             <xsl:otherwise>
                 <h2><i18n:text>xmlui.dri2xhtml.METS-1.0.item-files-head</i18n:text></h2>

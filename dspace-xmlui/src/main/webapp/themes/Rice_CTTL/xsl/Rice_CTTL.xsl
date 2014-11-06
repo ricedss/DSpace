@@ -22,6 +22,29 @@
     
     <xsl:output indent="yes"/>
 
+        <!-- Ying: Updated this for our new theme -->
+     <xsl:template match="dim:dim" mode="itemSummaryView-DIM">
+         <div class="item-summary-view-metadata">
+             <xsl:call-template name="itemSummaryView-DIM-title"/>
+             <div class="row">
+                      <!-- Generate the bitstream information from the file section -->
+
+             <!--    <div class="col-sm-12">
+                     <div class="row">
+                         <div class="col-xs-6 col-sm-6">
+                             <xsl:call-template name="itemSummaryView-DIM-thumbnail"/>
+                         </div>
+                         <div class="col-xs-6 col-sm-6">
+                             <xsl:call-template name="itemSummaryView-DIM-file-section"/>
+                         </div>
+                     </div>
+                 </div>   -->
+                 <div class="col-sm-12">
+                     <xsl:call-template name="simple-item-record-rows"/>
+                 </div>
+             </div>
+         </div>
+     </xsl:template>
 
     <xsl:template name="simple-item-record-rows">
  <!--                    <xsl:call-template name="itemSummaryView-DIM-URI"/-->

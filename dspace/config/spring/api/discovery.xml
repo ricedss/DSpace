@@ -98,6 +98,7 @@
         <property name="sidebarFacets">
             <list>
                 <ref bean="searchFilterAuthor" />
+                <ref bean="searchFilterContributor"/>
                 <ref bean="searchFilterSubject" />
                 <ref bean="searchFilterIssued" />
             </list>
@@ -106,8 +107,8 @@
         <property name="searchFilters">
             <list>
                 <ref bean="searchFilterTitle" />
-                <ref bean="searchFilterContributor"/>
                 <ref bean="searchFilterAuthor" />
+                <ref bean="searchFilterContributor"/>
                 <ref bean="searchFilterSubject" />
                 <ref bean="searchFilterIssued" />
                 <!-- Ying customized searchFilter: abstract, doi, fulltext -->
@@ -208,6 +209,7 @@
         <property name="sidebarFacets">
             <list>
                 <ref bean="searchFilterAuthor" />
+                <ref bean="searchFilterContributor"/>
                 <ref bean="searchFilterSubject" />
                 <ref bean="searchFilterIssued" />
             </list>
@@ -317,6 +319,7 @@
         <property name="sidebarFacets">
             <list>
                 <ref bean="searchFilterAuthor" />
+                <ref bean="searchFilterAdvisor"/>
                 <ref bean="searchFilterSubject" />
                 <ref bean="searchFilterIssued" />
                 <ref bean="searchFilterDegreeDepartment" />
@@ -331,6 +334,7 @@
             <list>
                 <ref bean="searchFilterTitle" />
                 <ref bean="searchFilterAuthor" />
+                <ref bean="searchFilterAdvisor" />
                 <ref bean="searchFilterContributor"/>
                 <ref bean="searchFilterSubject" />
                 <ref bean="searchFilterIssued" />
@@ -342,7 +346,6 @@
                 <ref bean="searchFilterDegreeDiscipline" />
                 <ref bean="searchFilterDegreeLevel" />
                 <ref bean="searchFilterDegreeName" />
-                <ref bean="searchFilterAdvisor" />
             </list>
         </property>
         <!--The sort filters for the discovery search-->
@@ -451,7 +454,7 @@
         <property name="sortOrder" value="COUNT"/>
     </bean>
 
-    <bean id="searchFilterContributor" class="org.dspace.discovery.configuration.DiscoverySearchFilter">
+    <bean id="searchFilterContributor" class="org.dspace.discovery.configuration.DiscoverySearchFilterFacet">
         <property name="indexFieldName" value="contributor"/>
         <property name="metadataFields">
             <list>
@@ -474,6 +477,8 @@
                 <value>dc.contributor.translator</value>
             </list>
         </property>
+        <property name="facetLimit" value="10"/>
+        <property name="sortOrder" value="COUNT"/>
     </bean>
 
     <bean id="searchFilterSubject" class="org.dspace.discovery.configuration.HierarchicalSidebarFacetConfiguration">
@@ -583,13 +588,15 @@
     </bean>
 
 
-        <bean id="searchFilterAdvisor" class="org.dspace.discovery.configuration.DiscoverySearchFilter">
+        <bean id="searchFilterAdvisor" class="org.dspace.discovery.configuration.DiscoverySearchFilterFacet">
     <property name="indexFieldName" value="advisor"/>
     <property name="metadataFields">
         <list>
             <value>dc.contributor.advisor</value>
         </list>
     </property>
+            <property name="facetLimit" value="10"/>
+            <property name="sortOrder" value="COUNT"/>
 
     </bean>
     <!-- Ying customized searchFilter: abstract, subject, fulltext -->
