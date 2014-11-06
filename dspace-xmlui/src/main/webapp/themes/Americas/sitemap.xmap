@@ -73,6 +73,7 @@
 					<map:parameter name="stylesheet.screen#3" value="americas.css"/>
 					<map:parameter name="theme.path" value="{global:theme-path}"/>
 					<map:parameter name="theme.name" value="{global:theme-name}"/>
+					<map:parameter name="google.extra" value="UA-1316804-4"/>
 				</map:transform>
 				<!-- javascript files follow -->
 				<map:transform type="IncludePageMeta">

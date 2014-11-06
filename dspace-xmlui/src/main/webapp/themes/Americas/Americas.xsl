@@ -114,25 +114,6 @@
                 </a>
             </p>
         </div>
-        <!--  adding for Google Analytics -->
-        <xsl:variable name="host_name" select="/dri:document/dri:meta/dri:pageMeta/dri:metadata[@element='request'][@qualifier='serverName']" />
-        <xsl:choose>
-            <xsl:when test="contains($host_name,'scholarship.rice.edu')">
-                <!--  for production server -->
-                <script type="text/javascript">
-                    var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
-                    document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
-                </script>
-                <script type="text/javascript">
-                    try {
-                        var pageTracker = _gat._getTracker("UA-1316804-4");
-                        pageTracker._trackPageview();
-                    } catch(err) {}
-                </script>
-            </xsl:when>
-            <xsl:otherwise>
-            </xsl:otherwise>
-        </xsl:choose>
     </xsl:template>
 
     <!-- MMS: Use a different file than that "TEXT" image from TIMEA (copied from Rice.xsl with comments removed) -->

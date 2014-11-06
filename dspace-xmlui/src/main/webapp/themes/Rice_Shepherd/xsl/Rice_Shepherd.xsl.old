@@ -87,7 +87,7 @@
          links to each of the component "pieces" in the performance (if available). -->
     <xsl:template match="dim:dim" mode="itemSummaryView-DIM">
         
-        <!-- The most important part is whether this item is a performace or a piece. -->
+        <!-- The most important part is whether this item is a performance or a piece. -->
         <xsl:variable name="itemtype">
             <xsl:choose>
                 <xsl:when test="//dim:field[@element='coverage']">
@@ -296,7 +296,7 @@
     <xsl:template match="mets:fileGrp[@USE='CONTENT']">
         <xsl:param name="context"/>
         <xsl:param name="primaryBitstream" select="-1"/>
-        <!-- The most important part is whether this item is a performace or a piece. -->
+        <!-- The most important part is whether this item is a performance or a piece. -->
         <xsl:variable name="itemtype">
             <xsl:choose>
                 <xsl:when test="//dim:field[@element='coverage']">

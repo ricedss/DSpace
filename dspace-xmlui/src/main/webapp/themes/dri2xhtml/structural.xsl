@@ -34,7 +34,7 @@
     <!--
         Context path provides easy access to the context-path parameter. This is
         used when building urls back to the site, they all must include the
-        context-path paramater.
+        context-path parameter.
     -->
     <xsl:variable name="context-path" select="/dri:document/dri:meta/dri:pageMeta/dri:metadata[@element='contextPath'][not(@qualifier)]"/>
     
@@ -67,7 +67,7 @@
     -->
     
     <!-- This stylesheet's purpose is to translate a DRI document to an HTML one, a task which it accomplishes
-        through interative application of templates to select elements. While effort has been made to
+        through iterative application of templates to select elements. While effort has been made to
         annotate all templates to make this stylesheet self-documenting, not all elements are used (and
         therefore described) here, and those that are may not be used to their full capacity. For this reason,
         you should consult the DRI Schema Reference manual if you intend to customize this file for your needs.
@@ -247,7 +247,7 @@
                     </xsl:attribute>&#160;</script>
             </xsl:for-each>
 
-            <!-- Add theme javascipt  -->
+            <!-- Add theme javascript  -->
             <xsl:for-each select="/dri:document/dri:meta/dri:pageMeta/dri:metadata[@element='javascript'][not(@qualifier)]">
                 <script type="text/javascript">
                     <xsl:attribute name="src">
@@ -258,24 +258,30 @@
                         <xsl:value-of select="."/>
                     </xsl:attribute>&#160;</script>
             </xsl:for-each>
-            
-            
-            <!-- Add a google analytics script if the key is present -->
-            <xsl:if test="/dri:document/dri:meta/dri:pageMeta/dri:metadata[@element='google'][@qualifier='analytics']">
-                <script type="text/javascript"><xsl:text>
-                       var _gaq = _gaq || [];
-                       _gaq.push(['_setAccount', '</xsl:text><xsl:value-of select="/dri:document/dri:meta/dri:pageMeta/dri:metadata[@element='google'][@qualifier='analytics']"/><xsl:text>']);
-                       _gaq.push(['_trackPageview']);
 
-                       (function() {
-                           var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-                           ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-                           var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-                       })();
-               </xsl:text></script>
-            </xsl:if>
-            
-            
+	        <!-- do each Google Universal Analytics code that is configured, but only if this is the
+	        production server. (Due to some stupid parameter collision bug, extra codes are given
+	        as 'google.extra' in sitemap.xmap. 'google.analytics' is sitewide, from dspace.cfg) -->
+	        <xsl:variable name="host_name" select="/dri:document/dri:meta/dri:pageMeta/dri:metadata[@element='request'][@qualifier='serverName']" />
+	        <xsl:if test="contains($host_name,'scholarship.rice.edu') and /dri:document/dri:meta/dri:pageMeta/dri:metadata[@element='google'][@qualifier='analytics']">
+	            <script type="text/javascript">
+	                <xsl:text>try {</xsl:text>
+	                <xsl:text>(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga'); </xsl:text>
+	                <xsl:text>ga('create', '</xsl:text>
+	                <xsl:value-of select="/dri:document/dri:meta/dri:pageMeta/dri:metadata[@element='google'][@qualifier='analytics']"/>
+	                <xsl:text>', 'auto'); ga('send', 'pageview'); </xsl:text>
+	                <xsl:for-each select="/dri:document/dri:meta/dri:pageMeta/dri:metadata[@element='google'][@qualifier='extra']">
+	                    <xsl:text>ga('create', '</xsl:text>
+	                    <xsl:value-of select="."/>
+	                    <xsl:text>', 'auto', {'name':'theme'}); ga('theme.send', 'pageview');</xsl:text>
+	                </xsl:for-each>
+	                <xsl:text>} catch(err) {}</xsl:text>
+	            </script>
+	        </xsl:if>
+
             <!-- Add the title in -->
             <xsl:variable name="page_title" select="/dri:document/dri:meta/dri:pageMeta/dri:metadata[@element='title']" />
             <title>
