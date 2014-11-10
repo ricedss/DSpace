@@ -72,11 +72,18 @@
             <xsl:call-template name="cc-license">
                 <xsl:with-param name="metadataURL" select="./dri:referenceSet/dri:reference/@url"/>
             </xsl:call-template>
+            <!-- Ying added this for Usage and rights statement-->
+            <xsl:call-template name="rights-statement">
+                    <xsl:with-param name="metadataURL" select="./dri:referenceSet/dri:reference/@url"/>
+                </xsl:call-template>
+             <!-- END Ying added this for Usage and rights statement-->
+
         </xsl:if>
         <xsl:apply-templates select="@pagination">
             <xsl:with-param name="position">bottom</xsl:with-param>
         </xsl:apply-templates>
     </xsl:template>
+
 
     <!-- Special case for divs tagged as "notice" -->
     <xsl:template match="dri:div[@n='general-message']" priority="3">

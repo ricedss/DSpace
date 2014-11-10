@@ -204,10 +204,6 @@
         <div class="file-wrapper row">
             <div class="col-xs-6 col-sm-3">
                 <div class="thumbnail">
-                    <a class="image-link">
-                        <xsl:attribute name="href">
-                            <xsl:value-of select="mets:FLocat[@LOCTYPE='URL']/@xlink:href"/>
-                        </xsl:attribute>
                         <xsl:choose>
 
                         <xsl:when test="@MIMETYPE='image/jp2'">
@@ -247,8 +243,8 @@
                             },
                             primary: "flash",
                             stretching: "exactfit",
-                            height: 180,
-                            width: 320
+                            height: 172,
+                            width: 300
 
 
                             });
@@ -286,7 +282,11 @@
 
                             </xsl:when>
                             <xsl:otherwise>
-                               <xsl:choose>
+                                <a class="image-link">
+                                       <xsl:attribute name="href">
+                                           <xsl:value-of select="mets:FLocat[@LOCTYPE='URL']/@xlink:href"/>
+                                       </xsl:attribute>
+                                  <xsl:choose>
                                     <xsl:when test="$context/mets:fileSec/mets:fileGrp[@USE='THUMBNAIL']/
                                         mets:file[@GROUPID=current()/@GROUPID]">
                                         <img alt="Thumbnail">
@@ -306,9 +306,9 @@
                                         </img>
                                     </xsl:otherwise>
                                 </xsl:choose>
-                        </xsl:otherwise>
+                                </a>
+                          </xsl:otherwise>
                         </xsl:choose>
-                    </a>
                 </div>
             </div>
 

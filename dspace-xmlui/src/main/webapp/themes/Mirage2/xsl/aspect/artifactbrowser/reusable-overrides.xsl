@@ -92,7 +92,7 @@
         </xsl:apply-templates>
     </xsl:template>
 
-       <!--Ying: The rights statement: updated from cc-license in core/page-structure.xsl-->
+       <!--Ying: The rights statement: updated from cc-license in core/page-structure.xsl. also changed core/elements.xsl-->
     <xsl:template name="rights-statement">
         <xsl:param name="metadataURL"/>
         <xsl:variable name="externalMetadataURL">
@@ -100,6 +100,13 @@
             <xsl:value-of select="$metadataURL"/>
             <xsl:text>?sections=dmdSec,fileSec&amp;fileGrpTypes=THUMBNAIL</xsl:text>
         </xsl:variable>
+        <xsl:variable name="LicenseName"
+                      select="document($externalMetadataURL)//dim:field[@element='rights']"
+                />
+        <xsl:variable name="LicenseUri"
+                      select="document($externalMetadataURL)//dim:field[@element='rights'][@qualifier='uri']"
+                />
+
                 <xsl:variable name="handleUri">
             <xsl:for-each select="document($externalMetadataURL)//dim:field[@element='identifier' and @qualifier='uri']">
                 <a>
@@ -115,7 +122,8 @@
         </xsl:variable>
 
                   <!-- Add "Rights and Usage" section for any dc.rights and dc.rights.uri fields -->
-            <xsl:if test="document($externalMetadataURL)//dim:field[@element='rights']">
+            <!--xsl:if test="document($externalMetadataURL)//dim:field[@element='rights']"-->
+         <xsl:if test="$LicenseName and (not($LicenseUri) or not(contains($LicenseUri, 'creativecommons')))">
                 <div about="{$handleUri}" class="row">
                     <div class="col-sm-3 col-xs-12">
                         <!-- i18n: Rights and Usage -->
@@ -329,10 +337,6 @@
         <div class="file-wrapper row">
             <div class="col-xs-6 col-sm-3">
                 <div class="thumbnail">
-                    <a class="image-link">
-                        <xsl:attribute name="href">
-                            <xsl:value-of select="mets:FLocat[@LOCTYPE='URL']/@xlink:href"/>
-                        </xsl:attribute>
                         <xsl:choose>
 
                         <xsl:when test="@MIMETYPE='image/jp2'">
@@ -411,6 +415,10 @@
 
                             </xsl:when>
                             <xsl:otherwise>
+                                <a class="image-link">
+                                    <xsl:attribute name="href">
+                                        <xsl:value-of select="mets:FLocat[@LOCTYPE='URL']/@xlink:href"/>
+                                    </xsl:attribute>
                                <xsl:choose>
                                     <xsl:when test="$context/mets:fileSec/mets:fileGrp[@USE='THUMBNAIL']/
                                         mets:file[@GROUPID=current()/@GROUPID]">
@@ -431,9 +439,9 @@
                                         </img>
                                     </xsl:otherwise>
                                 </xsl:choose>
+                            </a>
                         </xsl:otherwise>
                         </xsl:choose>
-                    </a>
                 </div>
             </div>
 
