@@ -99,7 +99,6 @@
         <property name="sidebarFacets">
             <list>
                 <ref bean="searchFilterAuthor" />
-                <ref bean="searchFilterContributor"/>
                 <ref bean="searchFilterSubject" />
                 <ref bean="searchFilterIssued" />
             </list>
@@ -109,6 +108,7 @@
             <list>
                 <ref bean="searchFilterTitle" />
                 <ref bean="searchFilterAuthor" />
+                <ref bean="searchFilterContributor"/>
                 <ref bean="searchFilterSubject" />
                 <ref bean="searchFilterIssued" />
                 <!-- Ying customized searchFilter: abstract, doi, fulltext -->
@@ -209,7 +209,6 @@
         <property name="sidebarFacets">
             <list>
                 <ref bean="searchFilterAuthor" />
-                <ref bean="searchFilterContributor"/>
                 <ref bean="searchFilterSubject" />
                 <ref bean="searchFilterIssued" />
             </list>
@@ -219,6 +218,7 @@
             <list>
                 <ref bean="searchFilterTitle" />
                 <ref bean="searchFilterAuthor" />
+                <ref bean="searchFilterContributor"/>
                 <ref bean="searchFilterSubject" />
                 <ref bean="searchFilterIssued" />
                 <!-- Ying customized searchFilter: abstract, doi, fulltext -->
