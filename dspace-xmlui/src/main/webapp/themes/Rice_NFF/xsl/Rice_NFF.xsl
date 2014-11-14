@@ -27,11 +27,10 @@
 <!--                    <xsl:call-template name="itemSummaryView-DIM-URI"/-->
                     <xsl:call-template name="itemSummaryView-DIM-alternative-title"/>
                     <xsl:call-template name="itemSummaryView-DIM-authors"/>
-                    <xsl:call-template name="itemSummaryView-DIM-date"/>
                     <xsl:call-template name="itemSummaryView-DIM-translator"/>
+                    <xsl:call-template name="itemSummaryView-DIM-date"/>
                     <xsl:call-template name="itemSummaryView-DIM-citation"/>
                     <xsl:call-template name="itemSummaryView-DIM-doi"/>
-                    <xsl:call-template name="itemSummaryView-DIM-subject-keyword"/>
                     <xsl:call-template name="itemSummaryView-DIM-abstract"/>
                     <xsl:call-template name="itemSummaryView-DIM-description"/>
                     <xsl:call-template name="itemSummaryView-DIM-subject"/>

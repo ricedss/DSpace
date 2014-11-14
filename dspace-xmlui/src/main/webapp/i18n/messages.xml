@@ -2510,5 +2510,13 @@
      <message key="xmlui.mirage2.choice-authority-control.loading">Loading...</message>
 
      <message key="xmlui.mirage2.item-list.thumbnail">Thumbnail</message>
+     <message key="xmlui.Rice.department">Department</message>
+
+    <message key="xmlui.Rice.photographer">Photographer</message>
+    <message key="xmlui.Rice.illustrator">Illustrator</message>
+    <message key="xmlui.Rice.architect">Architect</message>
+    <message key="xmlui.Rice.doi">Published Version</message>
+    <message key="xmlui.Rice.uri">Citable link to this page</message>
+    <message key="xmlui.Rice.funder">Funder</message>
 
 </catalogue>

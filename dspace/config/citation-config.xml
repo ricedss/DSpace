@@ -1083,14 +1083,6 @@
            </field>
 
 
-            <!-- URI -->
-<!--           <field>
-             <dc-schema>dc</dc-schema>
-             <dc-element>identifier</dc-element>
-             <dc-qualifier>uri</dc-qualifier>
-             <display-format> &lt;a href="@field@"&gt;@field@&lt;/a&gt;.</display-format>
-           </field>
--->
             <!-- DOI -->
            <field>
              <dc-schema>dc</dc-schema>
@@ -1098,6 +1090,15 @@
              <dc-qualifier>doi</dc-qualifier>
              <display-format> @field@.</display-format>
            </field>
+
+            <!-- URI -->
+           <field>
+             <dc-schema>dc</dc-schema>
+             <dc-element>identifier</dc-element>
+             <dc-qualifier>uri</dc-qualifier>
+             <display-format> &lt;a href="@field@"&gt;@field@&lt;/a&gt;.</display-format>
+           </field>
+
         </citation>
 
 

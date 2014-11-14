@@ -24,16 +24,15 @@
 
   <xsl:template name="simple-item-record-rows">
  
-                     <xsl:call-template name="itemSummaryView-DIM-alternative-title"/>
+                     <!--xsl:call-template name="itemSummaryView-DIM-alternative-title"/-->
                      <xsl:call-template name="itemSummaryView-DIM-authors"/>
-                     <xsl:call-template name="itemSummaryView-DIM-translator"/>
+                     <xsl:call-template name="itemSummaryView-DIM-date"/>
                      <xsl:call-template name="itemSummaryView-DIM-advisor"/>
+                     <xsl:call-template name="itemSummaryView-DIM-department"/>
                      <xsl:call-template name="itemSummaryView-DIM-degree"/>
                      <xsl:call-template name="itemSummaryView-DIM-abstract"/>
-                     <xsl:call-template name="itemSummaryView-DIM-description"/>
+                     <xsl:call-template name="itemSummaryView-DIM-subject"/>
                      <xsl:call-template name="itemSummaryView-DIM-citation"/>
-                     <xsl:call-template name="itemSummaryView-DIM-URI"/>
-                     <xsl:call-template name="itemSummaryView-DIM-date"/>
                      <xsl:if test="$ds_item_view_toggle_url != ''">
                          <xsl:call-template name="itemSummaryView-show-full"/>
                      </xsl:if>
