@@ -44,6 +44,8 @@
 
     <xsl:param name="browser" />
 
+     <xsl:variable name="repositoryURL" select="dri:document/dri:meta/dri:pageMeta/dri:trail[1]/@target"/>
+
     <!-- TODO: Adding this can break the search "GO" and "login" buttons etc...WHY!!!!
 
     Ying:from core/elements.xsl -
@@ -548,6 +550,7 @@
                         <xsl:call-template name="itemSummaryView-DIM-performer"/>
                         <xsl:call-template name="itemSummaryView-DIM-translator"/>
                         <xsl:call-template name="itemSummaryView-DIM-date"/>
+                        <xsl:call-template name="itemSummaryView-DIM-description"/>
                         <xsl:call-template name="itemSummaryView-DIM-citation"/>
                         <xsl:call-template name="itemSummaryView-DIM-doi"/>
                         <xsl:call-template name="itemSummaryView-DIM-abstract"/>
@@ -1513,4 +1516,425 @@
     </xsl:template>
 
 
+       <!-- The header (distinct from the HTML head element) contains the title, subtitle, login box and various
+        placeholders for header images -->
+    <xsl:template name="buildHeader">
+
+
+        <header>
+            <div class="navbar navbar-default navbar-static-top" role="navigation">
+                <div class="container">
+                    <div class="navbar-header">
+
+                        <button type="button" class="navbar-toggle" data-toggle="offcanvas">
+                            <span class="sr-only">
+                                <i18n:text>xmlui.mirage2.page-structure.toggleNavigation</i18n:text>
+                            </span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </button>
+
+                        <a href="{$context-path}/" class="navbar-brand">
+                            <!--img src="{$theme-path}/images/DSpace-logo-line.svg" /-->
+                            <img src="{$theme-path}/images/RDSA-logo.png" />
+                        </a>
+
+
+                        <div class="navbar-header pull-right visible-xs hidden-sm hidden-md hidden-lg">
+                        <ul class="nav nav-pills pull-left ">
+
+                            <xsl:if test="count(/dri:document/dri:meta/dri:pageMeta/dri:metadata[@element='page'][@qualifier='supportedLocale']) &gt; 1">
+                                <li id="ds-language-selection-xs" class="dropdown">
+                                    <xsl:variable name="active-locale" select="/dri:document/dri:meta/dri:pageMeta/dri:metadata[@element='page'][@qualifier='currentLocale']"/>
+                                    <button id="language-dropdown-toggle-xs" href="#" role="button" class="dropdown-toggle navbar-toggle navbar-link" data-toggle="dropdown">
+                                        <b class="visible-xs glyphicon glyphicon-globe" aria-hidden="true"/>
+                                    </button>
+                                    <ul class="dropdown-menu pull-right" role="menu" aria-labelledby="language-dropdown-toggle-xs" data-no-collapse="true">
+                                        <xsl:for-each
+                                                select="/dri:document/dri:meta/dri:pageMeta/dri:metadata[@element='page'][@qualifier='supportedLocale']">
+                                            <xsl:variable name="locale" select="."/>
+                                            <li role="presentation">
+                                                <xsl:if test="$locale = $active-locale">
+                                                    <xsl:attribute name="class">
+                                                        <xsl:text>disabled</xsl:text>
+                                                    </xsl:attribute>
+                                                </xsl:if>
+                                                <a>
+                                                    <xsl:attribute name="href">
+                                                        <xsl:value-of select="$current-uri"/>
+                                                        <xsl:text>?locale-attribute=</xsl:text>
+                                                        <xsl:value-of select="$locale"/>
+                                                    </xsl:attribute>
+                                                    <xsl:value-of
+                                                            select="/dri:document/dri:meta/dri:pageMeta/dri:metadata[@element='supportedLocale'][@qualifier=$locale]"/>
+                                                </a>
+                                            </li>
+                                        </xsl:for-each>
+
+                                    </ul>
+                                </li>
+                            </xsl:if>
+                            <xsl:choose>
+                                <xsl:when test="/dri:document/dri:meta/dri:userMeta/@authenticated = 'yes'">
+                                    <li class="dropdown">
+                                        <button class="dropdown-toggle navbar-toggle navbar-link" id="user-dropdown-toggle-xs" href="#" role="button"  data-toggle="dropdown">
+                                            <b class="visible-xs glyphicon glyphicon-user" aria-hidden="true"/>
+                                        </button>
+                                        <ul class="dropdown-menu pull-right" role="menu"
+                                            aria-labelledby="user-dropdown-toggle-xs" data-no-collapse="true">
+                                            <li>
+                                                <a href="{/dri:document/dri:meta/dri:userMeta/
+                            dri:metadata[@element='identifier' and @qualifier='url']}">
+                                                    <i18n:text>xmlui.EPerson.Navigation.profile</i18n:text>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="{/dri:document/dri:meta/dri:userMeta/
+                            dri:metadata[@element='identifier' and @qualifier='logoutURL']}">
+                                                    <i18n:text>xmlui.dri2xhtml.structural.logout</i18n:text>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                </xsl:when>
+                                <xsl:otherwise>
+                                    <li>
+                                        <form style="display: inline" action="{/dri:document/dri:meta/dri:userMeta/
+                            dri:metadata[@element='identifier' and @qualifier='loginURL']}" method="get">
+                                            <button class="navbar-toggle navbar-link">
+                                            <b class="visible-xs glyphicon glyphicon-user" aria-hidden="true"/>
+                                            </button>
+                                        </form>
+                                    </li>
+                                </xsl:otherwise>
+                            </xsl:choose>
+                        </ul>
+                              </div>
+                    </div>
+
+                    <div class="navbar-header pull-right hidden-xs">
+                        <ul class="nav navbar-nav pull-left">
+                              <xsl:call-template name="languageSelection"/>
+                        </ul>
+
+                        <ul class="nav navbar-nav pull-left">
+                            <li>
+                          <a href="http://bit.ly/RDSA-FAQ" ><span class="hidden-xs">FAQ</span></a>
+                         </li></ul>
+                        <ul class="nav navbar-nav pull-left">
+                            <li>
+                          <a href="http://openaccess.rice.edu/ir-submission-process/" ><span class="hidden-xs">Deposit your work</span></a>
+                         </li></ul>
+
+                        <ul class="nav navbar-nav pull-left">
+
+
+                            <xsl:choose>
+                                <xsl:when test="/dri:document/dri:meta/dri:userMeta/@authenticated = 'yes'">
+                                    <li class="dropdown">
+                                        <a id="user-dropdown-toggle" href="#" role="button" class="dropdown-toggle"
+                                           data-toggle="dropdown">
+                                            <span class="hidden-xs">
+                                                <xsl:value-of select="/dri:document/dri:meta/dri:userMeta/
+                            dri:metadata[@element='identifier' and @qualifier='firstName']"/>
+                                                <xsl:text> </xsl:text>
+                                                <xsl:value-of select="/dri:document/dri:meta/dri:userMeta/
+                            dri:metadata[@element='identifier' and @qualifier='lastName']"/>
+                                                &#160;
+                                                <b class="caret"/>
+                                            </span>
+                                        </a>
+                                        <ul class="dropdown-menu pull-right" role="menu"
+                                            aria-labelledby="user-dropdown-toggle" data-no-collapse="true">
+                                            <li>
+                                                <a href="{/dri:document/dri:meta/dri:userMeta/
+                            dri:metadata[@element='identifier' and @qualifier='url']}">
+                                                    <i18n:text>xmlui.EPerson.Navigation.profile</i18n:text>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="{/dri:document/dri:meta/dri:userMeta/
+                            dri:metadata[@element='identifier' and @qualifier='logoutURL']}">
+                                                    <i18n:text>xmlui.dri2xhtml.structural.logout</i18n:text>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                </xsl:when>
+                                <xsl:otherwise>
+                                    <li>
+                                        <a href="{/dri:document/dri:meta/dri:userMeta/
+                            dri:metadata[@element='identifier' and @qualifier='loginURL']}">
+                                            <span class="hidden-xs">
+                                                <i18n:text>xmlui.dri2xhtml.structural.login</i18n:text>
+                                            </span>
+                                        </a>
+                                    </li>
+                                </xsl:otherwise>
+                            </xsl:choose>
+                        </ul>
+
+                        <button data-toggle="offcanvas" class="navbar-toggle visible-sm" type="button">
+                            <span class="sr-only"><i18n:text>xmlui.mirage2.page-structure.toggleNavigation</i18n:text></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+        </header>
+
+    </xsl:template>
+
+    <!-- Like the header, the footer contains various miscellaneous text, links, and image placeholders -->
+    <xsl:template name="buildFooter">
+        <footer>
+                <div class="row">
+                    <hr/>
+                    <div class="col-xs-5 col-sm-6">
+                        <div class="pull-left">
+                            <div>
+
+                             <a href="{$repositoryURL}">
+                    <!-- i18n: "Home" -->
+                    <i18n:text>xmlui.Rice.Home</i18n:text>
+                        </a>
+                               <xsl:text> | </xsl:text>
+                             <a href="http://bit.ly/RDSA-FAQ">
+                                <!-- i18n: "FAQ" -->
+                                <i18n:text>xmlui.Rice.FAQ</i18n:text>
+                            </a>
+                            <xsl:text> | </xsl:text>
+                            <a href="https://library.rice.edu/services/dss/contact-us-dss">
+                                <i18n:text>xmlui.dri2xhtml.structural.contact-link</i18n:text>
+                            </a>
+                                </div>
+                            <div>
+
+                Managed by the <a href="http://library.rice.edu/services/dss/dss-home">Digital Scholarship Services</a> at <a href="http://library.rice.edu">Fondren Library</a>, <a href="http://www.rice.edu">Rice University</a>
+
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="col-xs-7 col-sm-6 pull-right">
+                        <div>
+                            Physical Address: 6100 Main Street, Houston, Texas 77005
+                        </div>
+                        <div>
+                            Mailing Address: MS-44, P.O.BOX 1892, Houston, Texas 77251-1892
+                        </div>
+                    </div>
+                </div>
+                <!--Invisible link to HTML sitemap (for search engines) -->
+                <a class="hidden">
+                    <xsl:attribute name="href">
+                        <xsl:value-of
+                                select="/dri:document/dri:meta/dri:pageMeta/dri:metadata[@element='contextPath'][not(@qualifier)]"/>
+                        <xsl:text>/htmlmap</xsl:text>
+                    </xsl:attribute>
+                    <xsl:text>&#160;</xsl:text>
+                </a>
+            <p>&#160;</p>
+        </footer>
+    </xsl:template>
+
+    <!-- MMS: "Home | FAQ | Contact Us" links provided at both top and bottom of page -->
+    <xsl:template name="quick-links">
+        <ul class="ds-quick-links">
+            <li class="first-link">
+                <a href="{$repositoryURL}">
+                    <!-- i18n: "Home" -->
+                    <i18n:text>xmlui.Rice.Home</i18n:text>
+                </a>
+            </li>
+            <li>
+                <a href="http://bit.ly/RDSA-FAQ">
+                    <!-- i18n: "FAQ" -->
+                    <i18n:text>xmlui.Rice.FAQ</i18n:text>
+                </a>
+            </li>
+            <li class="last-link">
+                <a href="https://library.rice.edu/services/dss/contact-us-dss">
+                    <!-- i18n: "Contact Us" -->
+                    <i18n:text>xmlui.dri2xhtml.structural.contact-link</i18n:text>
+                </a>
+            </li>
+        </ul>
+    </xsl:template>
+
+   <!-- <xsl:template name="disable_frontpage_community-list" match="dri:div[@id='aspect.artifactbrowser.CommunityBrowser.div.comunity-browser']">
+      <xsl:if test="//dri:metadata[@element='request' and @qualifier='URI']/text() = 'community-list'">
+      </xsl:if>
+    </xsl:template>       -->
+
+    <xsl:template name="disable_front-page-search" match="dri:div[@id='aspect.discovery.SiteViewer.div.front-page-search']">
+    <!-- Lets put all our home page customizations here !!! -->
+  <div class="bs-example">
+    <div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
+      <ol class="carousel-indicators">
+        <li data-target="#carousel-example-generic" data-slide-to="0" class="active"></li>
+        <li data-target="#carousel-example-generic" data-slide-to="1"></li>
+        <li data-target="#carousel-example-generic" data-slide-to="2"></li>
+      </ol>
+      <div class="carousel-inner" role="listbox">
+        <div class="item active">
+          <img data-src="holder.js/900x300/auto/#777:#555/text:First slide" alt="First slide"/>
+        </div>
+        <div class="item">
+          <img data-src="holder.js/900x300/auto/#666:#444/text:Second slide" alt="Second slide"/>
+        </div>
+        <div class="item">
+          <img data-src="holder.js/900x300/auto/#555:#333/text:Third slide" alt="Third slide"/>
+        </div>
+      </div>
+      <a class="left carousel-control" href="#carousel-example-generic" role="button" data-slide="prev">
+        <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+        <span class="sr-only">Previous</span>
+      </a>
+      <a class="right carousel-control" href="#carousel-example-generic" role="button" data-slide="next">
+        <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+        <span class="sr-only">Next</span>
+      </a>
+    </div>
+  </div>
+       <br />
+        <h2 class="ds-div-head page-header first-page-header">Welcome to Rice University's digital scholarship archive</h2>
+        <div id="file.news.div.news" class="ds-static-div primary">
+			<p>This is Rice's institutional repository, a web site where the university's intellectual output
+				is shared, managed, searched, and preserved. Most materials come from Rice faculty members'
+				research, electronic theses and dissertations, and digitized collections of rare or unique books,
+				images, musical performances, and manuscripts. The archive runs on DSpace, an open source software package.</p>
+			<p>Do you have questions about this archive?  Read our
+				<a href="http://bit.ly/RDSA-FAQ">FAQ</a>.</p>
+        </div>
+
+
+    </xsl:template>
+     <xsl:template match="dri:div[@id='aspect.discovery.SiteRecentSubmissions.div.site-home']"> </xsl:template>
+
+     <!-- Disable Discovery facets on the home page -->
+    <xsl:template match="dri:options/dri:list[@id='aspect.discovery.Navigation.list.discovery']" priority="5">
+        <xsl:if test="/dri:document/dri:meta/dri:pageMeta/dri:metadata[@element='request' and @qualifier='URI'] != ''">
+            <!-- Copied from the next rule (dri:options/dri:list[dri:list]). -->
+            <xsl:apply-templates select="dri:head"/>
+            <div>
+                <xsl:call-template name="standardAttributes">
+                    <xsl:with-param name="class">ds-option-set</xsl:with-param>
+                </xsl:call-template>
+                <ul class="ds-options-list">
+                    <xsl:apply-templates select="*[not(name()='head')]" mode="nested"/>
+                </ul>
+            </div>
+        </xsl:if>
+    </xsl:template>
+
+       <!--
+        The template to handle dri:options. Since it contains only dri:list tags (which carry the actual
+        information), the only things than need to be done is creating the ds-options div and applying
+        the templates inside it.
+
+        In fact, the only bit of real work this template does is add the search box, which has to be
+        handled specially in that it is not actually included in the options div, and is instead built
+        from metadata available under pageMeta.
+    -->
+    <!-- TODO: figure out why i18n tags break the go button -->
+    <xsl:template match="dri:options">
+        <div id="ds-options" class="word-break">
+            <xsl:if test="not(contains(/dri:document/dri:meta/dri:pageMeta/dri:metadata[@element='request'][@qualifier='URI'], 'discover'))">
+                <div id="ds-search-option" class="ds-option-set">
+                    <!-- The form, complete with a text box and a button, all built from attributes referenced
+                 from under pageMeta. -->
+                    <form id="ds-search-form" class="" method="post">
+                        <xsl:attribute name="action">
+                            <xsl:value-of select="/dri:document/dri:meta/dri:pageMeta/dri:metadata[@element='contextPath']"/>
+                            <xsl:value-of
+                                    select="/dri:document/dri:meta/dri:pageMeta/dri:metadata[@element='search'][@qualifier='simpleURL']"/>
+                        </xsl:attribute>
+                        <fieldset>
+                            <div class="input-group">
+                                <input class="ds-text-field form-control" type="text" placeholder="xmlui.general.search"
+                                       i18n:attr="placeholder">
+                                    <xsl:attribute name="name">
+                                        <xsl:value-of
+                                                select="/dri:document/dri:meta/dri:pageMeta/dri:metadata[@element='search'][@qualifier='queryField']"/>
+                                    </xsl:attribute>
+                                </input>
+                                <span class="input-group-btn">
+                                    <button class="ds-button-field btn btn-primary" title="xmlui.general.go" i18n:attr="title">
+                                        <span class="glyphicon glyphicon-search" aria-hidden="true"/>
+                                        <xsl:attribute name="onclick">
+                                                    <xsl:text>
+                                                        var radio = document.getElementById(&quot;ds-search-form-scope-container&quot;);
+                                                        if (radio != undefined &amp;&amp; radio.checked)
+                                                        {
+                                                        var form = document.getElementById(&quot;ds-search-form&quot;);
+                                                        form.action=
+                                                    </xsl:text>
+                                            <xsl:text>&quot;</xsl:text>
+                                            <xsl:value-of
+                                                    select="/dri:document/dri:meta/dri:pageMeta/dri:metadata[@element='contextPath']"/>
+                                            <xsl:text>/handle/&quot; + radio.value + &quot;</xsl:text>
+                                            <xsl:value-of
+                                                    select="/dri:document/dri:meta/dri:pageMeta/dri:metadata[@element='search'][@qualifier='simpleURL']"/>
+                                            <xsl:text>&quot; ; </xsl:text>
+                                                    <xsl:text>
+                                                        }
+                                                    </xsl:text>
+                                        </xsl:attribute>
+                                    </button>
+                                </span>
+                            </div>
+
+                            <xsl:if test="/dri:document/dri:meta/dri:pageMeta/dri:metadata[@element='focus'][@qualifier='container']">
+                                <div class="radio">
+                                    <label>
+                                        <input id="ds-search-form-scope-all" type="radio" name="scope" value=""
+                                               checked="checked"/>
+                                        <i18n:text>xmlui.dri2xhtml.structural.search</i18n:text>
+                                    </label>
+                                </div>
+                                <div class="radio">
+                                    <label>
+                                        <input id="ds-search-form-scope-container" type="radio" name="scope">
+                                            <xsl:attribute name="value">
+                                                <xsl:value-of
+                                                        select="substring-after(/dri:document/dri:meta/dri:pageMeta/dri:metadata[@element='focus'][@qualifier='container'],':')"/>
+                                            </xsl:attribute>
+                                        </input>
+                                        <xsl:choose>
+                                            <xsl:when
+                                                    test="/dri:document/dri:meta/dri:pageMeta/dri:metadata[@element='focus'][@qualifier='containerType']/text() = 'type:community'">
+                                                <i18n:text>xmlui.dri2xhtml.structural.search-in-community</i18n:text>
+                                            </xsl:when>
+                                            <xsl:otherwise>
+                                                <i18n:text>xmlui.dri2xhtml.structural.search-in-collection</i18n:text>
+                                            </xsl:otherwise>
+
+                                        </xsl:choose>
+                                    </label>
+                                </div>
+                            </xsl:if>
+                        </fieldset>
+                    </form>
+                </div>
+            </xsl:if>
+            <xsl:apply-templates/>
+            <!-- DS-984 Add RSS Links to Options Box -->
+            <xsl:if test="count(/dri:document/dri:meta/dri:pageMeta/dri:metadata[@element='feed']) != 0 and count(/dri:document/dri:body/dri:div[@id='aspect.discovery.SiteRecentSubmissions.div.site-home']) = 0">
+                <div>
+                    <h6 class="ds-option-set-head">
+                        <i18n:text>xmlui.feed.header</i18n:text>
+                    </h6>
+                    <div id="ds-feed-option" class="ds-option-set list-group">
+                        <xsl:call-template name="addRSSLinks"/>
+                    </div>
+                </div>
+
+            </xsl:if>
+        </div>
+    </xsl:template>
 </xsl:stylesheet>

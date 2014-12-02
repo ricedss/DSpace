@@ -2,15 +2,18 @@
 <document xmlns="http://di.tamu.edu/DRI/1.0/" xmlns:i18n="http://apache.org/cocoon/i18n/2.1" version="1.1">
 	<body>
 		<div id="file.news.div.news" n="news" rend="primary">
+
             <!-- SERVER-SPECIFIC -->
 			<!-- Dspace test, dev and land --><!--head>Welcome to Rice University's digital scholarship archive (development server)</head-->
-            <!-- Dspace --> <head>Welcome to Rice University's digital scholarship archive</head>
+            <!-- Dspace -->
+         <!--
+            <head>Welcome to Rice University's digital scholarship archive</head>
 			<p>This is Rice's institutional repository, a web site where the university's intellectual output
 				is shared, managed, searched, and preserved. Most materials come from Rice faculty members'
 				research, electronic theses and dissertations, and digitized collections of rare or unique books,
 				images, musical performances, and manuscripts. The archive runs on DSpace, an open source software package.</p>
 			<p>Do you have questions about this archive?  Read our
-				<xref target="https://owlspace-ccm.rice.edu/access/wiki/site/91656f53-9adf-45c4-000e-b5072d163d17/faq.html">FAQ</xref>.</p>
+				<xref target="http://bit.ly/RDSA-FAQ">FAQ</xref>.</p>            -->
 	  </div>
 	</body>
 	<options/>
