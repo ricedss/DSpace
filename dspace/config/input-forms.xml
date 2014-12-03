@@ -675,14 +675,26 @@
               <required></required>
             </field>
 
+
             <field>
               <dc-schema>dc</dc-schema>
               <dc-element>contributor</dc-element>
               <dc-qualifier>funder</dc-qualifier>
               <repeatable>true</repeatable>
-              <label>Sponsor</label>
+              <label>Sponsor Name</label>
               <input-type>onebox</input-type>
-              <hint>If grant-funded, list name of sponsor (s) and funding number (s). Enter the name of sponsor and award number one at a time. Use  button after each sponsor to create the list.</hint>
+              <hint>If grant-funded, list name of sponsor(s), e.g. National Institutes of Health. Enter the name of sponsor one at a time. Use the ‘add’ button after each sponsor to create the list.</hint>
+              <required></required>
+            </field>
+
+            <field>
+              <dc-schema>dc</dc-schema>
+              <dc-element>identifier</dc-element>
+              <dc-qualifier>grantID</dc-qualifier>
+              <repeatable>true</repeatable>
+              <label>Funding Number</label>
+              <input-type>onebox</input-type>
+              <hint>If grant-funded, list unique identifier for award(s) + Funder name(s) in parentheses, e.g. R01 EB007813 (National Institutes of Health). Enter the identifier one at a time. Use the ‘add’ button after each award to create the list.</hint>
               <required></required>
             </field>
 
@@ -2923,6 +2935,10 @@ it, please enter the types and the actual numbers or codes below.</hint>
          <displayed-value>Journal Article</displayed-value>
          <stored-value>Journal Article</stored-value>
        </pair>
+         <pair>
+           <displayed-value>Dataset</displayed-value>
+           <stored-value>Dataset</stored-value>
+         </pair>
        <pair>
          <displayed-value>Book Review</displayed-value>
          <stored-value>Book Review</stored-value>
