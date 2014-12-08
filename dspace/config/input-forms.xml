@@ -2695,8 +2695,8 @@ it, please enter the types and the actual numbers or codes below.</hint>
            <stored-value>Text</stored-value>
          </pair>
          <pair>
-           <displayed-value>Moving Image</displayed-value>
-           <stored-value>Moving Image</stored-value>
+           <displayed-value>Moving image</displayed-value>
+           <stored-value>Moving image</stored-value>
          </pair>
     </value-pairs>
 
@@ -2722,8 +2722,8 @@ it, please enter the types and the actual numbers or codes below.</hint>
        <stored-value>Dataset</stored-value>
      </pair>
      <pair>
-       <displayed-value>Learning Object</displayed-value>
-       <stored-value>Learning Object</stored-value>
+       <displayed-value>Learning object</displayed-value>
+       <stored-value>Learning object</stored-value>
      </pair>
      <pair>
        <displayed-value>Image</displayed-value>
@@ -2738,8 +2738,8 @@ it, please enter the types and the actual numbers or codes below.</hint>
        <stored-value>Map</stored-value>
      </pair>
      <pair>
-       <displayed-value>Musical Score</displayed-value>
-       <stored-value>Musical Score</stored-value>
+       <displayed-value>Musical score</displayed-value>
+       <stored-value>Musical score</stored-value>
      </pair>
      <pair>
        <displayed-value>Plan or blueprint</displayed-value>
@@ -2770,8 +2770,8 @@ it, please enter the types and the actual numbers or codes below.</hint>
        <stored-value>Software</stored-value>
      </pair>
      <pair>
-       <displayed-value>Technical Report</displayed-value>
-       <stored-value>Technical Report</stored-value>
+       <displayed-value>Technical report</displayed-value>
+       <stored-value>Technical report</stored-value>
      </pair>
      <pair>
        <displayed-value>Thesis</displayed-value>
@@ -2782,12 +2782,8 @@ it, please enter the types and the actual numbers or codes below.</hint>
        <stored-value>Video</stored-value>
      </pair>
      <pair>
-       <displayed-value>Working Paper</displayed-value>
-       <stored-value>Working Paper</stored-value>
-     </pair>
-     <pair>
-       <displayed-value>Other</displayed-value>
-       <stored-value>Other</stored-value>
+       <displayed-value>Working paper</displayed-value>
+       <stored-value>Working paper</stored-value>
      </pair>
    </value-pairs>
 
@@ -2839,32 +2835,32 @@ it, please enter the types and the actual numbers or codes below.</hint>
        <stored-value>Book chapter</stored-value>
      </pair>
        <pair>
-         <displayed-value>Conference Paper</displayed-value>
-         <stored-value>Conference Paper</stored-value>
+         <displayed-value>Conference paper</displayed-value>
+         <stored-value>Conference paper</stored-value>
        </pair>
      <pair>
-       <displayed-value>Elec 599 Project Report</displayed-value>
-       <stored-value>Elec 599 Project Report</stored-value>
+       <displayed-value>Elec 599 project report</displayed-value>
+       <stored-value>Elec 599 project report</stored-value>
      </pair>
      <pair>
-       <displayed-value>Internal Document</displayed-value>
-       <stored-value>Internal Document</stored-value>
+       <displayed-value>Internal document</displayed-value>
+       <stored-value>Internal document</stored-value>
      </pair>
      <pair>
-       <displayed-value>Invention Report</displayed-value>
-       <stored-value>Invention Report</stored-value>
+       <displayed-value>Invention report</displayed-value>
+       <stored-value>Invention report</stored-value>
      </pair>
      <pair>
-       <displayed-value>Journal Paper</displayed-value>
-       <stored-value>Journal Paper</stored-value>
+       <displayed-value>Journal paper</displayed-value>
+       <stored-value>Journal paper</stored-value>
      </pair>
      <pair>
-       <displayed-value>Masters Thesis</displayed-value>
-       <stored-value>Masters Thesis</stored-value>
+       <displayed-value>Masters thesis</displayed-value>
+       <stored-value>Masters thesis</stored-value>
      </pair>
      <pair>
-       <displayed-value>PhD Thesis</displayed-value>
-       <stored-value>PhD Thesis</stored-value>
+       <displayed-value>PhD thesis</displayed-value>
+       <stored-value>PhD thesis</stored-value>
      </pair>
      <pair>
        <displayed-value>Presentation</displayed-value>
@@ -2875,12 +2871,12 @@ it, please enter the types and the actual numbers or codes below.</hint>
        <stored-value>Report</stored-value>
      </pair>
      <pair>
-       <displayed-value>Tech Report</displayed-value>
-       <stored-value>Tech Report</stored-value>
+       <displayed-value>Tech report</displayed-value>
+       <stored-value>Tech report</stored-value>
      </pair>
      <pair>
-       <displayed-value>White Paper</displayed-value>
-       <stored-value>White Paper</stored-value>
+       <displayed-value>White paper</displayed-value>
+       <stored-value>White paper</stored-value>
      </pair>
    </value-pairs>
 
@@ -2932,16 +2928,16 @@ it, please enter the types and the actual numbers or codes below.</hint>
 
      <value-pairs value-pairs-name="facultypub_types" dc-term="type">
        <pair>
-         <displayed-value>Journal Article</displayed-value>
-         <stored-value>Journal Article</stored-value>
+         <displayed-value>Journal article</displayed-value>
+         <stored-value>Journal article</stored-value>
        </pair>
          <pair>
            <displayed-value>Dataset</displayed-value>
            <stored-value>Dataset</stored-value>
          </pair>
        <pair>
-         <displayed-value>Book Review</displayed-value>
-         <stored-value>Book Review</stored-value>
+         <displayed-value>Book review</displayed-value>
+         <stored-value>Book review</stored-value>
        </pair>
          <pair>
            <displayed-value>Book</displayed-value>
@@ -2952,44 +2948,40 @@ it, please enter the types and the actual numbers or codes below.</hint>
            <stored-value>Book chapter</stored-value>
          </pair>
          <pair>
-           <displayed-value>White Paper</displayed-value>
-           <stored-value>White Paper</stored-value>
+           <displayed-value>White paper</displayed-value>
+           <stored-value>White paper</stored-value>
          </pair>
            <pair>
-             <displayed-value>Conference Paper</displayed-value>
-             <stored-value>Conference Paper</stored-value>
+             <displayed-value>Conference paper</displayed-value>
+             <stored-value>Conference paper</stored-value>
            </pair>
            <pair>
-             <displayed-value>Magazine Article</displayed-value>
-             <stored-value>Magazine Article</stored-value>
+             <displayed-value>Magazine article</displayed-value>
+             <stored-value>Magazine article</stored-value>
            </pair>
        <pair>
-         <displayed-value>Newspaper Article</displayed-value>
-         <stored-value>Newspaper Article</stored-value>
+         <displayed-value>Newspaper article</displayed-value>
+         <stored-value>Newspaper article</stored-value>
        </pair>
          <pair>
            <displayed-value>Report</displayed-value>
            <stored-value>Report</stored-value>
          </pair>
          <pair>
-           <displayed-value>Audio Recording</displayed-value>
-           <stored-value>Audio Recording</stored-value>
+           <displayed-value>Audio recording</displayed-value>
+           <stored-value>Audio recording</stored-value>
          </pair>
          <pair>
-           <displayed-value>Video Recording</displayed-value>
-           <stored-value>Video Recording</stored-value>
+           <displayed-value>Video recording</displayed-value>
+           <stored-value>Video recording</stored-value>
          </pair>
          <pair>
            <displayed-value>Presentation</displayed-value>
            <stored-value>Presentation</stored-value>
          </pair>
          <pair>
-           <displayed-value>Computer Program</displayed-value>
-           <stored-value>Computer Program</stored-value>
-         </pair>
-         <pair>
-           <displayed-value>Other</displayed-value>
-           <stored-value>Other</stored-value>
+           <displayed-value>Computer program</displayed-value>
+           <stored-value>Computer program</stored-value>
          </pair>
 
      </value-pairs>
@@ -3001,12 +2993,12 @@ it, please enter the types and the actual numbers or codes below.</hint>
          </pair>
          
          <pair>
-           <displayed-value>Moving Image</displayed-value>
-           <stored-value>Moving Image</stored-value>
+           <displayed-value>Moving image</displayed-value>
+           <stored-value>Moving image</stored-value>
          </pair>
          <pair>
-           <displayed-value>Still Image</displayed-value>
-           <stored-value>Still Image</stored-value>
+           <displayed-value>Still image</displayed-value>
+           <stored-value>Still image</stored-value>
          </pair>
          <pair>
            <displayed-value>Sound</displayed-value>
