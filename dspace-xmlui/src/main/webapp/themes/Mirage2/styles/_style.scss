@@ -47,152 +47,32 @@
 // END from old css
 
 // Ying updated (11/20/2014) New theme changes designed by Jeff
-header {
+header .navbar-brand img {
+        height: 84px;
 
-    .navbar {
-        color: $navbar-inverse-color;
-        margin-bottom: 0px;
-        border: none;
-    }
-
-    .navbar-default{
+   }
+header .navbar-default{
         // YJ
         //background-color: $navbar-inverse-bg;
         background-color: #fff;
-
-        .navbar-brand {
-        color: $navbar-inverse-brand-color;
-        &:hover,
-        &:focus {
-            color: $navbar-inverse-brand-hover-color;
-            background-color: $navbar-inverse-brand-hover-bg;
-        }
-    }
-
-    .navbar-text {
-        color: $navbar-inverse-color;
-    }
-
-     .navbar-toggle, .navbar-nav  {
-
-         .icon-bar {
-             background-color: $navbar-inverse-link-color;
-         }
-
-         border-color: transparent;
-         color: $navbar-inverse-link-color;
-         &:hover,
-         &:focus {
-             color: $navbar-inverse-link-hover-color;
-             background-color: $navbar-inverse-link-active-bg;
-         }
-
-        > li > a {
-            color: $navbar-inverse-link-color;
-            &:hover,
-            &:focus {
-                color: $navbar-inverse-link-hover-color;
-                background-color: $navbar-inverse-link-active-bg;
-            }
-        }
-        > .active > a {
-            &,
-            &:hover,
-            &:focus {
-                color: $navbar-inverse-link-active-color;
-                background-color: $navbar-inverse-link-active-bg;
-            }
-        }
-        > .disabled > a {
-            &,
-            &:hover,
-            &:focus {
-                color: $navbar-inverse-link-disabled-color;
-                background-color: $navbar-inverse-link-disabled-bg;
-            }
-        }
-             > .open > a {
-                 &,
-                 &:hover,
-                 &:focus {
-                     background-color: $navbar-inverse-link-active-bg;
-                     color: $navbar-inverse-link-active-color;
-                 }
-             }
+        min-height: 100px;
 
     }
 
 
-
-//    .navbar-toggle {
-//        border-color: $navbar-inverse-toggle-border-color;
-//        &:hover,
-//        &:focus {
-//            background-color: $navbar-inverse-toggle-hover-bg;
-//        }
-//        .icon-bar {
-//            background-color: $navbar-inverse-toggle-icon-bar-bg;
-//        }
-//    }
-    }
-}
 
 .trail-wrapper {
-    background-color: lighten($brand-primary, 25%);
-    border-bottom: 1px solid lighten($brand-primary, 15%);
-
+    background-color: #002446;
+}
     .breadcrumb{
-        background-color: transparent;
-        margin-bottom: 0;
 
         > li {
-            + li:before {
-                // YJ
-                //color: $gray-dark;
                 display: inline-block;
                 color: #fff;
-            }
-        }
-        > .active {
-            color: $gray-dark;
         }
     }
 
-    .sidebar-toggle {
-        position: relative;
-        margin-right: $navbar-padding-horizontal;
-        padding: 10px;
-        @include navbar-vertical-align(34px);
-        background-color: transparent;
-        border: 1px solid transparent;
-        border-radius: $border-radius-base;
-        margin: 0;
-        //border-color: $navbar-default-toggle-border-color;
-        .icon-bar {
-            background-color: $component-active-bg;
-        }
 
-        &:hover,
-        &:focus {
-            background-color: $component-active-bg;
-
-            .icon-bar {
-                background-color: $component-active-color;
-            }
-        }
-    }
-
-    .sidebar-toggle .icon-bar {
-        display: block;
-        width: 22px;
-        height: 2px;
-        border-radius: 1px;
-    }
-
-    .sidebar-toggle .icon-bar + .icon-bar {
-        margin-top: 4px;
-    }
-}
 
 
 .btn-primary{
@@ -203,10 +83,11 @@ header {
 
 @media(min-width: 768px) {
     .navbar-nav{
-        float: left;
-        background-color: #5e6062;
-        border-radius: 5px;
-    }
+    float: left;
+	margin-top:25px;
+	margin-bottom:25px;
+	background-color: #5e6062;
+	border-radius: 2px;    }
 }
 
 .list-group-item.active, .list-group-item.active:hover, .list-group-item.active:focus{
