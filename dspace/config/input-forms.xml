@@ -2993,12 +2993,12 @@ it, please enter the types and the actual numbers or codes below.</hint>
          </pair>
          
          <pair>
-           <displayed-value>Moving image</displayed-value>
-           <stored-value>Moving image</stored-value>
+           <displayed-value>Movingimage</displayed-value>
+           <stored-value>Movingimage</stored-value>
          </pair>
          <pair>
-           <displayed-value>Still image</displayed-value>
-           <stored-value>Still image</stored-value>
+           <displayed-value>Stillimage</displayed-value>
+           <stored-value>Stillimage</stored-value>
          </pair>
          <pair>
            <displayed-value>Sound</displayed-value>
