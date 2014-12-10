@@ -64,13 +64,24 @@ header .navbar-default{
 .trail-wrapper {
     background-color: #002446;
 }
-    .breadcrumb{
 
-        > li {
-                display: inline-block;
+.breadcrumb{
+
+     > li {
+            display: inline-block;
                 color: #fff;
         }
+        > li {
+            + li:before {
+                display: inline-block;
+                color: #fff;
+            }
+        }
+        > .active {
+            color: #fff;
+        }
     }
+
 
 
 
