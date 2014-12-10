@@ -59,15 +59,15 @@ header .navbar-default{
 
     }
 
-
-
 .trail-wrapper {
     background-color: #002446;
-}
+    border-bottom: 1px solid lighten($brand-primary, 15%);
 
-.breadcrumb{
+    .breadcrumb{
+        background-color: transparent;
+        margin-bottom: 0;
 
-     > li {
+         > li {
             display: inline-block;
                 color: #fff;
         }
@@ -83,6 +83,41 @@ header .navbar-default{
     }
 
 
+    .sidebar-toggle {
+        position: relative;
+        margin-right: $navbar-padding-horizontal;
+        padding: 10px;
+        @include navbar-vertical-align(34px);
+        background-color: transparent;
+        border: 1px solid transparent;
+        border-radius: $border-radius-base;
+        margin: 0;
+        //border-color: $navbar-default-toggle-border-color;
+        .icon-bar {
+            background-color: $component-active-bg;
+        }
+
+        &:hover,
+        &:focus {
+            background-color: $component-active-bg;
+
+            .icon-bar {
+                background-color: $component-active-color;
+            }
+        }
+    }
+
+    .sidebar-toggle .icon-bar {
+        display: block;
+        width: 22px;
+        height: 2px;
+        border-radius: 1px;
+    }
+
+    .sidebar-toggle .icon-bar + .icon-bar {
+        margin-top: 4px;
+    }
+}
 
 
 
