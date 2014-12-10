@@ -1628,7 +1628,7 @@
                         </ul>
                         <ul class="nav navbar-nav pull-left">
                             <li>
-                          <a href="http://openaccess.rice.edu/ir-submission-process/" ><span class="hidden-xs">Deposit your work</span></a>
+                          <a href="http://openaccess.rice.edu/ir-submission-process/" ><span class="glyphicon glyphicon-import" aria-hidden="true"></span><span class="hidden-xs"> Deposit your work</span></a>
                          </li>
                             <li> </li>
 
