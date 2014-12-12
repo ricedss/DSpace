@@ -1045,10 +1045,21 @@
      </xsl:template>
     <xsl:template name="itemSummaryView-DIM-alternative-title">
       <xsl:if test="dim:field[@element='title' and @qualifier='alternative']">
-          <div class="simple-item-view-description item-page-field-wrapper table">
+          <div class="simple-item-view-alternative-title item-page-field-wrapper table">
               <h5><i18n:text>xmlui.Rice.Alttitle</i18n:text></h5>
               <div>
                   <xsl:copy-of select="dim:field[@element='title'][@qualifier='alternative']"/>
+              </div>
+          </div>
+      </xsl:if>
+  </xsl:template>
+
+        <xsl:template name="itemSummaryView-DIM-subtitle">
+      <xsl:if test="dim:field[@element='title' and @qualifier='subtitle']">
+          <div class="simple-item-view-subtitle item-page-field-wrapper table">
+              <h5><i18n:text>xmlui.Rice.Subtitle</i18n:text></h5>
+              <div>
+                  <xsl:copy-of select="dim:field[@element='title'][@qualifier='subtitle']"/>
               </div>
           </div>
       </xsl:if>
