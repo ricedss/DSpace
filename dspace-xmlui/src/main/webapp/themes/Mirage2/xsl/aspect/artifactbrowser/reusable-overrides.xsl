@@ -90,6 +90,7 @@
                </xsl:call-template>
 
         </xsl:if>
+
         <xsl:apply-templates select="@pagination">
             <xsl:with-param name="position">bottom</xsl:with-param>
         </xsl:apply-templates>
@@ -250,12 +251,13 @@
             </xsl:otherwise>
         </xsl:choose>
     </xsl:template>
+
     <!-- ============================================
                      Reference listings
          ============================================ -->
     
     <!-- Ying (via MMS): Find the first thumbnail to display in summary list page. -->
-    <xsl:template match="mets:fileGrp[@USE='THUMBNAIL']/mets:file" mode="thumbnail">
+    <!--xsl:template match="mets:fileGrp[@USE='THUMBNAIL']/mets:file" mode="thumbnail">
         <xsl:if test="position()=1">
             <a href="{ancestor::mets:METS/@OBJID}">
                 <img alt="Thumbnail">
@@ -265,7 +267,7 @@
                 </img>
             </a>
         </xsl:if>
-    </xsl:template>
+    </xsl:template-->
 
 
 
@@ -418,6 +420,7 @@
 
                             </xsl:when>
                             <xsl:otherwise>
+
                                 <a class="image-link">
                                     <xsl:attribute name="href">
                                         <xsl:value-of select="mets:FLocat[@LOCTYPE='URL']/@xlink:href"/>
@@ -845,38 +848,45 @@
                               <span>
 
                                   <xsl:copy-of select="node()"/>
+                              <xsl:if test="position()!=last() ">
+                                   <xsl:text>; </xsl:text>
+                              </xsl:if>
                               </span>
-                              <xsl:text>; </xsl:text>
-                          </xsl:if>
-                      </xsl:for-each>
+                           </xsl:if>
+
+                          </xsl:for-each>
 
                       <xsl:if test="$cc &gt; 5">
-                          <div>
-                          <div class="hiddenfield">
-                          <span class="show-hide" style="display: none;">
-                          <span class="show"><i18n:text>xmlui.Periodicals.show</i18n:text></span>
-                          <span class="hide" style="display: none;"><i18n:text>xmlui.Periodicals.hide</i18n:text></span>
-                      </span>
-                          </div>
-                          </div>
-                          <div>
-                          <div  class="hiddenvalue">
-                          <span>
-                          <xsl:for-each select="dim:field[@element='subject']">
-                          <xsl:if test="position() > 5">
-                                  <xsl:copy-of select="node()"/>
-                              <xsl:text>; </xsl:text>
-                          </xsl:if>
-                          </xsl:for-each>
-                          </span>
-                       </div>
-                          </div>
+                                 <a class="showHide"
+                                     data-toggle="collapse"
+                                     data-target="#mk"
+                                         onclick="$('.showHide').toggle();"> More... </a>
+
+                            <span id="mk" class="collapse">
+                                <xsl:for-each select="dim:field[@element='subject']">
+
+                                    <xsl:if test="position() &gt; 5 ">
+                                    <xsl:copy-of select="node()"/>
+
+                                    <xsl:if test="position()!=last() ">
+                                            <xsl:text>; </xsl:text>
+                                       </xsl:if>
+                                    </xsl:if>
+                                </xsl:for-each>
+
+                                 <a class=" showHide"
+                                       style="display:none"
+                                     data-toggle="collapse"
+                                     data-target="#mk"
+                                         onclick="$('.showHide').toggle();"> Less... </a>
+                     </span>
+                         </xsl:if>
 
                   </xsl:if>
-                 </xsl:if>
-              </div>
-              </div>
-          </xsl:if>
+                </div>
+          </div>
+        </xsl:if>
+
       </xsl:template>
 
     <xsl:template name="itemSummaryView-DIM-abstract">
@@ -1726,9 +1736,10 @@
                                 <i18n:text>xmlui.Rice.FAQ</i18n:text>
                             </a>
                             <xsl:text> | </xsl:text>
-                            <a href="https://library.rice.edu/services/dss/contact-us-dss">
+                            <!--a href="https://library.rice.edu/services/dss/contact-us-dss">
                                 <i18n:text>xmlui.dri2xhtml.structural.contact-link</i18n:text>
-                            </a>
+                            </a-->
+                                <a href="mailto:cds@rice.edu"> <i18n:text>xmlui.dri2xhtml.structural.contact-link</i18n:text> </a>
                                 </div>
                             <div>
 
@@ -1783,4 +1794,146 @@
             </li>
         </ul>
     </xsl:template>
+
+     <xsl:template match="mets:fileGrp[@USE='CONTENT']">
+        <xsl:param name="context"/>
+        <xsl:param name="primaryBitstream" select="-1"/>
+        <xsl:param name="xmlFile">
+            <xsl:choose>
+                <xsl:when test="mets:file[@ID=$primaryBitstream]/@MIMETYPE='text/xml' and
+                    $context/mets:dmdSec/mets:mdWrap/mets:xmlData/dim:dim/dim:field[@element='format' and @qualifier='xmlschema']">1</xsl:when>
+                <xsl:otherwise>0</xsl:otherwise>
+            </xsl:choose>
+        </xsl:param>
+        <!-- MMS: Adding wrapper here. -->
+        <div class="file-wrapper row">
+
+
+               <xsl:choose>
+                <!-- If this is an XML text, present a special file table.
+                     MMS: This customization originally put directly in General-Handler.xsl,
+                     but that was not the correct place for it. -->
+                <xsl:when test="$xmlFile='1'">
+                    <xsl:apply-templates select="mets:file[@ID=$primaryBitstream]" mode="xml-text">
+                        <xsl:with-param name="context" select="$context"/>
+                        <xsl:with-param name="schema">tei</xsl:with-param>
+                    </xsl:apply-templates>
+                </xsl:when>
+                <!-- Normal item. -->
+                <xsl:otherwise>
+                <xsl:choose>
+                        <xsl:when test="mets:file[@ID=$primaryBitstream]/@MIMETYPE='text/html'">
+                            <xsl:apply-templates select="mets:file[@ID=$primaryBitstream]">
+                                <xsl:with-param name="context" select="$context"/>
+                            </xsl:apply-templates>
+                        </xsl:when>
+                        <xsl:otherwise>
+                            <xsl:apply-templates select="mets:file">
+                                <xsl:sort data-type="number" select="boolean(./@ID=$primaryBitstream)" order="descending" />
+                                <xsl:sort select="mets:FLocat[@LOCTYPE='URL']/@xlink:title"/>
+                                <xsl:with-param name="context" select="$context"/>
+                            </xsl:apply-templates>
+                        </xsl:otherwise>
+                    </xsl:choose>
+                </xsl:otherwise>
+            </xsl:choose>
+        </div>
+    </xsl:template>
+
+
+    <!-- Special handling for when there is an XML text item.
+         MMS: This customization originally put directly in General-Handler.xsl,
+         but that was not the correct place for it. -->
+    <xsl:template match="mets:file" mode="xml-text">
+        <xsl:param name="context"/>
+        <xsl:param name="schema"/>
+        <xsl:variable name="base" select="substring-after(mets:FLocat[@LOCTYPE='URL']/@xlink:href, 'handle/')" />
+        <xsl:variable name="front" select="substring-before($base, '.xml')" />
+        <xsl:variable name="seq" select="substring-after($base, '?sequence=')" />
+        <xsl:variable name="filename0" select="substring-after($front, '/')" />
+        <xsl:variable name="filename" select="substring-after($filename0, '/')" />
+        <xsl:variable name="handleslash" select="substring-before($front, $filename)" />
+        <xsl:variable name="href">
+            <xsl:value-of select="/dri:document/dri:meta/dri:pageMeta/dri:metadata[@element='contextPath'][not(@qualifier)]"/>
+            <xsl:text>/jsp/xml/</xsl:text>
+            <xsl:value-of select="$handleslash"/>
+            <xsl:value-of select="$seq"/>
+            <xsl:text>/</xsl:text>
+            <xsl:value-of select="$filename"/>
+            <xsl:text>.</xsl:text>
+            <xsl:value-of select="$schema"/>
+            <xsl:text>.html</xsl:text>
+        </xsl:variable>
+        <div class="file-wrapper row">
+             <div class="col-xs-6 col-sm-3">
+                  <div class="thumbnail">
+                <a href="{$href}">
+                    <img src="/themes/Americas/a-images/icon_text.gif"/>
+                </a>
+                      </div>
+        </div>
+        <div class="col-xs-6 col-sm-7">
+             <dl class="file-metadata">
+                 <dt>
+
+                    <a href="{$href}">
+                        <!-- i18n: View Online -->
+                        <i18n:text>xmlui.Rice.ViewOnline</i18n:text>
+                    </a>
+                    <xsl:text> </xsl:text>
+                    <!-- i18n: (witih pages images) -->
+                    <i18n:text>xmlui.Rice.WithPageImages</i18n:text>
+                    </dt>
+        </dl>
+        </div>
+        <div class="file-link col-xs-6 col-xs-offset-6 col-sm-2 col-sm-offset-0">
+
+
+                <a>
+                    <xsl:attribute name="href">
+                        <xsl:value-of select="mets:FLocat[@LOCTYPE='URL']/@xlink:href"/>
+                    </xsl:attribute>
+                    <!-- i18n: View Markup -->
+                    <i18n:text>xmlui.Rice.ViewMarkup</i18n:text>
+                </a>
+        </div>
+        </div>
+    </xsl:template>
+
+    <xsl:template match="mets:fileSec" mode="artifact-preview">
+        <xsl:param name="href"/>
+        <div class="thumbnail artifact-preview">
+            <a class="image-link" href="{$href}">
+                <xsl:choose>
+                    <xsl:when test="mets:fileGrp[@USE='THUMBNAIL']">
+                        <img class="img-responsive" alt="xmlui.mirage2.item-list.thumbnail" i18n:attr="alt">
+                            <xsl:attribute name="src">
+                                <xsl:value-of
+                                        select="mets:fileGrp[@USE='THUMBNAIL']/mets:file/mets:FLocat[@LOCTYPE='URL']/@xlink:href"/>
+                            </xsl:attribute>
+                        </img>
+                    </xsl:when>
+                    <xsl:when test="mets:fileGrp[@USE='THUMBNAIL'] and mets">
+                            <img class="img-responsive" alt="xmlui.mirage2.item-list.thumbnail" i18n:attr="alt">
+                                <xsl:attribute name="src">
+                                    <xsl:value-of
+                                            select="mets:fileGrp[@USE='THUMBNAIL']/mets:file/mets:FLocat[@LOCTYPE='URL']/@xlink:href"/>
+                                </xsl:attribute>
+                            </img>
+                        </xsl:when>
+                          <xsl:otherwise>
+                        <img alt="xmlui.mirage2.item-list.thumbnail" i18n:attr="alt" src="{concat($theme-path,'/images/Text_Page_Icon.png')}">
+                            <!--xsl:attribute name="data-src">
+                                <xsl:text>holder.js/100%x</xsl:text>
+                                <xsl:value-of select="$thumbnail.maxheight"/>
+                                <xsl:text>/text:No Thumbnail</xsl:text>
+                            </xsl:attribute-->
+                        </img>
+                    </xsl:otherwise>
+                </xsl:choose>
+            </a>
+        </div>
+    </xsl:template>
+
+
 </xsl:stylesheet>

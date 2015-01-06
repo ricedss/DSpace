@@ -2474,6 +2474,12 @@
     <message key="xmlui.ArtifactBrowser.SimpleSearch.filter.degreelevel">Degree Level</message>
     <message key="xmlui.ArtifactBrowser.SimpleSearch.filter.degreediscipline">Discipline</message>
     <message key="xmlui.ArtifactBrowser.SimpleSearch.filter.degreedepartment">Department</message>
+
+    <message key="xmlui.Discovery.AbstractSearch.type_degreename">Degree Name</message>
+    <message key="xmlui.Discovery.AbstractSearch.type_degreelevel">Degree Level</message>
+    <message key="xmlui.Discovery.AbstractSearch.type_degreediscipline">Discipline</message>
+    <message key="xmlui.Discovery.AbstractSearch.type_degreedepartment">Department</message>
+
     <message key="xmlui.ArtifactBrowser.SimpleSearch.filter.contributor">Contributor</message>
 
 

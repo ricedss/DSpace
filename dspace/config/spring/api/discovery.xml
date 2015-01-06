@@ -181,14 +181,14 @@
                 the metadata fields below-->
                 <property name="similarityMetadataFields">
             <list>
-                        <value>dc.title</value>
                 <value>dc.contributor.author</value>
                 <value>dc.creator</value>
-                        <value>dc.subject</value>
-            </list>
+                <value>dc.subject</value>
+                <value>dc.title</value>
+             </list>
         </property>
                 <!--The minimum number of matching terms across the metadata fields above before an item is found as related -->
-                <property name="minTermFrequency" value="5"/>
+                <property name="minTermFrequency" value="4"/>
                 <!--The maximum number of related items displayed-->
                 <property name="max" value="3"/>
                 <!--The minimum word length below which words will be ignored-->
@@ -291,10 +291,10 @@
                 the metadata fields below-->
                 <property name="similarityMetadataFields">
             <list>
-                        <value>dc.title</value>
                 <value>dc.contributor.author</value>
                 <value>dc.creator</value>
                         <value>dc.subject</value>
+                <value>dc.title</value>
             </list>
         </property>
                 <!--The minimum number of matching terms across the metadata fields above before an item is found as related -->
@@ -410,11 +410,11 @@
                 the metadata fields below-->
                 <property name="similarityMetadataFields">
             <list>
-                        <value>dc.title</value>
                 <value>dc.contributor.author</value>
                 <value>dc.creator</value>
                         <value>dc.subject</value>
-            </list>
+                <value>dc.title</value>
+                    </list>
         </property>
                 <!--The minimum number of matching terms across the metadata fields above before an item is found as related -->
                 <property name="minTermFrequency" value="5"/>
@@ -431,7 +431,7 @@
                                         Shepherd
      =============================================================================================================== -->
 
-    <!-- Ying The ETD configuration settings for discovery-->
+    <!-- Ying The Shephed configuration settings for discovery-->
     <bean id="ShepherdConfiguration" class="org.dspace.discovery.configuration.DiscoveryConfiguration" scope="prototype">
         <!--Which sidebar facets are to be displayed-->
         <property name="sidebarFacets">

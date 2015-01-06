@@ -181,6 +181,8 @@
 
         <theme name="Americas Theme" handle="1911/9219" path="Americas/"/>
 
+        <theme name="Rice Gallery" handle="1911/69482" path="Rice_Gallery/"/>
+
          <theme name="Rice Centennial" handle="1911/35948" path="Rice_Centennial/"/><!-- History of Rice University-->
          <theme name="Rice Centennial" handle="1911/35950" path="Rice_Centennial/"/><!-- Rice University General Announcements -->
          <theme name="Rice Centennial" handle="1911/35952" path="Rice_Centennial/"/> <!-- Rice University Presidential Inauguration Speeches-->

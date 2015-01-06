@@ -51,6 +51,15 @@ header .navbar-brand img {
         height: 84px;
 
    }
+
+.navbar-brand {
+float: left;
+padding: 9px 15px;
+font-size: 18px;
+line-height: 20px;
+height: 50px;
+}
+
 header .navbar-default{
         // YJ
         //background-color: $navbar-inverse-bg;
@@ -70,6 +79,9 @@ header .navbar-default{
          > li {
             display: inline-block;
                 color: #fff;
+        }
+        > li a{
+              color:#ddd;
         }
         > li {
             + li:before {
@@ -130,12 +142,16 @@ header .navbar-default{
 @media(min-width: 768px) {
     .navbar-nav{
     float: left;
-	margin-top:25px;
-	margin-bottom:25px;
+	margin-top:35px;
     margin-right: 5px;
     margin-left: 5px;
 	background-color: #5e6062;
-	border-radius: 2px;    }
+	border-radius: 2px;
+	}
+    .navbar-nav > li > a {
+    padding-top: 5px;
+    padding-bottom: 5px;
+ }
 }
 
 .list-group-item.active, .list-group-item.active:hover, .list-group-item.active:focus{
@@ -149,4 +165,27 @@ header .navbar-default{
 .word-break {
     word-break: normal;
     -moz-hyphens: auto;
+}
+
+.thumbnail > img, .thumbnail a > img {
+    display: block;
+    max-width: 100%;
+    height: auto;
+    margin-left: auto;
+    margin-right: auto;
+    border: 1px solid #BFBFBF;
+}
+
+#mk.collapse.in {
+display: inline-block;
+}
+
+.img-responsive {
+    margin-left: auto;
+    margin-right: auto;
+}
+
+h5, .h5 {
+font-size: 14px;
+font-weight: bold;
 }
