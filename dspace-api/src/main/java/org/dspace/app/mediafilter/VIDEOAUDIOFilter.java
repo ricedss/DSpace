@@ -137,7 +137,11 @@ public class VIDEOAUDIOFilter extends MediaFilter
 
         // special case here that I have to assume the assetstore dir is ending with "assetstore"
 
-        String softpath_to_avfile = "../" + filename.substring(filename.indexOf("assetstore"));
+        //String softpath_to_avfile = "../" + filename.substring(filename.indexOf("assetstore"));
+        //String absolute_path_to_avfile = ConfigurationManager.getProperty("assetstore.dir");
+        //System.out.println("filename ------ " + filename);
+        //System.out.println("softpath ------ " + softpath_to_avfile);
+        //System.out.println("streaming_dir ------ " + streaming_dir);
 
         // get relative path to the assetstore files
 
@@ -147,7 +151,9 @@ public class VIDEOAUDIOFilter extends MediaFilter
 
         String streaming_name = "file_" + ID + "_" + source;
         //String softpath_to_avfile =
-        String cmd = "ln -sf " + softpath_to_avfile + " " + streaming_dir + "/" + streaming_name;
+        //--String cmd = "ln -sf " + softpath_to_avfile + " " + streaming_dir + "/" + streaming_name;
+
+        String cmd = "ln -sf " + filename + " " + streaming_dir + "/" + streaming_name;
         //System.out.println("~~~~~~~~~~~~~~~  ~~ ~~ ~~ ~~ In VIDEOAUDIOFilter: cmd = " + cmd);
         // call to generate the symbolic link
         Runtime.getRuntime().exec(cmd);
