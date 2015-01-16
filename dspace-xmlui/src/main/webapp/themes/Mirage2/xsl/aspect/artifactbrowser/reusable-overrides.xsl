@@ -340,7 +340,7 @@
          </xsl:variable>
 
         <div class="file-wrapper row">
-            <div class="col-xs-6 col-sm-3">
+            <div class="col-xs-6 col-sm-5">
                 <div class="thumbnail">
                         <xsl:choose>
 
@@ -358,8 +358,8 @@
                         <xsl:when test="@MIMETYPE='video/mp4'">
 
                           <!-- With JWPlayer 6 -->
-
-                          <div id="{$streamingfilename}">Loading the player...</div>
+                            <div class="videoContainer" style="height: 0;overflow: hidden;padding-bottom: 56.25%;padding-top: 25px;position: relative;">
+                          <div id="{$streamingfilename}" style="position:absolute;width:100% !important;height: 100% !important;">Loading the player...</div>
                             <xsl:variable name="mp4thumb" select="$context/mets:fileSec/mets:fileGrp[@USE='THUMBNAIL']/
                                 mets:file[@GROUPID=current()/@GROUPID]/mets:FLocat[@LOCTYPE='URL']/@xlink:href"/>
                           <script type="text/javascript">
@@ -372,7 +372,7 @@
                             sources: [{
                               file: "rtmp://fldp.rice.edu/fondren/mp4:<xsl:value-of select='$streamingfilename'/>"
                             },{
-                              file: "/themes/Rice/streaming/<xsl:value-of select='$streamingfilename'/>"
+                              file: "/streaming/<xsl:value-of select='$streamingfilename'/>"
                             }]
                             }],
 
@@ -380,14 +380,12 @@
                               bufferlength: 10
                             },
                             primary: "flash",
-                            stretching: "exactfit",
-                            height: 172,
-                            width: 300
+                            stretching: "exactfit"
 
 
                             });
                           </script>
-
+                                   </div>
                     </xsl:when>
                     <xsl:when test="@MIMETYPE='audio/x-mp3'">
 
@@ -451,7 +449,7 @@
                 </div>
             </div>
 
-            <div class="col-xs-6 col-sm-7">
+            <div class="col-xs-6 col-sm-5">
                 <dl class="file-metadata dl-horizontal">
                     <dt>
                         <i18n:text>xmlui.dri2xhtml.METS-1.0.item-files-name</i18n:text>

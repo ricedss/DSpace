@@ -59,17 +59,53 @@
         <li data-target="#carousel-example-generic" data-slide-to="0" class="active"></li>
         <li data-target="#carousel-example-generic" data-slide-to="1"></li>
         <li data-target="#carousel-example-generic" data-slide-to="2"></li>
+          <li data-target="#carousel-example-generic" data-slide-to="3"></li>
+          <li data-target="#carousel-example-generic" data-slide-to="4"></li>
+          <li data-target="#carousel-example-generic" data-slide-to="5"></li>
+          <li data-target="#carousel-example-generic" data-slide-to="6"></li>
+          <li data-target="#carousel-example-generic" data-slide-to="7"></li>
+          <li data-target="#carousel-example-generic" data-slide-to="8"></li>
+          <li data-target="#carousel-example-generic" data-slide-to="9"></li>
+          <li data-target="#carousel-example-generic" data-slide-to="10"></li>
       </ol>
       <div class="carousel-inner" role="listbox">
         <div class="item active">
-          <img data-src="holder.js/900x300/auto/#777:#555/text:First slide" alt="First slide"/>
+          <a href="http://openaccess.rice.edu/"><img src="{$theme-path}/images/Dspace-slide-01.png" alt="Open Access Policy"/>  </a>
         </div>
         <div class="item">
-          <img data-src="holder.js/900x300/auto/#666:#444/text:Second slide" alt="Second slide"/>
+            <a href="http://bit.ly/RDSA-FAQ"><img src="{$theme-path}/images/Dspace-slide-02.png" alt="FAQ"/>  </a>
         </div>
         <div class="item">
-          <img data-src="holder.js/900x300/auto/#555:#333/text:Third slide" alt="Third slide"/>
+            <a href="http://scholarship.rice.edu/handle/1911/75172"><img src="{$theme-path}/images/Dspace-slide-03.png" alt="Recent Faculty Work"/>   </a>
         </div>
+          <div class="item">
+              <a href="http://scholarship.rice.edu/handle/1911/9219"><img src="{$theme-path}/images/Dspace-slide-04.png" alt="Americas"/>  </a>
+              <!--div class="carousel-caption">
+        <h3>Flowers</h3>
+        <p>Beatiful flowers in Kolymbari, Crete.</p>
+      </div-->
+          </div>
+          <div class="item">
+              <a href="http://scholarship.rice.edu/handle/1911/9219"><img src="{$theme-path}/images/Dspace-slide-05.png" alt=""/>  </a>
+          </div>
+          <div class="item">
+              <a href="http://scholarship.rice.edu/handle/1911/9219 "><img src="{$theme-path}/images/Dspace-slide-06.png" alt=""/>   </a>
+          </div>
+          <div class="item">
+              <a href=" http://scholarship.rice.edu/handle/1911/9219"><img src="{$theme-path}/images/Dspace-slide-07.png" alt=""/>  </a>
+          </div>
+          <div class="item">
+              <a href="http://scholarship.rice.edu/handle/1911/61548"><img src="{$theme-path}/images/Dspace-slide-08.png" alt=""/>  </a>
+          </div>
+          <div class="item">
+              <a href="http://scholarship.rice.edu/handle/1911/12394"><img src="{$theme-path}/images/Dspace-slide-09.png" alt=""/>   </a>
+          </div>
+          <div class="item">
+              <a href="http://scholarship.rice.edu/handle/1911/43628"><img src="{$theme-path}/images/Dspace-slide-10.png" alt=""/>  </a>
+          </div>
+          <div class="item">
+              <a href="http://openaccess.rice.edu/"><img src="{$theme-path}/images/Dspace-slide-11.png" alt=""/>  </a>
+          </div>
       </div>
       <a class="left carousel-control" href="#carousel-example-generic" role="button" data-slide="prev">
         <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
@@ -93,7 +129,23 @@
         </div>
 
 
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-4"><img src="{$theme-path}/images/Dspace-6tiles-01.png" class="img-responsive" alt="Faculty Research" /></div>
+    <div class="col-md-4"><img src="{$theme-path}/images/Dspace-6tiles-02.png" class="img-responsive" alt="Rice Theses and Dissertations" /></div>
+    <div class="col-md-4"><img src="{$theme-path}/images/Dspace-6tiles-03.png" class="img-responsive" alt="University Archives and Rice History" /></div>
+  </div>
+    <br/>
+  <div class="row">
+    <div class="col-md-4"><img src="{$theme-path}/images/Dspace-6tiles-04.png" class="img-responsive" alt="Publications and Performances" /></div>
+    <div class="col-md-4"><img src="{$theme-path}/images/Dspace-6tiles-05.png" class="img-responsive" alt="Graduate and Undergraduate Student Research" /></div>
+    <div class="col-md-4"><img src="{$theme-path}/images/Dspace-6tiles-06.png" class="img-responsive" alt="Cultural Heritage Collections" /></div>
+  </div>
+</div>
     </xsl:template>
+
+
      <xsl:template match="dri:div[@id='aspect.discovery.SiteRecentSubmissions.div.site-home']"> </xsl:template>
 
 
