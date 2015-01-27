@@ -41,7 +41,6 @@
 package org.dspace.app.xmlui.utils;
 
 import org.apache.commons.cli.*;
-import org.dspace.app.xmlui.wing.AttributeMap;
 import org.dspace.app.xmlui.wing.Namespace;
 import org.dspace.content.Collection;
 import org.dspace.content.DCValue;
@@ -50,29 +49,24 @@ import org.dspace.content.ItemIterator;
 import org.dspace.core.Constants;
 import org.dspace.core.Context;
 import org.dspace.handle.HandleManager;
-
-import java.util.HashMap;
-
 import org.xml.sax.ContentHandler;
-import org.xml.sax.SAXException;
 import org.xml.sax.ext.LexicalHandler;
 import org.xml.sax.helpers.AttributesImpl;
 import org.xml.sax.helpers.NamespaceSupport;
 
-import java.io.*;
+import javax.xml.transform.OutputKeys;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.sax.SAXTransformerFactory;
+import javax.xml.transform.sax.TransformerHandler;
+import javax.xml.transform.stream.StreamResult;
+import java.io.FileOutputStream;
+import java.io.PrintWriter;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.TreeMap;
-// SAX classes.
-import org.xml.sax.*;
-import org.xml.sax.helpers.*;
-//JAXP 1.1
-import javax.xml.parsers.*;
-import javax.xml.transform.*;
-import javax.xml.transform.stream.*;
-import javax.xml.transform.sax.*;
 
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+// SAX classes.
+//JAXP 1.1
 
 /**
  * The code will generate the volume-issue tree in an XML
@@ -92,7 +86,7 @@ public class RIPXMLGenerator
 
         public static void main(String[] argv) throws Exception
         {
-            String filePath = "/server/data/dspace/config/externalXML";
+            String filePath = "/ds/data/dspace/config/externalXML";
 
             // create an options object and populate it
             CommandLineParser parser = new PosixParser();
