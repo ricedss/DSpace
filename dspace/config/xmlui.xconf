@@ -177,7 +177,7 @@
         <!-- Reference theme, the default Manakin XMLUI layout up to DSpace 1.8 -->
         <!-- <theme name="Default Reference Theme" regex=".*" path="Reference/" /> -->
 
-         <!--<theme name="TIMEA Theme" handle="123456789/1" path="TIMEA/"/> -->
+         <theme name="TIMEA Theme" handle="123456789/1" path="TIMEA/"/>
 
         <theme name="Americas Theme" handle="1911/9219" path="Americas/"/>
 

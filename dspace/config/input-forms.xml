@@ -2968,12 +2968,12 @@ it, please enter the types and the actual numbers or codes below.</hint>
            <stored-value>Report</stored-value>
          </pair>
          <pair>
-           <displayed-value>Audio recording</displayed-value>
-           <stored-value>Audio recording</stored-value>
+           <displayed-value>audio recordings</displayed-value>
+           <stored-value>audio recordings</stored-value>
          </pair>
          <pair>
-           <displayed-value>Video recording</displayed-value>
-           <stored-value>Video recording</stored-value>
+           <displayed-value>video recordings</displayed-value>
+           <stored-value>video recordings</stored-value>
          </pair>
          <pair>
            <displayed-value>Presentation</displayed-value>

@@ -1911,14 +1911,6 @@
                             </xsl:attribute>
                         </img>
                     </xsl:when>
-                    <xsl:when test="mets:fileGrp[@USE='THUMBNAIL'] and mets">
-                            <img class="img-responsive" alt="xmlui.mirage2.item-list.thumbnail" i18n:attr="alt">
-                                <xsl:attribute name="src">
-                                    <xsl:value-of
-                                            select="mets:fileGrp[@USE='THUMBNAIL']/mets:file/mets:FLocat[@LOCTYPE='URL']/@xlink:href"/>
-                                </xsl:attribute>
-                            </img>
-                        </xsl:when>
                           <xsl:otherwise>
                         <img alt="xmlui.mirage2.item-list.thumbnail" i18n:attr="alt" src="{concat($theme-path,'/images/Text_Page_Icon.png')}">
                             <!--xsl:attribute name="data-src">
