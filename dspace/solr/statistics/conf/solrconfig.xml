@@ -497,6 +497,10 @@
      </lst>
   </requestHandler>
 
+	<requestHandler name="/replication" class="solr.ReplicationHandler" >
+	    <lst name="master">
+	    </lst>
+	</requestHandler>
 <!-- Please refer to http://wiki.apache.org/solr/SolrReplication for details on configuring replication -->
 <!-- remove the <lst name="master"> section if this is just a slave -->
 <!-- remove  the <lst name="slave"> section if this is just a master -->
