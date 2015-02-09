@@ -61,16 +61,17 @@ function showJPEG2000Viewer(bitstreamurl){
     var baseurl = "";
 
     if (url != null){
+    var proto = window.location.protocol;
 	var ss = url.split(/\//);
 	var ss1 = ss[1];
 	var ss2 = ss[2];
 	if((ss[1] != null) && (ss[1].indexOf('rice.edu') > 0)){
-	    baseurl = "http://" + ss1;
+	    baseurl = proto+'//' + ss1;
 
 	}
 	else {
 	    if((ss[2] != null) && (ss[2].indexOf('rice.edu')>0)){
-		baseurl = "http://" + ss2;
+		baseurl = proto+'//' + ss2;
 	    }
 	}
     }
