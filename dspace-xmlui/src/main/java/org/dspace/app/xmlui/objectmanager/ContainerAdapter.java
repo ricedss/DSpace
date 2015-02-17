@@ -7,20 +7,12 @@
  */
 package org.dspace.app.xmlui.objectmanager;
 
-import java.io.ByteArrayInputStream;
-import java.io.IOException;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.InputStream;
-
-import java.sql.SQLException;
-
 import org.apache.log4j.Logger;
 import org.dspace.app.xmlui.wing.AttributeMap;
 import org.dspace.app.xmlui.wing.WingException;
 import org.dspace.authorize.AuthorizeException;
-import org.dspace.browse.ItemCounter;
 import org.dspace.browse.ItemCountException;
+import org.dspace.browse.ItemCounter;
 import org.dspace.content.Bitstream;
 import org.dspace.content.Collection;
 import org.dspace.content.Community;
@@ -35,11 +27,13 @@ import org.jdom.Element;
 import org.jdom.JDOMException;
 import org.jdom.input.SAXBuilder;
 import org.jdom.output.SAXOutputter;
-import org.xml.sax.SAXException;
-
 import org.xml.sax.InputSource;
+import org.xml.sax.SAXException;
 import org.xml.sax.XMLReader;
 import org.xml.sax.helpers.XMLReaderFactory;
+
+import java.io.*;
+import java.sql.SQLException;
 /**
  * This is an adapter which translates DSpace containers 
  * (communities & collections) into METS documents. This adapter follows
@@ -569,9 +563,6 @@ public class ContainerAdapter extends AbstractAdapter
                 String metsID = getMETSID();
                 //metsID here is same as handle, remove the hdl: part
                 String filename = externalXMLPath + "/" + metsID.substring(4).replaceAll("/", "_") + ".xml";
-
-                System.out.println("^%^%^*&*&*#########\n\n" + filename + "\n\n*&*&*&%%$$### @@@###$$$");
-
 
                 // find the file with handle.xml
                 File f = new File(filename);
