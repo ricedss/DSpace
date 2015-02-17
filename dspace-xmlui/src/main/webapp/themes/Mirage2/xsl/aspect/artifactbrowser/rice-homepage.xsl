@@ -53,7 +53,12 @@
 
     <xsl:template name="disable_front-page-search" match="dri:div[@id='aspect.discovery.SiteViewer.div.front-page-search']">
     <!-- Lets put all our home page customizations here !!! -->
-  <div class="bs-example">
+     <script type="text/javascript">
+  $('.carousel').carousel({
+   interval: 10000
+  });
+ </script>
+  <div class="bs-example col-md-12">
     <div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
       <ol class="carousel-indicators">
         <li data-target="#carousel-example-generic" data-slide-to="0" class="active"></li>
@@ -62,11 +67,11 @@
           <li data-target="#carousel-example-generic" data-slide-to="3"></li>
           <li data-target="#carousel-example-generic" data-slide-to="4"></li>
           <li data-target="#carousel-example-generic" data-slide-to="5"></li>
-          <li data-target="#carousel-example-generic" data-slide-to="6"></li>
+          <!--li data-target="#carousel-example-generic" data-slide-to="6"></li>
           <li data-target="#carousel-example-generic" data-slide-to="7"></li>
           <li data-target="#carousel-example-generic" data-slide-to="8"></li>
           <li data-target="#carousel-example-generic" data-slide-to="9"></li>
-          <li data-target="#carousel-example-generic" data-slide-to="10"></li>
+          <li data-target="#carousel-example-generic" data-slide-to="10"></li-->
       </ol>
       <div class="carousel-inner" role="listbox">
         <div class="item active">
@@ -85,7 +90,7 @@
         <p>Beatiful flowers in Kolymbari, Crete.</p>
       </div-->
           </div>
-          <div class="item">
+          <!--div class="item">
               <a href="http://dspacetest.rice.edu/handle/1911/9219"><img src="{$theme-path}/images/Dspace-slide-05.png" alt=""/>  </a>
           </div>
           <div class="item">
@@ -99,9 +104,9 @@
           </div>
           <div class="item">
               <a href="http://dspacetest.rice.edu/handle/1911/12394"><img src="{$theme-path}/images/Dspace-slide-09.png" alt=""/>   </a>
-          </div>
+          </div-->
           <div class="item">
-              <a href="http://dspacetest.rice.edu/handle/1911/43628"><img src="{$theme-path}/images/Dspace-slide-10.png" alt=""/>  </a>
+              <a href="http://dspacetest.rice.edu/handle/1911/43628"><img src="{$theme-path}/images/Dspace-slide-ying-5.png" alt=""/>  </a>
           </div>
           <div class="item">
               <a href="http://openaccess.rice.edu/"><img src="{$theme-path}/images/Dspace-slide-11.png" alt=""/>  </a>
@@ -117,7 +122,8 @@
       </a>
     </div>
   </div>
-       <br />
+
+       <br />  <br />
         <h2 class="ds-div-head page-header first-page-header">Welcome to Rice University's digital scholarship archive</h2>
         <div id="file.news.div.news" class="ds-static-div primary">
 			<p>This is Rice's institutional repository, a web site where the university's intellectual output
@@ -132,15 +138,15 @@
 
 <div class="container-fluid">
   <div class="row">
-    <div class="col-md-4"><a href="http://dspacetest.rice.edu/handle/1911/75172"><img src="{$theme-path}/images/Dspace-6tiles-01.png" class="img-responsive" alt="Faculty and Staff Research" /></a></div>
-    <div class="col-md-4"><a href="http://dspacetest.rice.edu/handle/1911/8299"><img src="{$theme-path}/images/Dspace-6tiles-02.png" class="img-responsive" alt="Rice Theses and Dissertations" /></a></div>
-    <div class="col-md-4"><a href="http://dspacetest.rice.edu/handle/1911/64041"><img src="{$theme-path}/images/Dspace-6tiles-03.png" class="img-responsive" alt="University Archives and Rice History" /></a></div>
+    <div class="col-md-4"><a href="http://dspacetest.rice.edu/handle/1911/75172"><img src="{$theme-path}/images/Dspace-6tiles-ying-1.gif" class="img-responsive" alt="Faculty and Staff Research" /></a></div>
+    <div class="col-md-4"><a href="http://dspacetest.rice.edu/handle/1911/8299"><img src="{$theme-path}/images/Dspace-6tiles-ying-2.gif" class="img-responsive" alt="Rice Theses and Dissertations" /></a></div>
+    <div class="col-md-4"><a href="http://dspacetest.rice.edu/handle/1911/64041"><img src="{$theme-path}/images/Dspace-6tiles-ying-3.gif" class="img-responsive" alt="University Archives and Rice History" /></a></div>
   </div>
-    <br/>
+   <br/>
   <div class="row">
-    <div class="col-md-4"><a href="http://dspacetest.rice.edu/handle/1911/78735"><img src="{$theme-path}/images/Dspace-6tiles-04.png" class="img-responsive" alt="Publications and Performances" /></a></div>
-    <div class="col-md-4"><a href="http://dspacetest.rice.edu/handle/1911/78736"><img src="{$theme-path}/images/Dspace-6tiles-05.png" class="img-responsive" alt="Graduate and Undergraduate Student Research" /></a></div>
-    <div class="col-md-4"><a href="http://dspacetest.rice.edu/handle/1911/78737"><img src="{$theme-path}/images/Dspace-6tiles-06.png" class="img-responsive" alt="Cultural Heritage Collections" /></a></div>
+    <div class="col-md-4"><a href="http://dspacetest.rice.edu/handle/1911/78735"><img src="{$theme-path}/images/Dspace-6tiles-ying-4.gif" class="img-responsive" alt="Publications and Performances" /></a></div>
+    <div class="col-md-4"><a href="http://dspacetest.rice.edu/handle/1911/78736"><img src="{$theme-path}/images/Dspace-6tiles-ying-5.gif" class="img-responsive" alt="Graduate and Undergraduate Student Research" /></a></div>
+    <div class="col-md-4"><a href="http://dspacetest.rice.edu/handle/1911/78737"><img src="{$theme-path}/images/Dspace-6tiles-ying-6.gif" class="img-responsive" alt="Cultural Heritage Collections" /></a></div>
   </div>
 </div>
     </xsl:template>
