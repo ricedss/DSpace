@@ -146,6 +146,98 @@
         </div>
     </xsl:template>
 
+       <!--
+        The template to handle dri:options. Since it contains only dri:list tags (which carry the actual
+        information), the only things than need to be done is creating the ds-options div and applying
+        the templates inside it.
+
+        In fact, the only bit of real work this template does is add the search box, which has to be
+        handled specially in that it is not actually included in the options div, and is instead built
+        from metadata available under pageMeta.
+    -->
+    <!-- TODO: figure out why i18n tags break the go button -->
+    <xsl:template match="dri:options">
+        <h1 style="margin-top: .4em; margin-bottom: 0em;">
+            <a href="">Americas Archive</a>
+        </h1>
+        <div id="repository-link">In the <a href="/">Rice Digital Scholarship Archive</a>
+        </div>
+        <div id="ds-options" class="word-break">
+            <xsl:if test="not(contains(/dri:document/dri:meta/dri:pageMeta/dri:metadata[@element='request'][@qualifier='URI'], 'discover'))">
+                <div id="ds-search-option" class="ds-option-set">
+                    <!-- The form, complete with a text box and a button, all built from attributes referenced
+                 from under pageMeta. -->
+                    <form id="ds-search-form" class="" method="post">
+                        <xsl:attribute name="action">
+                            <xsl:value-of select="/dri:document/dri:meta/dri:pageMeta/dri:metadata[@element='contextPath']"/>
+                            <xsl:value-of
+                                    select="/dri:document/dri:meta/dri:pageMeta/dri:metadata[@element='search'][@qualifier='simpleURL']"/>
+                        </xsl:attribute>
+                        <fieldset>
+                            <div class="input-group">
+                                <input class="ds-text-field form-control" type="text" placeholder="xmlui.general.search"
+                                       i18n:attr="placeholder">
+                                    <xsl:attribute name="name">
+                                        <xsl:value-of
+                                                select="/dri:document/dri:meta/dri:pageMeta/dri:metadata[@element='search'][@qualifier='queryField']"/>
+                                    </xsl:attribute>
+                                </input>
+                                <span class="input-group-btn">
+                                    <button class="ds-button-field btn btn-primary" title="xmlui.general.go" i18n:attr="title">
+                                        <span class="glyphicon glyphicon-search" aria-hidden="true"/>
+                                        <xsl:attribute name="onclick">
+                                                    <xsl:text>
+                                                        var radio = document.getElementById(&quot;ds-search-form-scope-container&quot;);
+                                                        if (radio != undefined &amp;&amp; radio.checked)
+                                                        {
+                                                        var form = document.getElementById(&quot;ds-search-form&quot;);
+                                                        form.action=
+                                                    </xsl:text>
+                                            <xsl:text>&quot;</xsl:text>
+                                            <xsl:value-of
+                                                    select="/dri:document/dri:meta/dri:pageMeta/dri:metadata[@element='contextPath']"/>
+                                            <xsl:text>/handle/&quot; + radio.value + &quot;</xsl:text>
+                                            <xsl:value-of
+                                                    select="/dri:document/dri:meta/dri:pageMeta/dri:metadata[@element='search'][@qualifier='simpleURL']"/>
+                                            <xsl:text>&quot; ; </xsl:text>
+                                                    <xsl:text>
+                                                        }
+                                                    </xsl:text>
+                                        </xsl:attribute>
+                                    </button>
+                                </span>
+                            </div>
+
+                            <xsl:if test="/dri:document/dri:meta/dri:pageMeta/dri:metadata[@element='focus'][@qualifier='container']">
+                                <input id= "ds-search-form-scope-container" type="hidden" name="scope">
+                                    <xsl:attribute name="value">
+                                                <xsl:value-of
+                                                        select="substring-after(/dri:document/dri:meta/dri:pageMeta/dri:metadata[@element='focus'][@qualifier='container'],':')"/>
+                                            </xsl:attribute>
+
+                                </input>
+                            </xsl:if>
+                        </fieldset>
+                    </form>
+                </div>
+            </xsl:if>
+            <xsl:apply-templates/>
+            <!-- DS-984 Add RSS Links to Options Box -->
+            <xsl:if test="count(/dri:document/dri:meta/dri:pageMeta/dri:metadata[@element='feed']) != 0 and count(/dri:document/dri:body/dri:div[@id='aspect.discovery.SiteRecentSubmissions.div.site-home']) = 0">
+                <div>
+                    <h6 class="ds-option-set-head">
+                        <i18n:text>xmlui.feed.header</i18n:text>
+                    </h6>
+                    <div id="ds-feed-option" class="ds-option-set list-group">
+                        <xsl:call-template name="addRSSLinks"/>
+                    </div>
+                </div>
+
+            </xsl:if>
+
+        </div>
+    </xsl:template>
+
     <xsl:template name="buildHeader">
 
 
@@ -435,10 +527,6 @@
                     <xsl:text> xml-file</xsl:text>
                 </xsl:if>
             </xsl:attribute>
-            <h3>
-                <!-- i18n: Files in this item -->
-                <i18n:text>xmlui.dri2xhtml.METS-1.0.item-files-head</i18n:text>
-            </h3>
         <table class="ds-table file-list">
             <xsl:choose>
                 <!-- If this is an XML text, present a special file table.
@@ -452,16 +540,6 @@
                 </xsl:when>
                 <!-- Normal item. -->
                 <xsl:otherwise>
-                    <tr class="ds-table-header-row">
-                        <th><i18n:text>xmlui.dri2xhtml.METS-1.0.item-files-file</i18n:text></th>
-                        <th><i18n:text>xmlui.dri2xhtml.METS-1.0.item-files-size</i18n:text></th>
-                        <th><i18n:text>xmlui.dri2xhtml.METS-1.0.item-files-format</i18n:text></th>
-                        <th><i18n:text>xmlui.dri2xhtml.METS-1.0.item-files-view</i18n:text></th>
-                        <!-- Display header for 'Description' only if at least one bitstream contains a description -->
-                        <xsl:if test="mets:file/mets:FLocat/@xlink:label != ''">
-                            <th><i18n:text>xmlui.dri2xhtml.METS-1.0.item-files-description</i18n:text></th>
-                        </xsl:if>
-                    </tr>
                     <xsl:choose>
                         <xsl:when test="mets:file[@ID=$primaryBitstream]/@MIMETYPE='text/html'">
                             <xsl:apply-templates select="mets:file[@ID=$primaryBitstream]">
@@ -482,6 +560,108 @@
         </div>
     </xsl:template>
 
+<xsl:template match="dri:options/dri:list//dri:list[@n='global']" priority="3">
 
+    </xsl:template>
+
+       <!--
+        The starting point of any XSL processing is matching the root element. In DRI the root element is document,
+        which contains a version attribute and three top level elements: body, options, meta (in that order).
+
+        This template creates the html document, giving it a head and body. A title and the CSS style reference
+        are placed in the html head, while the body is further split into several divs. The top-level div
+        directly under html body is called "ds-main". It is further subdivided into:
+            "ds-header"  - the header div containing title, subtitle, trail and other front matter
+            "ds-body"    - the div containing all the content of the page; built from the contents of dri:body
+            "ds-options" - the div with all the navigation and actions; built from the contents of dri:options
+            "ds-footer"  - optional footer div, containing misc information
+
+        The order in which the top level divisions appear may have some impact on the design of CSS and the
+        final appearance of the DSpace page. While the layout of the DRI schema does favor the above div
+        arrangement, nothing is preventing the designer from changing them around or adding new ones by
+        overriding the dri:document template.
+    -->
+    <xsl:template match="dri:document">
+
+        <xsl:choose>
+            <xsl:when test="not($isModal)">
+
+
+            <xsl:text disable-output-escaping='yes'>&lt;!DOCTYPE html&gt;
+            </xsl:text>
+            <xsl:text disable-output-escaping="yes">&lt;!--[if lt IE 7]&gt; &lt;html class=&quot;no-js lt-ie9 lt-ie8 lt-ie7&quot; lang=&quot;en&quot;&gt; &lt;![endif]--&gt;
+            &lt;!--[if IE 7]&gt;    &lt;html class=&quot;no-js lt-ie9 lt-ie8&quot; lang=&quot;en&quot;&gt; &lt;![endif]--&gt;
+            &lt;!--[if IE 8]&gt;    &lt;html class=&quot;no-js lt-ie9&quot; lang=&quot;en&quot;&gt; &lt;![endif]--&gt;
+            &lt;!--[if gt IE 8]&gt;&lt;!--&gt; &lt;html class=&quot;no-js&quot; lang=&quot;en&quot;&gt; &lt;!--&lt;![endif]--&gt;
+            </xsl:text>
+
+                <!-- First of all, build the HTML head element -->
+
+                <xsl:call-template name="buildHead"/>
+
+                <!-- Then proceed to the body -->
+                <body>
+                    <!-- Prompt IE 6 users to install Chrome Frame. Remove this if you support IE 6.
+                   chromium.org/developers/how-tos/chrome-frame-getting-started -->
+                    <!--[if lt IE 7]><p class=chromeframe>Your browser is <em>ancient!</em> <a href="http://browsehappy.com/">Upgrade to a different browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">install Google Chrome Frame</a> to experience this site.</p><![endif]-->
+                    <xsl:choose>
+                        <xsl:when
+                                test="/dri:document/dri:meta/dri:pageMeta/dri:metadata[@element='framing'][@qualifier='popup']">
+                            <xsl:apply-templates select="dri:body/*"/>
+                        </xsl:when>
+                        <xsl:otherwise>
+                            <xsl:call-template name="buildHeader"/>
+                            <xsl:call-template name="buildTrail"/>
+                            <!--javascript-disabled warning, will be invisible if javascript is enabled-->
+                            <div id="no-js-warning-wrapper" class="hidden">
+                                <div id="no-js-warning">
+                                    <div class="notice failure">
+                                        <xsl:text>JavaScript is disabled for your browser. Some features of this site may not work without it.</xsl:text>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div id="main-container" class="container">
+
+                                <div class="row row-offcanvas row-offcanvas-right">
+                                    <div class="horizontal-slider clearfix">
+                                        <div class="col-xs-12 col-sm-12 col-md-9 main-content">
+                                            <xsl:apply-templates select="*[not(self::dri:options)]"/>
+
+                                            <div class="visible-xs visible-sm">
+                                                <xsl:call-template name="buildFooter"/>
+                                            </div>
+                                        </div>
+                                        <div class="col-xs-6 col-sm-3 sidebar-offcanvas" id="sidebar" role="navigation">
+                                            <xsl:apply-templates select="dri:options"/>
+                                        </div>
+
+                                    </div>
+                                </div>
+
+                                <!--
+                            The footer div, dropping whatever extra information is needed on the page. It will
+                            most likely be something similar in structure to the currently given example. -->
+                            <div class="hidden-xs hidden-sm">
+                            <xsl:call-template name="buildFooter"/>
+                             </div>
+                         </div>
+
+
+                        </xsl:otherwise>
+                    </xsl:choose>
+                    <!-- Javascript at the bottom for fast page loading -->
+                    <xsl:call-template name="addJavascript"/>
+                </body>
+                <xsl:text disable-output-escaping="yes">&lt;/html&gt;</xsl:text>
+
+            </xsl:when>
+            <xsl:otherwise>
+                <!-- This is only a starting point. If you want to use this feature you need to implement
+                JavaScript code and a XSLT template by yourself. Currently this is used for the DSpace Value Lookup -->
+                <xsl:apply-templates select="dri:body" mode="modal"/>
+            </xsl:otherwise>
+        </xsl:choose>
+    </xsl:template>
 
 </xsl:stylesheet>

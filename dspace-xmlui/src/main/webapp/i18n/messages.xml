@@ -2447,6 +2447,7 @@
     <message key="xmlui.Rice.ViewMarkup">View markup</message>
     <message key="xmlui.Rice.DatePublished">Date Published</message>
 
+    <message key="xmlui.Rice.Subtitle">Subtitle</message>
     <message key="xmlui.Rice.Subject.Keywords">Keywords</message>
     <message key="xmlui.Rice.Subject.LCSH">Keywords</message>
     <message key="xmlui.Rice.Description.Center">Center</message>

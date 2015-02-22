@@ -11,7 +11,7 @@ Based on style of the Our Americas Archive Partnership.
 
 body {
   font-family: "Lucida Grande", Verdana, Arial, sans-serif;
-  font-size: 11px;
+  font-size: 13px;
   color: #7b7b7b;
   background: #ddd;
   margin: 0;
@@ -19,7 +19,7 @@ body {
 }
 
 table{
-  font-size: 1em;
+  font-size: 1.0em;
 }
 
 a{
@@ -75,7 +75,7 @@ img{
 }
  */
 /* ---- Breadcrumbs and footer ---- */
-
+ /*
 #ds-trail-wrapper, #ds-trail-bottom{
   background-color: #b2b2b2 !important;
   background-color: #ededed !important;
@@ -83,7 +83,7 @@ img{
   padding: 10px;
   border-bottom: 1px solid #ddd;
 }
-
+   */
 #ds-trail-bottom{
   margin-bottom: 0;
 }
@@ -152,7 +152,7 @@ img{
   padding: 6px;
   color: #bbb;
   width: 239px;
-  font-size: 14px;
+  font-size: 12px;
 }
 
 * html .ds-search-option .ds-text-field{
@@ -226,10 +226,7 @@ h2, h3{
   color: black;
 }
 
-#recent-submissions h2, #ds-options h2, #ds-options h3{
-  font-size: 1em;
-  font-weight: bold;
-}
+
 
 #community-options h3{
   background-image: url(images/side_top.gif);
@@ -264,12 +261,12 @@ h2, h3{
 }
 
 .artifact-description{
-  margin-left: 88px;
+  margin-left: 8px;
   height: 1%;
 }
 
 .artifact-title{
-  font-size: 1.2em;
+  font-size: 1.1em;
   font-weight: bold;
   padding-bottom: 5px;
 }
@@ -280,9 +277,9 @@ h2, h3{
 
 .artifact-info{
   padding-top: 5px;
-  font-size: 1.2em;
+  font-size: 1.0em;
 }
-
+/**
 .artifact-preview{
   float: left;
   margin-right: 8px;
@@ -294,10 +291,10 @@ h2, h3{
 .artifact-preview img{
   max-width: 80px;
   max-height: 80px;
-  width: expression(this.width > 78 ? "80px" : "auto"); /* 78 due to freezing problem due to race condition */
-  height: expression(this.height > 78 ? "80px" : "auto");
+  width: expression(this.width > 78 ? "80px" : "auto"); *//* 78 due to freezing problem due to race condition */
+/*  height: expression(this.height > 78 ? "80px" : "auto");
 }
-
+  **/
 li.odd, tr.odd{
   background-color: #ededed;
 }
@@ -394,33 +391,6 @@ fieldset.ds-form-list{
 }
 
 /* ---- "Recent Submission" samples (made smaller) ---- */
-
-.recent-submission{
-  font-size: .83em;
-
-}
-.recent-submission .ds-artifact-item{
-  padding: 5px;
-}
-.recent-submission .artifact-title{
-  padding-bottom: 0;
-  font-weight: normal;
-}
-.recent-submission .artifact-preview{
-  width: 40px;
-  overflow: hidden;
-}
-.recent-submission .artifact-preview img{
-  max-width: 40px;
-  max-height: 40px;
-  width: expression(this.width > 38 ? "40px" : "auto"); /* 38 due to freezing problem due to race condition */
-  height: expression(this.height > 38 ? "40px" : "auto");
-}
-
-.recent-submission .artifact-description{
-  margin-left: 50px;
-}
-
 /* ---- Search forms (made larger) ---- */
 
 .search{
@@ -437,7 +407,7 @@ fieldset.ds-form-list{
   background-color: transparent;
   border-width: 0;
   font-weight: bold;
-  font-size: 1.1em;
+  font-size: 0.98em;
   padding: 0 0 .5em;
   margin-left: 0;
   display: list-item;

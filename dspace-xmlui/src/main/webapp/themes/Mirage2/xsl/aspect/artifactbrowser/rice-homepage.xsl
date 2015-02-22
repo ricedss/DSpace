@@ -81,7 +81,7 @@
             <a href="http://bit.ly/RDSA-FAQ"><img src="{$theme-path}/images/Dspace-slide-02.png" alt="FAQ"/>  </a>
         </div>
         <div class="item">
-            <a href="http://dspacetest.rice.edu/handle/1911/75172"><img src="{$theme-path}/images/Dspace-slide-03.png" alt="Recent Faculty Work"/>   </a>
+            <a href="http://dspacetest.rice.edu/handle/1911/75172"><img src="{$theme-path}/images/Dspace-slide-ying-3.png" alt="Recent Faculty Work"/>   </a>
         </div>
           <div class="item">
               <a href="http://dspacetest.rice.edu/handle/1911/9219"><img src="{$theme-path}/images/Dspace-slide-04.png" alt="Americas"/>  </a>
