@@ -124,7 +124,7 @@
   </div>
 
        <br />  <br />
-        <h2 class="ds-div-head page-header first-page-header">Welcome to Rice University's digital scholarship archive</h2>
+        <h2 class="ds-div-head page-header home-page-header">Welcome to Rice University's digital scholarship archive</h2>
         <div id="file.news.div.news" class="ds-static-div primary">
 			<p>This is Rice's institutional repository, a web site where the university's intellectual output
 				is shared, managed, searched, and preserved. Most materials come from Rice faculty members'
