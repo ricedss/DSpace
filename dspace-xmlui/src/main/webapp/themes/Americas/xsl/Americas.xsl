@@ -169,10 +169,14 @@
                  from under pageMeta. -->
                     <form id="ds-search-form" class="" method="post">
                         <xsl:attribute name="action">
-                            <xsl:value-of select="/dri:document/dri:meta/dri:pageMeta/dri:metadata[@element='contextPath']"/>
-                            <xsl:value-of
-                                    select="/dri:document/dri:meta/dri:pageMeta/dri:metadata[@element='search'][@qualifier='simpleURL']"/>
-                        </xsl:attribute>
+
+
+                                            <xsl:text>/handle/</xsl:text><xsl:value-of select="substring-after(/dri:document/dri:meta/dri:pageMeta/dri:metadata[@element='focus'][@qualifier='container'],':')"/>
+                                            <xsl:value-of
+                                                    select="/dri:document/dri:meta/dri:pageMeta/dri:metadata[@element='search'][@qualifier='simpleURL']"/>
+
+
+                           </xsl:attribute>
                         <fieldset>
                             <div class="input-group">
                                 <input class="ds-text-field form-control" type="text" placeholder="xmlui.general.search"
@@ -185,38 +189,11 @@
                                 <span class="input-group-btn">
                                     <button class="ds-button-field btn btn-primary" title="xmlui.general.go" i18n:attr="title">
                                         <span class="glyphicon glyphicon-search" aria-hidden="true"/>
-                                        <xsl:attribute name="onclick">
-                                                    <xsl:text>
-                                                        var radio = document.getElementById(&quot;ds-search-form-scope-container&quot;);
-                                                        if (radio != undefined &amp;&amp; radio.checked)
-                                                        {
-                                                        var form = document.getElementById(&quot;ds-search-form&quot;);
-                                                        form.action=
-                                                    </xsl:text>
-                                            <xsl:text>&quot;</xsl:text>
-                                            <xsl:value-of
-                                                    select="/dri:document/dri:meta/dri:pageMeta/dri:metadata[@element='contextPath']"/>
-                                            <xsl:text>/handle/&quot; + radio.value + &quot;</xsl:text>
-                                            <xsl:value-of
-                                                    select="/dri:document/dri:meta/dri:pageMeta/dri:metadata[@element='search'][@qualifier='simpleURL']"/>
-                                            <xsl:text>&quot; ; </xsl:text>
-                                                    <xsl:text>
-                                                        }
-                                                    </xsl:text>
-                                        </xsl:attribute>
+
                                     </button>
                                 </span>
                             </div>
 
-                            <xsl:if test="/dri:document/dri:meta/dri:pageMeta/dri:metadata[@element='focus'][@qualifier='container']">
-                                <input id= "ds-search-form-scope-container" type="hidden" name="scope">
-                                    <xsl:attribute name="value">
-                                                <xsl:value-of
-                                                        select="substring-after(/dri:document/dri:meta/dri:pageMeta/dri:metadata[@element='focus'][@qualifier='container'],':')"/>
-                                            </xsl:attribute>
-
-                                </input>
-                            </xsl:if>
                         </fieldset>
                     </form>
                 </div>

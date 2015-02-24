@@ -47,7 +47,76 @@
 
      <xsl:variable name="repositoryURL" select="dri:document/dri:meta/dri:pageMeta/dri:trail[1]/@target"/>
 
+
+
+    <!-- From common.xsl
+        The following options can be appended to the external metadata URL to request specific
+        sections of the METS document:
+
+        sections:
+
+        A comma-separated list of METS sections to included. The possible values are: "metsHdr", "dmdSec",
+        "amdSec", "fileSec", "structMap", "structLink", "behaviorSec", and "extraSec". If no list is provided then *ALL*
+        sections are rendered.
+
+
+        dmdTypes:
+
+        A comma-separated list of metadata formats to provide as descriptive metadata. The list of avaialable metadata
+        types is defined in the dspace.cfg, disseminationcrosswalks. If no formats are provided them DIM - DSpace
+        Intermediate Format - is used.
+
+
+        amdTypes:
+
+        A comma-separated list of metadata formats to provide administative metadata. DSpace does not currently
+        support this type of metadata.
+
+
+        fileGrpTypes:
+
+        A comma-separated list of file groups to render. For DSpace a bundle is translated into a METS fileGrp, so
+        possible values are "THUMBNAIL","CONTENT", "METADATA", etc... If no list is provided then all groups are
+        rendered.
+
+
+        structTypes:
+
+        A comma-separated list of structure types to render. For DSpace there is only one structType: LOGICAL. If this
+        is provided then the logical structType will be rendered, otherwise none will. The default operation is to
+        render all structure types.
+    -->
+
+    <!-- Then we resolve the reference tag to an external mets object -->
+    <xsl:template match="dri:reference" mode="summaryList">
+        <xsl:variable name="externalMetadataURL">
+            <xsl:text>cocoon:/</xsl:text>
+            <xsl:value-of select="@url"/>
+            <!-- Since this is a summary only grab the descriptive metadata, and the thumbnails -->
+            <xsl:text>?sections=dmdSec,fileSec</xsl:text>
+            <!-- An example of requesting a specific metadata standard (MODS and QDC crosswalks only work for items)->
+            <xsl:if test="@type='DSpace Item'">
+                <xsl:text>&amp;dmdTypes=DC</xsl:text>
+            </xsl:if>-->
+        </xsl:variable>
+        <xsl:comment> External Metadata URL: <xsl:value-of select="$externalMetadataURL"/> </xsl:comment>
+        <li>
+            <xsl:attribute name="class">
+                <xsl:text>ds-artifact-item </xsl:text>
+                <xsl:choose>
+                    <xsl:when test="position() mod 2 = 0">even</xsl:when>
+                    <xsl:otherwise>odd</xsl:otherwise>
+                </xsl:choose>
+            </xsl:attribute>
+            <xsl:apply-templates select="document($externalMetadataURL)" mode="summaryList"/>
+            <xsl:apply-templates />
+        </li>
+    </xsl:template>
+
+
     <!-- TODO: Adding this can break the search "GO" and "login" buttons etc...WHY!!!!
+
+
 
     Ying:from core/elements.xsl -
         Non-interactive divs get turned into HTML div tags. The general process, which is found in many
@@ -207,6 +276,99 @@
             </div>
         </xsl:if>   -->
     </xsl:template>
+
+
+           <!-- From item-list.xsl - Generate the info about the item from the metadata section -->
+        <xsl:template match="dim:dim" mode="itemSummaryList-DIM">
+            <xsl:variable name="itemWithdrawn" select="@withdrawn" />
+            <div class="artifact-description">
+                <div class="artifact-title">
+                    <xsl:element name="a">
+                        <xsl:attribute name="href">
+                            <xsl:choose>
+                                <xsl:when test="$itemWithdrawn">
+                                    <xsl:value-of select="ancestor::mets:METS/@OBJEDIT" />
+                                </xsl:when>
+                                <xsl:otherwise>
+                                    <xsl:value-of select="ancestor::mets:METS/@OBJID" />
+                                </xsl:otherwise>
+                            </xsl:choose>
+                        </xsl:attribute>
+                        <xsl:choose>
+                            <xsl:when test="dim:field[@element='title']">
+                                <xsl:value-of select="dim:field[@element='title'][1]/node()"/>
+                            </xsl:when>
+                            <xsl:otherwise>
+                                <i18n:text>xmlui.dri2xhtml.METS-1.0.no-title</i18n:text>
+                            </xsl:otherwise>
+                        </xsl:choose>
+                    </xsl:element>
+                </div>
+                <span class="Z3988">
+                    <xsl:attribute name="title">
+                        <xsl:call-template name="renderCOinS"/>
+                    </xsl:attribute>
+                    &#xFEFF; <!-- non-breaking space to force separating the end tag -->
+                </span>
+                <div class="artifact-info">
+                    <span class="author">
+                        <xsl:choose>
+                            <xsl:when test="dim:field[@element='contributor'][@qualifier='author']">
+                                <xsl:for-each select="dim:field[@element='contributor'][@qualifier='author']">
+                                    <span>
+                                        <xsl:if test="@authority">
+                                            <xsl:attribute name="class"><xsl:text>ds-dc_contributor_author-authority</xsl:text></xsl:attribute>
+                                        </xsl:if>
+                                        <xsl:copy-of select="node()"/>
+                                    </span>
+                                    <xsl:if test="count(following-sibling::dim:field[@element='contributor'][@qualifier='author']) != 0">
+                                        <xsl:text>; </xsl:text>
+                                    </xsl:if>
+                                </xsl:for-each>
+                            </xsl:when>
+                            <xsl:when test="dim:field[@element='creator']">
+                                <xsl:for-each select="dim:field[@element='creator']">
+                                    <xsl:copy-of select="node()"/>
+                                    <xsl:if test="count(following-sibling::dim:field[@element='creator']) != 0">
+                                        <xsl:text>; </xsl:text>
+                                    </xsl:if>
+                                </xsl:for-each>
+                            </xsl:when>
+                            <xsl:when test="dim:field[@element='contributor']">
+                                <xsl:for-each select="dim:field[@element='contributor']">
+                                    <xsl:copy-of select="node()"/>
+                                    <xsl:if test="count(following-sibling::dim:field[@element='contributor']) != 0">
+                                        <xsl:text>; </xsl:text>
+                                    </xsl:if>
+                                </xsl:for-each>
+                            </xsl:when>
+                            <xsl:when test="dim:field[@element='contributor'][@qualifier='funder']">
+                                 <!-- do nothing -->
+                            </xsl:when>
+                            <xsl:otherwise>
+                                <i18n:text>xmlui.dri2xhtml.METS-1.0.no-author</i18n:text>
+                            </xsl:otherwise>
+                        </xsl:choose>
+                    </span>
+                    <xsl:text> </xsl:text>
+                    <xsl:if test="dim:field[@element='date' and @qualifier='issued'] or dim:field[@element='publisher']">
+                        <span class="publisher-date">
+                            <xsl:text>(</xsl:text>
+                            <xsl:if test="dim:field[@element='publisher']">
+                                <span class="publisher">
+                                    <xsl:copy-of select="dim:field[@element='publisher']/node()"/>
+                                </span>
+                                <xsl:text>, </xsl:text>
+                            </xsl:if>
+                            <span class="date">
+                                <xsl:value-of select="substring(dim:field[@element='date' and @qualifier='issued']/node(),1,10)"/>
+                            </span>
+                            <xsl:text>)</xsl:text>
+                        </span>
+                    </xsl:if>
+                </div>
+            </div>
+        </xsl:template>
 
     <!-- we have no setup for xmlui.theme.mirage.item-list.emphasis, just hard coded with 'file' -->
      <xsl:template name="itemSummaryList-DIM">
@@ -560,7 +722,7 @@
                         <xsl:call-template name="itemSummaryView-DIM-type"/>
                         <xsl:call-template name="itemSummaryView-DIM-publisher"/>
                         <xsl:call-template name="itemSummaryView-DIM-department"/>
-                        <xsl:call-template name="itemSummaryView-DIM-funder"/>
+                        <!--xsl:call-template name="itemSummaryView-DIM-funder"/-->
                         <xsl:call-template name="itemSummaryView-DIM-URI"/>
                         <xsl:if test="$ds_item_view_toggle_url != ''">
                             <xsl:call-template name="itemSummaryView-show-full"/>
@@ -1911,6 +2073,10 @@
                             </xsl:attribute>
                         </img>
                     </xsl:when>
+                    <xsl:when test="mets:fileGrp[@USE='CONTENT']/mets:file[@MIMETYPE='audio/x-mp3']">
+                        <img alt="xmlui.mirage2.item-list.thumbnail" i18n:attr="alt" src="{concat($theme-path,'/images/120px-High-contrast-audio-volume-high.svg.png')}">
+                             </img>
+                            </xsl:when>
                           <xsl:otherwise>
                         <img alt="xmlui.mirage2.item-list.thumbnail" i18n:attr="alt" src="{concat($theme-path,'/images/Text_Page_Icon.png')}">
                             <!--xsl:attribute name="data-src">

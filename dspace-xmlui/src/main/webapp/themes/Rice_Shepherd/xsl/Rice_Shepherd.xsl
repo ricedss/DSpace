@@ -201,8 +201,8 @@
         </xsl:variable>
 
 
-        <div class="file-wrapper row">
-            <div class="col-xs-6 col-sm-3">
+        <div>
+            <div class="col-xs-6 col-sm-4">
                 <div class="thumbnail">
                         <xsl:choose>
 
@@ -275,8 +275,9 @@
                                       bufferlength: 10
                                     },
                                     primary: "flash",
+
                                     height: 30,
-                                    width: 300
+                                    width: 280
                                     });
                                   </script>
 
@@ -312,7 +313,7 @@
                 </div>
             </div>
 
-            <div class="col-xs-6 col-sm-7">
+            <div class="col-xs-6 col-sm-6">
                 <dl class="file-metadata dl-horizontal">
                     <xsl:choose>
                         <xsl:when test="$itemtype='piece'">

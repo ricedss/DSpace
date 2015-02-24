@@ -41,7 +41,7 @@
                     -->
                 <!--The default entry, DO NOT REMOVE the system requires this-->
                 <entry key="default" value-ref="defaultConfiguration" />
-                <entry key="1911/13110" value-ref="ETDConfiguration" />
+                <entry key="1911/8299" value-ref="ETDConfiguration" />
                 <entry key="1911/8328" value-ref="PeriodicalConfiguration" />
                 <entry key="1911/27631" value-ref="PeriodicalConfiguration" />
                 <entry key="1911/64890" value-ref="PeriodicalConfiguration" />

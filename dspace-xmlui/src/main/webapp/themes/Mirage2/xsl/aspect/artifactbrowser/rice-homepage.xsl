@@ -138,7 +138,7 @@
 
 <div class="container-fluid">
   <div class="row">
-    <div class="col-md-4"><a href="http://dspacetest.rice.edu/handle/1911/75172"><img src="{$theme-path}/images/Dspace-6tiles-ying-1.gif" class="img-responsive" alt="Faculty and Staff Research" /></a></div>
+    <div class="col-md-4"><a href="http://dspacetest.rice.edu/handle/1911/75172"><img src="{$theme-path}/images/Dspace-6tiles-ying-1.png" class="img-responsive" alt="Faculty and Staff Research" /></a></div>
     <div class="col-md-4"><a href="http://dspacetest.rice.edu/handle/1911/8299"><img src="{$theme-path}/images/Dspace-6tiles-ying-2.gif" class="img-responsive" alt="Rice Theses and Dissertations" /></a></div>
     <div class="col-md-4"><a href="http://dspacetest.rice.edu/handle/1911/64041"><img src="{$theme-path}/images/Dspace-6tiles-ying-3.gif" class="img-responsive" alt="University Archives and Rice History" /></a></div>
   </div>
