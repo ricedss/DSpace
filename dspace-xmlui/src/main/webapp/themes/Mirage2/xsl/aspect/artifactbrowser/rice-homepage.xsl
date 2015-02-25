@@ -124,8 +124,10 @@
   </div>
 
        <br />  <br />
-        <h2 class="ds-div-head page-header home-page-header">Welcome to Rice University's digital scholarship archive</h2>
+        <h2 class="ds-div-head page-header first-page-header">Welcome to Rice University's digital scholarship archive</h2>
         <div id="file.news.div.news" class="ds-static-div primary">
+            <div>
+          <a href="https://docs.google.com/a/rice.edu/forms/d/1jsd6JGoTYu_hk6fkqwRP2QG9VtsWMZHZE8njzOY_7SU/edit#">Please give us your feedback on the new website for the Rice Digital Scholarship Archive by completing this brief survey.</a></div><br />
 			<p>This is Rice's institutional repository, a web site where the university's intellectual output
 				is shared, managed, searched, and preserved. Most materials come from Rice faculty members'
 				research, electronic theses and dissertations, and digitized collections of rare or unique books,
