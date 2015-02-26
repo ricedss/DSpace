@@ -81,32 +81,32 @@
             <a href="http://bit.ly/RDSA-FAQ"><img src="{$theme-path}/images/Dspace-slide-02.png" alt="FAQ"/>  </a>
         </div>
         <div class="item">
-            <a href="http://dspacetest.rice.edu/handle/1911/75172"><img src="{$theme-path}/images/Dspace-slide-ying-3.png" alt="Recent Faculty Work"/>   </a>
+            <a href="{$repositoryURL}/handle/1911/75172"><img src="{$theme-path}/images/Dspace-slide-ying-3.png" alt="Recent Faculty Work"/>   </a>
         </div>
           <div class="item">
-              <a href="http://dspacetest.rice.edu/handle/1911/9219"><img src="{$theme-path}/images/Dspace-slide-04.png" alt="Americas"/>  </a>
+              <a href="{$repositoryURL}/handle/1911/9219"><img src="{$theme-path}/images/Dspace-slide-04.png" alt="Americas"/>  </a>
               <!--div class="carousel-caption">
         <h3>Flowers</h3>
         <p>Beatiful flowers in Kolymbari, Crete.</p>
       </div-->
           </div>
           <!--div class="item">
-              <a href="http://dspacetest.rice.edu/handle/1911/9219"><img src="{$theme-path}/images/Dspace-slide-05.png" alt=""/>  </a>
+              <a href="{$repositoryURL}/handle/1911/9219"><img src="{$theme-path}/images/Dspace-slide-05.png" alt=""/>  </a>
           </div>
           <div class="item">
-              <a href="http://dspacetest.rice.edu/handle/1911/9219 "><img src="{$theme-path}/images/Dspace-slide-06.png" alt=""/>   </a>
+              <a href="{$repositoryURL}/handle/1911/9219 "><img src="{$theme-path}/images/Dspace-slide-06.png" alt=""/>   </a>
           </div>
           <div class="item">
-              <a href=" http://dspacetest.rice.edu/handle/1911/9219"><img src="{$theme-path}/images/Dspace-slide-07.png" alt=""/>  </a>
+              <a href="{$repositoryURL}/handle/1911/9219"><img src="{$theme-path}/images/Dspace-slide-07.png" alt=""/>  </a>
           </div>
           <div class="item">
-              <a href="http://dspacetest.rice.edu/handle/1911/61548"><img src="{$theme-path}/images/Dspace-slide-08.png" alt=""/>  </a>
+              <a href="{$repositoryURL}/handle/1911/61548"><img src="{$theme-path}/images/Dspace-slide-08.png" alt=""/>  </a>
           </div>
           <div class="item">
-              <a href="http://dspacetest.rice.edu/handle/1911/12394"><img src="{$theme-path}/images/Dspace-slide-09.png" alt=""/>   </a>
+              <a href="{$repositoryURL}/handle/1911/12394"><img src="{$theme-path}/images/Dspace-slide-09.png" alt=""/>   </a>
           </div-->
           <div class="item">
-              <a href="http://dspacetest.rice.edu/handle/1911/43628"><img src="{$theme-path}/images/Dspace-slide-ying-5.png" alt=""/>  </a>
+              <a href="{$repositoryURL}/handle/1911/43628"><img src="{$theme-path}/images/Dspace-slide-ying-5.png" alt=""/>  </a>
           </div>
           <div class="item">
               <a href="http://openaccess.rice.edu/"><img src="{$theme-path}/images/Dspace-slide-11.png" alt=""/>  </a>
@@ -140,15 +140,15 @@
 
 <div class="container-fluid">
   <div class="row">
-    <div class="col-md-4"><a href="http://dspacetest.rice.edu/handle/1911/75172"><img src="{$theme-path}/images/Dspace-6tiles-ying-1.png" class="img-responsive" alt="Faculty and Staff Research" /></a></div>
-    <div class="col-md-4"><a href="http://dspacetest.rice.edu/handle/1911/8299"><img src="{$theme-path}/images/Dspace-6tiles-ying-2.gif" class="img-responsive" alt="Rice Theses and Dissertations" /></a></div>
-    <div class="col-md-4"><a href="http://dspacetest.rice.edu/handle/1911/64041"><img src="{$theme-path}/images/Dspace-6tiles-ying-3.gif" class="img-responsive" alt="University Archives and Rice History" /></a></div>
+    <div class="col-md-4"><a href="{$repositoryURL}/handle/1911/75172"><img src="{$theme-path}/images/Dspace-6tiles-ying-1.png" class="img-responsive" alt="Faculty and Staff Research" /></a></div>
+    <div class="col-md-4"><a href="{$repositoryURL}/handle/1911/8299"><img src="{$theme-path}/images/Dspace-6tiles-ying-2.gif" class="img-responsive" alt="Rice Theses and Dissertations" /></a></div>
+    <div class="col-md-4"><a href="{$repositoryURL}/handle/1911/64041"><img src="{$theme-path}/images/Dspace-6tiles-ying-3.gif" class="img-responsive" alt="University Archives and Rice History" /></a></div>
   </div>
    <br/>
   <div class="row">
-    <div class="col-md-4"><a href="http://dspacetest.rice.edu/handle/1911/78735"><img src="{$theme-path}/images/Dspace-6tiles-ying-4.gif" class="img-responsive" alt="Publications and Performances" /></a></div>
-    <div class="col-md-4"><a href="http://dspacetest.rice.edu/handle/1911/78736"><img src="{$theme-path}/images/Dspace-6tiles-ying-5.gif" class="img-responsive" alt="Graduate and Undergraduate Student Research" /></a></div>
-    <div class="col-md-4"><a href="http://dspacetest.rice.edu/handle/1911/78737"><img src="{$theme-path}/images/Dspace-6tiles-ying-6.gif" class="img-responsive" alt="Cultural Heritage Collections" /></a></div>
+    <div class="col-md-4"><a href="{$repositoryURL}/handle/1911/78735"><img src="{$theme-path}/images/Dspace-6tiles-ying-4.gif" class="img-responsive" alt="Publications and Performances" /></a></div>
+    <div class="col-md-4"><a href="{$repositoryURL}/handle/1911/78736"><img src="{$theme-path}/images/Dspace-6tiles-ying-5.gif" class="img-responsive" alt="Graduate and Undergraduate Student Research" /></a></div>
+    <div class="col-md-4"><a href="{$repositoryURL}/handle/1911/78737"><img src="{$theme-path}/images/Dspace-6tiles-ying-6.gif" class="img-responsive" alt="Cultural Heritage Collections" /></a></div>
   </div>
 </div>
     </xsl:template>
