@@ -1274,7 +1274,7 @@
                 <th><span class="bold"><i18n:text>xmlui.Rice_ECE.Center</i18n:text>:</span></th>
                 <td>
                     <xsl:for-each select="dim:field[@element='description' and @qualifier='center']">
-                        <xsl:variable name="center" select="."></xsl:variable>
+                        <xsl:variable name="center" select="." />
                         <xsl:choose>
                             <xsl:when test="contains($center, '(')">
                                 <a>
@@ -1791,7 +1791,7 @@
 
             <!-- Add all Google Scholar Metadata values -->
             <xsl:for-each select="/dri:document/dri:meta/dri:pageMeta/dri:metadata[substring(@element, 1, 9) = 'citation_']">
-                <meta name="{@element}" content="{.}"></meta>
+                <meta name="{@element}" content="{.}" />
             </xsl:for-each>
 
         </head>
