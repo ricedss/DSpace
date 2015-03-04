@@ -41,7 +41,8 @@
                     -->
                 <!--The default entry, DO NOT REMOVE the system requires this-->
                 <entry key="default" value-ref="defaultConfiguration" />
-                <entry key="1911/8299" value-ref="ETDConfiguration" />
+                <entry key="1911/13110" value-ref="ETDConfiguration" />
+                <!--entry key="1911/8299" value-ref="ETDConfiguration" /-->
                 <entry key="1911/8328" value-ref="PeriodicalConfiguration" />
                 <entry key="1911/27631" value-ref="PeriodicalConfiguration" />
                 <entry key="1911/64890" value-ref="PeriodicalConfiguration" />
@@ -325,7 +326,6 @@
                 <ref bean="searchFilterDegreeDiscipline" />
                 <ref bean="searchFilterDegreeLevel" />
                 <ref bean="searchFilterDegreeName" />
- <!--               <ref bean="searchFilterAdvisor" />  -->
             </list>
         </property>
         <!--The search filters which can be used on the discovery search page-->
@@ -440,7 +440,6 @@
                 <ref bean="searchFilterContributor" />
                  <ref bean="searchFilterSubject" />
                 <ref bean="searchFilterIssued" />
- <!--               <ref bean="searchFilterAdvisor" />  -->
             </list>
         </property>
         <!--The search filters which can be used on the discovery search page-->

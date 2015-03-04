@@ -364,7 +364,7 @@
 
                         <a href="{$context-path}/" class="navbar-brand">
 
-                            <img width="" height="" src="{$theme-path}/t-images/TIMEAheader.gif" />
+                            <img width="" height="" src="{$theme-path}/t-images/timeaheader.gif" />
                         </a-->
 
 

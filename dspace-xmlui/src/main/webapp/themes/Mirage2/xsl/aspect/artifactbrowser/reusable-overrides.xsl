@@ -693,13 +693,15 @@
                                         </img>
                                     </xsl:when>
                                     <xsl:otherwise>
-                                        <img alt="Thumbnail">
-                                            <xsl:attribute name="data-src">
+                                            <img alt="xmlui.mirage2.item-list.thumbnail" i18n:attr="alt" src="{concat($theme-path,'/images/Text_Page_Icon.png')}">
+                                            </img>
+                                        <!--img alt="Thumbnail">
+                                                <xsl:attribute name="data-src">
                                                 <xsl:text>holder.js/100%x</xsl:text>
                                                 <xsl:value-of select="$thumbnail.maxheight"/>
                                                 <xsl:text>/text:No Thumbnail</xsl:text>
                                             </xsl:attribute>
-                                        </img>
+                                        </img-->
                                     </xsl:otherwise>
                                 </xsl:choose>
                             </a>
@@ -780,7 +782,8 @@
                             <xsl:attribute name="title">
                                 <xsl:value-of select="mets:FLocat[@LOCTYPE='URL']/@xlink:label"/>
                             </xsl:attribute>
-                            <xsl:value-of select="util:shortenString(mets:FLocat[@LOCTYPE='URL']/@xlink:label, 30, 5)"/>
+                            <xsl:value-of select="mets:FLocat[@LOCTYPE='URL']/@xlink:label"/>
+                            <!--xsl:value-of select="util:shortenString(mets:FLocat[@LOCTYPE='URL']/@xlink:label, 30, 5)"/-->
                         </dd>
                 </xsl:if>
                 </dl>
