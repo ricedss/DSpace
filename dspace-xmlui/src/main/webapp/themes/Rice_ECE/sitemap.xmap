@@ -42,8 +42,8 @@
         -->
         <map:component-configurations>
             <global-variables>
-                <theme-path>Rice_Thresher</theme-path>
-                <theme-name>Rice Thresher</theme-name>
+                <theme-path>Rice_ECE</theme-path>
+                <theme-name>Rice ECE</theme-name>
             </global-variables>
         </map:component-configurations>
 

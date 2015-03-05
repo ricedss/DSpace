@@ -42,8 +42,8 @@
         -->
         <map:component-configurations>
             <global-variables>
-                <theme-path>Rice_NFF</theme-path>
-                <theme-name>Rice NFF</theme-name>
+                <theme-path>Rice_MOH</theme-path>
+                <theme-name>Rice MOH</theme-name>
             </global-variables>
         </map:component-configurations>
 
