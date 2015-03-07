@@ -43,6 +43,7 @@
     exclude-result-prefixes="xalan encoder i18n dri mets dim xlink xsl util jstring rights confman">
 
     <xsl:import href="rice-homepage.xsl" />
+    <xsl:import href="rice-deposit-work.xsl" />
     <xsl:param name="browser" />
 
      <xsl:variable name="repositoryURL" select="dri:document/dri:meta/dri:pageMeta/dri:trail[1]/@target"/>
@@ -1827,11 +1828,11 @@
             <xsl:variable name="page_title" select="/dri:document/dri:meta/dri:pageMeta/dri:metadata[@element='title'][last()]" />
             <title>
                 <xsl:choose>
-                    <xsl:when test="starts-with($request-uri, 'page/about')">
-                        <i18n:text>xmlui.mirage2.page-structure.aboutThisRepository</i18n:text>
+                    <xsl:when test="starts-with($request-uri, 'page/deposit')">
+                        <xsl:text>Deposit Your Research in the Rice Digital Scholarship Archive</xsl:text>
                     </xsl:when>
                     <xsl:when test="not($page_title)">
-                        <xsl:text>  </xsl:text>
+                        <xsl:text>Deposit Your Research in the Rice Digital Scholarship Archive</xsl:text>
                     </xsl:when>
                     <xsl:otherwise>
                         <xsl:copy-of select="$page_title/node()" />
@@ -1965,7 +1966,7 @@
                         </ul>
                         <ul class="nav navbar-nav pull-left">
                             <li>
-                          <a href="http://openaccess.rice.edu/ir-submission-process/" ><span class="glyphicon glyphicon-import" aria-hidden="true"></span><span class="hidden-xs"> Deposit your work</span></a>
+                          <a href="{$repositoryURL}/page/deposit" ><span class="glyphicon glyphicon-import" aria-hidden="true"></span><span class="hidden-xs"> Deposit your work</span></a>
                          </li>
                             <li> </li>
 
