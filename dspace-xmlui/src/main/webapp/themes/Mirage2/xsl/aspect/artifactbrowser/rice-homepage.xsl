@@ -146,9 +146,9 @@
   </div>
    <br/>
   <div class="row">
-    <div class="col-md-4"><a href="{$repositoryURL}/handle/1911/78735"><img src="{$theme-path}/images/Dspace-6tiles-ying-4.gif" class="img-responsive" alt="Publications and Performances" /></a></div>
-    <div class="col-md-4"><a href="{$repositoryURL}/handle/1911/78736"><img src="{$theme-path}/images/Dspace-6tiles-ying-5.gif" class="img-responsive" alt="Graduate and Undergraduate Student Research" /></a></div>
-    <div class="col-md-4"><a href="{$repositoryURL}/handle/1911/78737"><img src="{$theme-path}/images/Dspace-6tiles-ying-6.gif" class="img-responsive" alt="Cultural Heritage Collections" /></a></div>
+    <div class="col-md-4"><a href="{$repositoryURL}/handle/1911/79049"><img src="{$theme-path}/images/Dspace-6tiles-ying-4.gif" class="img-responsive" alt="Publications and Performances" /></a></div>
+    <div class="col-md-4"><a href="{$repositoryURL}/handle/1911/26795"><img src="{$theme-path}/images/Dspace-6tiles-ying-5.gif" class="img-responsive" alt="Graduate and Undergraduate Student Research" /></a></div>
+    <div class="col-md-4"><a href="{$repositoryURL}/handle/1911/79050"><img src="{$theme-path}/images/Dspace-6tiles-ying-6.gif" class="img-responsive" alt="Cultural Heritage Collections" /></a></div>
   </div>
 </div>
     </xsl:template>
