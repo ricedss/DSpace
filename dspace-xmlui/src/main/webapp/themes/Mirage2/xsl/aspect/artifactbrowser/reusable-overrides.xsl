@@ -1959,7 +1959,7 @@
 
                         <ul class="nav navbar-nav pull-left">
                             <li>
-                          <a href="http://bit.ly/RDSA-FAQ" ><span class="hidden-xs">FAQ</span></a>
+                          <a href="http://bit.ly/RiceArchive-FAQ" ><span class="hidden-xs">FAQ</span></a>
                          </li>
                             <li> </li>
 
@@ -2048,7 +2048,7 @@
                     <i18n:text>xmlui.Rice.Home</i18n:text>
                         </a>
                                <xsl:text> | </xsl:text>
-                             <a href="http://bit.ly/RDSA-FAQ">
+                             <a href="http://bit.ly/RiceArchive-FAQ">
                                 <!-- i18n: "FAQ" -->
                                 <i18n:text>xmlui.Rice.FAQ</i18n:text>
                             </a>
@@ -2098,7 +2098,7 @@
                 </a>
             </li>
             <li>
-                <a href="http://bit.ly/RDSA-FAQ">
+                <a href="http://bit.ly/RiceArchive-FAQ">
                     <!-- i18n: "FAQ" -->
                     <i18n:text>xmlui.Rice.FAQ</i18n:text>
                 </a>
