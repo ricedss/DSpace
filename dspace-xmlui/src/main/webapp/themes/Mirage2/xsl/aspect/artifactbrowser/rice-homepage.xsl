@@ -78,7 +78,7 @@
           <a href="http://openaccess.rice.edu/"><img src="{$theme-path}/images/Dspace-slide-01.png" alt="Open Access Policy"/>  </a>
         </div>
         <div class="item">
-            <a href="http://bit.ly/RDSA-FAQ"><img src="{$theme-path}/images/Dspace-slide-02.png" alt="FAQ"/>  </a>
+            <a href="http://bit.ly/RiceArchive-FAQ"><img src="{$theme-path}/images/Dspace-slide-02.png" alt="FAQ"/>  </a>
         </div>
         <div class="item">
             <a href="{$repositoryURL}/handle/1911/75172"><img src="{$theme-path}/images/Dspace-slide-ying-3.png" alt="Recent Faculty Work"/>   </a>
@@ -133,7 +133,7 @@
 				research, electronic theses and dissertations, and digitized collections of rare or unique books,
 				images, musical performances, and manuscripts. The archive runs on DSpace, an open source software package.</p>
 			<p>Do you have questions about this archive?  Read our
-				<a href="http://bit.ly/RDSA-FAQ">FAQ</a>.</p>
+				<a href="http://bit.ly/RiceArchive-FAQ">FAQ</a>.</p>
         </div>
 
 
