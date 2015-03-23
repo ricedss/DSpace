@@ -29,6 +29,11 @@ public class DiscoveryConfiguration implements InitializingBean{
     /** Configuration object for the recent submissions **/
     private DiscoveryRecentSubmissionsConfiguration recentSubmissionConfiguration;
 
+    /** Ying added this for special home items
+     * Configuration object for the collection home items **/
+    private DiscoveryCollectionHomeConfiguration collectionHomeConfiguration;
+    /** END Ying added following two method for collection home items */
+
     /** The search filters which can be selected on the search page**/
     private List<DiscoverySearchFilter> searchFilters = new ArrayList<DiscoverySearchFilter>();
 
@@ -77,6 +82,17 @@ public class DiscoveryConfiguration implements InitializingBean{
     public void setRecentSubmissionConfiguration(DiscoveryRecentSubmissionsConfiguration recentSubmissionConfiguration) {
         this.recentSubmissionConfiguration = recentSubmissionConfiguration;
     }
+
+    /** Ying added following two method for collection home items */
+    public DiscoveryCollectionHomeConfiguration getCollectionHomeConfiguration() {
+        return collectionHomeConfiguration;
+    }
+
+    public void setCollectionHomeConfiguration(DiscoveryCollectionHomeConfiguration collectionHomeConfiguration) {
+        this.collectionHomeConfiguration = collectionHomeConfiguration;
+    }
+
+    /** END Ying added following two method for collection home items */
 
     public List<DiscoverySearchFilter> getSearchFilters() {
         return searchFilters;

@@ -49,6 +49,7 @@
                 <entry key="1911/27631" value-ref="PeriodicalConfiguration" />
                 <entry key="1911/64890" value-ref="PeriodicalConfiguration" />
                 <entry key="1911/71868" value-ref="ShepherdConfiguration" />
+                <entry key="1911/69482" value-ref="LovettTourConfiguration" />
                <!--Use site to override the default configuration for the home page & default discovery page-->
                <!--<entry key="site" value-ref="defaultConfiguration" />-->
                <!--<entry key="123456789/7621" value-ref="defaultConfiguration"/>-->
@@ -149,7 +150,7 @@
                 <property name="max" value="5"/>
             </bean>
         </property>
-        <!--Default result per page  -->
+      <!--Default result per page  -->
         <property name="defaultRpp" value="10" />
         <property name="hitHighlightingConfiguration">
             <bean class="org.dspace.discovery.configuration.DiscoveryHitHighlightingConfiguration">
@@ -201,6 +202,113 @@
     </bean>
 
     <!-- END The default configuration settings for discovery-->
+
+    <!--The Lovett tour configuration settings for discovery-->
+    <bean id="LovettTourConfiguration" class="org.dspace.discovery.configuration.DiscoveryConfiguration" scope="prototype">
+        <!--Which sidebar facets are to be displayed-->
+        <property name="sidebarFacets">
+            <list>
+                <ref bean="searchFilterAuthor" />
+                <ref bean="searchFilterSubject" />
+                <ref bean="searchFilterIssued" />
+            </list>
+        </property>
+        <!--The search filters which can be used on the discovery search page-->
+        <property name="searchFilters">
+            <list>
+                <ref bean="searchFilterTitle" />
+                <ref bean="searchFilterAuthor" />
+                <ref bean="searchFilterContributor"/>
+                <ref bean="searchFilterSubject" />
+                <ref bean="searchFilterIssued" />
+                <!-- Ying customized searchFilter: abstract, doi, fulltext -->
+                <ref bean="searchFilterAbstract" />
+                <!--ref bean="searchFilterFulltext" /-->
+                <!-- END Ying customized searchFilter: abstract, doi, fulltext -->
+            </list>
+        </property>
+        <!--The sort filters for the discovery search-->
+        <property name="searchSortConfiguration">
+            <bean class="org.dspace.discovery.configuration.DiscoverySortConfiguration">
+                <!--<property name="defaultSort" ref="sortDateIssued"/>-->
+                <!--DefaultSortOrder can either be desc or asc (desc is default)-->
+                <property name="defaultSortOrder" value="desc"/>
+                <property name="sortFields">
+                    <list>
+                        <ref bean="sortTitle" />
+                        <ref bean="sortDateIssued" />
+                    </list>
+                </property>
+            </bean>
+        </property>
+        <!--Any default filter queries, these filter queries will be used for all queries done by discovery for this configuration-->
+        <!--<property name="defaultFilterQueries">-->
+            <!--<list>-->
+                <!--Only find items-->
+                <!--<value>search.resourcetype:2</value>-->
+            <!--</list>-->
+        <!--</property>-->
+        <!--The configuration for the recent submissions-->
+        <property name="collectionHomeConfiguration">
+            <bean class="org.dspace.discovery.configuration.DiscoveryCollectionHomeConfiguration">
+                <property name="metadataSortField" value="dc.title.subtitle" />
+                <property name="type" value="text"/>
+                <property name="perpage" value="460"/>
+            </bean>
+        </property>
+        <!--Default result per page  -->
+        <property name="defaultRpp" value="10" />
+        <property name="hitHighlightingConfiguration">
+            <bean class="org.dspace.discovery.configuration.DiscoveryHitHighlightingConfiguration">
+        <property name="metadataFields">
+            <list>
+                        <bean class="org.dspace.discovery.configuration.DiscoveryHitHighlightFieldConfiguration">
+                            <property name="field" value="dc.title"/>
+                            <property name="snippets" value="5"/>
+                        </bean>
+                        <bean class="org.dspace.discovery.configuration.DiscoveryHitHighlightFieldConfiguration">
+                            <property name="field" value="dc.contributor.author"/>
+                            <property name="snippets" value="5"/>
+                        </bean>
+                        <bean class="org.dspace.discovery.configuration.DiscoveryHitHighlightFieldConfiguration">
+                            <property name="field" value="dc.description.abstract"/>
+                            <property name="maxSize" value="250"/>
+                            <property name="snippets" value="2"/>
+                        </bean>
+                        <bean class="org.dspace.discovery.configuration.DiscoveryHitHighlightFieldConfiguration">
+                            <property name="field" value="fulltext"/>
+                            <property name="maxSize" value="250"/>
+                            <property name="snippets" value="2"/>
+                        </bean>
+            </list>
+        </property>
+    </bean>
+
+        </property>
+        <property name="moreLikeThisConfiguration">
+            <bean class="org.dspace.discovery.configuration.DiscoveryMoreLikeThisConfiguration">
+                <!--When altering this list also alter the "xmlui.Discovery.RelatedItems.help" key as it describes
+                the metadata fields below-->
+                <property name="similarityMetadataFields">
+            <list>
+                <value>dc.contributor.author</value>
+                <value>dc.creator</value>
+                <value>dc.subject</value>
+                <value>dc.title</value>
+             </list>
+        </property>
+                <!--The minimum number of matching terms across the metadata fields above before an item is found as related -->
+                <property name="minTermFrequency" value="4"/>
+                <!--The maximum number of related items displayed-->
+                <property name="max" value="3"/>
+                <!--The minimum word length below which words will be ignored-->
+                <property name="minWordLength" value="5"/>
+    </bean>
+        </property>
+    </bean>
+
+    <!-- END The Lovett Tour configuration settings for discovery-->
+
 
     <!--- ===============================================================================================================
                                         PERIODICAL
@@ -859,5 +967,8 @@
         <property name="metadataField" value="dc.date.issued"/>
         <property name="type" value="date"/>
     </bean>
-    
+
+     <bean id="sortSubTitle" class="org.dspace.discovery.configuration.DiscoverySortFieldConfiguration">
+        <property name="metadataField" value="dc.title.subtitle"/>
+    </bean>
 </beans>

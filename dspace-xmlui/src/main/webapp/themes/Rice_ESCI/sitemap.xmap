@@ -17,7 +17,6 @@
 
         <map:transformers>
             <transformer name="strip-namespaces" src="org.apache.cocoon.transformation.StripNameSpacesTransformer"/>
-
         </map:transformers>
 
         <map:serializers>
@@ -43,8 +42,8 @@
         -->
         <map:component-configurations>
             <global-variables>
-                <theme-path>Rice_Gallery</theme-path>
-                <theme-name>Rice Gallery</theme-name>
+                <theme-path>Rice_ESCI</theme-path>
+                <theme-name>Rice ESCI</theme-name>
             </global-variables>
         </map:component-configurations>
 
@@ -131,14 +130,6 @@
             -->
             <map:match pattern="**">
 
-            <!--  Ying test on sitemap
-            map:match pattern="">
-               <map:transform type="CollectionHome">
-                <map:parameter name="order-field" value="dc.title.subtitle"/>
-               </map:transform>
-                <map:serialize type="xml"/>
-            </map:match-->
-
                 <!-- Generate the DRI page -->
                 <map:generate type="file" src="cocoon://DRI/{1}"/>
 
@@ -147,12 +138,10 @@
                 interfere with other themes -->
                 <map:transform src="xsl/preprocess.xsl"/>
 
-                <!--map:transform type="IncludePageMeta">
+                <map:transform type="IncludePageMeta">
                     <map:parameter name="theme.path" value="{global:theme-path}/"/>
                     <map:parameter name="theme.name" value="{global:theme-name}/"/>
-                </map:transform-->
-
-
+                </map:transform>
 
                 <!-- Debuging output -->
                 <map:match type="request" pattern="XML">

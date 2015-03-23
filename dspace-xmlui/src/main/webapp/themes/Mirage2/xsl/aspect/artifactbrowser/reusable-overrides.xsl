@@ -1513,6 +1513,18 @@
           </xsl:if>
      </xsl:template>
 
+    <xsl:template name="itemSummaryView-DIM-relation-ispartof">
+        <xsl:if test="dim:field[@element='relation' and @qualifier='ispartof']">
+            <div class="simple-item-view-relation-ispartof item-page-field-wrapper table">
+                <h5><i18n:text>xmlui.Rice.isPartOf</i18n:text></h5>
+                <div>
+
+                        <xsl:copy-of select="./node()"/>
+
+                </div>
+            </div>
+         </xsl:if>
+    </xsl:template>
 
     <xsl:template name="displayDate">
          <xsl:param name="iso"/>
@@ -2150,6 +2162,11 @@
                                 <xsl:sort select="mets:FLocat[@LOCTYPE='URL']/@xlink:title"/>
                                 <xsl:with-param name="context" select="$context"/>
                             </xsl:apply-templates>
+                            <!--xsl:apply-templates select="mets:file">
+                                <xsl:sort data-type="number" select="boolean(./@ID=$primaryBitstream)" order="descending" />
+                                <xsl:sort data-type="number" select="substring-after('?sequence=', mets:FLocat[@LOCTYPE='URL']/@xlink:href)"/>
+                                <xsl:with-param name="context" select="$context"/>
+                            </xsl:apply-templates-->
                         </xsl:otherwise>
                     </xsl:choose>
                 </xsl:otherwise>

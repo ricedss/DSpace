@@ -232,7 +232,10 @@
             <xsl:variable name="artifactTitle">
                 <xsl:value-of select="./mets:dmdSec/mets:mdWrap[@OTHERMDTYPE='DIM']/mets:xmlData/dim:dim/dim:field[@element='title'][1]/node()"/>
             </xsl:variable>
-            <xsl:attribute name="href">
+            <xsl:variable name="artifactSubTitle">
+                 <xsl:value-of select="./mets:dmdSec/mets:mdWrap[@OTHERMDTYPE='DIM']/mets:xmlData/dim:dim/dim:field[@element='title'][@qualifier='subtitle'][1]/node()"/>
+             </xsl:variable>
+             <xsl:attribute name="href">
                 <xsl:choose>
                     <xsl:when test="$itemWithdrawn">
                         <xsl:value-of select="@OBJEDIT" />
@@ -249,7 +252,11 @@
                 <xsl:value-of select="./mets:dmdSec/mets:mdWrap[@OTHERMDTYPE='DIM']/mets:xmlData/dim:dim/dim:field[@element='title'][1]/node()"/>
             </xsl:attribute>
             <xsl:choose>
+
                 <xsl:when test="./mets:dmdSec/mets:mdWrap[@OTHERMDTYPE='DIM']/mets:xmlData/dim:dim/dim:field[@element='title']">
+                    <xsl:if test="./mets:dmdSec/mets:mdWrap[@OTHERMDTYPE='DIM']/mets:xmlData/dim:dim/dim:field[@element='title'][@qualifier='subtitle']">
+                        <xsl:value-of select="$artifactSubTitle"/> <xsl:text> - </xsl:text>
+                    </xsl:if>
                     <xsl:choose>
                         <xsl:when test="string-length($artifactTitle) >= 40">
                             <xsl:value-of select="substring($artifactTitle,1,40)"/>... </xsl:when>

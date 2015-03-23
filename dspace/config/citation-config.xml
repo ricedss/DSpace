@@ -37,6 +37,9 @@
         <!-- SERVER-SPECIFIC -->
         <!-- dspace.rice.edu -->
         <!-- ECE publications -->
+
+        <name-map scope="1911/81741" citation-name="ESCI-maps"/>  <!-- on testing -->
+
         <name-map scope="1911/10563" citation-name="ece-default">
             <map-type document-type="Conference Paper" citation-name="ece-conference" />
         </name-map>
@@ -163,6 +166,49 @@
            <xsl:when test="contains($str,'&lt;i') or contains($str, '&lt;b') or contains($str, '&lt;a') or contains($str, '&lt;p')">
 
     *************************************************************************  -->
+
+        <!-- ************************************************************************
+
+                      DEFAULT citation format for ESCI collection
+
+        ************************************************************************   -->
+        <citation name="ESCI-maps">
+
+            <!-- Author -->
+            <field>
+              <dc-schema>dc</dc-schema>
+              <dc-element>creator</dc-element>
+              <dc-qualifier></dc-qualifier>
+              <display-format multiple-value-seperator=", ">@field@.</display-format>
+            </field>
+
+
+                <!-- Title -->
+               <field>
+                 <dc-schema>dc</dc-schema>
+                 <dc-element>title</dc-element>
+                 <dc-qualifier></dc-qualifier>
+                 <display-format> @field@ </display-format>
+               </field>
+
+            <!-- subtitle -->
+           <field>
+             <dc-schema>dc</dc-schema>
+             <dc-element>title</dc-element>
+               <dc-qualifier>subtitle</dc-qualifier>
+             <display-format>[@field@].</display-format>
+           </field>
+
+                <!-- source -->
+               <field>
+                 <dc-schema>dc</dc-schema>
+                 <dc-element>relation</dc-element>
+                 <dc-qualifier>ispartof</dc-qualifier>
+                 <display-format> @field@.</display-format>
+               </field>
+
+
+            </citation>
 
         <!-- ************************************************************************
 

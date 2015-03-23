@@ -2525,5 +2525,6 @@
     <message key="xmlui.Rice.doi">Published Version</message>
     <message key="xmlui.Rice.uri">Citable link to this page</message>
     <message key="xmlui.Rice.funder">Funder</message>
+    <message key="xmlui.Rice.isPartOf">Is Part Of</message>
 
 </catalogue>
