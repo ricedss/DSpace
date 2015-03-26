@@ -101,7 +101,7 @@
                           </xsl:when>
 
                           <xsl:otherwise>
-                              <i18n:text>xmlui.dri2xhtml.METS-1.0.no-author</i18n:text>
+
                           </xsl:otherwise>
                       </xsl:choose>
                   </span>
@@ -188,7 +188,7 @@
                       </xsl:when>
 
                       <xsl:otherwise>
-                          <i18n:text>xmlui.dri2xhtml.METS-1.0.no-author</i18n:text>
+
                       </xsl:otherwise>
                   </xsl:choose>
                   </small>
