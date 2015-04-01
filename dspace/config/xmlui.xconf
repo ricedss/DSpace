@@ -183,6 +183,7 @@
 
  -->
 
+
           <theme name="TIMEA Theme" handle="123456789/1" path="TIMEA/"/>
 
          <theme name="Americas Theme" handle="1911/9219" path="Americas/"/>
@@ -203,6 +204,7 @@
         <theme name="Rice ECE" handle="1911/21661" path="Rice_ECE/"/> <!-- DSP Publication -->
 
         <theme name="Rice Shepherd" handle="1911/71868" path="Rice_Shepherd/"/>
+        <theme name="Rice Shepherd Pamphlets" handle="1911/77130" path="Rice_Shepherd_Pamphlets/"/>
         <theme name="Rice Thresher" handle="1911/64890" path="Rice_Thresher/"/>
         <theme name="Rice RIP" handle="1911/8328" path="Rice_RIP/"/>
         <theme name="Rice Thresher 1" handle="1911/27631" path="Rice_Thresher_1/"/>

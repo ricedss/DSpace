@@ -2526,5 +2526,5 @@
     <message key="xmlui.Rice.uri">Citable link to this page</message>
     <message key="xmlui.Rice.funder">Funder</message>
     <message key="xmlui.Rice.isPartOf">Is Part Of</message>
-
+    <message key="xmlui.ArtifactBrowser.AdvancedSearch.type_coverageSpatial">Coverage</message>
 </catalogue>

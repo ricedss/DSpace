@@ -41,4 +41,4 @@
                       <xsl:call-template name="itemSummaryView-collections"/>
       </xsl:template>
 
-  xsl:stylesheet>
+</xsl:stylesheet>

@@ -433,7 +433,7 @@
                 <ref bean="searchFilterAuthor" />
                 <ref bean="searchFilterSubject" />
                 <ref bean="searchFilterIssued" />
-                <ref bean="searchFilterCoverage" />
+                <ref bean="searchFilterCoverageSpatial" />
             </list>
         </property>
         <!--The search filters which can be used on the discovery search page-->
@@ -447,7 +447,7 @@
                 <!-- Ying customized searchFilter: abstract, doi, fulltext -->
                 <ref bean="searchFilterAbstract" />
                 <!--ref bean="searchFilterFulltext" /-->
-                <ref bean="searchFilterCoverage" />
+                <ref bean="searchFilterCoverageSpatial" />
             </list>
         </property>
         <!--The sort filters for the discovery search-->
@@ -833,11 +833,11 @@
         <property name="sortOrder" value="VALUE"/>
     </bean>
 
-    <bean id="searchFilterCoverage" class="org.dspace.discovery.configuration.DiscoverySearchFilterFacet">
-        <property name="indexFieldName" value="coverage"/>
+    <bean id="searchFilterCoverageSpatial" class="org.dspace.discovery.configuration.DiscoverySearchFilterFacet">
+        <property name="indexFieldName" value="coverageSpatial"/>
         <property name="metadataFields">
             <list>
-                <value>dc.coverage</value>
+                <value>dc.coverage.spatial</value>
             </list>
         </property>
         <property name="facetLimit" value="10"/>

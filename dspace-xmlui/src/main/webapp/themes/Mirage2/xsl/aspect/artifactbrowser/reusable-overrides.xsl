@@ -1518,9 +1518,9 @@
             <div class="simple-item-view-relation-ispartof item-page-field-wrapper table">
                 <h5><i18n:text>xmlui.Rice.isPartOf</i18n:text></h5>
                 <div>
-
-                        <xsl:copy-of select="./node()"/>
-
+                     <xsl:for-each select="dim:field[@element='relation' and @qualifier='ispartof']">
+                        <xsl:copy-of select="node()"/>
+                     </xsl:for-each>
                 </div>
             </div>
          </xsl:if>
