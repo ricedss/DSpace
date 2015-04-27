@@ -306,7 +306,7 @@
               <label>Inventor(s)</label>
               <input-type>onebox</input-type>
               <hint>Enter name(s) as appear on patent e.g. Smalley, Richard E. (Houston, TX, US).</hint>
-              <required>You must enter a Creator for this item.</required>
+              <required>You must enter an Inventor for this item.</required>
             </field>
 
             <field>
@@ -348,7 +348,7 @@
                <repeatable>false</repeatable>
                 <label>Abstract</label>
                 <input-type>textarea</input-type>
-                <hint>You must enter Date Filed for this item.</hint>
+                <hint></hint>
                 <required>You must enter Abstract for this item.</required>
               </field>
 
