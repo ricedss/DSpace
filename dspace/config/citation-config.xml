@@ -72,6 +72,8 @@
 
         <name-map scope="1911/77130" citation-name="shepherd-pamphlets"/>
 
+        <name-map scope="1911/78738" citation-name="patents-default"/>
+
 	<!-- for historical image default-->
 	<name-map scope="1911/61408" citation-name="histimage-default"/> <!-- Events -->
 	<name-map scope="1911/62306" citation-name="histimage-default"/> <!-- Key Documents -->
@@ -166,6 +168,49 @@
            <xsl:when test="contains($str,'&lt;i') or contains($str, '&lt;b') or contains($str, '&lt;a') or contains($str, '&lt;p')">
 
     *************************************************************************  -->
+
+               <!-- ************************************************************************
+
+                      DEFAULT citation format for Patents collection
+
+        ************************************************************************   -->
+        <citation name="patents-default">
+
+            <!-- Author -->
+            <field>
+              <dc-schema>dc</dc-schema>
+              <dc-element>creator</dc-element>
+              <dc-qualifier></dc-qualifier>
+              <display-format multiple-value-seperator=", ">@field@,</display-format>
+            </field>
+
+
+                <!-- Title -->
+               <field>
+                 <dc-schema>dc</dc-schema>
+                 <dc-element>title</dc-element>
+                 <dc-qualifier></dc-qualifier>
+                 <display-format> "@field@." </display-format>
+               </field>
+
+            <!-- Patents -->
+           <field>
+             <dc-schema>dc</dc-schema>
+             <dc-element>identifier</dc-element>
+               <dc-qualifier>parentID</dc-qualifier>
+             <display-format>Parent @field@ </display-format>
+           </field>
+
+                <!-- source -->
+               <field>
+                 <dc-schema>dc</dc-schema>
+                 <dc-element>date</dc-element>
+                 <dc-qualifier>issued</dc-qualifier>
+                 <display-format> Issued @field@.</display-format>
+               </field>
+
+
+            </citation>
 
         <!-- ************************************************************************
 

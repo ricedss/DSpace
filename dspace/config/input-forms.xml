@@ -19,7 +19,9 @@
      <!-- dspacetest, dev and land --><!--<name-map collection-handle="1911/23998" form-name="subwayform" />-->
      <!-- dspacetest, dev and land --><!--<name-map collection-handle="1911/55206" form-name="commencementform" />-->
 
-   <!-- scholarship.rice.edu --><name-map collection-handle="1911/61371" form-name="commencementform" />  
+     <!-- dspacetest, dev and land --><name-map collection-handle="1911/78738" form-name="patentsform" />
+
+   <!-- scholarship.rice.edu --><name-map collection-handle="1911/61371" form-name="commencementform" />
      <!-- scholarship.rice.edu --> <name-map collection-handle="1911/10563" form-name="eceform" /> <!-- ECE Publication -->
      <!-- scholarship.rice.edu --> <name-map collection-handle="1911/21945" form-name="eceform" /> <!-- CMC Publication -->
      <!-- scholarship.rice.edu --> <name-map collection-handle="1911/21661" form-name="eceform" /> <!-- DSP Publication -->
@@ -272,6 +274,172 @@
         </page>
      </form>
     <!-- End of Recovery of a Heritage in the Making : archivethefuture-->
+
+          <!-- Start Patents Form -->
+     <form name="patentsform">
+        <page number="1">
+          <field>
+            <dc-schema>dc</dc-schema>
+            <dc-element>identifier</dc-element>
+            <dc-qualifier>patentID</dc-qualifier>
+            <repeatable>false</repeatable>
+            <label>Patent ID</label>
+            <input-type>onebox</input-type>
+            <hint>Use the most complete version of the ID without spaces or commas. (e.g. US6428811B1).</hint>
+            <required>You must enter Patent ID for this item.</required>
+          </field>
+        <field>
+            <dc-schema>dc</dc-schema>
+            <dc-element>title</dc-element>
+            <dc-qualifier></dc-qualifier>
+            <repeatable>false</repeatable>
+            <label>Title</label>
+            <input-type>onebox</input-type>
+            <hint>Title of the patent taken from the published version.</hint>
+            <required>You must enter a Title for this item.</required>
+          </field>
+            <field>
+              <dc-schema>dc</dc-schema>
+              <dc-element>creator</dc-element>
+              <dc-qualifier></dc-qualifier>
+              <repeatable>true</repeatable>
+              <label>Inventor(s)</label>
+              <input-type>onebox</input-type>
+              <hint>Enter name(s) as appear on patent e.g. Smalley, Richard E. (Houston, TX, US).</hint>
+              <required>You must enter a Creator for this item.</required>
+            </field>
+
+            <field>
+                <dc-schema>dc</dc-schema>
+                <dc-element>contributor</dc-element>
+                <dc-qualifier>assignee</dc-qualifier>
+                <repeatable>true</repeatable>
+                <label>Assignee(s)</label>
+                <input-type>onebox</input-type>
+                <hint>Inventor and the assignee may be the same. Rice University may be one of the assignees.</hint>
+                <required>You must enter an Assignee for this item.</required>
+            </field>
+
+           <field>
+              <dc-schema>dc</dc-schema>
+              <dc-element>date</dc-element>
+              <dc-qualifier>filed</dc-qualifier>
+              <repeatable>false</repeatable>
+              <label>Date Filed</label>
+              <input-type>date</input-type>
+              <hint>Enter date in YYYY-MM-DD format.</hint>
+              <required>You must enter Date Filed for this item.</required>
+            </field>
+
+            <field>
+              <dc-schema>dc</dc-schema>
+              <dc-element>date</dc-element>
+              <dc-qualifier>issued</dc-qualifier>
+              <repeatable>false</repeatable>
+              <label>Date Issued by the USPTO</label>
+              <input-type>date</input-type>
+              <hint>Enter date in YYYY-MM-DD format</hint>
+              <required>You must enter Date Issued by the USPTO for this item.</required>
+            </field>
+            <field>
+               <dc-schema>dc</dc-schema>
+               <dc-element>description</dc-element>
+               <dc-qualifier>abstract</dc-qualifier>
+               <repeatable>false</repeatable>
+                <label>Abstract</label>
+                <input-type>textarea</input-type>
+                <hint>You must enter Date Filed for this item.</hint>
+                <required>You must enter Abstract for this item.</required>
+              </field>
+
+            <field>
+                <dc-schema>dc</dc-schema>
+                <dc-element>subject</dc-element>
+                <dc-qualifier></dc-qualifier>
+                <repeatable>false</repeatable>
+                <label>Subject</label>
+                <input-type value-pairs-name="patents_subject">dropdown</input-type>
+                <hint></hint>
+                <required>You must enter Subject for this item.</required>
+              </field>
+
+            <field>
+                <dc-schema>dc</dc-schema>
+                <dc-element>format</dc-element>
+                <dc-qualifier>extent</dc-qualifier>
+                <repeatable>false</repeatable>
+                <label>Page Count</label>
+                <input-type>onebox</input-type>
+                <hint>Enter number of pages in patent PDF (e.g. 19 pp).</hint>
+                <required>You must enter Page Count for this item.</required>
+              </field>
+
+            <field>
+           <dc-schema>dc</dc-schema>
+             <dc-element>language</dc-element>
+             <dc-qualifier>iso</dc-qualifier>
+             <repeatable>true</repeatable>
+             <label>Language</label>
+             <input-type>onebox</input-type>
+             <hint></hint>
+             <required>You must enter Language for this item.</required>
+           </field>
+            <field>
+                 <dc-schema>dc</dc-schema>
+                 <dc-element>contributor</dc-element>
+                 <dc-qualifier>publisher</dc-qualifier>
+                 <repeatable>false</repeatable>
+                 <label>Publisher</label>
+                 <input-type>onebox</input-type>
+                 <hint></hint>
+                 <required>You must enter Publisher for this item.</required>
+               </field>
+            <field>
+                 <dc-schema>dc</dc-schema>
+                 <dc-element>rights</dc-element>
+                 <dc-qualifier></dc-qualifier>
+                 <repeatable>false</repeatable>
+                 <label>Rights</label>
+                 <input-type>onebox</input-type>
+                 <hint></hint>
+                 <required>You must enter Rights for this item.</required>
+               </field>
+
+            <field>
+              <dc-schema>dc</dc-schema>
+              <dc-element>type</dc-element>
+              <dc-qualifier>dcmi</dc-qualifier>
+              <repeatable>false</repeatable>
+              <label>Content Format</label>
+              <input-type>onebox</input-type>
+              <hint></hint>
+              <required>You must enter Content Format for this item.</required>
+            </field>
+
+            <field>
+              <dc-schema>dc</dc-schema>
+              <dc-element>type</dc-element>
+              <dc-qualifier>genre</dc-qualifier>
+              <repeatable>false</repeatable>
+              <label>Resource Type</label>
+              <input-type>onebox</input-type>
+              <hint></hint>
+              <required>You must enter Resource Type for this item.</required>
+            </field>
+            <field>
+                 <dc-schema>dc</dc-schema>
+                 <dc-element>digitization</dc-element>
+                 <dc-qualifier>specification</dc-qualifier>
+                 <repeatable>false</repeatable>
+                 <label>Technical Specs</label>
+                 <input-type>onebox</input-type>
+                 <hint></hint>
+                 <required>You must enter Technical Specs for this item.</required>
+               </field>
+
+        </page>
+      </form> <!-- end of Patents -->
+
      <!-- Start Fondren News Form -->
      <form name="fondrennewsform">
         <page number="1">
@@ -3025,6 +3193,21 @@ it, please enter the types and the actual numbers or codes below.</hint>
      </pair>
      </value-pairs>
 
+
+     <value-pairs value-pairs-name="patents_subject" dc-term="dc.subject">
+     <pair>
+       <displayed-value>Utility patent</displayed-value>
+       <stored-value>Utility patent</stored-value>
+     </pair>
+     <pair>
+       <displayed-value>Design patent</displayed-value>
+       <stored-value>Design patent</stored-value>
+     </pair>
+     <pair>
+       <displayed-value>Plant patent</displayed-value>
+       <stored-value>Plant patent</stored-value>
+     </pair>
+     </value-pairs>
     </form-value-pairs>
 
 </input-forms>

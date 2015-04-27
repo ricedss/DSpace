@@ -51,7 +51,7 @@
                 <entry key="1911/71868" value-ref="ShepherdConfiguration" />
                 <entry key="1911/69482" value-ref="LovettTourConfiguration" />
                <!--Use site to override the default configuration for the home page & default discovery page-->
-               <!--<entry key="site" value-ref="defaultConfiguration" />-->
+               <entry key="site" value-ref="defaultConfiguration" />
                <!--<entry key="123456789/7621" value-ref="defaultConfiguration"/>-->
             </map>
         </property>
@@ -208,6 +208,7 @@
         <!--Which sidebar facets are to be displayed-->
         <property name="sidebarFacets">
             <list>
+                <ref bean="searchFilterSubTitle" />
                 <ref bean="searchFilterAuthor" />
                 <ref bean="searchFilterSubject" />
                 <ref bean="searchFilterIssued" />
@@ -217,6 +218,7 @@
         <property name="searchFilters">
             <list>
                 <ref bean="searchFilterTitle" />
+                <ref bean="searchFilterSubTitle" />
                 <ref bean="searchFilterAuthor" />
                 <ref bean="searchFilterContributor"/>
                 <ref bean="searchFilterSubject" />
@@ -235,7 +237,8 @@
                 <property name="defaultSortOrder" value="desc"/>
                 <property name="sortFields">
                     <list>
-                        <ref bean="sortTitle" />
+                        <ref bean="sortSubTitle" />
+                         <ref bean="sortTitle" />
                         <ref bean="sortDateIssued" />
                     </list>
                 </property>
@@ -939,6 +942,19 @@
             <property name="sortOrder" value="COUNT"/>
 
     </bean>
+
+    <bean id="searchFilterSubTitle" class="org.dspace.discovery.configuration.DiscoverySearchFilterFacet">
+    <property name="indexFieldName" value="subtitle"/>
+    <property name="metadataFields">
+        <list>
+            <value>dc.title.subtitle</value>
+        </list>
+    </property>
+        <property name="facetLimit" value="10"/>
+        <property name="sortOrder" value="COUNT"/>
+
+    </bean>
+
     <!-- Ying customized searchFilter: abstract, subject, fulltext -->
    <!-- <bean id="searchFilterFulltext" class="org.dspace.discovery.configuration.DiscoverySearchFilter">
         <property name="indexFieldName" value="fulltext"/>

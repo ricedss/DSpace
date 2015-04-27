@@ -1381,6 +1381,28 @@
       </xsl:if>
   </xsl:template>
 
+    <xsl:template name="itemSummaryView-DIM-format-extent">
+      <xsl:if test="dim:field[@element='format' and @qualifier='extent']">
+          <div class="simple-item-view-format-extent item-page-field-wrapper table">
+              <h5><i18n:text>xmlui.Rice.FormatExtent</i18n:text></h5>
+              <div>
+                  <xsl:copy-of select="dim:field[@element='format'][@qualifier='extent']"/>
+              </div>
+          </div>
+      </xsl:if>
+  </xsl:template>
+
+    <xsl:template name="itemSummaryView-DIM-inventor">
+      <xsl:if test="dim:field[@element='creator']">
+          <div class="simple-item-inventor item-page-field-wrapper table">
+              <h5><i18n:text>xmlui.Rice.Inventor</i18n:text></h5>
+              <div>
+                  <xsl:copy-of select="dim:field[@element='creator']"/>
+              </div>
+          </div>
+      </xsl:if>
+  </xsl:template>
+
         <xsl:template name="itemSummaryView-DIM-subtitle">
       <xsl:if test="dim:field[@element='title' and @qualifier='subtitle']">
           <div class="simple-item-view-subtitle item-page-field-wrapper table">
