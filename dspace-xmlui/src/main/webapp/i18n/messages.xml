@@ -2527,6 +2527,6 @@
     <message key="xmlui.Rice.funder">Funder</message>
     <message key="xmlui.Rice.isPartOf">Is Part Of</message>
     <message key="xmlui.ArtifactBrowser.AdvancedSearch.type_coverageSpatial">Coverage</message>
-    <message key="xmlui.Rice.xmlui.Rice.Inventor">Inventor(s)</message>
-    <message key="xmlui.Rice.xmlui.Rice.FormatExtent">Length</message>
+    <message key="xmlui.Rice.Inventor">Inventor(s)</message>
+    <message key="xmlui.Rice.FormatExtent">Length</message>
 </catalogue>
