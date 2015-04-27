@@ -197,8 +197,8 @@
            <field>
              <dc-schema>dc</dc-schema>
              <dc-element>identifier</dc-element>
-               <dc-qualifier>parentID</dc-qualifier>
-             <display-format>Parent @field@ </display-format>
+               <dc-qualifier>patentID</dc-qualifier>
+             <display-format>Patent @field@ </display-format>
            </field>
 
                 <!-- source -->
