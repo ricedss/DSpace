@@ -429,7 +429,7 @@
             <field>
                  <dc-schema>dc</dc-schema>
                  <dc-element>digitization</dc-element>
-                 <dc-qualifier>specification</dc-qualifier>
+                 <dc-qualifier>specifications</dc-qualifier>
                  <repeatable>false</repeatable>
                  <label>Technical Specs</label>
                  <input-type>onebox</input-type>

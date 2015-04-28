@@ -206,7 +206,7 @@
                  <dc-schema>dc</dc-schema>
                  <dc-element>date</dc-element>
                  <dc-qualifier>issued</dc-qualifier>
-                 <display-format> Issued @field@.</display-format>
+                 <display-format> issued @field@.</display-format>
                </field>
 
 
