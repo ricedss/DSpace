@@ -305,7 +305,7 @@
               <repeatable>true</repeatable>
               <label>Inventor(s)</label>
               <input-type>onebox</input-type>
-              <hint>Enter name(s) as appear on patent e.g. Smalley, Richard E. (Houston, TX, US).</hint>
+              <hint>Enter name(s) as appear on patent e.g. Smalley, Richard E.</hint>
               <required>You must enter an Inventor for this item.</required>
             </field>
 
@@ -393,16 +393,6 @@
                  <input-type>onebox</input-type>
                  <hint></hint>
                  <required>You must enter Publisher for this item.</required>
-               </field>
-            <field>
-                 <dc-schema>dc</dc-schema>
-                 <dc-element>rights</dc-element>
-                 <dc-qualifier></dc-qualifier>
-                 <repeatable>false</repeatable>
-                 <label>Rights</label>
-                 <input-type>onebox</input-type>
-                 <hint></hint>
-                 <required>You must enter Rights for this item.</required>
                </field>
 
             <field>
