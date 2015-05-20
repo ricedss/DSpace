@@ -27,7 +27,9 @@
 			<Format refid="qdc" />
 			<Format refid="marc" />
 			<Format refid="uketd_dc" />
-		</Context> 
+			<Format refid="nsdl_dc" />
+			<Format refid="etdms11" />
+		</Context>
 		
 		<!--
 			Driver Guidelines:
@@ -160,8 +162,29 @@
 			<Namespace>http://naca.central.cranfield.ac.uk/ethos-oai/2.0/</Namespace>
 			<SchemaLocation>http://naca.central.cranfield.ac.uk/ethos-oai/2.0/uketd_dc.xsd</SchemaLocation>
 		</Format>
-	</Formats>
-	
+		<Format id="nsdl_dc">
+			<Prefix>nsdl_dc</Prefix>
+			<XSLT>metadataFormats/dim2nsdl_dc.xsl</XSLT>
+			<Namespace>http://ns.nsdl.org/nsdl_dc_v1.02/</Namespace>
+			<!--
+				crosswalk.dissemination.nsdl_dc.namespace.dim = http://www.dspace.org/xmlns/dspace/dim
+				crosswalk.dissemination.nsdl_dc.namespace.xsi = http://www.w3.org/2001/XMLSchema-instance
+				crosswalk.dissemination.nsdl_dc.namespace.dc = http://purl.org/dc/elements/1.1/
+				crosswalk.dissemination.nsdl_dc.namespace.nsdl_dc = http://ns.nsdl.org/nsdl_dc_v1.02/
+				crosswalk.dissemination.nsdl_dc.namespace.dct = http://purl.org/dc/terms/
+				crosswalk.dissemination.nsdl_dc.namespace.ieee = http://www.ieee.org/xsd/LOMv1p0
+			 -->
+			<SchemaLocation>http://ns.nsdl.org/nsdl_dc_v1.02/</SchemaLocation>
+		</Format>
+		<Format id="etdms11">
+			<Prefix>etdms11</Prefix>
+			<XSLT>metadataFormats/etdms1-1-draft.xsl</XSLT>
+			<Namespace>http://www.ndltd.org/standards/metadata/etdms/1-1</Namespace>
+			<!--   crosswalk.dissemination.etdms1.namespace.xsi = http://www.w3.org/2001/XMLSchema-instance -->
+			<SchemaLocation>http://www.ndltd.org/standards/metadata/etdms/1-1/etdms11.xsd</SchemaLocation>
+			</Format>
+		</Formats>
+
 	<Transformers>
 		<Transformer id="driverTransformer">
 			<XSLT>transformers/driver.xsl</XSLT>
