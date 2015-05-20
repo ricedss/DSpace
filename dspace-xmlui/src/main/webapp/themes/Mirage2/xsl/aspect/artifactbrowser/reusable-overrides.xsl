@@ -607,10 +607,11 @@
 	            <xsl:variable name="primaryBitstream" select="//mets:structMap[@TYPE='LOGICAL']/mets:div[@TYPE='DSpace Item']/mets:fptr/@FILEID"/>
 							<xsl:variable name="admid" select="//mets:fileSec/mets:fileGrp/mets:file[@ID=$primaryBitstream]/@ADMID"/>
 	            <xsl:variable name="in-effect" select="//mets:rightsMD[@ID=$admid]//rights:Context[@CONTEXTCLASS='GENERAL PUBLIC']/@in-effect"/>
+	            <xsl:variable name="start-date" select="//mets:rightsMD[@ID=$admid]//rights:Context[@CONTEXTCLASS='GENERAL PUBLIC']/@start-date"/>
 							<xsl:choose>
 								<!-- display message if item's primary bitstream is restricted due to embargo -->
 								<xsl:when test="$in-effect='false'">
-									<div>The full text of this item is not available at this time because because the author or publisher has place this item under an embargo for a period of time. The Rice Digital Scholarship Archive is not authorized to provide a copy of this work during the embargo period, even for Rice users with a NetID.</div>
+									<div style="color:red; margin: 1em;">The full text of this item is not available at this time because because the author or publisher has place this item under an embargo<xsl:if test="$start-date != ''"> until <xsl:value-of select="$start-date"/></xsl:if>. The Rice Digital Scholarship Archive is not authorized to provide a copy of this work during the embargo period, even for Rice users with a NetID.</div>
 								</xsl:when>
 								<xsl:otherwise>
 									<div class="file-list">
