@@ -94,7 +94,7 @@
             <xsl:text>cocoon:/</xsl:text>
             <xsl:value-of select="@url"/>
             <!-- Since this is a summary only grab the descriptive metadata, and the thumbnails -->
-            <xsl:text>?sections=dmdSec,fileSec</xsl:text>
+            <xsl:text>?rightsMDTypes=METSRIGHTS</xsl:text>
             <!-- An example of requesting a specific metadata standard (MODS and QDC crosswalks only work for items)->
             <xsl:if test="@type='DSpace Item'">
                 <xsl:text>&amp;dmdTypes=DC</xsl:text>
@@ -595,20 +595,32 @@
 
 
     <!-- Ying: Updated this for our new theme -->
-     <xsl:template match="dim:dim" mode="itemSummaryView-DIM">
-         <div class="item-summary-view-metadata">
+    <xsl:template match="dim:dim" mode="itemSummaryView-DIM">
+	      <xsl:variable name="AUTH" select="/dri:document/dri:meta/dri:userMeta/@authenticated"/>
+        <div class="item-summary-view-metadata">
              <xsl:call-template name="itemSummaryView-DIM-title"/>
              <div class="row">
                       <!-- Generate the bitstream information from the file section -->
         <xsl:choose>
             <xsl:when test="//mets:fileSec/mets:fileGrp[@USE='CONTENT' or @USE='ORIGINAL' or @USE='LICENSE']/mets:file">
-                <!--h3><i18n:text>xmlui.dri2xhtml.METS-1.0.item-files-head</i18n:text></h3-->
-                <div class="file-list">
-                    <xsl:apply-templates select="//mets:fileSec/mets:fileGrp[@USE='CONTENT' or @USE='ORIGINAL' or @USE='LICENSE' or @USE='CC-LICENSE']">
-                        <xsl:with-param name="context" select="//mets:METS"/>
-                        <xsl:with-param name="primaryBitstream" select="//mets:structMap[@TYPE='LOGICAL']/mets:div[@TYPE='DSpace Item']/mets:fptr/@FILEID"/>
-                    </xsl:apply-templates>
-                </div>
+							<!--h3><i18n:text>xmlui.dri2xhtml.METS-1.0.item-files-head</i18n:text></h3-->
+	            <xsl:variable name="primaryBitstream" select="//mets:structMap[@TYPE='LOGICAL']/mets:div[@TYPE='DSpace Item']/mets:fptr/@FILEID"/>
+							<xsl:variable name="admid" select="//mets:fileSec/mets:fileGrp/mets:file[@ID='$primaryBitstream']/@ADMID" />
+							<xsl:variable name="in-effect" select="//mets:rightsMD[@ID=$admid]//rights:Context[@CONTEXTCLASS='GENERAL PUBLIC']/@in-effect"/>
+							<xsl:choose>
+								<!-- display message if item's primary bitstream is restricted due to embargo -->
+								<xsl:when test="$in-effect='false'">
+									<div>The full text of this item is not available at this time because because the author or publisher has place this item under an embargo for a period of time. The Rice Digital Scholarship Archive is not authorized to provide a copy of this work during the embargo period, even for Rice users with a NetID.</div>
+								</xsl:when>
+								<xsl:otherwise>
+									<div class="file-list">
+											<xsl:apply-templates select="//mets:fileSec/mets:fileGrp[@USE='CONTENT' or @USE='ORIGINAL' or @USE='LICENSE' or @USE='CC-LICENSE']">
+													<xsl:with-param name="context" select="//mets:METS"/>
+													<xsl:with-param name="primaryBitstream" select="$primaryBitstream"/>
+											</xsl:apply-templates>
+									</div>
+								</xsl:otherwise>
+							</xsl:choose>
             </xsl:when>
             <!-- Special case for handling ORE resource maps stored as DSpace bitstreams -->
             <xsl:when test="//mets:fileSec/mets:fileGrp[@USE='ORE']">
