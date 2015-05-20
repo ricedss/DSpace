@@ -605,8 +605,8 @@
             <xsl:when test="//mets:fileSec/mets:fileGrp[@USE='CONTENT' or @USE='ORIGINAL' or @USE='LICENSE']/mets:file">
 							<!--h3><i18n:text>xmlui.dri2xhtml.METS-1.0.item-files-head</i18n:text></h3-->
 	            <xsl:variable name="primaryBitstream" select="//mets:structMap[@TYPE='LOGICAL']/mets:div[@TYPE='DSpace Item']/mets:fptr/@FILEID"/>
-							<xsl:variable name="admid" select="//mets:fileSec/mets:fileGrp/mets:file[@ID='$primaryBitstream']/@ADMID" />
-							<xsl:variable name="in-effect" select="//mets:rightsMD[@ID=$admid]//rights:Context[@CONTEXTCLASS='GENERAL PUBLIC']/@in-effect"/>
+							<xsl:variable name="admid" select="//mets:fileSec/mets:fileGrp/mets:file[@ID=$primaryBitstream]/@ADMID"/>
+	            <xsl:variable name="in-effect" select="//mets:rightsMD[@ID=$admid]//rights:Context[@CONTEXTCLASS='GENERAL PUBLIC']/@in-effect"/>
 							<xsl:choose>
 								<!-- display message if item's primary bitstream is restricted due to embargo -->
 								<xsl:when test="$in-effect='false'">
