@@ -611,7 +611,7 @@
 							<xsl:choose>
 								<!-- display message if item's primary bitstream is restricted due to embargo -->
 								<xsl:when test="$in-effect='false'">
-									<div style="color:red; margin: 1em;">The full text of this item is not available at this time because because the author or publisher has place this item under an embargo<xsl:if test="$start-date != ''"> until <xsl:value-of select="$start-date"/></xsl:if>. The Rice Digital Scholarship Archive is not authorized to provide a copy of this work during the embargo period, even for Rice users with a NetID.</div>
+									<div style="color:red; margin: 1em;">The full text of this item is not available at this time because because the author or publisher has placed this item under an embargo<xsl:if test="$start-date != ''"> until <xsl:value-of select="$start-date"/></xsl:if>. The Rice Digital Scholarship Archive is not authorized to provide a copy of this work during the embargo period, even for Rice users with a NetID.</div>
 								</xsl:when>
 								<xsl:otherwise>
 									<div class="file-list">
