@@ -97,7 +97,7 @@
                 <xsl:for-each select="descendant::dim:field[@element='relation'][@qualifier='isreferencedby' or @qualifier='isversionof' or @qualifier='isformatof' or @qualifier='isbasedon']">
                     <li>
                         <xsl:choose>
-                            <xsl:when test="contains(.,'http://')">
+                            <xsl:when test="(contains(.,'http://') or contains(.,'https://'))">
                                 <xsl:call-template name="makeLinkFromText"/>
                             </xsl:when>
                             <xsl:otherwise>
