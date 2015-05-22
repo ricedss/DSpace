@@ -269,7 +269,7 @@
                            <span>
                                <xsl:for-each select="document($externalMetadataURL)//dim:field[@element='rights']">
                                 <xsl:choose>
-                                    <xsl:when test="contains(.,'http://')">
+                                    <xsl:when test="(contains(.,'http://') or contains(.,'https://'))">
                                         <xsl:call-template name="makeLinkFromText"/>
                                     </xsl:when>
                                     <xsl:otherwise>
@@ -596,7 +596,6 @@
 
     <!-- Ying: Updated this for our new theme -->
     <xsl:template match="dim:dim" mode="itemSummaryView-DIM">
-	      <xsl:variable name="AUTH" select="/dri:document/dri:meta/dri:userMeta/@authenticated"/>
         <div class="item-summary-view-metadata">
              <xsl:call-template name="itemSummaryView-DIM-title"/>
              <div class="row">
@@ -611,8 +610,9 @@
 							<xsl:choose>
 								<!-- display message if item's primary bitstream is restricted due to embargo -->
 								<xsl:when test="$in-effect='false'">
-									<div style="color:red; margin: 1em;">The full text of this item is not available at this time because because the author or publisher has placed this item under an embargo<xsl:if test="$start-date != ''"> until <xsl:value-of select="$start-date"/></xsl:if>. The Rice Digital Scholarship Archive is not authorized to provide a copy of this work during the embargo period, even for Rice users with a NetID.</div>
+									<div style="color:red; margin: 1em; font-weight:bold">The full text of this item is not available at this time because because the author or publisher has placed this item under an embargo<xsl:if test="$start-date != ''"> until <xsl:value-of select="$start-date"/></xsl:if>. The Rice Digital Scholarship Archive is not authorized to provide a copy of this work during the embargo period, even for Rice users with a NetID.</div>
 								</xsl:when>
+								<!-- no embargo; display normal file table -->
 								<xsl:otherwise>
 									<div class="file-list">
 											<xsl:apply-templates select="//mets:fileSec/mets:fileGrp[@USE='CONTENT' or @USE='ORIGINAL' or @USE='LICENSE' or @USE='CC-LICENSE']">
@@ -1706,7 +1706,7 @@
                     <!-- Ying (via MMS): Parse the values in all other fields to determine whether they contain URLs or mark-up. Turn any URLs into links and any mark-up into mark-up. -->
                     <td>
                         <xsl:choose>
-                            <xsl:when test="contains(.,'http://') and $metadatafieldname!='dc.identifier.citation'">
+                            <xsl:when test="(contains(.,'http://') or contains(.,'https://')) and $metadatafieldname!='dc.identifier.citation'">
                                 <xsl:call-template name="makeLinkFromText"/>
                             </xsl:when>
                             <xsl:otherwise>

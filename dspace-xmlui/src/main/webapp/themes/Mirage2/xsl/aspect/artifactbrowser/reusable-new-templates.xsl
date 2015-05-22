@@ -283,12 +283,17 @@
     </xsl:template>
     
     
-    <!-- MMS: This turns text starting with 'http://' into a link -->
-    <!-- TODO make this handle https as well -->
+    <!-- MMS: This turns text starting with 'http://' or 'https://' into a link -->
     <xsl:template name="makeLinkFromText">
-        <xsl:variable name="url-end" select="substring-after(.,'http://')"/>
+	      <xsl:variable name="protocol">
+					<xsl:choose>
+						<xsl:when test="contains(.,'http://')">http://</xsl:when>
+						<xsl:when test="contains(.,'https://')">https://</xsl:when>
+					</xsl:choose>
+	      </xsl:variable>
+        <xsl:variable name="url-end" select="substring-after(.,$protocol)"/>
         <xsl:variable name="url">
-            <xsl:text>http://</xsl:text>
+            <xsl:value-of select="$protocol"/>
             <xsl:choose>
                 <!-- MMS: If it there is a closing paren before the end of a string, we can probably be fairly certain that
                      it's not supposed to be part of the link (e.g. "DSP (http://dsp.rice.edu)"). -->
