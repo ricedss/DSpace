@@ -58,8 +58,21 @@ public interface FormatFilter
     public InputStream getDestinationStream(InputStream source)
             throws Exception;
 
+    // Ying added this for JPEG2000
     /**
-     * Perform any pre-processing of the source bitstream *before* the actual 
+     *
+     * @param filename
+     * @param source
+     * @param ID
+     * @return
+     * @throws Exception
+     */
+    public InputStream getDestinationStream(String filename, String source, int ID)
+            throws Exception;
+    // END Ying added this for JPEG2000
+
+    /**
+     * Perform any pre-processing of the source bitstream *before* the actual
      * filtering takes place in MediaFilterManager.processBitstream().
      * <p>
      * Return true if pre-processing is successful (or no pre-processing

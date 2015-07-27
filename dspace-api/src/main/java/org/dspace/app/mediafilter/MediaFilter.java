@@ -11,6 +11,7 @@ import org.dspace.content.Bitstream;
 import org.dspace.content.Item;
 import org.dspace.core.Context;
 
+import java.io.InputStream;
 
 /**
  * Abstract class which defines the default settings for a *simple* Media or Format Filter. 
@@ -67,4 +68,21 @@ public abstract class MediaFilter implements FormatFilter
     {
         //default to no post-processing necessary
     }
+
+    // Ying added this for JPEG2000
+    /**
+     *
+     * @param filename
+     *            the full path to the physical file in assetstore, no extension
+     * @param source
+     *            the original filename provided by the submitter
+     *
+     * @return
+     * @throws Exception
+     */
+       public InputStream getDestinationStream(String filename, String source, int ID)
+            throws Exception{
+           return null;
+       }
+    // END Ying added this for JPEG2000
 }

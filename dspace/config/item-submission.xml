@@ -17,7 +17,28 @@
  <!-- which does not appear in this map will be associated with the mapping-->
  <!-- for handle "default".                                                -->
  <submission-map>
-   <name-map collection-handle="default" submission-name="traditional" />
+     <!-- SERVER-SPECIFIC -->
+     <!--dspacetest, dev and land --> <!--name-map collection-handle="1911/2946" submission-name="ECESteps" /-->
+       <!-- dspacetest, dev and land --> <!--name-map collection-handle="1911/55206" submission-name="CommencementSteps" /-->
+     <!-- dspace.rice.edu -->  <name-map collection-handle="1911/10563" submission-name="NoCClicenseSteps" /> <!-- ECE Publication -->
+       <!-- dspace.rice.edu -->  <name-map collection-handle="1911/21945" submission-name="NoCClicenseSteps" /> <!-- CMC Publication -->
+       <!-- dspace.rice.edu -->  <name-map collection-handle="1911/21661" submission-name="NoCClicenseSteps" /> <!-- DSP Publication -->
+       <!-- dspace.rice.edu -->  <name-map collection-handle="1911/61371" submission-name="NoLicenseStep" /> <!-- Commencement -->
+
+       <!-- dspace.rice.edu -->  <name-map collection-handle="1911/61408" submission-name="NoLicenseStep" /> <!-- WRC Historical Event-->
+       <!-- dspace.rice.edu -->  <name-map collection-handle="1911/62306" submission-name="NoLicenseStep" /> <!-- WRC Historical Key Documents-->
+       <!-- dspace.rice.edu -->  <name-map collection-handle="1911/61406" submission-name="NoLicenseStep" /> <!-- WRC Historical People-->
+       <!-- dspace.rice.edu -->  <name-map collection-handle="1911/61407" submission-name="NoLicenseStep" /> <!-- WRC Historical Places-->
+       <!-- dspace.rice.edu -->  <name-map collection-handle="1911/61409" submission-name="NoLicenseStep" /> <!-- WRC Historical Sports-->
+       <!-- dspace.rice.edu -->  <name-map collection-handle="1911/61410" submission-name="NoLicenseStep" /> <!-- WRC Historical Various-->
+
+     <!-- dspace.rice.edu -->  <name-map collection-handle="1911/75119" submission-name="NoLicenseStep" />
+     <!-- dspace.rice.edu -->  <name-map collection-handle="1911/71399" submission-name="NoEmbargoSteps" />
+     <name-map collection-handle="1911/79705" submission-name="NoLicenseStep" />
+
+   <!--name-map collection-handle="default" submission-name="traditional" /-->
+     <name-map collection-handle="default" submission-name="facultypub" />
+
  </submission-map>
 
 
@@ -228,7 +249,7 @@
       
 
        <!-- Step 4 Upload Item with Embargo Features
-            to enable this step, please make sure to comment-out the previous step "UploadStep"  
+            to enable this step, please make sure to comment-out the previous step "UploadStep"
        <step>
            <heading>submit.progressbar.upload</heading>
            <processing-class>org.dspace.submit.step.UploadWithEmbargoStep</processing-class>
@@ -236,7 +257,7 @@
            <xmlui-binding>org.dspace.app.xmlui.aspect.submission.submit.UploadWithEmbargoStep</xmlui-binding>
            <workflow-editable>true</workflow-editable>
        </step>
-       -->
+        -->
 
  	  <!--Step 5 will be to Verify/Review everything -->
  	  <step>
@@ -272,6 +293,268 @@
      
    </submission-process>
 
+     <!--This "facultypub" process defines the DEFAULT item submission process-->
+      <submission-process name="facultypub">
+                 <!-- Step 1 - this is a non-interactive step which has no UI -->
+        <!-- Step 1. Since DSpace 4.0, the initial questions has been disabled. Metadata are shown exactly as
+	 	  required in input-forms and items are assumed to have always multiple-files attached.
+	      If re-enable the initial questions step you should comment out this step-->
+	    <step>
+		    <processing-class>org.dspace.submit.step.SkipInitialQuestionsStep</processing-class>
+	    </step>
+
+         <!--Step 2 will be to Describe the item.-->
+         <step>
+           <heading>submit.progressbar.describe</heading>
+           <processing-class>org.dspace.submit.step.DescribeStep</processing-class>
+           <jspui-binding>org.dspace.app.webui.submit.step.JSPDescribeStep</jspui-binding>
+           <xmlui-binding>org.dspace.app.xmlui.aspect.submission.submit.DescribeStep</xmlui-binding>
+           <workflow-editable>true</workflow-editable>
+         </step>
+
+         <!--Step 3 will be to Upload the item-->
+        <step>
+           <heading>submit.progressbar.upload</heading>
+           <processing-class>org.dspace.submit.step.UploadStep</processing-class>
+           <jspui-binding>org.dspace.app.webui.submit.step.JSPUploadStep</jspui-binding>
+           <xmlui-binding>org.dspace.app.xmlui.aspect.submission.submit.UploadStep</xmlui-binding>
+           <workflow-editable>true</workflow-editable>
+         </step>
+
+          <!--Step 3 will be to Manage Item access.-->
+  <!--        <step>
+              <heading>submit.progressbar.access</heading>
+              <processing-class>org.dspace.submit.step.AccessStep</processing-class>
+              <xmlui-binding>org.dspace.app.xmlui.aspect.submission.submit.AccessStep</xmlui-binding>
+              <workflow-editable>true</workflow-editable>
+          </step> -->
+  <!--         <step>
+              <heading>submit.progressbar.upload</heading>
+              <processing-class>org.dspace.submit.step.UploadWithEmbargoStep</processing-class>
+              <xmlui-binding>org.dspace.app.xmlui.aspect.submission.submit.UploadWithEmbargoStep</xmlui-binding>
+              <workflow-editable>true</workflow-editable>
+          </step>   -->
+
+          <!--Step 4 will be to Verify/Review everything -->
+          <step>
+           <heading>submit.progressbar.verify</heading>
+           <processing-class>org.dspace.submit.step.VerifyStep</processing-class>
+            <jspui-binding>org.dspace.app.webui.submit.step.JSPVerifyStep</jspui-binding>
+           <xmlui-binding>org.dspace.app.xmlui.aspect.submission.submit.ReviewStep</xmlui-binding>
+           <workflow-editable>true</workflow-editable>
+         </step>
+
+          <!--Step 5 will be to select a Creative Commons License-->
+          <!-- Uncomment this step to allow the user to select a Creative Commons license -->
+          <step>
+            <heading>submit.progressbar.CClicense</heading>
+            <processing-class>org.dspace.submit.step.CCLicenseStep</processing-class>
+            <jspui-binding>org.dspace.app.webui.submit.step.JSPCCLicenseStep</jspui-binding>
+            <xmlui-binding>org.dspace.app.xmlui.aspect.submission.submit.CCLicenseStep</xmlui-binding>
+            <workflow-editable>false</workflow-editable>
+          </step>
+
+        <!--Step 6 will be to Sign off on the License-->
+        <step>
+          <heading>submit.progressbar.license</heading>
+          <processing-class>org.dspace.submit.step.LicenseStep</processing-class>
+          <jspui-binding>org.dspace.app.webui.submit.step.JSPLicenseStep</jspui-binding>
+          <xmlui-binding>org.dspace.app.xmlui.aspect.submission.submit.LicenseStep</xmlui-binding>
+          <workflow-editable>false</workflow-editable>
+        </step>
+
+     </submission-process>
+
+           <!--This "NoLicenseStep" remove the license step in item submission process-->
+      <submission-process name="NoLicenseStep">
+
+        <!--Uncommment to display the SAMPLE step as your first step-->
+        <!--<step id="sample"/>-->
+
+          <!-- Step 1. Since DSpace 4.0, the initial questions has been disabled. Metadata are shown exactly as
+             required in input-forms and items are assumed to have always multiple-files attached.
+            If re-enable the initial questions step you should comment out this step-->
+          <step>
+              <processing-class>org.dspace.submit.step.SkipInitialQuestionsStep</processing-class>
+          </step>
+
+         <!--Step 2 will be to Describe the item.-->
+         <step>
+           <heading>submit.progressbar.describe</heading>
+           <processing-class>org.dspace.submit.step.DescribeStep</processing-class>
+           <jspui-binding>org.dspace.app.webui.submit.step.JSPDescribeStep</jspui-binding>
+           <xmlui-binding>org.dspace.app.xmlui.aspect.submission.submit.DescribeStep</xmlui-binding>
+           <workflow-editable>true</workflow-editable>
+         </step>
+
+         <!--Step 3 will be to Upload the item-->
+        <step>
+           <heading>submit.progressbar.upload</heading>
+           <processing-class>org.dspace.submit.step.UploadStep</processing-class>
+           <jspui-binding>org.dspace.app.webui.submit.step.JSPUploadStep</jspui-binding>
+           <xmlui-binding>org.dspace.app.xmlui.aspect.submission.submit.UploadStep</xmlui-binding>
+           <workflow-editable>true</workflow-editable>
+         </step>
+
+          <!--Step 3 will be to Manage Item access.-->
+  <!--        <step>
+              <heading>submit.progressbar.access</heading>
+              <processing-class>org.dspace.submit.step.AccessStep</processing-class>
+              <xmlui-binding>org.dspace.app.xmlui.aspect.submission.submit.AccessStep</xmlui-binding>
+              <workflow-editable>true</workflow-editable>
+          </step> -->
+  <!--         <step>
+              <heading>submit.progressbar.upload</heading>
+              <processing-class>org.dspace.submit.step.UploadWithEmbargoStep</processing-class>
+              <xmlui-binding>org.dspace.app.xmlui.aspect.submission.submit.UploadWithEmbargoStep</xmlui-binding>
+              <workflow-editable>true</workflow-editable>
+          </step>   -->
+
+          <!--Step 4 will be to Verify/Review everything -->
+          <step>
+           <heading>submit.progressbar.verify</heading>
+           <processing-class>org.dspace.submit.step.VerifyStep</processing-class>
+            <jspui-binding>org.dspace.app.webui.submit.step.JSPVerifyStep</jspui-binding>
+           <xmlui-binding>org.dspace.app.xmlui.aspect.submission.submit.ReviewStep</xmlui-binding>
+           <workflow-editable>true</workflow-editable>
+         </step>
+
+          <!--Step 5 will be to select a Creative Commons License-->
+          <!-- Uncomment this step to allow the user to select a Creative Commons license -->
+          <!--step>
+            <heading>submit.progressbar.CClicense</heading>
+            <processing-class>org.dspace.submit.step.CCLicenseStep</processing-class>
+            <jspui-binding>org.dspace.app.webui.submit.step.JSPCCLicenseStep</jspui-binding>
+            <xmlui-binding>org.dspace.app.xmlui.aspect.submission.submit.CCLicenseStep</xmlui-binding>
+            <workflow-editable>false</workflow-editable>
+          </step-->
+
+        <!--Step 6 will be to Sign off on the License-->
+        <!--step>
+          <heading>submit.progressbar.license</heading>
+          <processing-class>org.dspace.submit.step.LicenseStep</processing-class>
+          <jspui-binding>org.dspace.app.webui.submit.step.JSPLicenseStep</jspui-binding>
+          <xmlui-binding>org.dspace.app.xmlui.aspect.submission.submit.LicenseStep</xmlui-binding>
+          <workflow-editable>false</workflow-editable>
+        </step-->
+
+     </submission-process>
+
+        <submission-process name="NoEmbargoSteps">
+
+            <!-- Step 1. Since DSpace 4.0, the initial questions has been disabled. Metadata are shown exactly as
+                   required in input-forms and items are assumed to have always multiple-files attached.
+                  If re-enable the initial questions step you should comment out this step-->
+                <step>
+                    <processing-class>org.dspace.submit.step.SkipInitialQuestionsStep</processing-class>
+                </step>
+
+      <!--Step 2 will be to Describe the item.-->
+      <step>
+        <heading>submit.progressbar.describe</heading>
+        <processing-class>org.dspace.submit.step.DescribeStep</processing-class>
+        <jspui-binding>org.dspace.app.webui.submit.step.JSPDescribeStep</jspui-binding>
+		<xmlui-binding>org.dspace.app.xmlui.aspect.submission.submit.DescribeStep</xmlui-binding>
+        <workflow-editable>true</workflow-editable>
+      </step>
+
+
+
+      <!--Step 4 will be to Upload the item-->
+     <step>
+        <heading>submit.progressbar.upload</heading>
+        <processing-class>org.dspace.submit.step.UploadStep</processing-class>
+        <jspui-binding>org.dspace.app.webui.submit.step.JSPUploadStep</jspui-binding>
+		<xmlui-binding>org.dspace.app.xmlui.aspect.submission.submit.UploadStep</xmlui-binding>
+        <workflow-editable>true</workflow-editable>
+      </step>
+
+       <!-- Step 4 Upload Item with Embargo Features (not supported in JSPUI)
+            to enable this step, please make sure to comment-out the previous step "UploadStep"-->
+<!--       <step>
+           <heading>submit.progressbar.upload</heading>
+           <processing-class>org.dspace.submit.step.UploadWithEmbargoStep</processing-class>
+           <xmlui-binding>org.dspace.app.xmlui.aspect.submission.submit.UploadWithEmbargoStep</xmlui-binding>
+           <workflow-editable>true</workflow-editable>
+       </step>
+  -->
+
+ 	  <!--Step 5 will be to Verify/Review everything -->
+ 	  <step>
+        <heading>submit.progressbar.verify</heading>
+        <processing-class>org.dspace.submit.step.VerifyStep</processing-class>
+ 	    <jspui-binding>org.dspace.app.webui.submit.step.JSPVerifyStep</jspui-binding>
+		<xmlui-binding>org.dspace.app.xmlui.aspect.submission.submit.ReviewStep</xmlui-binding>
+		<workflow-editable>true</workflow-editable>
+      </step>
+
+      <!--Step 6 will be to select a Creative Commons License-->
+      <!-- Uncomment this step to allow the user to select a Creative Commons license -->
+
+      <step>
+        <heading>submit.progressbar.CClicense</heading>
+        <processing-class>org.dspace.submit.step.CCLicenseStep</processing-class>
+        <jspui-binding>org.dspace.app.webui.submit.step.JSPCCLicenseStep</jspui-binding>
+		<xmlui-binding>org.dspace.app.xmlui.aspect.submission.submit.CCLicenseStep</xmlui-binding>
+		<workflow-editable>false</workflow-editable>
+      </step>
+
+      <!--Step 7 will be to Sign off on the License-->
+      <step>
+        <heading>submit.progressbar.license</heading>
+        <processing-class>org.dspace.submit.step.LicenseStep</processing-class>
+        <jspui-binding>org.dspace.app.webui.submit.step.JSPLicenseStep</jspui-binding>
+		<xmlui-binding>org.dspace.app.xmlui.aspect.submission.submit.LicenseStep</xmlui-binding>
+		<workflow-editable>false</workflow-editable>
+      </step>
+
+   </submission-process>
+
+        <submission-process name="NoCClicenseSteps">
+
+                  <!-- Step 1. Since DSpace 4.0, the initial questions has been disabled. Metadata are shown exactly as
+                   required in input-forms and items are assumed to have always multiple-files attached.
+                  If re-enable the initial questions step you should comment out this step-->
+                <step>
+                    <processing-class>org.dspace.submit.step.SkipInitialQuestionsStep</processing-class>
+                </step>
+        <!--Step 2 will be to Describe the item.-->
+        <step>
+          <heading>submit.progressbar.describe</heading>
+          <processing-class>org.dspace.submit.step.DescribeStep</processing-class>
+          <jspui-binding>org.dspace.app.webui.submit.step.JSPDescribeStep</jspui-binding>
+          <xmlui-binding>org.dspace.app.xmlui.aspect.submission.submit.DescribeStep</xmlui-binding>
+          <workflow-editable>true</workflow-editable>
+        </step>
+
+        <!--Step 3 will be to Upload the item-->
+        <step>
+          <heading>submit.progressbar.upload</heading>
+          <processing-class>org.dspace.submit.step.UploadStep</processing-class>
+          <jspui-binding>org.dspace.app.webui.submit.step.JSPUploadStep</jspui-binding>
+          <xmlui-binding>org.dspace.app.xmlui.aspect.submission.submit.UploadECEStep</xmlui-binding>
+          <workflow-editable>true</workflow-editable>
+        </step>
+
+         <!--Step 4 will be to Verify/Review everything -->
+         <step>
+          <heading>submit.progressbar.verify</heading>
+          <processing-class>org.dspace.submit.step.VerifyStep</processing-class>
+           <jspui-binding>org.dspace.app.webui.submit.step.JSPVerifyStep</jspui-binding>
+          <xmlui-binding>org.dspace.app.xmlui.aspect.submission.submit.ReviewStep</xmlui-binding>
+          <workflow-editable>true</workflow-editable>
+        </step>
+
+        <!--Step 5 will be to Sign off on the License-->
+        <step>
+          <heading>submit.progressbar.license</heading>
+          <processing-class>org.dspace.submit.step.LicenseStep</processing-class>
+          <jspui-binding>org.dspace.app.webui.submit.step.JSPLicenseStep</jspui-binding>
+          <xmlui-binding>org.dspace.app.xmlui.aspect.submission.submit.LicenseStep</xmlui-binding>
+          <workflow-editable>false</workflow-editable>
+        </step>
+
+     </submission-process>
  </submission-definitions>
 
 </item-submission>

@@ -12,6 +12,7 @@ import java.io.IOException;
 import java.net.SocketException;
 import java.net.URL;
 import java.net.URLConnection;
+import java.io.*;
 
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
@@ -23,9 +24,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
+import org.dspace.app.xmlui.aspect.administrative.SystemwideAlerts;
 import org.dspace.app.xmlui.configuration.XMLUIConfiguration;
 import org.dspace.app.xmlui.utils.AuthenticationUtil;
 import org.dspace.app.xmlui.utils.ContextUtil;
+import org.dspace.app.util.CitationManager;
 import org.dspace.core.ConfigurationManager;
 import org.dspace.harvest.OAIHarvester;
 
@@ -36,7 +39,8 @@ import org.dspace.harvest.OAIHarvester;
  * 
  * @author Scott Phillips
  */
-public class DSpaceCocoonServletFilter implements Filter 
+/** Ying Jin updated it for citation generation **/
+public class DSpaceCocoonServletFilter implements Filter
 {
     private static final Logger LOG = Logger.getLogger(DSpaceCocoonServletFilter.class);
 	
@@ -165,9 +169,32 @@ public class DSpaceCocoonServletFilter implements Filter
     	String webappConfigPath    = null;
     	String installedConfigPath = null;
              	            
+        String citationConfig = null;  // YJ added
+
         /**
-         * Stage 3
+      * Stage 3 - YJ added this for citation generation
          * 
+      * Load the citation configuration if exists
+      *
+      * TRICK: you have to place this load before XML UI configuration. Otherwise, it doubles everything you do. WHY?
+      */
+     try{
+         System.out.println("Config for Citation!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+         citationConfig = ConfigurationManager.getProperty("citation-config");
+         if(citationConfig != null){
+             CitationManager.loadConfig(citationConfig);
+         }
+     }catch (Throwable t){
+         throw new ServletException(
+                 "\n\nDSpace has failed to initialize, during stage 3. Error while attempting to read \n" +
+                 "the Citation configuration file (Path: "+citationConfig+").\n" +
+                 "This has likely occurred because either the file does not exist, or it's permissions \n" +
+                 "are set incorrectly, or the path to the configuration file is incorrect. \n\n", t);
+     }
+
+        /**
+         * Stage 4
+         *
          * Load the XML UI configuration
          */
     	try
@@ -191,7 +218,7 @@ public class DSpaceCocoonServletFilter implements Filter
         catch (Exception e)
     	{
     		throw new ServletException(
-    				"\n\nDSpace has failed to initialize, during stage 3. Error while attempting to read \n" +
+    				"\n\nDSpace has failed to initialize, during stage 4. Error while attempting to read \n" +
     				"the XML UI configuration file (Path: "+webappConfigPath+" or '"+installedConfigPath+"').\n" + 
     				"This has likely occurred because either the file does not exist, or its permissions \n" +
     				"are set incorrectly, or the path to the configuration file is incorrect. The XML UI \n" +

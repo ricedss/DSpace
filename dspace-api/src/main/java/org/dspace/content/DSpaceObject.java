@@ -15,6 +15,7 @@ import org.apache.log4j.Logger;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
+import org.dspace.app.util.CitationManager;
 import org.dspace.authorize.AuthorizeException;
 import org.dspace.content.authority.ChoiceAuthorityManager;
 import org.dspace.content.authority.Choices;
@@ -668,6 +669,20 @@ public abstract class DSpaceObject
             modifiedMetadata = true;
         }
     }
+
+    // Ying added this for citation update
+    /**
+      * Set first metadata field value without setting modifiedMetadata = true, don't touch the value
+      */
+ /*    protected void setMetadataSingleValue(String schema, String element, String qualifier, String language, String value, boolean modified) {
+         if(value != null)
+         {
+             clearMetadata(schema, element, qualifier, language);
+             addMetadata(schema, element, qualifier, language, value);
+         }
+     }
+     */
+    // END Ying added this for citation update
 
     protected List<Metadatum> getMetadata()
     {
@@ -1383,5 +1398,33 @@ public abstract class DSpaceObject
                 return new String[]{null, null, null};
         }
     }
-    
-}
+
+        /**
+        * YJ added this for citation generation
+        */
+       protected void updateCitation(Item item) {
+           // citation is configed?
+           List<Metadatum> metadata = getMetadata();
+
+           if(CitationManager.isConfiged() && metadata != null){
+
+               //System.out.println("$$$$$$$$$$$$$$$$$$$ updating citation.....................");
+               // Make a DCValue object
+               //Metadatum listMetadata = new ArrayList<Metadatum>();
+               Metadatum dcv = new Metadatum();
+               dcv.schema = MetadataSchema.DC_SCHEMA;
+               dcv.element = "identifier";
+               dcv.qualifier = "citation";
+
+               String dcvalue = CitationManager.getCitationString(item);
+               if (( dcvalue != null) && dcvalue.length() > 0){
+                   dcv.value = dcvalue;
+                   //metadata.add(dcv);
+                   //setMetadata(metadata);
+                   setMetadataSingleValue(dcv.schema,dcv.element,dcv.qualifier,item.ANY,dcv.value);
+
+               }
+           }
+       }
+
+    }

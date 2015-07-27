@@ -525,6 +525,17 @@ public class BitstreamStorageManager
 		return (file != null) ? FileFactory.newFileInputStream(file) : null;
     }
 
+     /**
+     * Ying added this for JPEG2000 retrieval, return the absolute full path of the bitstream file
+     */
+    public static String getFilename(Context context, int id)
+            throws SQLException, IOException
+    {
+        TableRow bitstream = DatabaseManager.find(context, "bitstream", id);
+        GeneralFile file = getFile(bitstream);
+        return file.getCanonicalPath();
+    }
+
     /**
      * <p>
      * Remove a bitstream from the asset store. This method does not delete any

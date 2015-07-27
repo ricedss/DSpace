@@ -1,12 +1,11 @@
 <?xml version="1.0"?>
 <!DOCTYPE input-forms SYSTEM "input-forms.dtd">
 
-
 <input-forms>
 
  <!-- The form-map maps collection handles to forms. DSpace does not       -->
- <!-- require a collection name to be unique, not even within a community. -->
- <!-- DSpace does however ensure that each collection's handle is unique.  -->
+ <!-- require that a collection's name be unique, even within a community .-->
+ <!-- DSpace does however insure that each collection's handle is unique.  -->
  <!-- Form-map provides the means to associate a unique collection name    -->
  <!-- with a form. The form-map also provides the special handle "default" -->
  <!-- (which is never a collection), here mapped to "traditional". Any     -->
@@ -14,29 +13,1660 @@
  <!-- the mapping for handle "default".                                    -->
 
  <form-map>
-   <name-map collection-handle="default" form-name="traditional" />
+    <name-map collection-handle="default" form-name="facultypubform" />
+     <!-- SERVER-SPECIFIC -->
+    <!-- dspacetest, dev and land --><!--<name-map collection-handle="1911/2946" form-name="eceform" />-->
+     <!-- dspacetest, dev and land --><!--<name-map collection-handle="1911/23998" form-name="subwayform" />-->
+     <!-- dspacetest, dev and land --><!--<name-map collection-handle="1911/55206" form-name="commencementform" />-->
+
+     <!-- dspacetest, dev and land --><name-map collection-handle="1911/79705" form-name="patentsform" />
+
+   <!-- scholarship.rice.edu --><name-map collection-handle="1911/61371" form-name="commencementform" />
+     <!-- scholarship.rice.edu --> <name-map collection-handle="1911/10563" form-name="eceform" /> <!-- ECE Publication -->
+     <!-- scholarship.rice.edu --> <name-map collection-handle="1911/21945" form-name="eceform" /> <!-- CMC Publication -->
+     <!-- scholarship.rice.edu --> <name-map collection-handle="1911/21661" form-name="eceform" /> <!-- DSP Publication -->
+
+
+     <!-- scholarship.rice.edu  --><name-map collection-handle="1911/61408" form-name="wrchistoricalform" /><!--event-->
+     <!-- scholarship.rice.edu  --><name-map collection-handle="1911/62306" form-name="wrchistoricalform" /><!--Key Document-->
+     <!-- scholarship.rice.edu  --><name-map collection-handle="1911/61406" form-name="wrchistoricalform" /><!--People-->
+     <!-- scholarship.rice.edu  --><name-map collection-handle="1911/61407" form-name="wrchistoricalform" /><!--Places-->
+     <!-- scholarship.rice.edu  --><name-map collection-handle="1911/61409" form-name="wrchistoricalform" /><!--Sports-->
+     <!-- scholarship.rice.edu  --><name-map collection-handle="1911/61410" form-name="wrchistoricalform" /><!--Various-->
+
+     <!-- scholarship.rice.edu  --><name-map collection-handle="1911/75119" form-name="fondrennewsform" /><!--News from Fondren-->
+     <!-- scholarship.rice.edu  --><name-map collection-handle="1911/71399" form-name="archivethefuture" /><!--Recovery of a Heritage in the Making-->
+
  </form-map>
 
 
  <!-- The form-definitions map lays out the detailed definition of all the -->
- <!-- submission forms. Each separate form set has a unique name as an     -->
+ <!-- submission forms.Each separate form set has a unique name as an      -->
  <!-- attribute. This name matches one of the names in the form-map. One   -->
  <!-- named form set has the name "traditional"; as this name suggests,    -->
  <!-- it is the old style and is also the default, which gets used when    -->
- <!-- the specified collection has no correspondingly-named form set.      -->
+ <!-- the specified collection has no correspondingly named form set.      -->
  <!--                                                                      -->
  <!-- Each form set contains an ordered set of pages; each page defines    -->
  <!-- one submission metadata entry screen. Each page has an ordered list  -->
  <!-- of field definitions, Each field definition corresponds to one       -->
  <!-- metatdata entry (a so-called row), which has a DC element name, a    -->
- <!-- displayed label, a text string prompt which is called a hint, and    -->
+ <!-- displayed label, a text string prompt which is called a hint , and   -->
  <!-- an input-type. Each field also may hold optional elements: DC        -->
  <!-- qualifier name, a repeatable flag, and a text string whose presence  -->
  <!-- serves as a 'this field is required' flag.                           -->
 
  <form-definitions>
+     <!-- Start Recovery of a Heritage in the Making -->
+     <form name="archivethefuture">
+        <page number="1">
+          <field>
+            <dc-schema>dc</dc-schema>
+            <dc-element>contributor</dc-element>
+            <dc-qualifier>author</dc-qualifier>
+            <repeatable>true</repeatable>
+            <label>Authors</label>
+            <input-type>name</input-type>
+            <hint>Last name, e.g. Smith First name ( e.g. Donald Jr. </hint>
+            <required></required>
+          </field>
+        <field>
+            <dc-schema>dc</dc-schema>
+            <dc-element>contributor</dc-element>
+            <dc-qualifier>editor</dc-qualifier>
+            <repeatable>true</repeatable>
+            <label>Editors</label>
+            <input-type>name</input-type>
+            <hint>Editor of book. Can enter multiple names.</hint>
+            <required></required>
+          </field>
+          <field>
+            <dc-schema>dc</dc-schema>
+            <dc-element>title</dc-element>
+            <dc-qualifier></dc-qualifier>
+            <repeatable>false</repeatable>
+            <label>Title</label>
+            <input-type>onebox</input-type>
+            <hint>Article or chapter title. Enter full title.</hint>
+            <required>You must enter a main title for this item.</required>
+          </field>
 
-   <form name="traditional">
+            <field>
+              <dc-schema>dc</dc-schema>
+              <dc-element>type</dc-element>
+              <dc-qualifier></dc-qualifier>
+              <repeatable></repeatable>
+              <label>Type</label>
+              <input-type>onebox</input-type>
+              <hint></hint>
+              <required>You have to provide the type.</required>
+            </field>
+
+            <field>
+              <dc-schema>dc</dc-schema>
+              <dc-element>type</dc-element>
+              <dc-qualifier>dcmi</dc-qualifier>
+              <repeatable></repeatable>
+              <label>Content Format</label>
+              <input-type value-pairs-name="facultypub_typedcmi">dropdown</input-type>
+              <hint>Most resources are text. When there are multiple entries, choose primary format. 'Moving Image' refers to video files.</hint>
+              <required>You have to provide the content format.</required>
+            </field>
+        <field>
+	   <dc-schema>dc</dc-schema>
+         <dc-element>language</dc-element>
+         <dc-qualifier>iso</dc-qualifier>
+         <repeatable>true</repeatable>
+         <label>Language</label>
+         <input-type value-pairs-name="common_iso_languages">dropdown</input-type>
+         <hint>Defaults to English. Can include multiple languages.</hint>
+         <required></required>
+       </field>
+            <field>
+              <dc-schema>dc</dc-schema>
+              <dc-element>subject</dc-element>
+              <dc-qualifier>keyword</dc-qualifier>
+              <!-- An input-type of twobox MUST be marked as repeatable -->
+              <repeatable>true</repeatable>
+              <label>Subject Keywords</label>
+              <input-type>twobox</input-type>
+              <hint>Enter keywords one at a time. Use  button after each keyword to create the list.</hint>
+              <required></required>
+              <vocabulary>srsc</vocabulary>
+            </field>
+
+            <field>
+              <dc-schema>dc</dc-schema>
+              <dc-element>description</dc-element>
+              <dc-qualifier>abstract</dc-qualifier>
+              <repeatable>false</repeatable>
+              <label>Abstract</label>
+              <input-type>textarea</input-type>
+              <hint>Enter abstract of item.</hint>
+              <required></required>
+            </field>
+
+
+          <field>
+            <dc-schema>dc</dc-schema>
+            <dc-element>date</dc-element>
+            <dc-qualifier>issued</dc-qualifier>
+            <repeatable>false</repeatable>
+            <label>Date of Issue</label>
+            <input-type>date</input-type>
+            <hint>Date published.</hint>
+            <required>You must enter at least the year.</required>
+          </field>
+
+            <field>
+              <dc-schema>dc</dc-schema>
+              <dc-element>citation</dc-element>
+              <dc-qualifier>pageNumber</dc-qualifier>
+              <repeatable>false</repeatable>
+              <label>Page Number(s)</label>
+              <input-type>onebox</input-type>
+              <hint></hint>
+              <required></required>
+            </field>
+
+
+          <field>
+            <dc-schema>dc</dc-schema>
+            <dc-element>contributor</dc-element>
+            <dc-qualifier>publisher</dc-qualifier>
+            <repeatable>false</repeatable>
+            <label>Publisher</label>
+            <input-type>onebox</input-type>
+            <hint>Enter the name of the publisher.</hint>
+            <required></required>
+          </field>
+
+            <field>
+               <dc-schema>dc</dc-schema>
+               <dc-element>pubplace</dc-element>
+               <dc-qualifier></dc-qualifier>
+               <repeatable>false</repeatable>
+               <label>Publisher Location</label>
+               <input-type>onebox</input-type>
+               <hint>If item is Book or Book Chapter, enter publisher location, e.g. New York, NY.</hint>
+               <required></required>
+             </field>
+
+
+          <field>
+            <dc-schema>dc</dc-schema>
+            <dc-element>identifier</dc-element>
+            <dc-qualifier></dc-qualifier>
+            <!-- An input-type of qualdrop_value MUST be marked as repeatable -->
+            <repeatable>true</repeatable>
+            <label>Identifiers</label>
+            <input-type value-pairs-name="facultypub_identifiers">qualdrop_value</input-type>
+            <hint>If the item has any identification numbers associated with it. When available, DOI (digital object identifier) MUST be entered. </hint>
+            <required></required>
+          </field>
+
+<!--            <field>
+         <dc-schema>dc</dc-schema>
+         <dc-element>embargo</dc-element>
+         <dc-qualifier>terms</dc-qualifier>
+         <repeatable>false</repeatable>
+         <label>Embargo Terms</label>
+         <input-type value-pairs-name="embargo_terms">dropdown</input-type>
+         <hint>If required, select embargo terms.</hint>
+         <required></required>
+         </field>
+-->
+<!--            <field>
+              <dc-schema>dc</dc-schema>
+              <dc-element>contributor</dc-element>
+              <dc-qualifier>center</dc-qualifier>
+              <repeatable>true</repeatable>
+              <label>Affiliated Rice lab (s), center (s), or institute (s)</label>
+              <input-type>onebox</input-type>
+              <hint>Enter name of affiliated Rice lab (s), center (s), or institute (s). Enter names one at a time. Use  button after each name to create the list.</hint>
+              <required></required>
+            </field>
+-->
+            <field>
+              <dc-schema>dc</dc-schema>
+              <dc-element>contributor</dc-element>
+              <dc-qualifier>org</dc-qualifier>
+              <repeatable>true</repeatable>
+              <label>Affiliated Rice lab (s), center (s), or institute (s)</label>
+              <input-type>onebox</input-type>
+              <hint>Enter name of affiliated Rice lab (s), center (s), or institute (s). Enter names one at a time. Use  button after each name to create the list.</hint>
+              <required></required>
+            </field>
+
+            <field>
+              <dc-schema>dc</dc-schema>
+              <dc-element>contributor</dc-element>
+              <dc-qualifier>funder</dc-qualifier>
+              <repeatable>true</repeatable>
+              <label>Sponsor</label>
+              <input-type>onebox</input-type>
+              <hint>If grant-funded, list name of sponsor (s) and funding number (s). Enter the name of sponsor and award number one at a time. Use  button after each sponsor to create the list.</hint>
+              <required></required>
+            </field>
+
+        <field>
+           <dc-schema>dc</dc-schema>
+           <dc-element>citation</dc-element>
+           <dc-qualifier>conferenceName</dc-qualifier>
+           <repeatable>false</repeatable>
+           <label>Conference</label>
+           <input-type>onebox</input-type>
+           <hint>If paper presented at conference, enter the name of conference.</hint>
+           <required></required>
+         </field>
+
+         <field>
+           <dc-schema>dc</dc-schema>
+           <dc-element>citation</dc-element>
+           <dc-qualifier>conferenceDate</dc-qualifier>
+           <repeatable>false</repeatable>
+           <label>Conference Date</label>
+           <input-type>onebox</input-type>
+           <hint>If paper presented at conference, enter conference date. YYYY-MM-DD.</hint>
+           <required></required>
+         </field>
+
+        </page>
+     </form>
+    <!-- End of Recovery of a Heritage in the Making : archivethefuture-->
+
+          <!-- Start Patents Form -->
+     <form name="patentsform">
+        <page number="1">
+          <field>
+            <dc-schema>dc</dc-schema>
+            <dc-element>identifier</dc-element>
+            <dc-qualifier>patentID</dc-qualifier>
+            <repeatable>false</repeatable>
+            <label>Patent ID</label>
+            <input-type>onebox</input-type>
+            <hint>Use the most complete version of the ID without spaces or commas. (e.g. US6428811B1).</hint>
+            <required>You must enter Patent ID for this item.</required>
+          </field>
+        <field>
+            <dc-schema>dc</dc-schema>
+            <dc-element>title</dc-element>
+            <dc-qualifier></dc-qualifier>
+            <repeatable>false</repeatable>
+            <label>Title</label>
+            <input-type>onebox</input-type>
+            <hint>Title of the patent taken from the published version.</hint>
+            <required>You must enter a Title for this item.</required>
+          </field>
+            <field>
+              <dc-schema>dc</dc-schema>
+              <dc-element>creator</dc-element>
+              <dc-qualifier></dc-qualifier>
+              <repeatable>true</repeatable>
+              <label>Inventor(s)</label>
+              <input-type>onebox</input-type>
+              <hint>Enter name(s) as appear on patent e.g. Smalley, Richard E.</hint>
+              <required>You must enter an Inventor for this item.</required>
+            </field>
+
+            <field>
+                <dc-schema>dc</dc-schema>
+                <dc-element>contributor</dc-element>
+                <dc-qualifier>assignee</dc-qualifier>
+                <repeatable>true</repeatable>
+                <label>Assignee(s)</label>
+                <input-type>onebox</input-type>
+                <hint>Inventor and the assignee may be the same. Rice University may be one of the assignees.</hint>
+                <required>You must enter an Assignee for this item.</required>
+            </field>
+
+           <field>
+              <dc-schema>dc</dc-schema>
+              <dc-element>date</dc-element>
+              <dc-qualifier>filed</dc-qualifier>
+              <repeatable>false</repeatable>
+              <label>Date Filed</label>
+              <input-type>date</input-type>
+              <hint>Enter date in YYYY-MM-DD format.</hint>
+              <required>You must enter Date Filed for this item.</required>
+            </field>
+
+            <field>
+              <dc-schema>dc</dc-schema>
+              <dc-element>date</dc-element>
+              <dc-qualifier>issued</dc-qualifier>
+              <repeatable>false</repeatable>
+              <label>Date Issued by the USPTO</label>
+              <input-type>date</input-type>
+              <hint>Enter date in YYYY-MM-DD format</hint>
+              <required>You must enter Date Issued by the USPTO for this item.</required>
+            </field>
+            <field>
+               <dc-schema>dc</dc-schema>
+               <dc-element>description</dc-element>
+               <dc-qualifier>abstract</dc-qualifier>
+               <repeatable>false</repeatable>
+                <label>Abstract</label>
+                <input-type>textarea</input-type>
+                <hint></hint>
+                <required>You must enter Abstract for this item.</required>
+              </field>
+
+            <field>
+                <dc-schema>dc</dc-schema>
+                <dc-element>subject</dc-element>
+                <dc-qualifier></dc-qualifier>
+                <repeatable>false</repeatable>
+                <label>Subject</label>
+                <input-type value-pairs-name="patents_subject">dropdown</input-type>
+                <hint></hint>
+                <required>You must enter Subject for this item.</required>
+              </field>
+
+            <field>
+                <dc-schema>dc</dc-schema>
+                <dc-element>format</dc-element>
+                <dc-qualifier>extent</dc-qualifier>
+                <repeatable>false</repeatable>
+                <label>Page Count</label>
+                <input-type>onebox</input-type>
+                <hint>Enter number of pages in patent PDF (e.g. 19 pp).</hint>
+                <required>You must enter Page Count for this item.</required>
+              </field>
+
+            <field>
+           <dc-schema>dc</dc-schema>
+             <dc-element>language</dc-element>
+             <dc-qualifier>iso</dc-qualifier>
+             <repeatable>true</repeatable>
+             <label>Language</label>
+             <input-type>onebox</input-type>
+             <hint></hint>
+             <required>You must enter Language for this item.</required>
+           </field>
+            <field>
+                 <dc-schema>dc</dc-schema>
+                 <dc-element>contributor</dc-element>
+                 <dc-qualifier>publisher</dc-qualifier>
+                 <repeatable>false</repeatable>
+                 <label>Publisher</label>
+                 <input-type>onebox</input-type>
+                 <hint></hint>
+                 <required>You must enter Publisher for this item.</required>
+               </field>
+
+            <field>
+              <dc-schema>dc</dc-schema>
+              <dc-element>type</dc-element>
+              <dc-qualifier>dcmi</dc-qualifier>
+              <repeatable>false</repeatable>
+              <label>Content Format</label>
+              <input-type>onebox</input-type>
+              <hint></hint>
+              <required>You must enter Content Format for this item.</required>
+            </field>
+
+            <field>
+              <dc-schema>dc</dc-schema>
+              <dc-element>type</dc-element>
+              <dc-qualifier>genre</dc-qualifier>
+              <repeatable>false</repeatable>
+              <label>Resource Type</label>
+              <input-type>onebox</input-type>
+              <hint></hint>
+              <required>You must enter Resource Type for this item.</required>
+            </field>
+            <field>
+                 <dc-schema>dc</dc-schema>
+                 <dc-element>digitization</dc-element>
+                 <dc-qualifier>specifications</dc-qualifier>
+                 <repeatable>false</repeatable>
+                 <label>Technical Specs</label>
+                 <input-type>onebox</input-type>
+                 <hint></hint>
+                 <required>You must enter Technical Specs for this item.</required>
+               </field>
+
+        </page>
+      </form> <!-- end of Patents -->
+
+     <!-- Start Fondren News Form -->
+     <form name="fondrennewsform">
+        <page number="1">
+          <field>
+            <dc-schema>dc</dc-schema>
+            <dc-element>contributor</dc-element>
+            <dc-qualifier>author</dc-qualifier>
+            <repeatable>false</repeatable>
+            <label>Author</label>
+            <input-type>onebox</input-type>
+            <hint></hint>
+            <required>You must enter an Author for this item.</required>
+          </field>
+        <field>
+            <dc-schema>dc</dc-schema>
+            <dc-element>contributor</dc-element>
+            <dc-qualifier>publisher</dc-qualifier>
+            <repeatable>false</repeatable>
+            <label>Original Publisher</label>
+            <input-type>onebox</input-type>
+            <hint></hint>
+            <required>You must enter a publisher for this item.</required>
+          </field>
+            <field>
+              <dc-schema>dc</dc-schema>
+              <dc-element>date</dc-element>
+              <dc-qualifier>issued</dc-qualifier>
+              <repeatable>false</repeatable>
+              <label>Date</label>
+              <input-type>date</input-type>
+              <hint>Year of publication. Use Date and Time Formats (W3C-DTF) http://www.w3.org/TR/NOTE-datetime/ [YYYY].</hint>
+              <required>You must enter at least the year.</required>
+            </field>
+
+            <field>
+                <dc-schema>dc</dc-schema>
+                <dc-element>title</dc-element>
+                <dc-qualifier></dc-qualifier>
+                <repeatable>false</repeatable>
+                <label>Title</label>
+                <input-type>onebox</input-type>
+                <hint>Series title plus volume, issue and date. E.g. News From Fondren: Volume 22, No. 2, Spring 2013.</hint>
+                <required>You must enter a main title for this item.</required>
+            </field>
+
+  <!--          <field>
+              <dc-schema>dc</dc-schema>
+              <dc-element>type</dc-element>
+              <dc-qualifier></dc-qualifier>
+              <repeatable></repeatable>
+              <label>Type</label>
+              <input-type value-pairs-name="facultypub_types">dropdown</input-type>
+              <hint>Journal  for most.</hint>
+              <required>You have to provide the type.</required>
+            </field>                  -->
+            <field>
+              <dc-schema>dc</dc-schema>
+              <dc-element>description</dc-element>
+              <dc-qualifier>abstract</dc-qualifier>
+              <repeatable>false</repeatable>
+              <label>Abstract</label>
+              <input-type>textarea</input-type>
+              <hint></hint>
+              <required></required>
+            </field>
+            <field>
+               <dc-schema>dc</dc-schema>
+               <dc-element>digitization</dc-element>
+               <dc-qualifier>specifications</dc-qualifier>
+               <repeatable>true</repeatable>
+                <label>Digital Specifications</label>
+                <input-type>textarea</input-type>
+                <hint></hint>
+                <required></required>
+              </field>
+
+            <field>
+                <dc-schema>dc</dc-schema>
+                <dc-element>identifier</dc-element>
+                <dc-qualifier>digital</dc-qualifier>
+                <repeatable>false</repeatable>
+                <label>Digital Identifier</label>
+                <input-type>onebox</input-type>
+                <hint>Filenaming convention: acronym + Volume No. +Issue No. e.g. nff17no1.pdf.</hint>
+                <required></required>
+              </field>
+
+            <field>
+                <dc-schema>dc</dc-schema>
+                <dc-element>identifier</dc-element>
+                <dc-qualifier>original</dc-qualifier>
+                <repeatable>false</repeatable>
+                <label>Call No.</label>
+                <input-type>onebox</input-type>
+                <hint></hint>
+                <required></required>
+              </field>
+
+            <field>
+           <dc-schema>dc</dc-schema>
+             <dc-element>language</dc-element>
+             <dc-qualifier>iso</dc-qualifier>
+             <repeatable>true</repeatable>
+             <label>Language</label>
+             <input-type>onebox</input-type>
+             <hint>Defaults to English. Can include multiple languages.</hint>
+             <required></required>
+           </field>
+            <field>
+                 <dc-schema>dc</dc-schema>
+                 <dc-element>rights</dc-element>
+                 <dc-qualifier></dc-qualifier>
+                 <repeatable>false</repeatable>
+                 <label>Rights</label>
+                 <input-type>onebox</input-type>
+                 <hint></hint>
+                 <required>You have to provide the Rights.</required>
+               </field>
+            <field>
+                 <dc-schema>dc</dc-schema>
+                 <dc-element>rights</dc-element>
+                 <dc-qualifier>uri</dc-qualifier>
+                 <repeatable>false</repeatable>
+                 <label>Rights Url</label>
+                 <input-type>onebox</input-type>
+                 <hint></hint>
+                 <required>You have to provide the Rights Url.</required>
+               </field>
+
+            <field>
+              <dc-schema>dc</dc-schema>
+              <dc-element>type</dc-element>
+              <dc-qualifier>dcmi</dc-qualifier>
+              <repeatable>true</repeatable>
+              <label>Type</label>
+              <input-type>onebox</input-type>
+              <hint></hint>
+              <required>You have to provide the Type.</required>
+            </field>
+
+            <field>
+              <dc-schema>dc</dc-schema>
+              <dc-element>type</dc-element>
+              <dc-qualifier>genre</dc-qualifier>
+              <repeatable>true</repeatable>
+              <label>Genre</label>
+              <input-type>onebox</input-type>
+              <hint></hint>
+              <required>You have to provide the Genre.</required>
+            </field>
+            <field>
+                 <dc-schema>dc</dc-schema>
+                 <dc-element>format</dc-element>
+                 <dc-qualifier>extent</dc-qualifier>
+                 <repeatable>false</repeatable>
+                 <label>Pages</label>
+                 <input-type>onebox</input-type>
+                 <hint>No. of pages in PDF. e.g. 14 pp</hint>
+                 <required>You have to provide the Pages.</required>
+               </field>
+            <field>
+                  <dc-schema>dc</dc-schema>
+                  <dc-element>publisher</dc-element>
+                  <dc-qualifier></dc-qualifier>
+                  <repeatable>false</repeatable>
+                  <label>Electronic Publisher</label>
+                  <input-type>onebox</input-type>
+                  <hint></hint>
+                  <required>You have to provide the Electronic Publisher.</required>
+                </field>
+
+            <field>
+              <dc-schema>dc</dc-schema>
+              <dc-element>subject</dc-element>
+              <dc-qualifier>lcsh</dc-qualifier>
+              <!-- An input-type of twobox MUST be marked as repeatable -->
+              <repeatable>true</repeatable>
+              <label>Subject</label>
+              <input-type>onebox</input-type>
+              <hint></hint>
+              <required>You have to provide Subject.</required>
+            </field>
+
+        </page>
+      </form> <!-- end of Fondren News Form-->
+
+
+     <!-- Start Faculty Publications form (our default form) -->
+     <form name="facultypubform">
+        <page number="1">
+          <field>
+            <dc-schema>dc</dc-schema>
+            <dc-element>contributor</dc-element>
+            <dc-qualifier>author</dc-qualifier>
+            <repeatable>true</repeatable>
+            <label>Authors</label>
+            <input-type>name</input-type>
+            <hint>Last name, e.g. Smith First name ( e.g. Donald Jr. </hint>
+            <required></required>
+          </field>
+        <field>
+            <dc-schema>dc</dc-schema>
+            <dc-element>contributor</dc-element>
+            <dc-qualifier>editor</dc-qualifier>
+            <repeatable>true</repeatable>
+            <label>Editors</label>
+            <input-type>name</input-type>
+            <hint>Editor of book. Can enter multiple names.</hint>
+            <required></required>
+          </field>
+          <field>
+            <dc-schema>dc</dc-schema>
+            <dc-element>title</dc-element>
+            <dc-qualifier></dc-qualifier>
+            <repeatable>false</repeatable>
+            <label>Title</label>
+            <input-type>onebox</input-type>
+            <hint>Article or chapter title. Enter full title.</hint>
+            <required>You must enter a main title for this item.</required>
+          </field>
+
+            <field>
+              <dc-schema>dc</dc-schema>
+              <dc-element>type</dc-element>
+              <dc-qualifier></dc-qualifier>
+              <repeatable></repeatable>
+              <label>Type</label>
+              <input-type value-pairs-name="facultypub_types">dropdown</input-type>
+              <hint>Journal  for most.</hint>
+              <required>You have to provide the type.</required>
+            </field>
+
+            <field>
+              <dc-schema>dc</dc-schema>
+              <dc-element>type</dc-element>
+              <dc-qualifier>dcmi</dc-qualifier>
+              <repeatable></repeatable>
+              <label>Content Format</label>
+              <input-type value-pairs-name="facultypub_typedcmi">dropdown</input-type>
+              <hint>Most resources are text. When there are multiple entries, choose primary format. 'Moving Image' refers to video files.</hint>
+              <required>You have to provide the content format.</required>
+            </field>
+        <field>
+	   <dc-schema>dc</dc-schema>
+         <dc-element>language</dc-element>
+         <dc-qualifier>iso</dc-qualifier>
+         <repeatable>true</repeatable>
+         <label>Language</label>
+         <input-type value-pairs-name="common_iso_languages">dropdown</input-type>
+         <hint>Defaults to English. Can include multiple languages.</hint>
+         <required></required>
+       </field>
+            <field>
+              <dc-schema>dc</dc-schema>
+              <dc-element>subject</dc-element>
+              <dc-qualifier>keyword</dc-qualifier>
+              <!-- An input-type of twobox MUST be marked as repeatable -->
+              <repeatable>true</repeatable>
+              <label>Subject Keywords</label>
+              <input-type>twobox</input-type>
+              <hint>Enter keywords one at a time. Use  button after each keyword to create the list.</hint>
+              <required></required>
+              <vocabulary>srsc</vocabulary>
+            </field>
+
+            <field>
+              <dc-schema>dc</dc-schema>
+              <dc-element>description</dc-element>
+              <dc-qualifier>abstract</dc-qualifier>
+              <repeatable>false</repeatable>
+              <label>Abstract</label>
+              <input-type>textarea</input-type>
+              <hint>Enter abstract of item.</hint>
+              <required></required>
+            </field>
+
+
+            <field>
+              <dc-schema>dc</dc-schema>
+              <dc-element>citation</dc-element>
+              <dc-qualifier>journalTitle</dc-qualifier>
+              <repeatable>false</repeatable>
+              <label>Journal or Book Title</label>
+              <input-type>onebox</input-type>
+              <hint>Title of journal or book.</hint>
+              <required></required>
+            </field>
+
+          <field>
+            <dc-schema>dc</dc-schema>
+            <dc-element>date</dc-element>
+            <dc-qualifier>issued</dc-qualifier>
+            <repeatable>false</repeatable>
+            <label>Date of Issue</label>
+            <input-type>date</input-type>
+            <hint>Date published.</hint>
+            <required>You must enter at least the year.</required>
+          </field>
+
+            <field>
+              <dc-schema>dc</dc-schema>
+              <dc-element>citation</dc-element>
+              <dc-qualifier>volumeNumber</dc-qualifier>
+              <repeatable>false</repeatable>
+              <label>Volume Number</label>
+              <input-type>onebox</input-type>
+              <hint></hint>
+              <required></required>
+            </field>
+
+
+            <field>
+              <dc-schema>dc</dc-schema>
+              <dc-element>citation</dc-element>
+              <dc-qualifier>issueNumber</dc-qualifier>
+              <repeatable>false</repeatable>
+              <label>Issue Number</label>
+              <input-type>onebox</input-type>
+              <hint></hint>
+              <required></required>
+            </field>
+
+
+            <field>
+              <dc-schema>dc</dc-schema>
+              <dc-element>citation</dc-element>
+              <dc-qualifier>pageNumber</dc-qualifier>
+              <repeatable>false</repeatable>
+              <label>Page Number(s)</label>
+              <input-type>onebox</input-type>
+              <hint></hint>
+              <required></required>
+            </field>
+
+
+          <field>
+            <dc-schema>dc</dc-schema>
+            <dc-element>contributor</dc-element>
+            <dc-qualifier>publisher</dc-qualifier>
+            <repeatable>false</repeatable>
+            <label>Publisher</label>
+            <input-type>onebox</input-type>
+            <hint>Enter the name of the publisher.</hint>
+            <required></required>
+          </field>
+
+            <field>
+               <dc-schema>dc</dc-schema>
+               <dc-element>pubplace</dc-element>
+               <dc-qualifier></dc-qualifier>
+               <repeatable>false</repeatable>
+               <label>Publisher Location</label>
+               <input-type>onebox</input-type>
+               <hint>If item is Book or Book Chapter, enter publisher location, e.g. New York, NY.</hint>
+               <required></required>
+             </field>
+
+
+          <field>
+            <dc-schema>dc</dc-schema>
+            <dc-element>identifier</dc-element>
+            <dc-qualifier></dc-qualifier>
+            <!-- An input-type of qualdrop_value MUST be marked as repeatable -->
+            <repeatable>true</repeatable>
+            <label>Identifiers</label>
+            <input-type value-pairs-name="facultypub_identifiers">qualdrop_value</input-type>
+            <hint>If the item has any identification numbers associated with it. When available, DOI (digital object identifier) MUST be entered. </hint>
+            <required></required>
+          </field>
+
+            <field>
+         <dc-schema>dc</dc-schema>
+         <dc-element>embargo</dc-element>
+         <dc-qualifier>terms</dc-qualifier>
+         <repeatable>false</repeatable>
+         <label>Embargo Terms</label>
+         <input-type value-pairs-name="embargo_terms">dropdown</input-type>
+         <hint>If required, select embargo terms.</hint>
+         <required></required>
+         </field>
+
+<!--            <field>
+              <dc-schema>dc</dc-schema>
+              <dc-element>contributor</dc-element>
+              <dc-qualifier>center</dc-qualifier>
+              <repeatable>true</repeatable>
+              <label>Affiliated Rice lab (s), center (s), or institute (s)</label>
+              <input-type>onebox</input-type>
+              <hint>Enter name of affiliated Rice lab (s), center (s), or institute (s). Enter names one at a time. Use  button after each name to create the list.</hint>
+              <required></required>
+            </field>
+ -->
+            <field>
+              <dc-schema>dc</dc-schema>
+              <dc-element>contributor</dc-element>
+              <dc-qualifier>org</dc-qualifier>
+              <repeatable>true</repeatable>
+              <label>Affiliated Rice lab (s), center (s), or institute (s)</label>
+              <input-type>onebox</input-type>
+              <hint>Enter name of affiliated Rice lab (s), center (s), or institute (s). Enter names one at a time. Use  button after each name to create the list.</hint>
+              <required></required>
+            </field>
+
+
+            <field>
+              <dc-schema>dc</dc-schema>
+              <dc-element>contributor</dc-element>
+              <dc-qualifier>funder</dc-qualifier>
+              <repeatable>true</repeatable>
+              <label>Sponsor Name</label>
+              <input-type>onebox</input-type>
+              <hint>If grant-funded, list name of sponsor(s), e.g. National Institutes of Health. Enter the name of sponsor one at a time. Use the ‘add’ button after each sponsor to create the list.</hint>
+              <required></required>
+            </field>
+
+            <field>
+              <dc-schema>dc</dc-schema>
+              <dc-element>identifier</dc-element>
+              <dc-qualifier>grantID</dc-qualifier>
+              <repeatable>true</repeatable>
+              <label>Funding Number</label>
+              <input-type>onebox</input-type>
+              <hint>If grant-funded, list unique identifier for award(s) + Funder name(s) in parentheses, e.g. R01 EB007813 (National Institutes of Health). Enter the identifier one at a time. Use the ‘add’ button after each award to create the list.</hint>
+              <required></required>
+            </field>
+
+        <field>
+           <dc-schema>dc</dc-schema>
+           <dc-element>citation</dc-element>
+           <dc-qualifier>conferenceName</dc-qualifier>
+           <repeatable>false</repeatable>
+           <label>Conference</label>
+           <input-type>onebox</input-type>
+           <hint>If paper presented at conference, enter the name of conference.</hint>
+           <required></required>
+         </field>
+
+         <field>
+           <dc-schema>dc</dc-schema>
+           <dc-element>citation</dc-element>
+           <dc-qualifier>conferenceDate</dc-qualifier>
+           <repeatable>false</repeatable>
+           <label>Conference Date</label>
+           <input-type>onebox</input-type>
+           <hint>If paper presented at conference, enter conference date. YYYY-MM-DD.</hint>
+           <required></required>
+         </field>
+
+        </page>
+      </form> <!-- end of faculty publication form-->
+
+
+     <!-- commencement form-->
+     <form name="wrchistoricalform">
+        <page number="1">
+            <field>
+              <dc-schema>dc</dc-schema>
+              <dc-element>title</dc-element>
+              <dc-qualifier></dc-qualifier>
+              <repeatable>false</repeatable>
+              <label>dc.title</label>
+              <input-type>onebox</input-type>
+              <hint></hint>
+              <required>You must enter a main title for this item.</required>
+            </field>
+
+            <field>
+              <dc-schema>dc</dc-schema>
+              <dc-element>title</dc-element>
+              <dc-qualifier>alternative</dc-qualifier>
+              <repeatable>true</repeatable>
+              <label>dc.title.alternative</label>
+              <input-type>onebox</input-type>
+              <hint></hint>
+              <required></required>
+            </field>
+
+            <field>
+              <dc-schema>dc</dc-schema>
+              <dc-element>contributor</dc-element>
+              <dc-qualifier>publisher</dc-qualifier>
+              <repeatable>true</repeatable>
+              <label>dc.contributor.publisher</label>
+              <input-type>onebox</input-type>
+              <hint></hint>
+              <required></required>
+            </field>
+
+          <field>
+            <dc-schema>dc</dc-schema>
+            <dc-element>contributor</dc-element>
+            <dc-qualifier>photographer</dc-qualifier>
+            <repeatable>true</repeatable>
+            <label>dc.contributor.photographer</label>
+            <input-type>onebox</input-type>
+            <hint></hint>
+            <required></required>
+          </field>
+
+
+            <field>
+              <dc-schema>dc</dc-schema>
+              <dc-element>contributor</dc-element>
+              <dc-qualifier>author</dc-qualifier>
+              <repeatable>true</repeatable>
+              <label>dc.contributor.author</label>
+              <input-type>onebox</input-type>
+              <hint></hint>
+              <required></required>
+            </field>
+
+            <field>
+              <dc-schema>dc</dc-schema>
+              <dc-element>subject</dc-element>
+              <dc-qualifier></dc-qualifier>
+              <!-- An input-type of twobox MUST be marked as repeatable -->
+              <repeatable>true</repeatable>
+              <label>dc.subject</label>
+              <input-type>twobox</input-type>
+              <hint>xmlui.Submission.submit.DescribeStep.hint.wrchistorical.subject</hint>
+              <required>You must provide at least one subject.</required>
+            </field>
+
+            <field>
+              <dc-schema>dc</dc-schema>
+              <dc-element>subject</dc-element>
+              <dc-qualifier>lcsh</dc-qualifier>
+              <!-- An input-type of twobox MUST be marked as repeatable -->
+              <repeatable>true</repeatable>
+              <label>dc.subject.lcsh</label>
+              <input-type>twobox</input-type>
+              <hint>xmlui.Submission.submit.DescribeStep.hint.wrchistorical.subjectlcsh</hint>
+              <required></required>
+              <vocabulary>srsc</vocabulary>
+            </field>
+
+            <field>
+              <dc-schema>dc</dc-schema>
+              <dc-element>description</dc-element>
+              <dc-qualifier></dc-qualifier>
+              <repeatable>true</repeatable>
+              <label>dc.description</label>
+              <input-type>textarea</input-type>
+              <hint></hint>
+              <required></required>
+            </field>
+
+            <field>
+              <dc-schema>dc</dc-schema>
+              <dc-element>description</dc-element>
+              <dc-qualifier>abstract</dc-qualifier>
+              <repeatable>true</repeatable>
+              <label>dc.description.abstract</label>
+              <input-type>textarea</input-type>
+              <hint></hint>
+              <required></required>
+            </field>
+
+
+          <field>
+            <dc-schema>dc</dc-schema>
+            <dc-element>date</dc-element>
+            <dc-qualifier>issued</dc-qualifier>
+            <repeatable>false</repeatable>
+            <label>dc.date.issued</label>
+            <input-type>onebox</input-type>
+            <hint>xmlui.Submission.submit.DescribeStep.hint.wrchistorical.dateissued</hint>
+            <required>You must enter at least the year.</required>
+          </field>
+
+            <field>
+              <dc-schema>dc</dc-schema>
+              <dc-element>date</dc-element>
+              <dc-qualifier>original</dc-qualifier>
+              <repeatable>false</repeatable>
+              <label>dc.date.original</label>
+              <input-type>onebox</input-type>
+              <hint>xmlui.Submission.submit.DescribeStep.hint.wrchistorical.dateoriginal</hint>
+              <required>You must enter at least the year.</required>
+            </field>
+
+          <field>
+            <dc-schema>dc</dc-schema>
+            <dc-element>format</dc-element>
+            <dc-qualifier>medium</dc-qualifier>
+            <repeatable>true</repeatable>
+            <label>dc.format.medium</label>
+            <input-type>onebox</input-type>
+            <hint>xmlui.Submission.submit.DescribeStep.hint.wrchistorical.formatmedium</hint>
+            <required></required>
+          </field>
+
+            <field>
+              <dc-schema>dc</dc-schema>
+              <dc-element>type</dc-element>
+              <dc-qualifier></dc-qualifier>
+              <repeatable></repeatable>
+              <label>dc.type</label>
+              <input-type value-pairs-name="wrchistorical_types">dropdown</input-type>
+              <hint>xmlui.Submission.submit.DescribeStep.hint.wrchistorical.type</hint>
+              <required>You have to provide the type.</required>
+            </field>
+
+            <field>
+                  <dc-schema>dc</dc-schema>
+                  <dc-element>language</dc-element>
+                  <dc-qualifier>iso</dc-qualifier>
+                  <repeatable>false</repeatable>
+                  <label>dc.language.iso</label>
+                  <input-type>onebox</input-type>
+                  <hint>xmlui.Submission.submit.DescribeStep.hint.wrchistorical.languageiso</hint>
+                  <required></required>
+            </field>
+
+            <field>
+              <dc-schema>dc</dc-schema>
+              <dc-element>rights</dc-element>
+              <dc-qualifier></dc-qualifier>
+              <repeatable>false</repeatable>
+              <label>dc.rights</label>
+              <input-type>onebox</input-type>
+              <hint>xmlui.Submission.submit.DescribeStep.hint.wrchistorical.rights</hint>
+              <required>You have to provide the rights.</required>
+            </field>
+
+            <field>
+              <dc-schema>dc</dc-schema>
+              <dc-element>rights</dc-element>
+              <dc-qualifier>uri</dc-qualifier>
+              <repeatable>false</repeatable>
+              <label>dc.rights.uri</label>
+              <input-type>textarea</input-type>
+              <hint>xmlui.Submission.submit.DescribeStep.hint.wrchistorical.rightsuri</hint>
+              <required>You have to provide the rights uri.</required>
+            </field>
+
+            <field>
+              <dc-schema>dc</dc-schema>
+              <dc-element>source</dc-element>
+              <dc-qualifier>collection</dc-qualifier>
+              <repeatable>false</repeatable>
+              <label>dc.source.collection</label>
+              <input-type>onebox</input-type>
+              <hint>xmlui.Submission.submit.DescribeStep.hint.wrchistorical.sourcecollection</hint>
+              <required></required>
+            </field>
+
+            <field>
+              <dc-schema>dc</dc-schema>
+              <dc-element>publisher</dc-element>
+              <dc-qualifier></dc-qualifier>
+              <repeatable>false</repeatable>
+              <label>dc.publisher</label>
+              <input-type>onebox</input-type>
+              <hint>xmlui.Submission.submit.DescribeStep.hint.wrchistorical.publisher</hint>
+              <required></required>
+            </field>
+
+            <field>
+              <dc-schema>dc</dc-schema>
+              <dc-element>identifier</dc-element>
+              <dc-qualifier>digital</dc-qualifier>
+              <repeatable>false</repeatable>
+              <label>dc.identifier.digital</label>
+              <input-type>onebox</input-type>
+              <hint>xmlui.Submission.submit.DescribeStep.hint.wrchistorical.identifierdigital</hint>
+              <required>You have to provide WRC file number.</required>
+            </field>
+
+            <field>
+              <dc-schema>dc</dc-schema>
+              <dc-element>date</dc-element>
+              <dc-qualifier>digital</dc-qualifier>
+              <repeatable>false</repeatable>
+              <label>dc.date.digital</label>
+              <input-type>onebox</input-type>
+              <hint>xmlui.Submission.submit.DescribeStep.hint.wrchistorical.datedigital</hint>
+              <required>You have to provide date of creation of digital image.</required>
+            </field>
+
+           <field>
+              <dc-schema>dc</dc-schema>
+              <dc-element>digitization</dc-element>
+              <dc-qualifier>specifications</dc-qualifier>
+              <repeatable>false</repeatable>
+              <label>dc.digitization.specifications</label>
+              <input-type>textarea</input-type>
+              <hint>xmlui.Submission.submit.DescribeStep.hint.wrchistorical.digitizationspecifications</hint>
+              <required>You have to provide digitization specifications.</required>
+            </field>
+
+        </page>
+
+      </form>
+
+
+     <!-- commencement form-->
+     <form name="commencementform">
+        <page number="1">
+            <field>
+              <dc-schema>dc</dc-schema>
+              <dc-element>title</dc-element>
+              <dc-qualifier></dc-qualifier>
+              <repeatable>false</repeatable>
+              <label>dc.title</label>
+              <input-type>onebox</input-type>
+              <hint></hint>
+              <required>You must enter a main title for this item.</required>
+            </field>
+
+            <field>
+              <dc-schema>dc</dc-schema>
+              <dc-element>title</dc-element>
+              <dc-qualifier>alternative</dc-qualifier>
+              <repeatable>true</repeatable>
+              <label>dc.title.alternative</label>
+              <input-type>onebox</input-type>
+              <hint></hint>
+              <required></required>
+            </field>
+
+            <field>
+              <dc-schema>dc</dc-schema>
+              <dc-element>contributor</dc-element>
+              <dc-qualifier>publisher</dc-qualifier>
+              <repeatable>true</repeatable>
+              <label>dc.contributor.publisher</label>
+              <input-type>onebox</input-type>
+              <hint>xmlui.Submission.submit.DescribeStep.hint.commencement.contributorpublisher</hint>
+              <required></required>
+            </field>
+
+          <field>
+            <dc-schema>dc</dc-schema>
+            <dc-element>contributor</dc-element>
+            <dc-qualifier>photographer</dc-qualifier>
+            <repeatable>true</repeatable>
+            <label>dc.contributor.photographer</label>
+            <input-type>onebox</input-type>
+            <hint></hint>
+            <required></required>
+          </field>
+
+
+            <field>
+              <dc-schema>dc</dc-schema>
+              <dc-element>contributor</dc-element>
+              <dc-qualifier>author</dc-qualifier>
+              <repeatable>true</repeatable>
+              <label>dc.contributor.author</label>
+              <input-type>onebox</input-type>
+              <hint></hint>
+              <required></required>
+            </field>
+
+            <field>
+              <dc-schema>dc</dc-schema>
+              <dc-element>subject</dc-element>
+              <dc-qualifier>lcsh</dc-qualifier>
+              <!-- An input-type of twobox MUST be marked as repeatable -->
+              <repeatable>true</repeatable>
+              <label>dc.subject.lcsh</label>
+              <input-type>twobox</input-type>
+              <hint>xmlui.Submission.submit.DescribeStep.hint.commencement.subjectlcsh</hint>
+              <required></required>
+              <vocabulary>srsc</vocabulary>
+            </field>
+
+            <field>
+              <dc-schema>dc</dc-schema>
+              <dc-element>description</dc-element>
+              <dc-qualifier></dc-qualifier>
+              <repeatable>true</repeatable>
+              <label>dc.description</label>
+              <input-type>textarea</input-type>
+              <hint></hint>
+              <required></required>
+            </field>
+
+            <field>
+              <dc-schema>dc</dc-schema>
+              <dc-element>description</dc-element>
+              <dc-qualifier>abstract</dc-qualifier>
+              <repeatable>true</repeatable>
+              <label>dc.description.abstract</label>
+              <input-type>textarea</input-type>
+              <hint></hint>
+              <required></required>
+            </field>
+
+
+          <field>
+            <dc-schema>dc</dc-schema>
+            <dc-element>date</dc-element>
+            <dc-qualifier>issued</dc-qualifier>
+            <repeatable>false</repeatable>
+            <label>dc.date.issued</label>
+            <input-type>onebox</input-type>
+            <hint>xmlui.Submission.submit.DescribeStep.hint.commencement.dateissued</hint>
+            <required>You must enter at least the year.</required>
+          </field>
+
+          <field>
+            <dc-schema>dc</dc-schema>
+            <dc-element>format</dc-element>
+            <dc-qualifier>medium</dc-qualifier>
+            <repeatable>true</repeatable>
+            <label>dc.format.medium</label>
+            <input-type>onebox</input-type>
+            <hint>xmlui.Submission.submit.DescribeStep.hint.commencement.formatmedium</hint>
+            <required></required>
+          </field>
+
+            <field>
+              <dc-schema>dc</dc-schema>
+              <dc-element>type</dc-element>
+              <dc-qualifier></dc-qualifier>
+              <repeatable></repeatable>
+              <label>dc.type</label>
+              <input-type value-pairs-name="simple_types">dropdown</input-type>
+              <hint></hint>
+              <required>You have to provide the type.</required>
+            </field>
+
+            <field>
+              <dc-schema>dc</dc-schema>
+              <dc-element>relation</dc-element>
+              <dc-qualifier>references</dc-qualifier>
+              <repeatable>true</repeatable>
+              <label>dc.relation.references</label>
+              <input-type>onebox</input-type>
+              <hint></hint>
+              <required></required>
+            </field>
+
+            <field>
+              <dc-schema>dc</dc-schema>
+              <dc-element>relation</dc-element>
+              <dc-qualifier>isReferencedBy</dc-qualifier>
+              <repeatable>true</repeatable>
+              <label>dc.relation.isReferencedBy</label>
+              <input-type>onebox</input-type>
+              <hint></hint>
+              <required></required>
+            </field>
+
+            <field>
+                  <dc-schema>dc</dc-schema>
+                  <dc-element>language</dc-element>
+                  <dc-qualifier>iso</dc-qualifier>
+                  <repeatable>false</repeatable>
+                  <label>dc.language.iso</label>
+                  <input-type>onebox</input-type>
+                  <hint>xmlui.Submission.submit.DescribeStep.hint.commencement.languageiso</hint>
+                  <required></required>
+            </field>
+
+            <field>
+              <dc-schema>dc</dc-schema>
+              <dc-element>rights</dc-element>
+              <dc-qualifier></dc-qualifier>
+              <repeatable>false</repeatable>
+              <label>dc.rights</label>
+              <input-type>onebox</input-type>
+              <hint>xmlui.Submission.submit.DescribeStep.hint.commencement.rights</hint>
+              <required>You have to provide the rights.</required>
+            </field>
+
+            <field>
+              <dc-schema>dc</dc-schema>
+              <dc-element>rights</dc-element>
+              <dc-qualifier>uri</dc-qualifier>
+              <repeatable>false</repeatable>
+              <label>dc.rights.uri</label>
+              <input-type>textarea</input-type>
+              <hint>xmlui.Submission.submit.DescribeStep.hint.commencement.rightsuri</hint>
+              <required></required>
+            </field>
+
+            <field>
+              <dc-schema>dc</dc-schema>
+              <dc-element>source</dc-element>
+              <dc-qualifier>collection</dc-qualifier>
+              <repeatable>false</repeatable>
+              <label>dc.source.collection</label>
+              <input-type>onebox</input-type>
+              <hint></hint>
+              <required></required>
+            </field>
+
+            <field>
+              <dc-schema>dc</dc-schema>
+              <dc-element>publisher</dc-element>
+              <dc-qualifier></dc-qualifier>
+              <repeatable>false</repeatable>
+              <label>dc.publisher</label>
+              <input-type>onebox</input-type>
+              <hint>xmlui.Submission.submit.DescribeStep.hint.commencement.publisher</hint>
+              <required></required>
+            </field>
+
+            <field>
+              <dc-schema>dc</dc-schema>
+              <dc-element>identifier</dc-element>
+              <dc-qualifier>digital</dc-qualifier>
+              <repeatable>false</repeatable>
+              <label>dc.identifier.digital</label>
+              <input-type>onebox</input-type>
+              <hint>xmlui.Submission.submit.DescribeStep.hint.commencement.identifierdigital</hint>
+              <required>You have to provide WRC file number.</required>
+            </field>
+
+            <field>
+              <dc-schema>dc</dc-schema>
+              <dc-element>date</dc-element>
+              <dc-qualifier>digital</dc-qualifier>
+              <repeatable>false</repeatable>
+              <label>dc.date.digital</label>
+              <input-type>onebox</input-type>
+              <hint>xmlui.Submission.submit.DescribeStep.hint.commencement.datedigital</hint>
+              <required>You have to provide date of creation of digital image.</required>
+            </field>
+
+           <field>
+              <dc-schema>dc</dc-schema>
+              <dc-element>digitization</dc-element>
+              <dc-qualifier>specifications</dc-qualifier>
+              <repeatable>false</repeatable>
+              <label>dc.digitization.specifications</label>
+              <input-type>textarea</input-type>
+              <hint>xmlui.Submission.submit.DescribeStep.hint.commencement.digitizationspecifications</hint>
+              <required>You have to provide digitization specifications.</required>
+            </field>
+
+        </page>
+
+      </form>
+
+
+     <form name="computerscienceform">
+        <page number="1">
+          <field>
+            <dc-schema>dc</dc-schema>
+            <dc-element>contributor</dc-element>
+            <dc-qualifier>author</dc-qualifier>
+            <repeatable>true</repeatable>
+            <label>Authors</label>
+            <input-type>name</input-type>
+            <hint>xmlui.Submission.submit.DescribeStep.hint.traditional.author</hint>
+            <required></required>
+          </field>
+
+          <field>
+            <dc-schema>dc</dc-schema>
+            <dc-element>title</dc-element>
+            <dc-qualifier></dc-qualifier>
+            <repeatable>false</repeatable>
+            <label>Title</label>
+            <input-type>onebox</input-type>
+            <hint>xmlui.Submission.submit.DescribeStep.hint.traditional.title</hint>
+            <required>You must enter a main title for this item.</required>
+          </field>
+
+          <field>
+            <dc-schema>dc</dc-schema>
+            <dc-element>title</dc-element>
+            <dc-qualifier>alternative</dc-qualifier>
+            <repeatable>true</repeatable>
+            <label>Other Titles</label>
+            <input-type>onebox</input-type>
+            <hint>xmlui.Submission.submit.DescribeStep.hint.traditional.alternativetitle</hint>
+            <required></required>
+          </field>
+
+          <field>
+            <dc-schema>dc</dc-schema>
+            <dc-element>date</dc-element>
+            <dc-qualifier>issued</dc-qualifier>
+            <repeatable>false</repeatable>
+            <label>Date of Issue</label>
+            <input-type>date</input-type>
+            <hint>xmlui.Submission.submit.DescribeStep.hint.eceform.dateissued</hint>
+            <required>You must enter at least the year.</required>
+          </field>
+
+<!--            <field>
+         <dc-schema>dc</dc-schema>
+         <dc-element>embargo</dc-element>
+         <dc-qualifier>terms</dc-qualifier>
+         <repeatable>false</repeatable>
+         <label>Embargo Terms</label>
+         <input-type value-pairs-name="embargo_terms">dropdown</input-type>
+         <hint>If required, select embargo terms.</hint>
+         <required></required>
+         </field>
+-->
+
+          <field>
+            <dc-schema>dc</dc-schema>
+            <dc-element>publisher</dc-element>
+            <dc-qualifier></dc-qualifier>
+            <repeatable>false</repeatable>
+            <label>Publisher</label>
+            <input-type>onebox</input-type>
+            <hint>xmlui.Submission.submit.DescribeStep.hint.traditional.publisher</hint>
+            <required></required>
+          </field>
+
+   <!--       <field>
+            <dc-schema>dc</dc-schema>
+            <dc-element>relation</dc-element>
+            <dc-qualifier>ispartofseries</dc-qualifier>
+            <repeatable>true</repeatable>
+            <label>Series/Report No.</label>
+            <input-type>series</input-type>
+            <hint>Enter the series and number assigned to this item by your community.</hint>
+            <required></required>
+          </field>
+   -->
+   <!--       <field>
+            <dc-schema>dc</dc-schema>
+            <dc-element>identifier</dc-element>
+            <dc-qualifier></dc-qualifier>  -->
+            <!-- An input-type of qualdrop_value MUST be marked as repeatable -->
+   <!--         <repeatable>true</repeatable>
+            <label>Identifiers</label>
+            <input-type value-pairs-name="common_identifiers">qualdrop_value</input-type>
+            <hint>If the item has any identification numbers or codes associated with
+   it, please enter the types and the actual numbers or codes below.</hint>
+            <required></required>
+          </field>-->
+
+          <field>
+            <dc-schema>dc</dc-schema>
+            <dc-element>type</dc-element>
+            <dc-qualifier></dc-qualifier>
+            <repeatable></repeatable>
+            <label>Type</label>
+            <input-type value-pairs-name="ece_types">dropdown</input-type>
+            <hint>xmlui.Submission.submit.DescribeStep.hint.eceform.type</hint>
+            <required>You have to provide the type.</required>
+          </field>
+
+   <!--       <field>
+            <dc-schema>dc</dc-schema>
+            <dc-element>language</dc-element>
+            <dc-qualifier>iso</dc-qualifier>
+            <repeatable>false</repeatable>
+            <label>Language</label>
+            <input-type value-pairs-name="common_iso_languages">dropdown</input-type>
+            <hint>Select the language of the main content of the item.  If the language does not appear in the list below, please select 'Other'.  If the content does not really have a language (for example, if it is a dataset or an image) please select 'N/A'.</hint>
+            <required></required>
+          </field>
+
+          <field>
+            <dc-schema>dc</dc-schema>
+            <dc-element>contributor</dc-element>
+            <dc-qualifier>editor</dc-qualifier>
+            <repeatable>true</repeatable>
+            <label>Editors</label>
+            <input-type>name</input-type>
+            <hint>Enter the names of the editor(s) of this item below.</hint>
+            <required></required>
+          </field>
+   -->
+        </page>
+
+        <page number="2">
+          <field>
+            <dc-schema>dc</dc-schema>
+            <dc-element>subject</dc-element>
+            <dc-qualifier></dc-qualifier>
+            <!-- An input-type of twobox MUST be marked as repeatable -->
+            <repeatable>true</repeatable>
+            <label>Subject Keywords</label>
+            <input-type>twobox</input-type>
+            <hint>xmlui.Submission.submit.DescribeStep.hint.eceform.subject</hint>
+            <required></required>
+            <vocabulary>srsc</vocabulary>
+          </field>
+
+          <field>
+            <dc-schema>dc</dc-schema>
+            <dc-element>description</dc-element>
+            <dc-qualifier>abstract</dc-qualifier>
+            <repeatable>false</repeatable>
+            <label>Abstract</label>
+            <input-type>textarea</input-type>
+            <hint>xmlui.Submission.submit.DescribeStep.hint.traditional.abstract</hint>
+            <required></required>
+          </field>
+
+          <field>
+            <dc-schema>dc</dc-schema>
+            <dc-element>description</dc-element>
+            <dc-qualifier>sponsorship</dc-qualifier>
+            <repeatable>true</repeatable>
+            <label>Sponsors</label>
+            <input-type>twobox</input-type>
+            <hint>xmlui.Submission.submit.DescribeStep.hint.eceform.sponsor </hint>
+            <required></required>
+          </field>
+
+            <field>
+              <dc-schema>dc</dc-schema>
+              <dc-element>citation</dc-element>
+              <dc-qualifier>volumeNumber</dc-qualifier>
+              <repeatable>false</repeatable>
+              <label>Volume Number</label>
+              <input-type>onebox</input-type>
+              <hint></hint>
+              <required></required>
+            </field>
+
+
+            <field>
+              <dc-schema>dc</dc-schema>
+              <dc-element>citation</dc-element>
+              <dc-qualifier>issueNumber</dc-qualifier>
+              <repeatable>false</repeatable>
+              <label>Number</label>
+              <input-type>onebox</input-type>
+              <hint></hint>
+              <required></required>
+            </field>
+
+
+            <field>
+              <dc-schema>dc</dc-schema>
+              <dc-element>citation</dc-element>
+              <dc-qualifier>pageNumber</dc-qualifier>
+              <repeatable>false</repeatable>
+              <label>Page Number(s)</label>
+              <input-type>onebox</input-type>
+              <hint></hint>
+              <required></required>
+            </field>
+
+           <field>
+              <dc-schema>dc</dc-schema>
+              <dc-element>relation</dc-element>
+              <dc-qualifier>project</dc-qualifier>
+              <repeatable>false</repeatable>
+              <label>Project</label>
+              <input-type>onebox</input-type>
+              <hint></hint>
+              <required></required>
+            </field>
+
+            <field>
+              <dc-schema>dc</dc-schema>
+              <dc-element>relation</dc-element>
+              <dc-qualifier>software</dc-qualifier>
+              <repeatable>false</repeatable>
+              <label>Software</label>
+              <input-type>onebox</input-type>
+              <hint></hint>
+              <required></required>
+            </field>
+
+            <field>
+              <dc-schema>dc</dc-schema>
+              <dc-element>description</dc-element>
+              <dc-qualifier>center</dc-qualifier>
+              <repeatable>false</repeatable>
+              <label>Center</label>
+              <input-type>onebox</input-type>
+              <hint></hint>
+              <required></required>
+            </field>
+
+            <field>
+              <dc-schema>dc</dc-schema>
+              <dc-element>subject</dc-element>
+              <dc-qualifier>other</dc-qualifier>
+              <repeatable>true</repeatable>
+              <label>Other Subjects</label>
+              <input-type>twobox</input-type>
+              <hint></hint>
+              <required></required>
+            </field>
+
+         <field>
+           <dc-schema>dc</dc-schema>
+           <dc-element>citation</dc-element>
+           <dc-qualifier>conferenceName</dc-qualifier>
+           <repeatable>false</repeatable>
+           <label>Conference Name</label>
+           <type-bind>Conference Paper</type-bind>
+           <input-type>onebox</input-type>
+           <hint>xmlui.Submission.submit.DescribeStep.hint.eceform.conferencename</hint>
+           <required></required>
+         </field>
+
+         <field>
+           <dc-schema>dc</dc-schema>
+           <dc-element>citation</dc-element>
+           <dc-qualifier>conferenceDate</dc-qualifier>
+           <repeatable>false</repeatable>
+           <label>Conference Date</label>
+             <type-bind>Conference Paper</type-bind>
+           <input-type>onebox</input-type>
+           <hint>xmlui.Submission.submit.DescribeStep.hint.eceform.conferencedate</hint>
+           <required></required>
+         </field>
+
+
+         <field>
+           <dc-schema>dc</dc-schema>
+           <dc-element>citation</dc-element>
+           <dc-qualifier>location</dc-qualifier>
+           <repeatable>false</repeatable>
+             <type-bind>Conference Paper</type-bind>
+           <label>Conference Location</label>
+           <input-type>onebox</input-type>
+           <hint></hint>
+           <required></required>
+         </field>
+
+          <field>
+            <dc-schema>dc</dc-schema>
+            <dc-element>citation</dc-element>
+            <dc-qualifier>journalTitle</dc-qualifier>
+            <repeatable>false</repeatable>
+            <label>Journal Title</label>
+              <type-bind>Journal Paper</type-bind>
+            <input-type>onebox</input-type>
+            <hint>xmlui.Submission.submit.DescribeStep.hint.eceform.journaltitle</hint>
+            <required></required>
+          </field>
+
+
+        </page>
+      </form>
+
+
+<form name="statisticform">
      <page number="1">
        <field>
          <dc-schema>dc</dc-schema>
@@ -45,7 +1675,7 @@
          <repeatable>true</repeatable>
          <label>Authors</label>
          <input-type>name</input-type>
-         <hint>Enter the names of the authors of this item.</hint>
+         <hint>xmlui.Submission.submit.DescribeStep.hint.traditional.author</hint>
          <required></required>
        </field>
 
@@ -56,7 +1686,7 @@
          <repeatable>false</repeatable>
          <label>Title</label>
          <input-type>onebox</input-type>
-         <hint>Enter the main title of the item.</hint>
+         <hint>xmlui.Submission.submit.DescribeStep.hint.traditional.title</hint>
          <required>You must enter a main title for this item.</required>
        </field>
 
@@ -67,155 +1697,1082 @@
          <repeatable>true</repeatable>
          <label>Other Titles</label>
          <input-type>onebox</input-type>
-         <hint>If the item has any alternative titles, please enter them here.</hint>
+         <hint>xmlui.Submission.submit.DescribeStep.hint.traditional.alternativetitle</hint>
+         <required></required>
+       </field>
+
+     <field>
+        <dc-schema>dc</dc-schema>
+        <dc-element>date</dc-element>
+        <dc-qualifier>issued</dc-qualifier>
+        <repeatable>false</repeatable>
+        <label>Date of Issue</label>
+        <input-type>date</input-type>
+        <hint>xmlui.Submission.submit.DescribeStep.hint.traditional.dateissued</hint>
+        <required>You must enter at least the year.</required>
+      </field>
+
+    <field>
+        <dc-schema>dc</dc-schema>
+        <dc-element>publisher</dc-element>
+        <dc-qualifier></dc-qualifier>
+        <repeatable>false</repeatable>
+        <label>Publisher</label>
+        <input-type>onebox</input-type>
+        <hint>xmlui.Submission.submit.DescribeStep.hint.traditional.publisher</hint>
+        <required></required>
+      </field>
+
+    <field>
+                <dc-schema>dc</dc-schema>
+        <dc-element>identifier</dc-element>
+        <dc-qualifier></dc-qualifier>
+        <!-- An input-type of qualdrop_value MUST be marked as repeatable -->
+        <repeatable>true</repeatable>
+        <label>Identifiers</label>
+        <input-type value-pairs-name="common_identifiers">qualdrop_value</input-type>
+        <hint>xmlui.Submission.submit.DescribeStep.hint.traditional.identifier</hint>
+        <required></required>
+      </field>
+
+      <field>
+                <dc-schema>dc</dc-schema>
+        <dc-element>type</dc-element>
+        <dc-qualifier></dc-qualifier>
+        <repeatable></repeatable>
+        <label>Type</label>
+        <input-type value-pairs-name="statistic_types">dropdown</input-type>
+          <hint></hint>
+          <required>You have to provide the type.</required>
+        </field>
+
+      <field>
+                  <dc-schema>dc</dc-schema>
+          <dc-element>contributor</dc-element>
+          <dc-qualifier>editor</dc-qualifier>
+          <repeatable>true</repeatable>
+          <label>Editors</label>
+          <input-type>name</input-type>
+          <hint>Enter the names of the editor(s) of this item below.</hint>
+          <required></required>
+        </field>
+     </page>
+
+      <page number="2">
+        <field>
+                  <dc-schema>dc</dc-schema>
+          <dc-element>subject</dc-element>
+          <dc-qualifier></dc-qualifier>
+          <!-- An input-type of twobox MUST be marked as repeatable -->
+          <repeatable>true</repeatable>
+          <label>Subject Keywords</label>
+          <input-type>twobox</input-type>
+          <hint>xmlui.Submission.submit.DescribeStep.hint.traditional.subject</hint>
+          <required></required>
+          <vocabulary>srsc</vocabulary>
+        </field>
+
+        <field>
+                  <dc-schema>dc</dc-schema>
+          <dc-element>description</dc-element>
+          <dc-qualifier>abstract</dc-qualifier>
+          <repeatable>false</repeatable>
+          <label>Abstract</label>
+          <input-type>textarea</input-type>
+          <hint>xmlui.Submission.submit.DescribeStep.hint.traditional.abstract</hint>
+          <required></required>
+        </field>
+     <field>
+               <dc-schema>dc</dc-schema>
+       <dc-element>description</dc-element>
+       <dc-qualifier>sponsorship</dc-qualifier>
+       <repeatable>true</repeatable>
+       <label>Sponsors</label>
+       <input-type>twobox</input-type>
+       <hint>xmlui.Submission.submit.DescribeStep.hint.traditional.sponsors </hint>
+       <required></required>
+     </field>
+
+     <field>
+               <dc-schema>dc</dc-schema>
+       <dc-element>citation</dc-element>
+       <dc-qualifier>journalTitle</dc-qualifier>
+       <repeatable>false</repeatable>
+       <label>Journal Title</label>
+       <input-type>onebox</input-type>
+       <hint></hint>
+       <required></required>
+     </field>
+
+
+       <field>
+         <dc-schema>dc</dc-schema>
+         <dc-element>citation</dc-element>
+           <dc-qualifier>volumeNumber</dc-qualifier>
+            <repeatable>false</repeatable>
+            <label>Volume Number</label>
+            <input-type>onebox</input-type>
+            <hint></hint>
+            <required></required>
+          </field>
+
+
+          <field>
+            <dc-schema>dc</dc-schema>
+            <dc-element>citation</dc-element>
+            <dc-qualifier>issueNumber</dc-qualifier>
+            <repeatable>false</repeatable>
+            <label>Number</label>
+            <input-type>onebox</input-type>
+            <hint></hint>
+            <required></required>
+          </field>
+
+
+          <field>
+            <dc-schema>dc</dc-schema>
+            <dc-element>citation</dc-element>
+            <dc-qualifier>pageNumber</dc-qualifier>
+            <repeatable>false</repeatable>
+            <label>Page Number(s)</label>
+
+          <input-type>onebox</input-type>
+           <hint></hint>
+           <required></required>
+         </field>
+
+
+         <field>
+           <dc-schema>dc</dc-schema>
+           <dc-element>citation</dc-element>
+           <dc-qualifier>conferenceName</dc-qualifier>
+           <repeatable>false</repeatable>
+           <label>Conference Name</label>
+           <input-type>onebox</input-type>
+           <hint></hint>
+           <required></required>
+         </field>
+
+     </page>
+</form>
+
+
+   <form name="eceform">
+     <page number="1">
+       <field>
+		 <dc-schema>dc</dc-schema>
+         <dc-element>contributor</dc-element>
+         <dc-qualifier>author</dc-qualifier>
+         <repeatable>true</repeatable>
+         <label>Authors</label>
+         <input-type>name</input-type>
+         <hint>xmlui.Submission.submit.DescribeStep.hint.traditional.author</hint>
          <required></required>
        </field>
 
        <field>
-         <dc-schema>dc</dc-schema>
+		 <dc-schema>dc</dc-schema>
+         <dc-element>title</dc-element>
+         <dc-qualifier></dc-qualifier>
+         <repeatable>false</repeatable>
+         <label>Title</label>
+         <input-type>onebox</input-type>
+         <hint>xmlui.Submission.submit.DescribeStep.hint.traditional.title</hint>
+         <required>You must enter a main title for this item.</required>
+       </field>
+
+       <field>
+		 <dc-schema>dc</dc-schema>
+         <dc-element>title</dc-element>
+         <dc-qualifier>alternative</dc-qualifier>
+         <repeatable>true</repeatable>
+         <label>Other Titles</label>
+         <input-type>onebox</input-type>
+         <hint>xmlui.Submission.submit.DescribeStep.hint.traditional.alternativetitle</hint>
+         <required></required>
+       </field>
+
+       <field>
+		 <dc-schema>dc</dc-schema>
          <dc-element>date</dc-element>
          <dc-qualifier>issued</dc-qualifier>
          <repeatable>false</repeatable>
          <label>Date of Issue</label>
          <input-type>date</input-type>
-         <hint>Please give the date of previous publication or public distribution.
-                        You can leave out the day and/or month if they aren't
-                        applicable.</hint>
+         <hint>xmlui.Submission.submit.DescribeStep.hint.eceform.dateissued</hint>
          <required>You must enter at least the year.</required>
        </field>
 
        <field>
-         <dc-schema>dc</dc-schema>
+		 <dc-schema>dc</dc-schema>
          <dc-element>publisher</dc-element>
          <dc-qualifier></dc-qualifier>
          <repeatable>false</repeatable>
          <label>Publisher</label>
          <input-type>onebox</input-type>
-         <hint>Enter the name of the publisher of the previously issued instance of this item.</hint>
+         <hint>xmlui.Submission.submit.DescribeStep.hint.traditional.publisher</hint>
          <required></required>
        </field>
 
+
        <field>
-         <dc-schema>dc</dc-schema>
+		 <dc-schema>dc</dc-schema>
          <dc-element>identifier</dc-element>
-         <dc-qualifier>citation</dc-qualifier>
-         <repeatable>false</repeatable>
-         <label>Citation</label>
-         <input-type>onebox</input-type>
-         <hint>Enter the standard citation for the previously issued instance of this item.</hint>
-         <required></required>
-       </field>
-
-       <field>
-         <dc-schema>dc</dc-schema>
-         <dc-element>relation</dc-element>
-         <dc-qualifier>ispartofseries</dc-qualifier>
-         <repeatable>true</repeatable>
-         <label>Series/Report No.</label>
-         <input-type>series</input-type>
-         <hint>Enter the series and number assigned to this item by your community.</hint>
-         <required></required>
-       </field>
-
-       <field>
-         <dc-schema>dc</dc-schema>
-         <dc-element>identifier</dc-element>
-         <dc-qualifier></dc-qualifier>
+         <dc-qualifier></dc-qualifier>  
          <!-- An input-type of qualdrop_value MUST be marked as repeatable -->
          <repeatable>true</repeatable>
          <label>Identifiers</label>
          <input-type value-pairs-name="common_identifiers">qualdrop_value</input-type>
          <hint>If the item has any identification numbers or codes associated with
-it, please enter the types and the actual numbers or codes.</hint>
+it, please enter the types and the actual numbers or codes below.</hint>
          <required></required>
        </field>
 
        <field>
-         <dc-schema>dc</dc-schema>
+		 <dc-schema>dc</dc-schema>
          <dc-element>type</dc-element>
          <dc-qualifier></dc-qualifier>
-         <repeatable>true</repeatable>
+         <repeatable></repeatable>
          <label>Type</label>
-         <input-type value-pairs-name="common_types">dropdown</input-type>
-         <hint>Select the type(s) of content of the item. To select more than one value in the list, you may have to hold down the "CTRL" or "Shift" key.</hint>
-         <required></required>
+         <input-type value-pairs-name="ece_types">dropdown</input-type>
+         <hint>xmlui.Submission.submit.DescribeStep.hint.eceform.type</hint>
+         <required>You have to provide the type.</required>
        </field>
 
-       <field>
-         <dc-schema>dc</dc-schema>
-         <dc-element>language</dc-element>
-         <dc-qualifier>iso</dc-qualifier>
-         <repeatable>false</repeatable>
-         <label>Language</label>
-         <input-type value-pairs-name="common_iso_languages">dropdown</input-type>
-         <hint>Select the language of the main content of the item.  If the language does not appear in the list, please select 'Other'.  If the content does not really have a language (for example, if it is a dataset or an image) please select 'N/A'.</hint>
-         <required></required>
-       </field>
      </page>
 
      <page number="2">
-       <field>
-         <dc-schema>dc</dc-schema>
-         <dc-element>subject</dc-element>
-         <dc-qualifier></dc-qualifier>
-         <!-- An input-type of twobox MUST be marked as repeatable -->
-         <repeatable>true</repeatable>
-         <label>Subject Keywords</label>
-         <input-type>twobox</input-type>
-         <hint>Enter appropriate subject keywords or phrases. </hint>
-         <required></required>
-         <vocabulary>srsc</vocabulary>
-       </field>
+          <field>
+            <dc-schema>dc</dc-schema>
+            <dc-element>subject</dc-element>
+            <dc-qualifier></dc-qualifier>
+            <!-- An input-type of twobox MUST be marked as repeatable -->
+            <repeatable>true</repeatable>
+            <label>Subject Keywords</label>
+            <input-type>twobox</input-type>
+            <hint>xmlui.Submission.submit.DescribeStep.hint.eceform.subject</hint>
+            <required></required>
+            <vocabulary>srsc</vocabulary>
+          </field>
 
-       <field>
-         <dc-schema>dc</dc-schema>
-         <dc-element>description</dc-element>
-         <dc-qualifier>abstract</dc-qualifier>
-         <repeatable>false</repeatable>
-         <label>Abstract</label>
-         <input-type>textarea</input-type>
-         <hint>Enter the abstract of the item. </hint>
-         <required></required>
-       </field>
+          <field>
+            <dc-schema>dc</dc-schema>
+            <dc-element>description</dc-element>
+            <dc-qualifier>abstract</dc-qualifier>
+            <repeatable>false</repeatable>
+            <label>Abstract</label>
+            <input-type>textarea</input-type>
+            <hint>xmlui.Submission.submit.DescribeStep.hint.traditional.abstract</hint>
+            <required></required>
+          </field>
 
-       <field>
-         <dc-schema>dc</dc-schema>
-         <dc-element>description</dc-element>
-         <dc-qualifier>sponsorship</dc-qualifier>
-         <repeatable>false</repeatable>
-         <label>Sponsors</label>
-         <input-type>textarea</input-type>
-         <hint>Enter the names of any sponsors and/or funding codes in the box. </hint>
-         <required></required>
-       </field>
+          <field>
+            <dc-schema>dc</dc-schema>
+            <dc-element>description</dc-element>
+            <dc-qualifier>sponsorship</dc-qualifier>
+            <repeatable>true</repeatable>
+            <label>Sponsors</label>
+            <input-type>twobox</input-type>
+            <hint>xmlui.Submission.submit.DescribeStep.hint.eceform.sponsor </hint>
+            <required></required>
+          </field>
 
-       <field>
-         <dc-schema>dc</dc-schema>
-         <dc-element>description</dc-element>
-         <dc-qualifier></dc-qualifier>
-         <repeatable>false</repeatable>
-         <label>Description</label>
-         <input-type>textarea</input-type>
-         <hint>Enter any other description or comments in this box. </hint>
-         <required></required>
-       </field>
-     </page>
+            <field>
+              <dc-schema>dc</dc-schema>
+              <dc-element>citation</dc-element>
+              <dc-qualifier>volumeNumber</dc-qualifier>
+              <repeatable>false</repeatable>
+              <label>Volume Number</label>
+              <input-type>onebox</input-type>
+              <hint></hint>
+              <required></required>
+            </field>
+
+
+            <field>
+              <dc-schema>dc</dc-schema>
+              <dc-element>citation</dc-element>
+              <dc-qualifier>issueNumber</dc-qualifier>
+              <repeatable>false</repeatable>
+              <label>Number</label>
+              <input-type>onebox</input-type>
+              <hint></hint>
+              <required></required>
+            </field>
+
+
+            <field>
+              <dc-schema>dc</dc-schema>
+              <dc-element>citation</dc-element>
+              <dc-qualifier>pageNumber</dc-qualifier>
+              <repeatable>false</repeatable>
+              <label>Page Number(s)</label>
+              <input-type>onebox</input-type>
+              <hint></hint>
+              <required></required>
+            </field>
+
+           <field>
+              <dc-schema>dc</dc-schema>
+              <dc-element>relation</dc-element>
+              <dc-qualifier>project</dc-qualifier>
+              <repeatable>false</repeatable>
+              <label>Project</label>
+              <input-type>onebox</input-type>
+              <hint></hint>
+              <required></required>
+            </field>
+
+            <field>
+              <dc-schema>dc</dc-schema>
+              <dc-element>relation</dc-element>
+              <dc-qualifier>software</dc-qualifier>
+              <repeatable>false</repeatable>
+              <label>Software</label>
+              <input-type>onebox</input-type>
+              <hint></hint>
+              <required></required>
+            </field>
+
+            <field>
+              <dc-schema>dc</dc-schema>
+              <dc-element>description</dc-element>
+              <dc-qualifier>center</dc-qualifier>
+              <repeatable>false</repeatable>
+              <label>Center</label>
+              <input-type>onebox</input-type>
+              <hint></hint>
+              <required></required>
+            </field>
+
+            <field>
+              <dc-schema>dc</dc-schema>
+              <dc-element>subject</dc-element>
+              <dc-qualifier>other</dc-qualifier>
+              <repeatable>true</repeatable>
+              <label>Other Subjects</label>
+              <input-type>twobox</input-type>
+              <hint></hint>
+              <required></required>
+            </field>
+
+         <field>
+           <dc-schema>dc</dc-schema>
+           <dc-element>citation</dc-element>
+           <dc-qualifier>conferenceName</dc-qualifier>
+           <repeatable>false</repeatable>
+           <label>Conference Name</label>
+           <type-bind>Conference Paper</type-bind>
+           <input-type>onebox</input-type>
+           <hint>xmlui.Submission.submit.DescribeStep.hint.eceform.conferencename</hint>
+           <required></required>
+         </field>
+
+         <field>
+           <dc-schema>dc</dc-schema>
+           <dc-element>citation</dc-element>
+           <dc-qualifier>conferenceDate</dc-qualifier>
+           <repeatable>false</repeatable>
+           <label>Conference Date</label>
+             <type-bind>Conference Paper</type-bind>
+           <input-type>onebox</input-type>
+           <hint>xmlui.Submission.submit.DescribeStep.hint.eceform.conferencedate</hint>
+           <required></required>
+         </field>
+
+
+         <field>
+           <dc-schema>dc</dc-schema>
+           <dc-element>citation</dc-element>
+           <dc-qualifier>location</dc-qualifier>
+           <repeatable>false</repeatable>
+             <type-bind>Conference Paper</type-bind>
+           <label>Conference Location</label>
+           <input-type>onebox</input-type>
+           <hint></hint>
+           <required></required>
+         </field>
+
+          <field>
+            <dc-schema>dc</dc-schema>
+            <dc-element>citation</dc-element>
+            <dc-qualifier>journalTitle</dc-qualifier>
+            <repeatable>false</repeatable>
+            <label>Journal Title</label>
+              <type-bind>Journal Paper</type-bind>
+            <input-type>onebox</input-type>
+            <hint>xmlui.Submission.submit.DescribeStep.hint.eceform.journaltitle</hint>
+            <required></required>
+          </field>
+    </page>
    </form>
 
-   <form name="one">
-     <page number="1">
-       <field>
-         <dc-schema>dc</dc-schema>
-         <dc-element>contributor</dc-element>
-         <dc-qualifier>author</dc-qualifier>
-         <repeatable>true</repeatable>
-         <label>One: Authors</label>
-         <input-type>name</input-type>
-         <hint>Enter the names of the authors of this item.</hint>
-         <required></required>
-       </field>
-      </page>
-    </form>
+     <form name="physicsform">
+       <page number="1">
+         <field>
+           <dc-schema>dc</dc-schema>
+           <dc-element>contributor</dc-element>
+           <dc-qualifier>author</dc-qualifier>
+           <repeatable>true</repeatable>
+           <label>Authors</label>
+           <input-type>name</input-type>
+           <hint>xmlui.Submission.submit.DescribeStep.hint.traditional.author</hint>
+           <required></required>
+         </field>
+
+         <field>
+           <dc-schema>dc</dc-schema>
+           <dc-element>title</dc-element>
+           <dc-qualifier></dc-qualifier>
+           <repeatable>false</repeatable>
+           <label>Title</label>
+           <input-type>onebox</input-type>
+           <hint>xmlui.Submission.submit.DescribeStep.hint.traditional.title</hint>
+           <required>You must enter a main title for this item.</required>
+         </field>
+
+         <field>
+           <dc-schema>dc</dc-schema>
+           <dc-element>title</dc-element>
+           <dc-qualifier>alternative</dc-qualifier>
+           <repeatable>true</repeatable>
+           <label>Other Titles</label>
+           <input-type>onebox</input-type>
+           <hint>xmlui.Submission.submit.DescribeStep.hint.traditional.alternativetitle</hint>
+           <required></required>
+         </field>
+         <field>
+           <dc-schema>dc</dc-schema>
+           <dc-element>date</dc-element>
+           <dc-qualifier>issued</dc-qualifier>
+           <repeatable>false</repeatable>
+           <label>Date of Issue</label>
+           <input-type>date</input-type>
+           <hint>xmlui.Submission.submit.DescribeStep.hint.eceform.dateissued</hint>
+           <required>You must enter at least the year.</required>
+         </field>
+
+         <field>
+           <dc-schema>dc</dc-schema>
+           <dc-element>publisher</dc-element>
+           <dc-qualifier></dc-qualifier>
+           <repeatable>false</repeatable>
+           <label>Publisher</label>
+           <input-type>onebox</input-type>
+           <hint>xmlui.Submission.submit.DescribeStep.hint.traditional.publisher</hint>
+           <required></required>
+         </field>
+
+         <field>
+           <dc-schema>dc</dc-schema>
+           <dc-element>identifier</dc-element>
+           <dc-qualifier></dc-qualifier>
+           <!-- An input-type of qualdrop_value MUST be marked as repeatable -->
+           <repeatable>true</repeatable>
+           <label>Identifiers</label>
+           <input-type value-pairs-name="common_identifiers">qualdrop_value</input-type>
+           <hint>If the item has any identification numbers or codes associated with
+  it, please enter the types and the actual numbers or codes below.</hint>
+           <required></required>
+         </field>
+
+         <field>
+           <dc-schema>dc</dc-schema>
+           <dc-element>type</dc-element>
+           <dc-qualifier></dc-qualifier>
+           <repeatable></repeatable>
+           <label>Type</label>
+           <input-type value-pairs-name="ece_types">dropdown</input-type>
+           <hint>xmlui.Submission.submit.DescribeStep.hint.eceform.type</hint>
+           <required>You have to provide the type.</required>
+         </field>
+
+       </page>
+
+        <page number="2">
+          <field>
+            <dc-schema>dc</dc-schema>
+            <dc-element>subject</dc-element>
+            <dc-qualifier></dc-qualifier>
+            <!-- An input-type of twobox MUST be marked as repeatable -->
+            <repeatable>true</repeatable>
+            <label>Subject Keywords</label>
+            <input-type>twobox</input-type>
+            <hint>xmlui.Submission.submit.DescribeStep.hint.eceform.subject</hint>
+            <required></required>
+            <vocabulary>srsc</vocabulary>
+          </field>
+
+          <field>
+            <dc-schema>dc</dc-schema>
+            <dc-element>description</dc-element>
+            <dc-qualifier>abstract</dc-qualifier>
+            <repeatable>false</repeatable>
+            <label>Abstract</label>
+            <input-type>textarea</input-type>
+            <hint>xmlui.Submission.submit.DescribeStep.hint.traditional.abstract</hint>
+            <required></required>
+          </field>
+
+          <field>
+            <dc-schema>dc</dc-schema>
+            <dc-element>description</dc-element>
+            <dc-qualifier>sponsorship</dc-qualifier>
+            <repeatable>true</repeatable>
+            <label>Sponsors</label>
+            <input-type>twobox</input-type>
+            <hint>xmlui.Submission.submit.DescribeStep.hint.eceform.sponsor </hint>
+            <required></required>
+          </field>
+
+            <field>
+              <dc-schema>dc</dc-schema>
+              <dc-element>citation</dc-element>
+              <dc-qualifier>volumeNumber</dc-qualifier>
+              <repeatable>false</repeatable>
+              <label>Volume Number</label>
+              <input-type>onebox</input-type>
+              <hint></hint>
+              <required></required>
+            </field>
+
+
+            <field>
+              <dc-schema>dc</dc-schema>
+              <dc-element>citation</dc-element>
+              <dc-qualifier>issueNumber</dc-qualifier>
+              <repeatable>false</repeatable>
+              <label>Number</label>
+              <input-type>onebox</input-type>
+              <hint></hint>
+              <required></required>
+            </field>
+
+
+            <field>
+              <dc-schema>dc</dc-schema>
+              <dc-element>citation</dc-element>
+              <dc-qualifier>pageNumber</dc-qualifier>
+              <repeatable>false</repeatable>
+              <label>Page Number(s)</label>
+              <input-type>onebox</input-type>
+              <hint></hint>
+              <required></required>
+            </field>
+
+           <field>
+              <dc-schema>dc</dc-schema>
+              <dc-element>relation</dc-element>
+              <dc-qualifier>project</dc-qualifier>
+              <repeatable>false</repeatable>
+              <label>Project</label>
+              <input-type>onebox</input-type>
+              <hint></hint>
+              <required></required>
+            </field>
+
+            <field>
+              <dc-schema>dc</dc-schema>
+              <dc-element>relation</dc-element>
+              <dc-qualifier>software</dc-qualifier>
+              <repeatable>false</repeatable>
+              <label>Software</label>
+              <input-type>onebox</input-type>
+              <hint></hint>
+              <required></required>
+            </field>
+
+            <field>
+              <dc-schema>dc</dc-schema>
+              <dc-element>description</dc-element>
+              <dc-qualifier>center</dc-qualifier>
+              <repeatable>false</repeatable>
+              <label>Center</label>
+              <input-type>onebox</input-type>
+              <hint></hint>
+              <required></required>
+            </field>
+
+            <field>
+              <dc-schema>dc</dc-schema>
+              <dc-element>subject</dc-element>
+              <dc-qualifier>other</dc-qualifier>
+              <repeatable>true</repeatable>
+              <label>Other Subjects</label>
+              <input-type>twobox</input-type>
+              <hint></hint>
+              <required></required>
+            </field>
+
+         <field>
+           <dc-schema>dc</dc-schema>
+           <dc-element>citation</dc-element>
+           <dc-qualifier>conferenceName</dc-qualifier>
+           <repeatable>false</repeatable>
+           <label>Conference Name</label>
+           <type-bind>Conference Paper</type-bind>
+           <input-type>onebox</input-type>
+           <hint>xmlui.Submission.submit.DescribeStep.hint.eceform.conferencename</hint>
+           <required></required>
+         </field>
+
+         <field>
+           <dc-schema>dc</dc-schema>
+           <dc-element>citation</dc-element>
+           <dc-qualifier>conferenceDate</dc-qualifier>
+           <repeatable>false</repeatable>
+           <label>Conference Date</label>
+             <type-bind>Conference Paper</type-bind>
+           <input-type>onebox</input-type>
+           <hint>xmlui.Submission.submit.DescribeStep.hint.eceform.conferencedate</hint>
+           <required></required>
+         </field>
+
+        <field>
+           <dc-schema>dc</dc-schema>
+           <dc-element>citation</dc-element>
+           <dc-qualifier>location</dc-qualifier>
+           <repeatable>false</repeatable>
+             <type-bind>Conference Paper</type-bind>
+           <label>Conference Location</label>
+           <input-type>onebox</input-type>
+           <hint></hint>
+           <required></required>
+         </field>
+
+          <field>
+            <dc-schema>dc</dc-schema>
+            <dc-element>citation</dc-element>
+            <dc-qualifier>journalTitle</dc-qualifier>
+            <repeatable>false</repeatable>
+            <label>Journal Title</label>
+              <type-bind>Journal Paper</type-bind>
+            <input-type>onebox</input-type>
+            <hint>xmlui.Submission.submit.DescribeStep.hint.eceform.journaltitle</hint>
+            <required></required>
+          </field>
+
+
+        </page>
+     </form> <!--end of physics form with embargo enabled-->
+
+
+
+     <form name="subwayform">
+       <page number="1">
+         <field>
+           <dc-schema>dc</dc-schema>
+           <dc-element>contributor</dc-element>
+           <dc-qualifier>creator</dc-qualifier>
+           <repeatable>true</repeatable>
+           <label>Creators</label>
+           <input-type>name</input-type>
+           <hint>xmlui.Submission.submit.DescribeStep.hint.traditional.author</hint>
+           <required></required>
+         </field>
+
+         <field>
+           <dc-schema>dc</dc-schema>
+           <dc-element>title</dc-element>
+           <dc-qualifier></dc-qualifier>
+           <repeatable>false</repeatable>
+           <label>Title</label>
+           <input-type>onebox</input-type>
+           <hint>xmlui.Submission.submit.DescribeStep.hint.traditional.title</hint>
+           <required>You must enter a main title for this item.</required>
+         </field>
+
+         <field>
+           <dc-schema>dc</dc-schema>
+           <dc-element>title</dc-element>
+           <dc-qualifier>subtitle</dc-qualifier>
+           <repeatable>true</repeatable>
+           <label>Other Titles</label>
+           <input-type>onebox</input-type>
+           <hint>xmlui.Submission.submit.DescribeStep.hint.traditional.alternativetitle</hint>
+           <required></required>
+         </field>
+
+         <field>
+           <dc-schema>dc</dc-schema>
+           <dc-element>date</dc-element>
+           <dc-qualifier>issued</dc-qualifier>
+           <repeatable>false</repeatable>
+           <label>Date of Issue</label>
+           <input-type>date</input-type>
+           <hint>xmlui.Submission.submit.DescribeStep.hint.traditional.dateissued</hint>
+           <required>You must enter at least the year.</required>
+         </field>
+
+           <field>
+             <dc-schema>dc</dc-schema>
+             <dc-element>date</dc-element>
+             <dc-qualifier>created</dc-qualifier>
+             <repeatable>false</repeatable>
+             <label>Date of Creation</label>
+             <input-type>date</input-type>
+             <hint>xmlui.Submission.submit.DescribeStep.hint.subwayform.datecreated</hint>
+             <required>You must enter at least the year.</required>
+           </field>
+
+         <field>
+           <dc-schema>dc</dc-schema>
+           <dc-element>publisher</dc-element>
+           <dc-qualifier></dc-qualifier>
+           <repeatable>false</repeatable>
+           <label>Publisher</label>
+           <input-type>onebox</input-type>
+           <hint>xmlui.Submission.submit.DescribeStep.hint.traditional.publisher</hint>
+           <required></required>
+         </field>
+         <field>
+           <dc-schema>dc</dc-schema>
+           <dc-element>relation</dc-element>
+           <dc-qualifier></dc-qualifier>
+           <repeatable>true</repeatable>
+           <label>Web Site</label>
+           <input-type>onebox</input-type>
+           <hint>xmlui.Submission.submit.DescribeStep.hint.subwayform.relation</hint>
+           <required></required>
+         </field>
+
+         <field>
+           <dc-schema>dc</dc-schema>
+           <dc-element>identifier</dc-element>
+           <dc-qualifier>digital</dc-qualifier>
+           <!-- An input-type of qualdrop_value MUST be marked as repeatable -->
+           <repeatable>false</repeatable>
+           <label>Digital Identifier</label>
+           <input-type>onebox</input-type>
+           <hint>xmlui.Submission.submit.DescribeStep.hint.subwayform.digidentifier</hint>
+           <required></required>
+         </field>
+
+         <field>
+           <dc-schema>dc</dc-schema>
+           <dc-element>type</dc-element>
+           <dc-qualifier></dc-qualifier>
+           <repeatable></repeatable>
+           <label>Type</label>
+           <input-type value-pairs-name="subway_types">dropdown</input-type>
+           <hint>xmlui.Submission.submit.DescribeStep.hint.traditional.types</hint>
+           <required></required>
+         </field>
+
+         <field>
+           <dc-schema>dc</dc-schema>
+           <dc-element>language</dc-element>
+           <dc-qualifier>iso</dc-qualifier>
+           <repeatable>false</repeatable>
+           <label>Language</label>
+           <input-type value-pairs-name="common_iso_languages">dropdown</input-type>
+           <hint>xmlui.Submission.submit.DescribeStep.hint.traditional.language</hint>
+           <required></required>
+         </field>
+       </page>
+
+       <page number="2">
+         <field>
+           <dc-schema>dc</dc-schema>
+           <dc-element>subject</dc-element>
+           <dc-qualifier>prod_cat</dc-qualifier>
+           <!-- An input-type of twobox MUST be marked as repeatable -->
+           <repeatable>true</repeatable>
+           <label>Product Category</label>
+           <input-type>onebox</input-type>
+           <hint>xmlui.Submission.submit.DescribeStep.hint.subwayform.pcat</hint>
+           <required></required>
+           <vocabulary>srsc</vocabulary>
+         </field>
+           <field>
+             <dc-schema>dc</dc-schema>
+             <dc-element>subject</dc-element>
+             <dc-qualifier>prod_type</dc-qualifier>
+             <!-- An input-type of twobox MUST be marked as repeatable -->
+             <repeatable>true</repeatable>
+             <label>Product Type</label>
+             <input-type>onebox</input-type>
+             <hint>xmlui.Submission.submit.DescribeStep.hint.subwayform.ptype</hint>
+             <required></required>
+             <vocabulary>srsc</vocabulary>
+           </field>
+           <field>
+             <dc-schema>dc</dc-schema>
+             <dc-element>subject</dc-element>
+             <dc-qualifier>brand</dc-qualifier>
+             <!-- An input-type of twobox MUST be marked as repeatable -->
+             <repeatable>true</repeatable>
+             <label>Brand</label>
+             <input-type>onebox</input-type>
+             <hint>xmlui.Submission.submit.DescribeStep.hint.subwayform.brand</hint>
+             <required></required>
+             <vocabulary>srsc</vocabulary>
+           </field>
+           <field>
+             <dc-schema>dc</dc-schema>
+             <dc-element>subject</dc-element>
+             <dc-qualifier></dc-qualifier>
+             <!-- An input-type of twobox MUST be marked as repeatable -->
+             <repeatable>true</repeatable>
+             <label>Subject Keywords</label>
+             <input-type>twobox</input-type>
+             <hint>xmlui.Submission.submit.DescribeStep.hint.traditional.subject</hint>
+             <required></required>
+             <vocabulary>srsc</vocabulary>
+           </field>
+<!--
+         <field>
+           <dc-schema>dc</dc-schema>
+           <dc-element>description</dc-element>
+           <dc-qualifier>sponsorship</dc-qualifier>
+           <repeatable>false</repeatable>
+           <label>Sponsors</label>
+           <input-type>textarea</input-type>
+           <hint>xmlui.Submission.submit.DescribeStep.hint.traditional.sponsors</hint>
+           <required></required>
+         </field>
+-->
+           <field>
+             <dc-schema>dc</dc-schema>
+             <dc-element>source</dc-element>
+             <dc-qualifier>collection</dc-qualifier>
+             <repeatable>false</repeatable>
+             <label>Source Collection</label>
+             <input-type>onebox</input-type>
+             <hint>xmlui.Submission.submit.DescribeStep.hint.subwayform.source</hint>
+             <required></required>
+           </field>
+
+         <field>
+           <dc-schema>dc</dc-schema>
+           <dc-element>description</dc-element>
+           <dc-qualifier></dc-qualifier>
+           <repeatable>false</repeatable>
+           <label>Description</label>
+           <input-type>textarea</input-type>
+           <hint>xmlui.Submission.submit.DescribeStep.hint.traditional.description</hint>
+           <required></required>
+         </field>
+
+           <field>
+             <dc-schema>dc</dc-schema>
+             <dc-element>digitization</dc-element>
+             <dc-qualifier>specifications</dc-qualifier>
+             <repeatable>false</repeatable>
+             <label>Digitization Specifications</label>
+             <input-type>textarea</input-type>
+             <hint>xmlui.Submission.submit.DescribeStep.hint.subwayform.digspecification</hint>
+             <required></required>
+           </field>
+
+       </page>
+     </form>
+
+     <form name="one">
+       <page number="1">
+         <field>
+           <dc-schema>dc</dc-schema>
+           <dc-element>contributor</dc-element>
+           <dc-qualifier>author</dc-qualifier>
+           <repeatable>true</repeatable>
+           <label>One: Authors</label>
+                   <input-type>name</input-type>
+           <hint>Enter the names of the authors of this item below.</hint>
+           <required></required>
+         </field>
+        </page>
+      </form>
+
+
+     <form name="traditional">
+       <page number="1">
+         <field>
+           <dc-schema>dc</dc-schema>
+           <dc-element>contributor</dc-element>
+           <dc-qualifier>author</dc-qualifier>
+           <repeatable>true</repeatable>
+           <label>Authors</label>
+           <input-type>name</input-type>
+           <hint>xmlui.Submission.submit.DescribeStep.hint.traditional.author</hint>
+           <required></required>
+         </field>
+
+         <field>
+           <dc-schema>dc</dc-schema>
+           <dc-element>title</dc-element>
+           <dc-qualifier></dc-qualifier>
+           <repeatable>false</repeatable>
+           <label>Title</label>
+           <input-type>onebox</input-type>
+           <hint>xmlui.Submission.submit.DescribeStep.hint.traditional.title</hint>
+           <required>You must enter a main title for this item.</required>
+         </field>
+
+         <field>
+           <dc-schema>dc</dc-schema>
+           <dc-element>title</dc-element>
+           <dc-qualifier>alternative</dc-qualifier>
+           <repeatable>true</repeatable>
+           <label>Other Titles</label>
+           <input-type>onebox</input-type>
+           <hint>xmlui.Submission.submit.DescribeStep.hint.traditional.alternativetitle</hint>
+           <required></required>
+         </field>
+
+         <field>
+           <dc-schema>dc</dc-schema>
+           <dc-element>date</dc-element>
+           <dc-qualifier>issued</dc-qualifier>
+           <repeatable>false</repeatable>
+           <label>Date of Issue</label>
+           <input-type>date</input-type>
+           <hint>xmlui.Submission.submit.DescribeStep.hint.traditional.dateissued</hint>
+           <required>You must enter at least the year.</required>
+         </field>
+
+         <field>
+           <dc-schema>dc</dc-schema>
+           <dc-element>publisher</dc-element>
+           <dc-qualifier></dc-qualifier>
+           <repeatable>false</repeatable>
+           <label>Publisher</label>
+           <input-type>onebox</input-type>
+           <hint>xmlui.Submission.submit.DescribeStep.hint.traditional.publisher</hint>
+           <required></required>
+         </field>
+  <!--
+         <field>
+           <dc-schema>dc</dc-schema>
+           <dc-element>identifier</dc-element>
+           <dc-qualifier>citation</dc-qualifier>
+           <repeatable>false</repeatable>
+           <label>Citation</label>
+           <input-type>onebox</input-type>
+           <hint>Enter the standard citation for the previously issued instance of this item.</hint>
+           <required></required>
+         </field>
+  -->
+         <field>
+           <dc-schema>dc</dc-schema>
+           <dc-element>relation</dc-element>
+           <dc-qualifier>ispartofseries</dc-qualifier>
+           <repeatable>true</repeatable>
+           <label>Series/Report No.</label>
+           <input-type>series</input-type>
+           <hint>xmlui.Submission.submit.DescribeStep.hint.traditional.ispartofseries</hint>
+           <required></required>
+         </field>
+
+         <field>
+           <dc-schema>dc</dc-schema>
+           <dc-element>identifier</dc-element>
+           <dc-qualifier></dc-qualifier>
+           <!-- An input-type of qualdrop_value MUST be marked as repeatable -->
+           <repeatable>true</repeatable>
+           <label>Identifiers</label>
+           <input-type value-pairs-name="common_identifiers">qualdrop_value</input-type>
+           <hint>xmlui.Submission.submit.DescribeStep.hint.traditional.identifier</hint>
+           <required></required>
+         </field>
+
+         <field>
+           <dc-schema>dc</dc-schema>
+           <dc-element>type</dc-element>
+           <dc-qualifier></dc-qualifier>
+           <repeatable>true</repeatable>
+           <label>Type</label>
+           <input-type value-pairs-name="common_types">dropdown</input-type>
+           <hint>xmlui.Submission.submit.DescribeStep.hint.traditional.types</hint>
+           <required></required>
+         </field>
+
+         <field>
+           <dc-schema>dc</dc-schema>
+           <dc-element>language</dc-element>
+           <dc-qualifier>iso</dc-qualifier>
+           <repeatable>false</repeatable>
+           <label>Language</label>
+           <input-type value-pairs-name="common_iso_languages">dropdown</input-type>
+           <hint>xmlui.Submission.submit.DescribeStep.hint.traditional.language</hint>
+           <required></required>
+         </field>
+
+           <field>
+             <dc-schema>dc</dc-schema>
+             <dc-element>rights</dc-element>
+             <dc-qualifier></dc-qualifier>
+             <repeatable>false</repeatable>
+             <label>Rights</label>
+             <input-type>onebox</input-type>
+             <hint></hint>
+             <required></required>
+           </field>
+           <field>
+             <dc-schema>dc</dc-schema>
+             <dc-element>rights</dc-element>
+             <dc-qualifier>uri</dc-qualifier>
+             <repeatable>false</repeatable>
+             <label>Rights URI</label>
+             <input-type>onebox</input-type>
+             <hint></hint>
+             <required></required>
+           </field>
+
+
+
+       </page>
+
+       <page number="2">
+         <field>
+           <dc-schema>dc</dc-schema>
+           <dc-element>subject</dc-element>
+           <dc-qualifier></dc-qualifier>
+           <!-- An input-type of twobox MUST be marked as repeatable -->
+           <repeatable>true</repeatable>
+           <label>Subject Keywords</label>
+           <input-type>twobox</input-type>
+           <hint>xmlui.Submission.submit.DescribeStep.hint.traditional.subject</hint>
+           <required></required>
+           <vocabulary>srsc</vocabulary>
+         </field>
+
+         <field>
+           <dc-schema>dc</dc-schema>
+           <dc-element>description</dc-element>
+           <dc-qualifier>abstract</dc-qualifier>
+           <repeatable>false</repeatable>
+           <label>Abstract</label>
+           <input-type>textarea</input-type>
+           <hint>xmlui.Submission.submit.DescribeStep.hint.traditional.abstract</hint>
+           <required></required>
+         </field>
+
+         <field>
+           <dc-schema>dc</dc-schema>
+           <dc-element>description</dc-element>
+           <dc-qualifier>sponsorship</dc-qualifier>
+           <repeatable>false</repeatable>
+           <label>Sponsors</label>
+           <input-type>textarea</input-type>
+           <hint>xmlui.Submission.submit.DescribeStep.hint.traditional.sponsors</hint>
+           <required></required>
+         </field>
+
+         <field>
+           <dc-schema>dc</dc-schema>
+           <dc-element>description</dc-element>
+           <dc-qualifier></dc-qualifier>
+           <repeatable>false</repeatable>
+           <label>Description</label>
+           <input-type>textarea</input-type>
+           <hint>xmlui.Submission.submit.DescribeStep.hint.traditional.description</hint>
+           <required></required>
+         </field>
+       </page>
+     </form>
+
+
+
  </form-definitions>
 
 
@@ -255,12 +2812,53 @@ it, please enter the types and the actual numbers or codes.</hint>
        <stored-value>uri</stored-value>
      </pair>
      <pair>
+       <displayed-value>DOI</displayed-value>
+       <stored-value>doi</stored-value>
+     </pair>
+     <pair>
        <displayed-value>ISBN</displayed-value>
        <stored-value>isbn</stored-value>
      </pair>
    </value-pairs>
 
-   <value-pairs value-pairs-name="common_types" dc-term="type">
+     <value-pairs value-pairs-name="subway_types" dc-term="type">
+          <pair>
+            <displayed-value>Image</displayed-value>
+            <stored-value>Image</stored-value>
+          </pair>
+   </value-pairs>
+
+     <value-pairs value-pairs-name="simple_types" dc-term="type">
+           <pair>
+             <displayed-value>Image</displayed-value>
+             <stored-value>Image</stored-value>
+           </pair>
+         <pair>
+           <displayed-value>Text</displayed-value>
+           <stored-value>Text</stored-value>
+         </pair>
+    </value-pairs>
+
+     <value-pairs value-pairs-name="wrchistorical_types" dc-term="type">
+           <pair>
+             <displayed-value>Image</displayed-value>
+             <stored-value>Image</stored-value>
+           </pair>
+         <pair>
+           <displayed-value>Sound</displayed-value>
+           <stored-value>Sound</stored-value>
+         </pair>
+         <pair>
+           <displayed-value>Text</displayed-value>
+           <stored-value>Text</stored-value>
+         </pair>
+         <pair>
+           <displayed-value>Moving image</displayed-value>
+           <stored-value>Moving image</stored-value>
+         </pair>
+    </value-pairs>
+
+      <value-pairs value-pairs-name="common_types" dc-term="type">
      <pair>
        <displayed-value>Animation</displayed-value>
        <stored-value>Animation</stored-value>
@@ -282,8 +2880,8 @@ it, please enter the types and the actual numbers or codes.</hint>
        <stored-value>Dataset</stored-value>
      </pair>
      <pair>
-       <displayed-value>Learning Object</displayed-value>
-       <stored-value>Learning Object</stored-value>
+       <displayed-value>Learning object</displayed-value>
+       <stored-value>Learning object</stored-value>
      </pair>
      <pair>
        <displayed-value>Image</displayed-value>
@@ -298,8 +2896,8 @@ it, please enter the types and the actual numbers or codes.</hint>
        <stored-value>Map</stored-value>
      </pair>
      <pair>
-       <displayed-value>Musical Score</displayed-value>
-       <stored-value>Musical Score</stored-value>
+       <displayed-value>Musical score</displayed-value>
+       <stored-value>Musical score</stored-value>
      </pair>
      <pair>
        <displayed-value>Plan or blueprint</displayed-value>
@@ -330,8 +2928,8 @@ it, please enter the types and the actual numbers or codes.</hint>
        <stored-value>Software</stored-value>
      </pair>
      <pair>
-       <displayed-value>Technical Report</displayed-value>
-       <stored-value>Technical Report</stored-value>
+       <displayed-value>Technical report</displayed-value>
+       <stored-value>Technical report</stored-value>
      </pair>
      <pair>
        <displayed-value>Thesis</displayed-value>
@@ -342,12 +2940,8 @@ it, please enter the types and the actual numbers or codes.</hint>
        <stored-value>Video</stored-value>
      </pair>
      <pair>
-       <displayed-value>Working Paper</displayed-value>
-       <stored-value>Working Paper</stored-value>
-     </pair>
-     <pair>
-       <displayed-value>Other</displayed-value>
-       <stored-value>Other</stored-value>
+       <displayed-value>Working paper</displayed-value>
+       <stored-value>Working paper</stored-value>
      </pair>
    </value-pairs>
 
@@ -356,44 +2950,32 @@ it, please enter the types and the actual numbers or codes.</hint>
      -->
    <value-pairs value-pairs-name="common_iso_languages" dc-term="language_iso">
      <pair>
-       <displayed-value>N/A</displayed-value>
-       <stored-value></stored-value>
-     </pair>
-     <pair>
-       <displayed-value>English (United States)</displayed-value>
-       <stored-value>en_US</stored-value>
-      </pair>
-     <pair>
        <displayed-value>English</displayed-value>
-       <stored-value>en</stored-value>
+       <stored-value>eng</stored-value>
      </pair>
      <pair>
        <displayed-value>Spanish</displayed-value>
-       <stored-value>es</stored-value>
+       <stored-value>spa</stored-value>
      </pair>
      <pair>
        <displayed-value>German</displayed-value>
-       <stored-value>de</stored-value>
+       <stored-value>deu</stored-value>
      </pair>
      <pair>
        <displayed-value>French</displayed-value>
-       <stored-value>fr</stored-value>
+       <stored-value>fra</stored-value>
      </pair>
      <pair>
        <displayed-value>Italian</displayed-value>
-       <stored-value>it</stored-value>
+       <stored-value>ita</stored-value>
      </pair>
      <pair>
        <displayed-value>Japanese</displayed-value>
-       <stored-value>ja</stored-value>
+       <stored-value>jpn</stored-value>
      </pair>
      <pair>
        <displayed-value>Chinese</displayed-value>
-       <stored-value>zh</stored-value>
-     </pair>
-     <pair>
-       <displayed-value>Turkish</displayed-value>
-       <stored-value>tr</stored-value>
+       <stored-value>zho</stored-value>
      </pair>
      <pair>
        <displayed-value>(Other)</displayed-value>
@@ -401,6 +2983,221 @@ it, please enter the types and the actual numbers or codes.</hint>
      </pair>
    </value-pairs>
 
- </form-value-pairs>
+   <value-pairs value-pairs-name="ece_types" dc-term="type">
+     <pair>
+       <displayed-value>Book</displayed-value>
+       <stored-value>Book</stored-value>
+     </pair>
+     <pair>
+       <displayed-value>Book chapter</displayed-value>
+       <stored-value>Book chapter</stored-value>
+     </pair>
+       <pair>
+         <displayed-value>Conference paper</displayed-value>
+         <stored-value>Conference paper</stored-value>
+       </pair>
+     <pair>
+       <displayed-value>Elec 599 project report</displayed-value>
+       <stored-value>Elec 599 project report</stored-value>
+     </pair>
+     <pair>
+       <displayed-value>Internal document</displayed-value>
+       <stored-value>Internal document</stored-value>
+     </pair>
+     <pair>
+       <displayed-value>Invention report</displayed-value>
+       <stored-value>Invention report</stored-value>
+     </pair>
+     <pair>
+       <displayed-value>Journal paper</displayed-value>
+       <stored-value>Journal paper</stored-value>
+     </pair>
+     <pair>
+       <displayed-value>Masters thesis</displayed-value>
+       <stored-value>Masters thesis</stored-value>
+     </pair>
+     <pair>
+       <displayed-value>PhD thesis</displayed-value>
+       <stored-value>PhD thesis</stored-value>
+     </pair>
+     <pair>
+       <displayed-value>Presentation</displayed-value>
+       <stored-value>Presentation</stored-value>
+     </pair>
+     <pair>
+       <displayed-value>Report</displayed-value>
+       <stored-value>Report</stored-value>
+     </pair>
+     <pair>
+       <displayed-value>Tech report</displayed-value>
+       <stored-value>Tech report</stored-value>
+     </pair>
+     <pair>
+       <displayed-value>White paper</displayed-value>
+       <stored-value>White paper</stored-value>
+     </pair>
+   </value-pairs>
+
+     <value-pairs value-pairs-name="statistic_types" dc-term="type">
+       <pair>
+         <displayed-value>Preprint</displayed-value>
+         <stored-value>Preprint</stored-value>
+       </pair>
+       <pair>
+         <displayed-value>Book chapter</displayed-value>
+         <stored-value>Book chapter</stored-value>
+       </pair>
+         <pair>
+           <displayed-value>Article</displayed-value>
+           <stored-value>Article</stored-value>
+         </pair>
+       <pair>
+         <displayed-value>Presentation</displayed-value>
+         <stored-value>Presentation</stored-value>
+       </pair>
+     </value-pairs>
+
+    <value-pairs value-pairs-name="facultypub_identifiers" dc-term="identifier">
+         <pair>
+           <displayed-value>DOI</displayed-value>
+           <stored-value>doi</stored-value>
+         </pair>
+         <pair>
+           <displayed-value>ISBN</displayed-value>
+           <stored-value>isbn</stored-value>
+         </pair>
+       <pair>
+         <displayed-value>ISSN</displayed-value>
+         <stored-value>issn</stored-value>
+       </pair>
+       <pair>
+         <displayed-value>PMID</displayed-value>
+         <stored-value>pmid</stored-value>
+       </pair>
+       <pair>
+         <displayed-value>PMCID</displayed-value>
+         <stored-value>pmcid</stored-value>
+       </pair>
+       <pair>
+         <displayed-value>Other</displayed-value>
+         <stored-value>other</stored-value>
+       </pair>
+     </value-pairs>
+
+     <value-pairs value-pairs-name="facultypub_types" dc-term="type">
+       <pair>
+         <displayed-value>Journal article</displayed-value>
+         <stored-value>Journal article</stored-value>
+       </pair>
+         <pair>
+           <displayed-value>Dataset</displayed-value>
+           <stored-value>Dataset</stored-value>
+         </pair>
+       <pair>
+         <displayed-value>Book review</displayed-value>
+         <stored-value>Book review</stored-value>
+       </pair>
+         <pair>
+           <displayed-value>Book</displayed-value>
+           <stored-value>Book</stored-value>
+         </pair>
+         <pair>
+           <displayed-value>Book chapter</displayed-value>
+           <stored-value>Book chapter</stored-value>
+         </pair>
+         <pair>
+           <displayed-value>White paper</displayed-value>
+           <stored-value>White paper</stored-value>
+         </pair>
+           <pair>
+             <displayed-value>Conference paper</displayed-value>
+             <stored-value>Conference paper</stored-value>
+           </pair>
+           <pair>
+             <displayed-value>Magazine article</displayed-value>
+             <stored-value>Magazine article</stored-value>
+           </pair>
+       <pair>
+         <displayed-value>Newspaper article</displayed-value>
+         <stored-value>Newspaper article</stored-value>
+       </pair>
+         <pair>
+           <displayed-value>Report</displayed-value>
+           <stored-value>Report</stored-value>
+         </pair>
+         <pair>
+           <displayed-value>audio recordings</displayed-value>
+           <stored-value>audio recordings</stored-value>
+         </pair>
+         <pair>
+           <displayed-value>video recordings</displayed-value>
+           <stored-value>video recordings</stored-value>
+         </pair>
+         <pair>
+           <displayed-value>Presentation</displayed-value>
+           <stored-value>Presentation</stored-value>
+         </pair>
+         <pair>
+           <displayed-value>Computer program</displayed-value>
+           <stored-value>Computer program</stored-value>
+         </pair>
+
+     </value-pairs>
+
+     <value-pairs value-pairs-name="facultypub_typedcmi" dc-term="type.dcmi">
+         <pair>
+           <displayed-value>Text</displayed-value>
+           <stored-value>Text</stored-value>
+         </pair>
+         
+         <pair>
+           <displayed-value>Movingimage</displayed-value>
+           <stored-value>Movingimage</stored-value>
+         </pair>
+         <pair>
+           <displayed-value>Stillimage</displayed-value>
+           <stored-value>Stillimage</stored-value>
+         </pair>
+         <pair>
+           <displayed-value>Sound</displayed-value>
+           <stored-value>Sound</stored-value>
+         </pair>
+         <pair>
+           <displayed-value>Dataset</displayed-value>
+           <stored-value>Dataset</stored-value>
+         </pair>
+
+     </value-pairs>
+   <value-pairs value-pairs-name="embargo_terms" dc-term="embargo.terms">
+     <pair>
+       <displayed-value>N/A</displayed-value>
+       <stored-value></stored-value>
+     </pair>
+     <pair>
+       <displayed-value>6 months</displayed-value>
+       <stored-value>6 months</stored-value>
+     </pair>
+     <pair>
+       <displayed-value>1 year</displayed-value>
+       <stored-value>1 year</stored-value>
+     </pair>
+     </value-pairs>
+
+
+     <value-pairs value-pairs-name="patents_subject" dc-term="dc.subject">
+     <pair>
+       <displayed-value>Utility patent</displayed-value>
+       <stored-value>Utility patent</stored-value>
+     </pair>
+     <pair>
+       <displayed-value>Design patent</displayed-value>
+       <stored-value>Design patent</stored-value>
+     </pair>
+     <pair>
+       <displayed-value>Plant patent</displayed-value>
+       <stored-value>Plant patent</stored-value>
+     </pair>
+     </value-pairs>
+    </form-value-pairs>
 
 </input-forms>
