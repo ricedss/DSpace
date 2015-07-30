@@ -1,0 +1,921 @@
+/*
+
+rice.css
+
+Base style made for the the Rice University Scholarship Archive.
+
+*/
+
+/* ---- Basic elements and page structure ---- */
+
+body {
+/*
+  font-family: "Lucida Grande", Verdana, Arial, sans-serif;
+  font-size: 11px;
+  color: #7b7b7b;
+  background: #ddd;
+  margin: 0;
+  border-top: 7px solid #50b0ec;
+*/
+  margin: 0;
+  padding: 0;
+  border-width: 0;
+  font-size: .8em;
+}
+
+body, input{
+  font-family: verdana, tahoma, arial, helvetica, sans-serif;
+}
+
+table{
+  font-size: 1em;
+}
+
+a{
+  color: #255975;
+}
+
+a:visited{
+  color: #647;
+}
+
+#ds-options a:visited, #ds-trail a:visited{
+  color: #255975;
+}
+
+a:hover{
+  text-decoration: underline;
+}
+
+img{
+  border-width: 0;
+}
+
+#rice-main{
+  position: relative;
+  background-image: url(images/sidebar-background.png);
+  background-position: 0 0;
+  background-repeat: repeat-y;
+}
+
+#ds-options{
+  float: left;
+  width: 210px;
+  padding: 1.5em 15px;
+}
+  
+#ds-body{
+  padding: 25px;
+  margin-left: 240px;
+}
+
+ul{
+  margin: .5em 0 1em;
+  padding: 0 0 0 1.5em;
+  list-style-type: none;
+  list-style-image: url(images/bullet.png);
+}
+
+li{
+  padding: 0;
+  margin: 0 0 .25em;
+}
+
+.ds-text-field, .ds-select-field, .ds-textarea-field, .ds-password-field{
+  border: 1px #333 solid;
+  border-right-color: #ccc;
+  border-bottom-color: #ccc;
+}
+
+.ds-text-field, .ds-password-field{
+  padding: .2em;
+}
+
+.bold{
+  font-weight: bold;
+}
+
+.italic, .italics{
+  font-style: italic;
+}
+
+.Z3988{
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  position: absolute;
+}
+
+.untitled{
+  color: #666;
+  font-style: italic;
+}
+
+
+/* ---- Header, breadcrumbs and footer ---- */
+
+#ds-header{
+  border-top: 3px solid #255975;
+  background-color: #478099;
+  background-image: url(images/header-bg.png);
+  background-repeat: repeat-x;
+  border-bottom: 10px solid #255975;
+}
+
+#ds-header-logo{
+  display: block;
+  background-image: url(images/dsa-logo.png);
+  background-position: left top;
+  background-repeat: no-repeat;
+  height: 91px;
+  text-decoration: none;
+}
+
+.ds-quick-links{
+  margin: 0;
+  list-style-type: none;
+}
+
+#ds-header .ds-quick-links{
+  position: absolute;
+  right: 0;
+  top: 3px;
+  padding: .85em 25px 0 0;
+  background-image: url(images/quick-links-bg.png);
+  background-repeat: no-repeat;
+  background-position: right top;
+  height: 91px;
+  min-width: 484px;
+  text-align: right;
+}
+
+#ds-header .ds-deposit-your-work{
+  position: absolute;
+  right: 0;
+  top: 25px;
+  padding: .85em 10px 0 0;
+  height: 40px;
+  min-width: 484px;
+  text-align: right;
+}
+
+.ds-quick-links li{
+  display: inline;
+  border-left: 1px solid #D5DBDE;
+  padding-left: .4em;
+}
+
+.ds-quick-links li.first-link{
+  border-left-width: 0;
+}
+
+#ds-header .ds-quick-links a{
+  color: #f6f6ff;
+}
+
+#ds-footer .ds-quick-links li{
+  border-color: black;
+}
+
+#ds-trail{
+  padding: 0 0 .9em;
+  font-size: .9em;
+  margin: -.35em 0 0;
+}
+
+.ds-trail-link{
+  display: inline;
+  padding-right: 20px;
+  background-image: url(images/trail.png);
+  background-repeat: no-repeat;
+  background-position: right .2em;
+}
+
+#ds-footer{
+  font-size: .85em;
+  text-align: center;
+  border-top: 1px solid #BBCFD7;
+  border-top: 1px solid #c4c4c4;
+  padding: 1.5em 1em;
+  background-color: transparent !important;
+}
+
+#contact_us{
+  text-transform: capitalize;
+}
+
+.clear-right{
+  clear: right;
+}
+.clear{
+  clear: both;
+}
+
+
+/* ---- Left-hand navigation ("options"), excluding headers (below) ---- */
+
+#nav-search, #context-search .ds-text-field{
+  color: #999;
+}
+
+#nav-search{
+  width: 150px;
+}
+
+#ds-search-option .advanced-search{
+  margin-top: .5em;
+}
+
+#ds-options h2, #ds-options h3, #ds-options h4{
+  font-family: arial, helvetica, sans-serif;
+  color: #496A7C;
+}
+
+#ds-options h2{
+  font-size: 1.4em;
+  color: #255975;
+}
+
+.ds-option-set-head{
+  margin-top: 1.5em;
+  padding-top: 1em;
+  border-top: 1px solid #BBCFD7;
+}
+
+#user-activities{
+  font-size: .85em;
+}
+
+#user-activities h3, #user-activities h4{
+  font-size: 1.4em;
+}
+
+#ds-options ul{
+  padding-left: 1em;
+}
+
+
+/* ---- Browse/Search results ---- */
+
+.ds-artifact-list{
+  display: block;
+  margin: 0;
+  padding: 0;
+  clear: right;
+}
+
+.ds-artifact-list .ds-artifact-item{
+  padding: .75em 1em;
+  display: block;
+  margin: -1px 0 0;
+  border: 1px solid #ccc;
+  list-style-type: none;
+}
+
+.artifact-description{
+  margin-right: 88px;
+  height: 1%;
+}
+
+.artifact-title{
+  font-size: 1.1em;
+  font-weight: bold;
+  padding-bottom: .25em;
+}
+
+
+.artifact-preview{
+  float: right;
+  margin-left: 1em;
+  width: 82px;
+  text-align: center;
+  overflow: hidden;
+}
+
+.artifact-preview img{
+  border: 1px solid #255975;
+  max-width: 80px;
+  max-height: 80px;
+  width: expression(this.width > 78 ? "80px" : "auto"); /* 78 due to freezing problem due to race condition */
+  height: expression(this.height > 78 ? "80px" : "auto");
+}
+
+/*
+li.odd, tr.odd{
+  background-color: #ededed;
+}
+
+li.even, tr.even{
+  background-color: white;
+}
+*/
+
+.ds-table-header-row{
+  background-color: #eee;
+}
+
+.ds-table, .ds-includeSet-table{
+  border-collapse: collapse;
+  width: 100%;
+}
+
+.ds-table th, .ds-table td, .ds-includeSet-table th, .ds-includeSet-table td{
+  padding: .5em;
+  border: 1px solid #ddd;
+  vertical-align: top;
+}
+
+.sort-options{
+  text-align: center;
+}
+
+
+/* ---- Browse/Search pagination and other search options ---- */
+
+#browse-restore {
+	color: black;
+	background: #ddd;
+	border: 1px solid #aaa;
+	text-decoration: none;
+	padding: .3em;
+	margin: 0 0 1em 0;
+	display: inline-block;
+	clear: right;
+}
+
+.pagination, .pagination-masked{
+  margin: 1.5em 0 .5em;
+}
+
+.pagination-navigation{
+  float: right;
+  margin: 0 0 .5em 2em;
+}
+
+.bottom{
+  margin: .75em 0 3em;
+}
+
+.pagination-separator{
+  color: #999;
+}
+
+.pagination-links, .pagination-links li{
+  display: inline;
+  margin: 0;
+  padding: 0;
+  list-style-type: none;
+}
+
+.pagination-links li{
+  padding-left: .6em;
+  padding-right: .3em;
+  border-left: 1px solid #555;
+}
+
+.current-page-link a{
+  color: black;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.alphabet, .alphabet li{
+  margin: 0;
+  padding: 0;
+  list-style-type: none;
+}
+
+.alphabet li{
+  display: inline;
+  padding-right: .3em;
+}
+
+.alphabet{
+  display: block;
+}
+
+.navigation{
+  text-align: center;
+  margin: 1em 0 2em;
+}
+
+.navigation input, .navigation select, .ds-table input, .ds-table select{
+  margin: 0 .25em;
+}
+
+.search fieldset{
+  padding: 0;
+  border-width: 0;
+}
+
+.search .ds-form-list{
+  margin: 0 0 .5em;
+}
+
+.search .ds-form-list ol, .search .ds-form-list li{
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+
+.search .ds-form-content{
+  display: inline;
+}
+
+#aspect_artifactbrowser_SimpleSearch_list_search-query, #search-controls{
+  border: 1px solid #ddd;
+  border-bottom-width: 0;
+  background-color: #F1F6ED;
+  padding: .5em 1em 0;
+  margin: 1em 0 -.25em;
+}
+
+#search-controls{
+  padding: 0 1em .5em;
+  margin: 0;
+  border-width: 0 1px 1px;
+}
+
+#search-controls table{
+  width: auto;
+}
+#search-controls td{
+  padding: .75em 1em 0 0;
+  border-width: 0;
+}
+
+.button-list{
+  margin-top: .75em;
+}
+
+
+/* ---- "Recent Submission" samples ---- */
+
+#recent-submissions{
+  float: right;
+  width: 250px;
+  background-color: white;
+  padding-left: 25px;
+  padding-bottom: 1em;
+}
+
+
+.recent-submission{
+  float: right;
+  width: 250px;
+  background-color: white;
+  padding-left: 25px;
+  padding-bottom: 1em;
+}
+
+/*
+
+.recent-submission{
+  font-size: .85em;
+  margin: .5em 0;
+  padding: 1em 0;
+  border: 1px dotted #69a03c;
+  border-width: 1px 0;
+}
+*/
+.recent-submission .ds-artifact-list{
+  border-width: 0;
+}
+
+.recent-submission .ds-artifact-item{
+  padding: 0 0 1em;
+  border-width: 0;
+}
+.recent-submission .artifact-title{
+  font-weight: normal;
+  font-size: 1em;
+  padding-bottom: 0;
+}
+.recent-submission .artifact-preview{
+  width: 42px;
+  overflow: hidden;
+  margin: 0;
+  padding: 0;
+}
+.recent-submission .artifact-preview img{
+  max-width: 40px;
+  max-height: 40px;
+  width: expression(this.width > 38 ? "40px" : "auto"); /* 38 due to freezing problem due to race condition */
+  height: expression(this.height > 38 ? "40px" : "auto");
+}
+
+.recent-submission .artifact-description{
+  margin-left: 0;
+}
+
+#see-all{
+  float: right;
+  margin-top: .2em;
+  margin-left: 1em;
+}
+
+#recent-submissions .more{
+  font-weight: bold;
+}
+
+#recent-submissions h2, #context-browse-search h2{
+  font-family: arial, helvetica, sans-serif;
+  font-weight: normal;
+  font-size: 1.7em;
+  color: #61983B;
+  margin-top: 0;
+}
+
+
+/* ---- Main content area (header and below) ---- */
+
+h1.primary-header{
+  font-family: arial, helvetica, sans-serif;
+  background-color: #77AF3D;
+  color: white;
+  border: 1px solid #5f9137;
+  margin-bottom: .75em;
+  font-size: 2em;
+  padding: .45em .6em;
+  font-weight: normal;
+}
+
+.number-of-items{
+  font-size: .5em;
+  letter-spacing: 0;
+  vertical-align: .1em;
+  padding-left: .5em;
+  color: #DAE9CA
+}
+
+.has-recent #content-body{
+  margin-right: 275px;
+}
+
+#context-browse{
+  margin: .3em 0;
+}
+
+#context-browse-search{
+  border-bottom: 1px solid #ddd;
+  padding-bottom: 1em;
+}
+
+a.selected{
+  font-weight: bold;
+  text-decoration: none;
+  color: black;
+}
+
+a.selected:hover{
+  text-decoration: underline;
+}
+
+#context-search{
+  margin: .9em 0 .5em;
+}
+
+#content-body .ds-button-field{
+  background-color: #77af3d;
+  border: 1px outset #77af3d;
+  color: white;
+  padding: .15em;
+}
+
+.advanced-search{
+  font-size: .85em;
+}
+
+#subcommunity-and-collection-list{
+  padding: 0 0 1em;
+  border-bottom: 1px solid #ddd;
+  border-width: 1px 0;
+}
+
+#subcommunity-and-collection-list ul{
+  margin-bottom: 0;
+}
+
+#subcommunity-and-collection-list h2, h2.ds-div-head, .files-in-item h3{
+  font-family: arial, helvetica, sans-serif;
+  color: #61983b;
+  font-size: 1.7em;
+  margin-top: .5em;
+}
+
+#subcommunity-and-collection-list h3, .pagination-info, #metadata-table h3, #related-links h3, .ds-list-head, #rights-and-usage h3{
+  font-family: arial, helvetica, sans-serif;
+  color: #61983b;
+  font-size: 1.4em;
+}
+
+.item-count{
+  color: #777;
+  font-size: .85em;
+}
+
+.zero-items a{
+  color: #777;
+  text-decoration: none;
+}
+.zero-items a:hover{
+  text-decoration: underline;
+}
+
+.ds-list-head{
+  margin: 1em 0 .5em;
+}
+
+#aspect_artifactbrowser_CommunityViewer_div_community-view ul{ /* maybe need better hooks */
+  padding-left: 1.5em;
+}
+
+#aspect_artifactbrowser_CommunityViewer_div_community-view .ds-artifact-item{
+  background-color: transparent;
+  border-width: 0;
+  padding: 0 0 .5em;
+  margin-left: 0;
+  display: list-item;
+  list-style-type: disc;
+}
+
+#aspect_artifactbrowser_CommunityBrowser_div_comunity-browser ul{ /* "Communities in the archive" list */
+   padding-left: 1em;
+}
+#aspect_artifactbrowser_CommunityBrowser_div_comunity-browser li ul{ 
+   padding-left: 2.5em;
+}
+#aspect_artifactbrowser_CommunityBrowser_div_comunity-browser li{
+   margin-bottom: .5em;
+}
+#aspect_artifactbrowser_CommunityBrowser_div_comunity-browser li li{
+   margin-bottom: 0;
+}
+
+
+/*  ---- Content entered by community or colleciton administrator ---- */
+
+h1, h2, h3, h4, h5, h6{
+  margin: 0 0 .25em;
+  letter-spacing: -1px;
+  font-weight: bold;
+}
+
+h1{font-size: 2em;}
+h2{font-size: 1.8em;}
+h3{font-size: 1.6em;}
+h4{font-size: 1.4em;}
+h5{font-size: 1.2em;}
+h6{font-size: 1em;}
+
+.intro-text{
+  margin-top: 0;
+}
+
+.logo{
+  float: right;
+  margin: 0 0 1em 2em;
+  max-width: 220px;
+  max-height: 220px;
+  width: expression(this.width > 218 ? "220px" : "auto"); /* 218 due to freezing problem due to race condition */
+  height: expression(this.height > 218 ? "220px" : "auto");
+}
+
+.full-book a{
+  font-weight: bold;
+  font-size: 1.1em;
+}
+
+.mark-up{
+  font-size: .85em;
+}
+
+
+/* ---- Item page ----- */
+
+.files-in-item{
+  margin: 1em 0;
+}
+
+.files-in-item h3, #metadata-table h3, #related-links h3{
+  margin: 1em 0 .5em;
+}
+
+.file-list{
+  width: auto;
+}
+
+#metadata-table table{
+  font-size: .9em;
+}
+
+.file-list, #metadata-table table{
+  border: 1px solid #ccc;
+  border-bottom-width: 0;
+}
+
+.file-list td, .file-list th, #metadata-table td, #metadata-table th{
+  border-right: 1px solid #ccc;
+}
+
+.ds-table-header-row th, #metadata-table th{
+  background-color: #f1f6ed;
+}
+
+th{
+  text-align: left;
+}
+
+.file-list th{
+  background-color: #dae9ca;
+  border-color: #bbb;
+}
+
+.image-link img{
+  border: 1px solid #255975;
+}
+
+.item-view-toggle-top{
+  margin: 0 0 0 2em;
+  float: right;
+}
+
+tr .hiddenfield{
+  border-bottom: 1px solid #ccc;
+}
+
+.hiddenfield{
+  cursor: pointer;
+  display: inline;
+}
+
+.metadata-seperator{
+  height: 1px;
+  border-width: 0;
+  background-color: #ddd;
+}
+
+
+/* ---- Submission and other admin pages ---- */
+
+.ds-progress-list, .ds-progress-list li{
+  list-style-type: none;
+  display: block;
+  margin: 1em 0 1.5em;
+  padding: 0;
+}
+
+.ds-progress-list li{
+  margin: 0;
+  display: inline;
+}
+
+.ds-progress-list input{
+  background-color: white;
+  color: #255975;
+  padding: 0;
+  border-width: 0;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.ds-progress-list .current input{
+  font-weight: bold;
+  color: black;
+  text-decoration: none;
+}
+
+legend, .ds-form-label, .ds-gloss-list-label{
+  font-weight: bold;
+}
+
+legend{
+  color: #61983B;
+  background-color: white;
+  padding: 0 .5em;
+}
+
+fieldset.ds-checkbox-field, fieldset.ds-radio-field{
+  border: none;
+  margin: 0;
+  padding: 0;
+}
+
+fieldset{
+  margin: 1em 0;
+  border: 1px solid #ccc;
+  padding: .5em .75em .75em;
+}
+
+fieldset.ds-checkbox-field legend, fieldset.ds-radio-field legend{
+  display: none;
+}
+
+label{
+  display: block;
+  margin: 0 0 .5em;
+}
+
+.ds-form-label{
+  float: left;
+  clear: left;
+  margin: .5em .5em .5em 0;
+  width: 150px;
+}
+
+label.ds-composite-component{
+  float: left;
+  margin: 0 .5em 0 0;
+}
+
+.ds-form-content{
+  margin: .5em .5em .5em 0;
+  width: 600px;
+  float: left;
+  clear: right;
+}
+
+.field-help, .composite-help{
+  color: #666;
+  display: block;
+  clear: both;
+  margin: .25em 0 0;
+  font-size: .85em;
+}
+
+fieldset ol{
+  padding-left: 2em;
+}
+
+span.error{
+  color: #c00;
+  display: block;
+  margin: .25em 0 0;
+  font-weight: bold;
+}
+
+input.error, textarea.error, select.error{
+  background-color: #fff3f3;
+  border-color: #f00;
+}
+
+.ds-form-content .spacer{
+  display: none;
+}
+
+.ds-form-list ol li{
+  list-style-type: none;
+  margin-left: -1.5em;
+}
+
+li.ds-form-item{
+  float: left;
+  clear: both;
+}
+
+.license-text{
+  margin: 1.5em 3em;
+}
+
+.fade{
+  color: #666;
+}
+
+.notice, #ds-system-wide-alert{
+  background-color: #ffe666;
+  padding: .6em 1em;
+  margin: 0 0 2em;
+  border: 1px solid #d1bc53;
+  font-size: .85em;
+}
+.notice h1, .notice h2, .notice h3{
+  font-size: 1em;
+}
+.notice p, #ds-system-wide-alert p{
+  margin: .5em 0;
+}
+
+.ds-gloss-list{
+  margin: 0 0 1em;
+}
+
+.ds-gloss-list td{
+  padding: .3em .5em .3em 0;
+}
+
+
+/* ---- For the "Periodicals" theme ---- */
+
+.journal-volume-group{
+  margin-bottom: 1.5em;
+}
+
+.journal-volume-group h2{
+  display: inline;
+  font-size: 1.3em;
+}
+
+.show, .hide{
+  color: #255975;
+  text-decoration: underline;
+}
