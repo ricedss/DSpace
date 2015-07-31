@@ -50,8 +50,8 @@
 		-->
 		<map:component-configurations>
 			<global-variables>
-				<theme-path>Americas</theme-path>
-				<theme-name>Americas Theme</theme-name>
+				<theme-path>TIMEA</theme-path>
+				<theme-name>TIMEA Theme</theme-name>
 			</global-variables>
 		</map:component-configurations>
 		<map:pipeline>
@@ -70,14 +70,14 @@
 				<map:generate type="file" src="cocoon://DRI/{1}"/>
 				
 				<map:transform type="IncludePageMeta">
-					<map:parameter name="stylesheet.screen#3" value="americas.css"/>
+					<map:parameter name="stylesheet.screen#2" value="style.css"/>
 					<map:parameter name="theme.path" value="{global:theme-path}"/>
 					<map:parameter name="theme.name" value="{global:theme-name}"/>
+					<map:parameter name="google.extra" value="UA-1316804-5"/>
 				</map:transform>
 				<!-- javascript files follow -->
 				<map:transform type="IncludePageMeta">
-					<map:parameter name="javascript#1" value="../Rice/jquery-1.2.1.js"/>
-					<map:parameter name="javascript#2" value="scripts.js"/>
+					<map:parameter name="javascript#1" value="jscript.js"/>
 				</map:transform>
 				
 				<!-- Debuging output -->
@@ -86,7 +86,7 @@
 				</map:match>
 				
 				<!-- Step 3: Transform to XHTML -->
-				<map:transform src="Americas.xsl"/>
+				<map:transform src="TIMEA.xsl"/>
 				
 				<!-- Step 4: Localize the page -->
 				<map:act type="locale">

@@ -2706,6 +2706,7 @@
     <message key="xmlui.Discovery.AbstractSearch.type_degreelevel">Degree Level</message>
     <message key="xmlui.Discovery.AbstractSearch.type_degreediscipline">Discipline</message>
     <message key="xmlui.Discovery.AbstractSearch.type_degreedepartment">Department</message>
+    <message key="xmlui.Discovery.AbstractSearch.type_advisor">Advisor</message>
 
     <message key="xmlui.ArtifactBrowser.SimpleSearch.filter.contributor">Contributor</message>
 

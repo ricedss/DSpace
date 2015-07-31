@@ -100,7 +100,7 @@ and searching the repository.
 
 
             <!-- List all communities & collections in DSpace
-            <map:match pattern="community-list">
+            map:match pattern="community-list">
                 <map:transform type="CommunityBrowser">
                     <map:parameter name="depth" value="999"/>
                 </map:transform>

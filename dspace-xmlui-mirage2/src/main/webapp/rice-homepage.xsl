@@ -33,15 +33,13 @@
 
      <xsl:variable name="repositoryURL" select="dri:document/dri:meta/dri:pageMeta/dri:trail[1]/@target"/>
 
-    <xsl:template name="disable_frontpage_browse" match="dri:div[@id='aspect.artifactbrowser.CommunityBrowser.div.comunity-browser']">
-    <xsl:if test="not(//dri:body/dri:div[@id='file.news.div.news'])">
-        <xsl:apply-templates/>
-    </xsl:if>
-    </xsl:template>
+   <!-- <xsl:template name="disable_frontpage_community-list" match="dri:div[@id='aspect.artifactbrowser.CommunityBrowser.div.comunity-browser']">
+      <xsl:if test="//dri:metadata[@element='request' and @qualifier='URI']/text() = 'community-list'">
+      </xsl:if>
+    </xsl:template>       -->
 
-    <!--xsl:template name="disable_front-page-search" match="dri:div[@id='aspect.discovery.SiteViewer.div.front-page-search']"-->
+    <xsl:template name="disable_front-page-search" match="dri:div[@id='aspect.discovery.SiteViewer.div.front-page-search']">
     <!-- Lets put all our home page customizations here !!! -->
-<xsl:template match="dri:div[@id='aspect.discovery.SiteRecentSubmissions.div.site-home']">
      <script type="text/javascript">
   $('.carousel').carousel({
    interval: 10000
@@ -143,7 +141,7 @@
     </xsl:template>
 
 
-     <!--xsl:template match="dri:div[@id='aspect.discovery.SiteRecentSubmissions.div.site-home']"> </xsl:template-->
+     <xsl:template match="dri:div[@id='aspect.discovery.SiteRecentSubmissions.div.site-home']"> </xsl:template>
 
 
      <!-- Disable Discovery facets on the home page -->
