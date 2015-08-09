@@ -2205,7 +2205,8 @@
         <xsl:param name="schema"/>
         <xsl:variable name="base" select="substring-after(mets:FLocat[@LOCTYPE='URL']/@xlink:href, 'handle/')" />
         <xsl:variable name="front" select="substring-before($base, '.xml')" />
-        <xsl:variable name="seq" select="substring-after($base, '?sequence=')" />
+        <xsl:variable name="seq1" select="substring-after($base, '?sequence=')" />
+        <xsl:variable name="seq" select="substring-before($seq1, '&amp;isAllowed')" />
         <xsl:variable name="filename0" select="substring-after($front, '/')" />
         <xsl:variable name="filename" select="substring-after($filename0, '/')" />
         <xsl:variable name="handleslash" select="substring-before($front, $filename)" />

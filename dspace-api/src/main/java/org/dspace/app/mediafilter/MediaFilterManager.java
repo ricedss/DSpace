@@ -45,6 +45,7 @@ import org.dspace.eperson.Group;
 import org.dspace.handle.HandleManager;
 import org.dspace.search.DSIndexer;
 
+
 /**
  * MediaFilterManager is the class that invokes the media/format filters over the
  * repository's content. A few command line flags affect the operation of the
@@ -696,6 +697,7 @@ public class MediaFilterManager
         //do pre-processing of this bitstream, and if it fails, skip this bitstream!
     	if(!formatFilter.preProcessBitstream(c, item, source))
         {
+            System.out.println("opps, out of the process too early!!!!");
             return false;
         }
         	
