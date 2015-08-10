@@ -188,8 +188,9 @@ public class CachedXMLTransform extends XMLTransform
         // delete the cached copy if it's out of date
         if (cachedBitstream != null && !cachedBitstreamIsUpToDate(cachedBitstream))
         {
-            deleteCachedBitstream(context, cacheBundle, cachedBitstream);
-            cachedBitstream = null;
+           // Ying commented out this to avoid the bitstream got deleted and can't generate the new one
+           // deleteCachedBitstream(context, cacheBundle, cachedBitstream);
+           // cachedBitstream = null;
         }
 
         InputStream bitsIn;
