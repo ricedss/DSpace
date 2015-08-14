@@ -57,9 +57,11 @@
         <div class="journal-volume-group panel panel-default">
                 <!-- i18n: Volume N -->
             <div class="Vol-group panel-heading">
-                 <h4 class="panel-title"
+                 <h4 class="panel-title">
+                     <a
                      data-toggle="collapse"
-                     data-target="#v{$volnum}">
+                     data-target="#v{$volnum}"
+                     href="#v{$volnum}">
 
                      <i18n:translate>
                          <i18n:text>xmlui.Periodicals.VolumeNumber</i18n:text>
@@ -67,6 +69,7 @@
                              <xsl:value-of select="@vol"/>
                          </i18n:param>
                      </i18n:translate>
+                     </a>
                  </h4>
             </div>
             <div id="v{$volnum}" class="panel-collapse collapse">
