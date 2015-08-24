@@ -136,13 +136,13 @@
 
             <field>
                 <dc-schema>dc</dc-schema>
-                <dc-element>subject</dc-element>
+                <dc-element>type</dc-element>
                 <dc-qualifier></dc-qualifier>
                 <repeatable>false</repeatable>
-                <label>Subject</label>
+                <label>Type of Patent</label>
                 <input-type value-pairs-name="patents_subject">dropdown</input-type>
                 <hint></hint>
-                <required>You must enter Subject for this item.</required>
+                <required>You must enter Type of Patent for this item.</required>
               </field>
 
             <field>

@@ -41,6 +41,11 @@ public abstract class AbstractRecentSubmissionTransformer extends AbstractDSpace
      * Cached query results
      */
     protected DiscoverResult queryResults;
+     /**
+     * The maximum number of recent submissions read from configuration.
+     */
+    protected int maxRecentSubmissions;
+
 
     /** Cached validity object */
     private SourceValidity validity;
@@ -132,7 +137,9 @@ public abstract class AbstractRecentSubmissionTransformer extends AbstractDSpace
 
             DiscoveryRecentSubmissionsConfiguration recentSubmissionConfiguration = discoveryConfiguration.getRecentSubmissionConfiguration();
             if(recentSubmissionConfiguration != null){
-                queryArgs.setMaxResults(recentSubmissionConfiguration.getMax());
+                //queryArgs.setMaxResults(recentSubmissionConfiguration.getMax());
+                maxRecentSubmissions = recentSubmissionConfiguration.getMax();
+                queryArgs.setMaxResults(maxRecentSubmissions);
                 String sortField = SearchUtils.getSearchService().toSortFieldIndex(recentSubmissionConfiguration.getMetadataSortField(), recentSubmissionConfiguration.getType());
                 if(sortField != null){
                     queryArgs.setSortField(
@@ -171,6 +178,7 @@ public abstract class AbstractRecentSubmissionTransformer extends AbstractDSpace
     public void recycle() {
         queryResults = null;
         validity = null;
+        maxRecentSubmissions = 0;
         super.recycle();
     }
 
