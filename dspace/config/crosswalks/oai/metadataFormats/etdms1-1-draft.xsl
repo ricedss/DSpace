@@ -37,9 +37,13 @@
 			<xsl:for-each select="doc:metadata/doc:element[@name='dc']/doc:element[@name='contributor']/doc:element[@name='advisor']/doc:element/doc:field[@name='value']">
 				<contributor><xsl:value-of select="." /></contributor>
 			</xsl:for-each>
+			<xsl:for-each select="doc:metadata/doc:element[@name='dc']/doc:element[@name='subject']/doc:element/doc:field[@name='value']">
+				<subject><xsl:value-of select="." /></subject>
+			</xsl:for-each>	
 			<xsl:for-each select="doc:metadata/doc:element[@name='dc']/doc:element[@name='subject']/doc:element/doc:element/doc:field[@name='value']">
 				<subject><xsl:value-of select="." /></subject>
 			</xsl:for-each>
+	
 			<xsl:for-each select="doc:metadata/doc:element[@name='dc']/doc:element[@name='description']/doc:element[@name='abstract']/doc:element/doc:field[@name='value']">
 				<description.abstract><xsl:value-of select="." /></description.abstract>
 			</xsl:for-each>
