@@ -2023,7 +2023,7 @@ references to stylesheets pulled directly from the pageMeta element. -->
                     </ul>
                     <ul class="nav navbar-nav pull-left">
                         <li>
-                      <a href="{$repositoryURL}/page/deposit" ><span class="glyphicon glyphicon-import" aria-hidden="true"></span><span class="hidden-xs"> Deposit your work</span></a>
+                      <a href="/page/deposit" ><span class="glyphicon glyphicon-import" aria-hidden="true"></span><span class="hidden-xs"> Deposit your work</span></a>
                      </li>
                         <li> </li>
 
