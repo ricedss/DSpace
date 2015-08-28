@@ -74,10 +74,10 @@ fi
 
 #Allow user to specify java options through JAVA_OPTS variable
 if [ "$JAVA_OPTS" = "" ]; then
-  #Default Java to use 256MB of memory
-  JAVA_OPTS="-Xmx1024m -Dfile.encoding=UTF-8"
+  #Default Java to use 256MB of memory  -Xmx512m -Xms512m
+  JAVA_OPTS="-Xmx5120m -Xms5120m -Dfile.encoding=UTF-8"
 else
-  JAVA_OPTS="-Xmx1024m $JAVA_OPTS"
+  JAVA_OPTS="-Xmx5120m -Xms5120m $JAVA_OPTS"
 fi
 
 # Now invoke Java
