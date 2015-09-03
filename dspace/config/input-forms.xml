@@ -889,6 +889,17 @@
            <required></required>
          </field>
 
+            <field>
+              <dc-schema>dc</dc-schema>
+              <dc-element>type</dc-element>
+              <dc-qualifier>publication</dc-qualifier>
+              <repeatable>false</repeatable>
+              <label>Version of Work</label>
+              <input-type value-pairs-name="type_publication">dropdown</input-type>
+              <hint>“Pre-print” is the first draft of the work, before peer-review. “Post-print” is the version submitted to the publisher after peer-review. “Publisher version” is the version of record, as found in print or on the publisher’s website.</hint>
+              <required></required>
+            </field>
+
         </page>
       </form> <!-- end of faculty publication form-->
 
@@ -3207,6 +3218,21 @@ it, please enter the types and the actual numbers or codes below.</hint>
      <pair>
        <displayed-value>Plant patent</displayed-value>
        <stored-value>Plant patent</stored-value>
+     </pair>
+     </value-pairs>
+
+          <value-pairs value-pairs-name="type_publication" dc-term="type.publication">
+     <pair>
+       <displayed-value>pre-print</displayed-value>
+       <stored-value>pre-print</stored-value>
+     </pair>
+     <pair>
+       <displayed-value>post-print</displayed-value>
+       <stored-value>post-print</stored-value>
+     </pair>
+     <pair>
+       <displayed-value>published version</displayed-value>
+       <stored-value>published version</stored-value>
      </pair>
      </value-pairs>
     </form-value-pairs>

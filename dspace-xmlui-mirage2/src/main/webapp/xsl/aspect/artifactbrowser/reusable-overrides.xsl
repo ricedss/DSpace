@@ -491,10 +491,12 @@
                             </xsl:for-each>
                             </xsl:if>
                         </xsl:when>
-
                         <xsl:otherwise>
-                            <i18n:text>xmlui.dri2xhtml.METS-1.0.no-author</i18n:text>
+                                 <i18n:text></i18n:text>
                         </xsl:otherwise>
+                        <!--xsl:otherwise>
+                            <i18n:text>xmlui.dri2xhtml.METS-1.0.no-author</i18n:text>
+                        </xsl:otherwise-->
                     </xsl:choose>
                     </small>
                 </span>
@@ -675,8 +677,10 @@
 
                         <xsl:when test="@MIMETYPE='video/mp4'">
 
+                            <!-- With JWplayer 6 and HTML5 streaming -->
+
                           <!-- With JWPlayer 6 -->
-                        <div class="videoContainer" style="height: 0;overflow: hidden;padding-bottom: 56.25%;padding-top: 25px;position: relative;">
+                        <!--div class="videoContainer" style="height: 0;overflow: hidden;padding-bottom: 56.25%;padding-top: 25px;position: relative;">
                           <div id="{$streamingfilename}" style="position:absolute;width:100% !important;height: 100% !important;">Loading the player...</div>
                             <xsl:variable name="mp4thumb" select="$context/mets:fileSec/mets:fileGrp[@USE='THUMBNAIL']/
                                 mets:file[@GROUPID=current()/@GROUPID]/mets:FLocat[@LOCTYPE='URL']/@xlink:href"/>
@@ -703,7 +707,7 @@
 
                             });
                           </script>
-                        </div>
+                        </div-->
 
                     </xsl:when>
 

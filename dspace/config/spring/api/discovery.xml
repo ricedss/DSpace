@@ -43,14 +43,15 @@
                 <!--The default entry, DO NOT REMOVE the system requires this-->
                 <!--entry key="1911/79705" value-ref="ESCIConfiguration" /-->  <!-- on testing -->
 
-                <entry key="1911/13110" value-ref="ETDConfiguration" />
-                <!--entry key="1911/8299" value-ref="ETDConfiguration" /-->
+                <!--entry key="1911/13110" value-ref="ETDConfiguration" /-->
+                <entry key="1911/8299" value-ref="ETDConfiguration" />
                 <entry key="1911/8328" value-ref="PeriodicalConfiguration" />
                 <entry key="1911/27631" value-ref="PeriodicalConfiguration" />
                 <entry key="1911/64890" value-ref="PeriodicalConfiguration" />
                 <entry key="1911/71868" value-ref="ShepherdConfiguration" />
                 <entry key="1911/69482" value-ref="LovettTourConfiguration" />
                 <entry key="1911/79695" value-ref="ChaoConfiguration" />
+                <entry key="1911/75169" value-ref="ChaoConfiguration" />
                <!--Use site to override the default configuration for the home page & default discovery page-->
                <entry key="site" value-ref="defaultConfiguration" />
                <!--<entry key="123456789/7621" value-ref="defaultConfiguration"/>-->
@@ -253,6 +254,15 @@
                 </property>
             </bean>
         </property>
+
+        <property name="recentSubmissionConfiguration">
+            <bean class="org.dspace.discovery.configuration.DiscoveryRecentSubmissionsConfiguration">
+                <property name="metadataSortField" value="dc.title.subtitle" />
+                <property name="type" value="text"/>
+                <property name="max" value="100"/>
+            </bean>
+        </property>
+
         <!--Any default filter queries, these filter queries will be used for all queries done by discovery for this configuration-->
         <!--<property name="defaultFilterQueries">-->
             <!--<list>-->
