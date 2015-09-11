@@ -53,14 +53,13 @@
         <xsl:variable name="collection_handle" select="substring-after($document/dri:meta/dri:pageMeta/dri:metadata[@element='focus' and @qualifier='container'], ':')"/>
 
         <xsl:variable name="volnum" select="substring-before(@vol, ' (')"/>
-
+            <!--  data-target="#v{$volnum}" -->
         <div class="journal-volume-group panel panel-default">
                 <!-- i18n: Volume N -->
             <div class="Vol-group panel-heading">
                  <h4 class="panel-title">
                      <a
                      data-toggle="collapse"
-                     data-target="#v{$volnum}"
                      href="#v{$volnum}">
 
                      <i18n:translate>

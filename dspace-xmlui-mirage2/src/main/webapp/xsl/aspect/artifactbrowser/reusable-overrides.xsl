@@ -47,6 +47,7 @@
     <xsl:param name="browser" />
 
      <xsl:variable name="repositoryURL" select="dri:document/dri:meta/dri:pageMeta/dri:trail[1]/@target"/>
+    <xsl:variable name="baseURL" select="confman:getProperty('dspace.baseUrl')"/>
 
 
 
@@ -677,10 +678,87 @@
 
                         <xsl:when test="@MIMETYPE='video/mp4'">
 
-                            <!-- With JWplayer 6 and HTML5 streaming -->
+                            <!-- with html5 video -->
+                         <!--
+                            <xsl:variable name="mp4thumb" select="$context/mets:fileSec/mets:fileGrp[@USE='THUMBNAIL']/
+                                mets:file[@GROUPID=current()/@GROUPID]/mets:FLocat[@LOCTYPE='URL']/@xlink:href"/>
+                            <xsl:variable name="srcfile" select="ancestor::mets:METS/mets:fileSec/mets:fileGrp[@USE='CONTENT']/mets:file/mets:FLocat[@LOCTYPE='URL']/@xlink:href"/>
+                            <video src="/themes/Rice/streaming/wrc02861_001intro.mp4">
+
+                                    <xsl:attribute name="width">
+                                            <xsl:value-of select="320" />
+                                    </xsl:attribute>
+                                    <xsl:attribute name="height">
+                                            <xsl:value-of select="240" />
+                                    </xsl:attribute>
+                                    <xsl:attribute name="controls" />
+                                    <xsl:attribute name="autobuffer" />
+                            </video>
+                                         -->
+                    <div class="videoContainer" style="height: 0;overflow: hidden;padding-bottom: 56.25%;padding-top: 25px;position: relative;">
+                          <div id="{$streamingfilename}" style="position:absolute;width:100% !important;height: 100% !important;">Loading the player...</div>
+                            <xsl:variable name="mp4thumb" select="$context/mets:fileSec/mets:fileGrp[@USE='THUMBNAIL']/
+                                mets:file[@GROUPID=current()/@GROUPID]/mets:FLocat[@LOCTYPE='URL']/@xlink:href"/>
+
+ <script type="text/javascript">
+     <!--
+                             var playerInstance = jwplayer('<xsl:value-of select="$streamingfilename"/>');
+playerInstance.setup({
+    file: "https://scholarship.rice.edu/bitstream/handle/1911/71397/wrc02861_001intro.mp4?sequence=1",
+    image: "https://scholarship.rice.edu/bitstream/handle/1911/81431/Evans-Essay.pdf.jpg",
+    width: 320,
+    height: 240,
+    title: "something is wrong",
+    description: 'A video with a basic title and description!',
+    primary: "html5"
+
+});
+    file: "https://scholarship.rice.edu/bitstream/handle/1911/71397/wrc02861_001intro.mp4",
+    image: "https://scholarship.rice.edu/bitstream/handle/1911/81431/Evans-Essay.pdf.jpg",
+
+
+-->
+
+     jwplayer.key = "7v+RIu3+q3k5BpVlhvaNE9PseQLW8aQiUgoyLA==";
+
+jwplayer("<xsl:value-of select="$streamingfilename"/>").setup({
+    file: "<xsl:value-of select="$baseURL"/><xsl:value-of select="substring-before($bitstreamurl, '?')"/>",
+    image: "<xsl:value-of select="$baseURL"/><xsl:value-of select="$mp4thumb"/>",
+    height: "100%",
+    aspectratio:"16:9",
+    allowfullscreen: true,
+    width: "100%",
+    stretching: "exactfit"
+    });
+
+
+                           <!--
+
+                            jwplayer('<xsl:value-of select="$streamingfilename"/>').setup({
+
+                            playlist: [{
+                                image: "<xsl:value-of select='$mp4thumb'/>",
+                            sources: [{
+
+                                file: "/themes/Rice/streaming/wrc02861_001intro.mp4"
+                              },{
+                                file: "rtmp://fldp.rice.edu/fondren/mp4:<xsl:value-of select='$streamingfilename'/>"
+                              }]
+                            }],
+
+                            rtmp: {
+                              bufferlength: 10
+                            },
+                            primary: "html5",
+                            stretching: "exactfit"
+
+
+                            });  -->
+                          </script>
+                        </div>
 
                           <!-- With JWPlayer 6 -->
-                        <!--div class="videoContainer" style="height: 0;overflow: hidden;padding-bottom: 56.25%;padding-top: 25px;position: relative;">
+                       <!-- <div class="videoContainer" style="height: 0;overflow: hidden;padding-bottom: 56.25%;padding-top: 25px;position: relative;">
                           <div id="{$streamingfilename}" style="position:absolute;width:100% !important;height: 100% !important;">Loading the player...</div>
                             <xsl:variable name="mp4thumb" select="$context/mets:fileSec/mets:fileGrp[@USE='THUMBNAIL']/
                                 mets:file[@GROUPID=current()/@GROUPID]/mets:FLocat[@LOCTYPE='URL']/@xlink:href"/>
@@ -707,7 +785,7 @@
 
                             });
                           </script>
-                        </div-->
+                        </div>  -->
 
                     </xsl:when>
 
@@ -720,7 +798,7 @@
                                   <script type="text/javascript">
 
 
-                                    jwplayer('<xsl:value-of select="$streamingfilename"/>').setup({
+                                  <!--   jwplayer('<xsl:value-of select="$streamingfilename"/>').setup({
 
                                     playlist: [{
 
@@ -737,8 +815,17 @@
                                     primary: "flash",
                                     height: 30,
                                     width: 320
-                                    });
+                                    });    -->
+
+                                      jwplayer.key = "7v+RIu3+q3k5BpVlhvaNE9PseQLW8aQiUgoyLA==";
+
+jwplayer("<xsl:value-of select="$streamingfilename"/>").setup({
+    file: "<xsl:value-of select="$baseURL"/><xsl:value-of select="substring-before($bitstreamurl, '?')"/>",
+    height: 30,
+    width: 320,
+    });
                                   </script>
+
 
                             </xsl:when>
                             <xsl:otherwise>

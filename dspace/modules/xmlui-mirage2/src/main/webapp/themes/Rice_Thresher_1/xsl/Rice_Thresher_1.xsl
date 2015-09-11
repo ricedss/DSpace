@@ -60,7 +60,6 @@
                   <h4 class="panel-title">
                       <a
                       data-toggle="collapse"
-                      data-target="#v{$volnum}"
                       href="#v{$volnum}">
                         <!-- i18n: Volume N -->
                         <i18n:translate>
