@@ -732,13 +732,29 @@ playerInstance.setup({
     file: "<xsl:value-of select="$baseURL"/><xsl:value-of select="substring-before($bitstreamurl, '?')"/>",
      image: "https://dspacedev-v2.rice.edu/<xsl:value-of select="$mp4thumb"/>",
 
+
+    file: "<xsl:value-of select="$baseURL"/>/<xsl:value-of select="$streamingfilename"/>",
+
 -->
-    <script type="text/javascript">
+   <script type="text/javascript">
     jwplayer.key = "7v+RIu3+q3k5BpVlhvaNE9PseQLW8aQiUgoyLA==";
     var playerInstance = jwplayer('<xsl:value-of select="$streamingfilename"/>');
     playerInstance.setup({
-    file: "<xsl:value-of select="$baseURL"/>/help/wrc02849_001-webopt2pass.mp4",
-    image: "https://scholarship.rice.edu/<xsl:value-of select="$mp4thumb"/>",
+
+        playlist: [{
+            image: "<xsl:value-of select='$mp4thumb'/>",
+            sources: [{
+                file: "<xsl:value-of select="$baseURL"/>/<xsl:value-of select='$streamingfilename'/>"
+            },{
+                file: "rtmp://fldp.rice.edu/fondren/mp4:<xsl:value-of select='$streamingfilename'/>"
+            }]
+
+        }],
+
+        primary: "html5",
+        rtmp: {
+             bufferlength: 10
+        },
     height: "100%",
     aspectratio:"16:9",
     allowfullscreen: true,
@@ -746,7 +762,7 @@ playerInstance.setup({
     stretching: "exactfit"
     });
      </script>
-                        </div>
+</div>
 
                     </xsl:when>
 
@@ -754,39 +770,26 @@ playerInstance.setup({
 
                                 <!-- With JWPlayer 6 -->
 
-                                  <div id="{$streamingfilename}">Loading the player...</div>
+     <div id="{$streamingfilename}">Loading the player...</div>
 
-                                  <script type="text/javascript">
+    <script type="text/javascript">
+    jwplayer.key = "7v+RIu3+q3k5BpVlhvaNE9PseQLW8aQiUgoyLA==";
+    var playerInstance = jwplayer('<xsl:value-of select="$streamingfilename"/>');
+    playerInstance.setup({
+                                         playlist: [{
+            image: "<xsl:value-of select='$mp4thumb'/>",
+            sources: [{
+                 file: "<xsl:value-of select="$baseURL"/>/<xsl:value-of select="$streamingfilename"/>"
+            },{
+                file: "rtmp://fldp.rice.edu/fondren/mp3:<xsl:value-of select='$streamingfilename'/>"
+            }]
 
-
-                                  <!--   jwplayer('<xsl:value-of select="$streamingfilename"/>').setup({
-
-                                    playlist: [{
-
-                                    sources: [{
-                                      file: "rtmp://fldp.rice.edu/fondren/mp3:<xsl:value-of select='$streamingfilename'/>"
-                                    },{
-                                      file: "/themes/Rice/streaming/<xsl:value-of select='$streamingfilename'/>"
-                                    }]
-                                    }],
-
-                                    rtmp: {
-                                      bufferlength: 10
-                                    },
-                                    primary: "flash",
-                                    height: 30,
-                                    width: 320
-                                    });    -->
-
-                                      jwplayer.key = "7v+RIu3+q3k5BpVlhvaNE9PseQLW8aQiUgoyLA==";
-
-jwplayer("<xsl:value-of select="$streamingfilename"/>").setup({
-    file: "<xsl:value-of select="$baseURL"/><xsl:value-of select="substring-before($bitstreamurl, '?')"/>",
-    height: 30,
-    width: 320,
+        }],
+    primary: "html5",
+    height: "30",
+    width: "320",
     });
-                                  </script>
-
+    </script>
 
                             </xsl:when>
                             <xsl:otherwise>

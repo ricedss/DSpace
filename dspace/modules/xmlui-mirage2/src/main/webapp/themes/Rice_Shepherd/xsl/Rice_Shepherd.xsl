@@ -30,6 +30,7 @@
     exclude-result-prefixes="xalan encoder i18n dri mets dim xlink xsl util jstring rights confman">
 
     <xsl:output indent="yes"/>
+    <xsl:variable name="baseURL" select="confman:getProperty('dspace.baseUrl')"/>
     
     <!-- Utility function for use by other templates below. -->
     <xsl:template name="substring-after-last">
@@ -218,38 +219,40 @@
                         </xsl:when>
 
                         <xsl:when test="@MIMETYPE='video/mp4'">
-
+                          <div class="videoContainer" style="height: 0;overflow: hidden;padding-bottom: 56.25%;padding-top: 25px;position: relative;">
+                          <div id="{$streamingfilename}" style="position:absolute;width:100% !important;height: 100% !important;">Loading the player...</div>
+                            <xsl:variable name="mp4thumb1" select="$context/mets:fileSec/mets:fileGrp[@USE='THUMBNAIL']/
+                                mets:file[@GROUPID=current()/@GROUPID]/mets:FLocat[@LOCTYPE='URL']/@xlink:href"/>
+                        <xsl:variable name="mp4thumb" select="substring-before($mp4thumb1, '?')"/>
                           <!-- With JWPlayer 6 -->
 
-                          <div id="{$streamingfilename}">Loading the player...</div>
-                            <xsl:variable name="mp4thumb" select="$context/mets:fileSec/mets:fileGrp[@USE='THUMBNAIL']/
-                                mets:file[@GROUPID=current()/@GROUPID]/mets:FLocat[@LOCTYPE='URL']/@xlink:href"/>
                           <script type="text/javascript">
+    jwplayer.key = "7v+RIu3+q3k5BpVlhvaNE9PseQLW8aQiUgoyLA==";
+    var playerInstance = jwplayer('<xsl:value-of select="$streamingfilename"/>');
+    playerInstance.setup({
 
+        playlist: [{
+            image: "<xsl:value-of select='$mp4thumb'/>",
+            sources: [{
+                file: "<xsl:value-of select="$baseURL"/>/<xsl:value-of select='$streamingfilename'/>"
+            },{
+                file: "rtmp://fldp.rice.edu/fondren/mp4:<xsl:value-of select='$streamingfilename'/>"
+            }]
 
-                            jwplayer('<xsl:value-of select="$streamingfilename"/>').setup({
+        }],
 
-                            playlist: [{
-                                image: "<xsl:value-of select='$mp4thumb'/>",
-                            sources: [{
-                              file: "rtmp://fldp.rice.edu/fondren/mp4:<xsl:value-of select='$streamingfilename'/>"
-                            },{
-                              file: "/themes/Rice/streaming/<xsl:value-of select='$streamingfilename'/>"
-                            }]
-                            }],
-
-                            rtmp: {
-                              bufferlength: 10
-                            },
-                            primary: "flash",
-                            stretching: "exactfit",
-                            height: 172,
-                            width: 300
-
-
-                            });
-                          </script>
-
+        primary: "html5",
+        rtmp: {
+             bufferlength: 10
+        },
+    height: "100%",
+    aspectratio:"16:9",
+    allowfullscreen: true,
+    width: "100%",
+    stretching: "exactfit"
+    });
+     </script>
+                    </div>
                     </xsl:when>
                     <xsl:when test="@MIMETYPE='audio/x-mp3'">
 
@@ -258,28 +261,23 @@
                                   <div id="{$streamingfilename}">Loading the player...</div>
 
                                   <script type="text/javascript">
+    jwplayer.key = "7v+RIu3+q3k5BpVlhvaNE9PseQLW8aQiUgoyLA==";
+    var playerInstance = jwplayer('<xsl:value-of select="$streamingfilename"/>');
+    playerInstance.setup({
+                                         playlist: [{
+            image: "<xsl:value-of select='$mp4thumb'/>",
+            sources: [{
+                 file: "<xsl:value-of select="$baseURL"/>/<xsl:value-of select="$streamingfilename"/>"
+            },{
+                file: "rtmp://fldp.rice.edu/fondren/mp3:<xsl:value-of select='$streamingfilename'/>"
+            }]
 
-
-                                    jwplayer('<xsl:value-of select="$streamingfilename"/>').setup({
-
-                                    playlist: [{
-
-                                    sources: [{
-                                      file: "rtmp://fldp.rice.edu/fondren/mp3:<xsl:value-of select='$streamingfilename'/>"
-                                    },{
-                                      file: "/themes/Rice/streaming/<xsl:value-of select='$streamingfilename'/>"
-                                    }]
-                                    }],
-
-                                    rtmp: {
-                                      bufferlength: 10
-                                    },
-                                    primary: "flash",
-
-                                    height: 30,
-                                    width: 280
-                                    });
-                                  </script>
+        }],
+    primary: "html5",
+    height: "30",
+    width: "320",
+    });
+    </script>
 
                             </xsl:when>
                             <xsl:otherwise>
