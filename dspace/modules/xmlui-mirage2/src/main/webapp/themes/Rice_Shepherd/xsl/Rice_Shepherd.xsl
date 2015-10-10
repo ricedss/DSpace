@@ -234,7 +234,7 @@
         playlist: [{
             image: "<xsl:value-of select='$mp4thumb'/>",
             sources: [{
-                file: "<xsl:value-of select="$baseURL"/>/<xsl:value-of select='$streamingfilename'/>"
+                file: "<xsl:value-of select="$baseURL"/>/streaming/<xsl:value-of select='$streamingfilename'/>"
             },{
                 file: "rtmp://fldp.rice.edu/fondren/mp4:<xsl:value-of select='$streamingfilename'/>"
             }]
@@ -265,9 +265,9 @@
     var playerInstance = jwplayer('<xsl:value-of select="$streamingfilename"/>');
     playerInstance.setup({
                                          playlist: [{
-            image: "<xsl:value-of select='$mp4thumb'/>",
+
             sources: [{
-                 file: "<xsl:value-of select="$baseURL"/>/<xsl:value-of select="$streamingfilename"/>"
+                 file: "<xsl:value-of select="$baseURL"/>/streaming/<xsl:value-of select="$streamingfilename"/>"
             },{
                 file: "rtmp://fldp.rice.edu/fondren/mp3:<xsl:value-of select='$streamingfilename'/>"
             }]
