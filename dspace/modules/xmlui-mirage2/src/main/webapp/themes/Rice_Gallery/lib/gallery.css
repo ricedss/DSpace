@@ -47,6 +47,15 @@ div.artifact-preview {
     float: none !important;
 }
 
+p.recentSubmissionViewMore  {
+    width: 700px;
+}
+
+h3.ds-div-head {
+
+    font-size: 0px;
+}
+
 /* bds: The following settings forces the browse to be 5 thumbnails wide, useful to prevent
 a hanging remainder of thembnails when browsing by 5,10,20,30, etc items per screen.
 Also centering the gallery in the ds-body. */

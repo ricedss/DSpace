@@ -763,6 +763,27 @@
               <required></required>
             </field>
 
+            <field>
+              <dc-schema>dc</dc-schema>
+              <dc-element>citation</dc-element>
+              <dc-qualifier>firstpage</dc-qualifier>
+              <repeatable>false</repeatable>
+              <label>Number of first page</label>
+              <input-type>onebox</input-type>
+              <hint></hint>
+              <required></required>
+            </field>
+
+            <field>
+              <dc-schema>dc</dc-schema>
+              <dc-element>citation</dc-element>
+              <dc-qualifier>lastpage</dc-qualifier>
+              <repeatable>false</repeatable>
+              <label>Number of last page (if applicable)</label>
+              <input-type>onebox</input-type>
+              <hint>Not every article has a page range. Increasingly, the publishers only list the first number (since it’s digital-born)</hint>
+              <required></required>
+            </field>
 
           <field>
             <dc-schema>dc</dc-schema>
@@ -3173,12 +3194,13 @@ it, please enter the types and the actual numbers or codes below.</hint>
          </pair>
          
          <pair>
-           <displayed-value>Movingimage</displayed-value>
-           <stored-value>Movingimage</stored-value>
+           <displayed-value>MovingImage</displayed-value>
+           <stored-value>MovingImage</stored-value>
          </pair>
          <pair>
-           <displayed-value>Stillimage</displayed-value>
-           <stored-value>Stillimage</stored-value>
+           <displayed-value>StillImage</displayed-value>
+           <stored-value>StillImage</stored-value>
+         </pair>
          </pair>
          <pair>
            <displayed-value>Sound</displayed-value>

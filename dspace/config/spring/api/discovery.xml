@@ -218,7 +218,7 @@
         <!--Which sidebar facets are to be displayed-->
         <property name="sidebarFacets">
             <list>
-                <ref bean="searchFilterSubTitle" />
+                <!--ref bean="searchFilterSubTitle" /-->
                 <ref bean="searchFilterAuthor" />
                 <ref bean="searchFilterSubject" />
                 <ref bean="searchFilterIssued" />
@@ -228,7 +228,7 @@
         <property name="searchFilters">
             <list>
                 <ref bean="searchFilterTitle" />
-                <ref bean="searchFilterSubTitle" />
+                <!--ref bean="searchFilterSubTitle" /-->
                 <ref bean="searchFilterAuthor" />
                 <ref bean="searchFilterContributor"/>
                 <ref bean="searchFilterSubject" />
@@ -244,7 +244,7 @@
             <bean class="org.dspace.discovery.configuration.DiscoverySortConfiguration">
                 <!--<property name="defaultSort" ref="sortDateIssued"/>-->
                 <!--DefaultSortOrder can either be desc or asc (desc is default)-->
-                <property name="defaultSortOrder" value="desc"/>
+                <property name="defaultSortOrder" value="asc"/>
                 <property name="sortFields">
                     <list>
                         <ref bean="sortSubTitle" />
