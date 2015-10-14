@@ -218,7 +218,7 @@
         <!--Which sidebar facets are to be displayed-->
         <property name="sidebarFacets">
             <list>
-                <!--ref bean="searchFilterSubTitle" /-->
+                <ref bean="searchFilterSubTitle" />
                 <ref bean="searchFilterAuthor" />
                 <ref bean="searchFilterSubject" />
                 <ref bean="searchFilterIssued" />
@@ -228,7 +228,7 @@
         <property name="searchFilters">
             <list>
                 <ref bean="searchFilterTitle" />
-                <!--ref bean="searchFilterSubTitle" /-->
+                <ref bean="searchFilterSubTitle" />
                 <ref bean="searchFilterAuthor" />
                 <ref bean="searchFilterContributor"/>
                 <ref bean="searchFilterSubject" />
@@ -1173,8 +1173,8 @@
             <value>dc.title.subtitle</value>
         </list>
     </property>
-        <property name="facetLimit" value="10"/>
-        <property name="sortOrder" value="COUNT"/>
+        <property name="facetLimit" value="5"/>
+        <property name="sortOrder" value="subtitle"/>
 
     </bean>
 
