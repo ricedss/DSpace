@@ -218,7 +218,7 @@
         <!--Which sidebar facets are to be displayed-->
         <property name="sidebarFacets">
             <list>
-                <ref bean="searchFilterSubTitle" />
+                <!--ref bean="searchFilterSubTitle" /-->
                 <ref bean="searchFilterAuthor" />
                 <ref bean="searchFilterSubject" />
                 <ref bean="searchFilterIssued" />
@@ -228,7 +228,7 @@
         <property name="searchFilters">
             <list>
                 <ref bean="searchFilterTitle" />
-                <ref bean="searchFilterSubTitle" />
+                <!--ref bean="searchFilterSubTitle" /-->
                 <ref bean="searchFilterAuthor" />
                 <ref bean="searchFilterContributor"/>
                 <ref bean="searchFilterSubject" />
@@ -247,7 +247,7 @@
                 <property name="defaultSortOrder" value="asc"/>
                 <property name="sortFields">
                     <list>
-                        <ref bean="sortGalleryDisplay" />
+                        <ref bean="sortSubTitle" />
                          <ref bean="sortTitle" />
                         <ref bean="sortDateIssued" />
                     </list>
