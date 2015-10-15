@@ -247,7 +247,7 @@
                 <property name="defaultSortOrder" value="asc"/>
                 <property name="sortFields">
                     <list>
-                        <ref bean="sortSubTitle" />
+                        <ref bean="sortGalleryDisplay" />
                          <ref bean="sortTitle" />
                         <ref bean="sortDateIssued" />
                     </list>
@@ -257,7 +257,7 @@
 
         <property name="recentSubmissionConfiguration">
             <bean class="org.dspace.discovery.configuration.DiscoveryRecentSubmissionsConfiguration">
-                <property name="metadataSortField" value="dc.title.subtitle" />
+                <property name="metadataSortField" value="local.gallery.display" />
                 <property name="type" value="text"/>
                 <property name="max" value="100"/>
             </bean>
@@ -1174,7 +1174,7 @@
         </list>
     </property>
         <property name="facetLimit" value="5"/>
-        <property name="sortOrder" value="subtitle"/>
+        <property name="sortOrder" value="COUNT"/>
 
     </bean>
 
@@ -1222,4 +1222,8 @@
      <bean id="sortSubTitle" class="org.dspace.discovery.configuration.DiscoverySortFieldConfiguration">
         <property name="metadataField" value="dc.title.subtitle"/>
     </bean>
+
+    <bean id="sortGalleryDisplay" class="org.dspace.discovery.configuration.DiscoverySortFieldConfiguration">
+       <property name="metadataField" value="local.gallery.display"/>
+   </bean>
 </beans>
