@@ -257,9 +257,9 @@
 
         <property name="recentSubmissionConfiguration">
             <bean class="org.dspace.discovery.configuration.DiscoveryRecentSubmissionsConfiguration">
-                <property name="metadataSortField" value="local.gallery.display" />
+                <property name="metadataSortField" value="local.title.orderDisplay" />
                 <property name="type" value="text"/>
-                <property name="max" value="100"/>
+                <property name="max" value="400"/>
             </bean>
         </property>
 
@@ -1224,6 +1224,6 @@
     </bean>
 
     <bean id="sortGalleryDisplay" class="org.dspace.discovery.configuration.DiscoverySortFieldConfiguration">
-       <property name="metadataField" value="local.gallery.display"/>
+       <property name="metadataField" value="local.title.orderDisplay"/>
    </bean>
 </beans>
