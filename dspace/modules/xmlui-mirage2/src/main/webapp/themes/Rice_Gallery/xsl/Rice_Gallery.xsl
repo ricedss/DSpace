@@ -294,69 +294,47 @@
         </span-->
 	</xsl:template>
 
-    <!--
-        From: DIM-Handler.xsl
 
-        Changes:
-            1. add in -line image viewing
-            2. reordered elements
+    <xsl:template name="itemSummaryView-DIM-title">
+        <xsl:choose>
+            <xsl:when test="count(dim:field[@element='title'][not(@qualifier)]) &gt; 1">
+                <h2 class="page-header first-page-header">
+                    <xsl:value-of select="dim:field[@element='title'][not(@qualifier)][1]/node()"/>
+                </h2>
+                <div class="simple-item-view-other">
+                    <p class="lead">
+                        <xsl:for-each select="dim:field[@element='title'][not(@qualifier)]">
+                            <xsl:if test="not(position() = 1)">
+                                <xsl:value-of select="./node()"/>
+                                <xsl:if test="count(following-sibling::dim:field[@element='title'][not(@qualifier)]) != 0">
+                                    <xsl:text>; </xsl:text>
+                                    <br/>
+                                </xsl:if>
+                            </xsl:if>
 
-        An item rendered in the summaryView pattern. This is the default way to view a DSpace item in Manakin. -->
+                        </xsl:for-each>
+                    </p>
+                </div>
+            </xsl:when>
+            <xsl:when test="count(dim:field[@element='title'][not(@qualifier)]) = 1">
+                <h2 class="page-header first-page-header">
+                    <xsl:value-of select="dim:field[@element='title'][not(@qualifier)][1]/node()"/>
+                </h2>
+            </xsl:when>
+            <xsl:otherwise>
+                <h2 class="page-header first-page-header">
+                    <i18n:text>xmlui.dri2xhtml.METS-1.0.no-title</i18n:text>
+                </h2>
+            </xsl:otherwise>
+        </xsl:choose>
+        <xsl:if test="dim:field[@element='title'][@qualifier='subtitle']">
+            <h2 class="page-header first-page-header">
+                 <xsl:text> (</xsl:text><xsl:value-of select="dim:field[@element='title'][@qualifier='subtitle'][1]/node()"/><xsl:text>)</xsl:text>
+             </h2>
 
-    <xsl:template name="itemSummaryView-DIM---debug">
-        <xsl:if test="//mets:fileGrp[@USE='CONTENT']/mets:file[@MIMETYPE='image/jpeg']">
-            <script type="text/javascript">
-                <xsl:for-each select="//mets:fileGrp[@USE='CONTENT']/mets:file[@MIMETYPE='image/jpeg']">
-                    var o = new Object();
-                    o.url = "<xsl:value-of select="mets:FLocat/@xlink:href"/>";
-                    o.size = <xsl:value-of select="./@SIZE"/>;
-                    <!-- Replace double quotes and single quotes with corresponding entities, otherwise Javascript breaks.-->
-                    <xsl:variable name="encodedTitle"><!-- 'title' is what METS calls the bitstream file name -->
-                        <xsl:call-template name="encode-quotes">
-                            <xsl:with-param name="stringToFix" select="mets:FLocat/@xlink:title"/>
-                        </xsl:call-template>
-                    </xsl:variable>
-                    <xsl:variable name="encodedCaption"><!-- dc.description.abstract -->
-                        <xsl:call-template name="encode-quotes">
-                            <xsl:with-param name="stringToFix" select="//dim:field[@element='description'][@qualifier='abstract']"/>
-                        </xsl:call-template>
-                    </xsl:variable>
-                    <xsl:variable name="encodedItemTitle"><!-- dc.title -->
-                        <xsl:call-template name="encode-quotes">
-                            <xsl:with-param name="stringToFix" select="//dim:field[@element='title']"/>
-                        </xsl:call-template>
-                    </xsl:variable>
-
-                    o.title = "<xsl:value-of select="$encodedTitle"/>";
-                    o.caption = "<xsl:value-of select="$encodedCaption"/>";
-                    o.itemTitle = "<xsl:value-of select="$encodedItemTitle"/>";
-
-                    imageJpegArray.push(o);
-                </xsl:for-each>
-            </script>
-
-            <!-- Photos Div. JavaScript is required to load the images. -->
-            <div id="photos">&#160;</div>
         </xsl:if>
+    </xsl:template>
 
-
-	<!-- Generate the info about the item from the metadata section -->
-	<xsl:apply-templates
-	   select="./mets:dmdSec/mets:mdWrap[@OTHERMDTYPE='DIM']/mets:xmlData/dim:dim" mode="itemSummaryView-DIM"/>
-
-	<!-- Generate the bitstream information from the file section -->
-	<xsl:apply-templates select="./mets:fileSec/mets:fileGrp[@USE='CONTENT']">
-	  <xsl:with-param name="context" select="."/>
-	  <xsl:with-param name="primaryBitream"
-			  select="./mets:structMap[@TYPE='LOGICAL']/mets:div[@TYPE='DSpace Item']/mets:fptr/@FILEID"
-			  />
-	  </xsl:apply-templates>
-
-	 <!-- Generate the license information from the file section -->
-	 <xsl:apply-templates
-	   select="./mets:fileSec/mets:fileGrp[@USE='CC-LICENSE' or @USE='LICENSE']"/>
-  </xsl:template>
-  
       <xsl:template name="encode-quotes">
         <xsl:param name="stringToFix"/>   <!-- replace-string is in OSU-local.xsl -->
        <!-- <xsl:variable name="singleQuotesFixed">

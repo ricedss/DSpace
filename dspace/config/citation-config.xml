@@ -38,7 +38,7 @@
         <!-- dspace.rice.edu -->
         <!-- ECE publications -->
 
-        <name-map scope="1911/81741" citation-name="ESCI-maps"/>  <!-- on testing -->
+        <!--name-map scope="1911/81741" citation-name="ESCI-maps"/-->  <!-- on testing -->
 
         <name-map scope="1911/10563" citation-name="ece-default">
             <map-type document-type="Conference Paper" citation-name="ece-conference" />
@@ -66,31 +66,34 @@
 
         <name-map scope="1911/13110" citation-name="etd-default"/>
 
-	<name-map scope="1911/68494" citation-name="weber-default"/>
+	<!--name-map scope="1911/68494" citation-name="weber-default"/-->
 
 	<name-map scope="1911/64890" citation-name="thresher-default"/>
 
-        <name-map scope="1911/77130" citation-name="shepherd-pamphlets"/>
+        <!--name-map scope="1911/77130" citation-name="shepherd-pamphlets"/-->
 
-        <name-map scope="1911/78738" citation-name="patents-default"/>
+        <name-map scope="1911/79705" citation-name="patents-default"/>
+
+        <name-map scope="1911/79696" citation-name="haaa-vahf"/>    <!--VAHF -->
+        <name-map scope="1911/79695" citation-name="haaa-vahf"/>    <!--HAAA -->
 
 	<!-- for historical image default-->
-	<name-map scope="1911/61408" citation-name="histimage-default"/> <!-- Events -->
-	<name-map scope="1911/62306" citation-name="histimage-default"/> <!-- Key Documents -->
-	<name-map scope="1911/61406" citation-name="histimage-default"/> <!-- People -->
-	<name-map scope="1911/61407" citation-name="histimage-default"/> <!-- Places -->
-	<name-map scope="1911/61409" citation-name="histimage-default"/> <!-- Sports -->
-	<name-map scope="1911/61410" citation-name="histimage-default"/> <!-- Various -->
+	<!--name-map scope="1911/61408" citation-name="histimage-default"/--> <!-- Events -->
+	<!--name-map scope="1911/62306" citation-name="histimage-default"/--> <!-- Key Documents -->
+	<!--name-map scope="1911/61406" citation-name="histimage-default"/--> <!-- People -->
+	<!--name-map scope="1911/61407" citation-name="histimage-default"/--> <!-- Places -->
+	<!--name-map scope="1911/61409" citation-name="histimage-default"/--> <!-- Sports -->
+	<!--name-map scope="1911/61410" citation-name="histimage-default"/--> <!-- Various -->
 
-    <name-map scope="1911/70649" citation-name="histimage-default"/> <!-- Correspondence and ephemera from Lovett World Tour -->
-    <name-map scope="1911/70176" citation-name="histimage-default"/> <!-- Postcards collected on Lovett World Tour  -->
-    <name-map scope="1911/69482" citation-name="histimage-default"/> <!-- World Tour images by Carrington Weems -->
+    <!--name-map scope="1911/70649" citation-name="histimage-default"/--> <!-- Correspondence and ephemera from Lovett World Tour -->
+    <!--name-map scope="1911/70176" citation-name="histimage-default"/--> <!-- Postcards collected on Lovett World Tour  -->
+    <!--name-map scope="1911/69482" citation-name="histimage-default"/--> <!-- World Tour images by Carrington Weems -->
 
-        <name-map scope="1911/75565" citation-name="histimage-default"/> <!-- Oral History -->
-        <name-map scope="1911/75967" citation-name="histimage-default"/> <!-- Rice University Sports Videos -->
-        <name-map scope="1911/35948" citation-name="histimage-default"/> <!-- History of Rice University -->
-        <name-map scope="1911/35950" citation-name="histimage-default"/> <!-- Rice University General announcements  -->
-        <name-map scope="1911/35952" citation-name="histimage-default"/> <!-- Rice University Presidential Inauguration Speeches -->
+        <!--name-map scope="1911/75565" citation-name="histimage-default"/--> <!-- Oral History -->
+        <!--name-map scope="1911/75967" citation-name="histimage-default"/--> <!-- Rice University Sports Videos -->
+        <!--name-map scope="1911/35948" citation-name="histimage-default"/--> <!-- History of Rice University -->
+        <!--name-map scope="1911/35950" citation-name="histimage-default"/--> <!-- Rice University General announcements  -->
+        <!--name-map scope="1911/35952" citation-name="histimage-default"/--> <!-- Rice University Presidential Inauguration Speeches -->
 
         <name-map scope="1911/77660" citation-name="dataset-default"/>
         <!-- dspaceland, dspacentest -->
@@ -106,6 +109,7 @@
         
 
         <name-map scope="1911/8598" citation-name="thresher-default"/>
+
 -->
 	</citation-map>
 
@@ -168,6 +172,59 @@
            <xsl:when test="contains($str,'&lt;i') or contains($str, '&lt;b') or contains($str, '&lt;a') or contains($str, '&lt;p')">
 
     *************************************************************************  -->
+
+        <!-- ************************************************************************
+
+                      DEFAULT citation format for HAAA and VAHF collection
+
+        ************************************************************************   -->
+        <citation name="haaa-vahf">
+
+            <!-- Author -->
+            <field>
+              <dc-schema>dc</dc-schema>
+              <dc-element>creator</dc-element>
+              <dc-qualifier></dc-qualifier>
+              <display-format multiple-value-seperator=", ">@field@,</display-format>
+            </field>
+
+
+                <!-- interviewee -->
+               <field>
+                 <dc-schema>dc</dc-schema>
+                 <dc-element>contributor</dc-element>
+                 <dc-qualifier>interviewee</dc-qualifier>
+                 <display-format> interview by @field@. </display-format>
+               </field>
+
+            <!-- date -->
+           <field>
+             <dc-schema>dc</dc-schema>
+             <dc-element>date</dc-element>
+             <dc-qualifier>issued</dc-qualifier>
+             <display-format> @field@.</display-format>
+           </field>
+
+            <!-- source collection -->
+           <field>
+             <dc-schema>dc</dc-schema>
+             <dc-element>source</dc-element>
+               <dc-qualifier>collection</dc-qualifier>
+             <display-format> @field@. </display-format>
+           </field>
+
+            <!-- URI -->
+             <field>
+               <dc-schema>dc</dc-schema>
+               <dc-element>identifier</dc-element>
+               <dc-qualifier>uri</dc-qualifier>
+               <display-format> &lt;a href="@field@"&gt;@field@&lt;/a&gt;.</display-format>
+             </field>
+
+
+            </citation>
+
+
 
                <!-- ************************************************************************
 
@@ -267,7 +324,7 @@
               <dc-schema>dc</dc-schema>
               <dc-element>creator</dc-element>
               <dc-qualifier></dc-qualifier>
-              <display-format multipl e-value-seperator=", ">@field@.</display-format>
+              <display-format multiple-value-seperator=", ">@field@.</display-format>
             </field>
 
             <!-- Year -->
@@ -408,7 +465,7 @@
                <field>
                  <dc-schema>dc</dc-schema>
                  <dc-element>date</dc-element>
-                 <dc-qualifier>created</dc-qualifier>
+                 <dc-qualifier>issued</dc-qualifier>
                  <display-format format-it="year-only"> (@field@)</display-format>
                </field>
 
@@ -1135,7 +1192,7 @@
 
 
             <!-- if the contributor.author is empty, try to use contributor.photographer or contributor.illustrator -->
-            <field max-n-value="3" max-n-ending="et al." noshow-if-exist="dc.contributor.author;dc.creator">
+            <field max-n-value="3" max-n-ending="et al." noshow-if-exist="dc.contributor.author;dc.creator" op="AND">
               <dc-schema>dc</dc-schema>
               <dc-element>contributor</dc-element>
               <dc-qualifier>photographer</dc-qualifier>
@@ -1143,7 +1200,7 @@
             </field>
 
             <!-- if the contributor.author is empty, try to use contributor.photographer or contributor.illustrator -->
-            <field max-n-value="3" max-n-ending="et al." noshow-if-exist="dc.contributor.author;dc.creator;dc.contributor.photographer">
+            <field max-n-value="3" max-n-ending="et al." noshow-if-exist="dc.contributor.author;dc.creator" op="AND">
               <dc-schema>dc</dc-schema>
               <dc-element>contributor</dc-element>
               <dc-qualifier>illustrator</dc-qualifier>
@@ -1222,7 +1279,7 @@
            </field>
 
             <!-- URI -->
-           <field>
+           <field noshow-if-exist="dc.identifier.doi">
              <dc-schema>dc</dc-schema>
              <dc-element>identifier</dc-element>
              <dc-qualifier>uri</dc-qualifier>
