@@ -76,6 +76,8 @@
 
         <name-map scope="1911/79696" citation-name="haaa-vahf"/>    <!--VAHF -->
         <name-map scope="1911/79695" citation-name="haaa-vahf"/>    <!--HAAA -->
+        <name-map scope="1911/36136" citation-name="haaa-vahf"/>    <!--VAHF -->
+        <name-map scope="1911/75169" citation-name="haaa-vahf"/>    <!--HAAA -->
 
 	<!-- for historical image default-->
 	<!--name-map scope="1911/61408" citation-name="histimage-default"/--> <!-- Events -->

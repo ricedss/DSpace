@@ -318,7 +318,7 @@
             </xsl:when>
             <xsl:when test="count(dim:field[@element='title'][not(@qualifier)]) = 1">
                 <h2 class="page-header first-page-header">
-                    <xsl:value-of select="dim:field[@element='title'][not(@qualifier)][1]/node()"/>
+                    <xsl:value-of select="dim:field[@element='title'][not(@qualifier)][1]/node()"/><xsl:text> (</xsl:text><xsl:value-of select="dim:field[@element='title'][@qualifier='subtitle'][1]/node()"/><xsl:text>)</xsl:text>
                 </h2>
             </xsl:when>
             <xsl:otherwise>
