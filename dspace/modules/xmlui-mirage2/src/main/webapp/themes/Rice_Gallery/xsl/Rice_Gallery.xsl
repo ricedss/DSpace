@@ -299,7 +299,7 @@
         <xsl:choose>
             <xsl:when test="count(dim:field[@element='title'][not(@qualifier)]) &gt; 1">
                 <h2 class="page-header first-page-header">
-                    <xsl:value-of select="dim:field[@element='title'][not(@qualifier)][1]/node()"/>
+                    <xsl:value-of select="dim:field[@element='title'][not(@qualifier)][1]/node()"/><xsl:text> (</xsl:text><xsl:value-of select="dim:field[@element='title'][@qualifier='subtitle'][1]/node()"/><xsl:text>)</xsl:text>
                 </h2>
                 <div class="simple-item-view-other">
                     <p class="lead">
@@ -327,12 +327,6 @@
                 </h2>
             </xsl:otherwise>
         </xsl:choose>
-        <xsl:if test="dim:field[@element='title'][@qualifier='subtitle']">
-            <h2 class="page-header first-page-header">
-                 <xsl:text> (</xsl:text><xsl:value-of select="dim:field[@element='title'][@qualifier='subtitle'][1]/node()"/><xsl:text>)</xsl:text>
-             </h2>
-
-        </xsl:if>
     </xsl:template>
 
       <xsl:template name="encode-quotes">

@@ -193,8 +193,8 @@
                <field>
                  <dc-schema>dc</dc-schema>
                  <dc-element>contributor</dc-element>
-                 <dc-qualifier>interviewee</dc-qualifier>
-                 <display-format> interview by @field@. </display-format>
+                 <dc-qualifier>interviewer</dc-qualifier>
+                 <display-format multiple-value-seperator=", "> interview by @field@. </display-format>
                </field>
 
             <!-- date -->
@@ -202,7 +202,7 @@
              <dc-schema>dc</dc-schema>
              <dc-element>date</dc-element>
              <dc-qualifier>issued</dc-qualifier>
-             <display-format> @field@.</display-format>
+             <display-format format-it="thresher-date"> @field@.</display-format>
            </field>
 
             <!-- source collection -->
