@@ -2730,6 +2730,16 @@
     <message key="xmlui.Rice.FormatExtent">Length</message>
     <message key="xmlui.Rice.relationURI">Published Version</message>
     <message key="xmlui.ArtifactBrowser.AdvancedSearch.type_subjectlocal">Broad Terms</message>
+
+
+    <message key="xmlui.Rice.datenote">Date(s)</message>
+    <message key="xmlui.Rice.vraartist">Artists</message>
+    <message key="xmlui.ArtifactBrowser.AdvancedSearch.type_vraartist">Artists</message>
+    <message key="xmlui.Discovery.AbstractSearch.type_vraartist">Artists</message>
+    <message key="xmlui.ArtifactBrowser.AdvancedSearch.type_styleperiod">Style/Period</message>
+    <message key="xmlui.Discovery.AbstractSearch.type_styleperiod">Style/Period</message>
+    <message key="xmlui.ArtifactBrowser.AdvancedSearch.type_worktype">Work Type</message>
+    <message key="xmlui.Discovery.AbstractSearch.type_worktype">Work Type</message>
     <!--message key="xmlui.ArtifactBrowser.AdvancedSearch.type_subtitle">Subtitle</message>
     <message key="xmlui.Discovery.AbstractSearch.type_subtitle">Filter By: Subtitle</message-->
 

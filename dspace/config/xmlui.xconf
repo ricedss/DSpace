@@ -223,6 +223,8 @@
         <theme name="Rice RIP" handle="1911/8328" path="Rice_RIP/"/>
         <theme name="Rice Thresher 1" handle="1911/27631" path="Rice_Thresher_1/"/>
 
+        <!--theme name="Rice HART" handle="1911/81662" path="Rice_HART/"/-->
+
         <!-- Default Rice theme -->
 		<theme name="Mirage 2" regex=".*" path="Mirage2/"/>
 
