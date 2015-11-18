@@ -224,6 +224,7 @@
         <theme name="Rice Thresher 1" handle="1911/27631" path="Rice_Thresher_1/"/>
 
         <theme name="Rice HART" handle="1911/81662" path="Rice_HART/"/>
+        <!--development server--><!--theme name="Rice Researchdata" handle="1911/77660" path="Rice_Researchdata/"/-->
 
         <!-- Default Rice theme -->
 		<theme name="Mirage 2" regex=".*" path="Mirage2/"/>

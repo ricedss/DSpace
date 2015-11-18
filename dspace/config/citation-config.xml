@@ -329,14 +329,6 @@
               <display-format multiple-value-seperator=", ">@field@.</display-format>
             </field>
 
-            <!-- Year -->
-            <field>
-              <dc-schema>dc</dc-schema>
-              <dc-element>date</dc-element>
-              <dc-qualifier>issued</dc-qualifier>
-              <display-format format-it="year-only"> (@field@)</display-format>
-            </field>
-
                 <!-- Title -->
                <field>
                  <dc-schema>dc</dc-schema>
@@ -349,8 +341,16 @@
            <field>
              <dc-schema>dc</dc-schema>
              <dc-element>publisher</dc-element>
-             <display-format> @field@. </display-format>
+             <display-format> @field@, </display-format>
            </field>
+
+            <!-- Year -->
+            <field>
+              <dc-schema>dc</dc-schema>
+              <dc-element>date</dc-element>
+              <dc-qualifier>issued</dc-qualifier>
+              <display-format format-it="year-only">@field@.</display-format>
+            </field>
 
                 <!-- URI -->
                <field>

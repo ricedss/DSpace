@@ -2743,4 +2743,43 @@
     <!--message key="xmlui.ArtifactBrowser.AdvancedSearch.type_subtitle">Subtitle</message>
     <message key="xmlui.Discovery.AbstractSearch.type_subtitle">Filter By: Subtitle</message-->
 
+    <!-- org.dspace.app.xmlui.Submission.submit.UploadStep -->
+	<message key="xmlui.Submission.submit.UploadResearchDataStep.head">Upload File(s)</message>
+	<message key="xmlui.Submission.submit.UploadResearchDataStep.file">File</message>
+	<message key="xmlui.Submission.submit.UploadResearchDataStep.file_help">Files may be uploaded individually or as archives. When uploading ZIP and other archive files, please consider including a manifest file to describe the contents (e.g. a Read Me text file).<br /><br />If you wish, you may add a Creative Commons License to your item. Creative Commons licenses govern what people who read your work may then do with it.</message>
+	<message key="xmlui.Submission.submit.UploadResearchDataStep.file_error">The item must contain at least one file.</message>
+	<message key="xmlui.Submission.submit.UploadResearchDataStep.upload_error">There was a problem uploading your file.  Either the filename you entered was incorrect, there was a network problem which prevented the file from reaching us correctly, or you have attempted to upload a file format marked for internal system use only.  Please try again.</message>
+	<message key="xmlui.Submission.submit.UploadResearchDataStep.virus_error">The file has not been uploaded as it appears to contain a virus. Please contact the system administrator.</message>
+    <message key="xmlui.Submission.submit.UploadResearchDataStep.virus_checker_error">A technical problem was encountered whilst attempting to scan the file for viruses. Please contact the system administrator.</message>
+    <message key="xmlui.Submission.submit.UploadResearchDataStep.description">File Description</message>
+	<message key="xmlui.Submission.submit.UploadResearchDataStep.description_help">Optionally, provide a brief description of the file, for example "<i>Main article</i>", or "<i>Experiment data readings</i>".</message>
+	<message key="xmlui.Submission.submit.UploadResearchDataStep.submit_upload">Upload file &amp; add another</message>
+	<message key="xmlui.Submission.submit.UploadResearchDataStep.head2">Files Uploaded</message>
+	<message key="xmlui.Submission.submit.UploadResearchDataStep.column0">Primary</message>
+	<message key="xmlui.Submission.submit.UploadResearchDataStep.column1">  </message>
+	<message key="xmlui.Submission.submit.UploadResearchDataStep.column2">File</message>
+	<message key="xmlui.Submission.submit.UploadResearchDataStep.column3">Size</message>
+	<message key="xmlui.Submission.submit.UploadResearchDataStep.column4">Description</message>
+	<message key="xmlui.Submission.submit.UploadResearchDataStep.column5">Format</message>
+	<message key="xmlui.Submission.submit.UploadResearchDataStep.column6"></message>
+	<message key="xmlui.Submission.submit.UploadResearchDataStep.unknown_name">Unknown</message>
+	<message key="xmlui.Submission.submit.UploadResearchDataStep.unknown_format">unknown format</message>
+	<message key="xmlui.Submission.submit.UploadResearchDataStep.supported">(Supported)</message>
+	<message key="xmlui.Submission.submit.UploadResearchDataStep.known">(Known)</message>
+	<message key="xmlui.Submission.submit.UploadResearchDataStep.unsupported">(Unsupported)</message>
+	<message key="xmlui.Submission.submit.UploadResearchDataStep.submit_edit">Edit</message>
+	<message key="xmlui.Submission.submit.UploadResearchDataStep.checksum">File checksum:</message>
+	<message key="xmlui.Submission.submit.UploadResearchDataStep.submit_remove">Remove selected files</message>
+
+    <message key="xmlui.Submission.submit.CCLicenseResearchDataStep.head">License Your Work</message>
+    <message key="xmlui.Submission.submit.CCLicenseResearchDataStep.info1">If you wish, you may add a <a href="http://creativecommons.org/">Creative Commons</a> License to your item. <strong>Creative Commons licenses govern what people who read your work may then do with it.</strong> <br />
+<strong>Creative Commons:</strong> Choose a license that defines the terms on which others may use your work, including attribution. <br /><br />
+<strong>CC0:</strong> Creative Commons Universal “No Rights Reserved.” If you are the copyright holder of your work, allows others to “freely build upon, enhance and reuse the works for any purposes without restriction under copyright law.”<br />
+<strong>Public domain:</strong> For works whose intellectual property rights have expired or been forfeited and may be freely used, with attribution. <br /><br />
+The research data community, including  <a href="http://best-practices.dataverse.org/harvard-policies/community-norms.html">Harvard’s Dataverse</a>,  <a href="http://figshare.com/licensing">Figshare,</a> and  <a href="http://www.datadryad.org/pages/faq#deposit">Dryad</a>, recommends <a href="https://creativecommons.org/about/cc0">CC0</a> for data and database licensing, especially scientific data. Although CC0 doesn’t legally require users of the data to cite the source, it does not take away the moral responsibility to give attribution, as is common in scientific research; with substantive reuse of data, authors and researchers are expected to cite both the data package and the original publication from which it was derived.<br /><br />
+Data depositors can opt-out of using the CC0 waiver for datasets, especially if pre-existing agreements prohibit such a license.
+    </message>
+
+
+
 </catalogue>
