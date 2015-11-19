@@ -149,7 +149,7 @@ public class UploadResearchDataStep extends AbstractSubmissionStep
     /**
      * Establish our required parameters, abstractStep will enforce these.
      */
-    public UploadStep()
+    public UploadResearchDataStep()
     {
         this.requireSubmission = true;
         this.requireStep = true;

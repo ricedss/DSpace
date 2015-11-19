@@ -82,7 +82,7 @@ public class CCLicenseResearchDataStep extends AbstractSubmissionStep
 	/**
 	 * Establish our required parameters, abstractStep will enforce these.
 	 */
-	public CCLicenseStep()
+	public CCLicenseResearchDataStep()
 	{
 	    this.requireSubmission = true;
 	    this.requireStep = true;
