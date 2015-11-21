@@ -2772,14 +2772,18 @@
 	<message key="xmlui.Submission.submit.UploadResearchDataStep.submit_remove">Remove selected files</message>
 
     <message key="xmlui.Submission.submit.CCLicenseResearchDataStep.head">License Your Work</message>
-    <message key="xmlui.Submission.submit.CCLicenseResearchDataStep.info1">If you wish, you may add a <a href="http://creativecommons.org/">Creative Commons</a> License to your item. <strong>Creative Commons licenses govern what people who read your work may then do with it.</strong> <br />
-<strong>Creative Commons:</strong> Choose a license that defines the terms on which others may use your work, including attribution. <br /><br />
+    <message key="xmlui.Submission.submit.CCLicenseResearchDataStep.info1">If you wish, you may add a <a href="http://creativecommons.org/">Creative Commons</a> License to your item. <strong>Creative Commons licenses govern what people who read your work may then do with it.</strong> <br /> <br />
+<strong>Creative Commons:</strong> Choose a license that defines the terms on which others may use your work, including attribution. <br />
 <strong>CC0:</strong> Creative Commons Universal “No Rights Reserved.” If you are the copyright holder of your work, allows others to “freely build upon, enhance and reuse the works for any purposes without restriction under copyright law.”<br />
 <strong>Public domain:</strong> For works whose intellectual property rights have expired or been forfeited and may be freely used, with attribution. <br /><br />
 The research data community, including  <a href="http://best-practices.dataverse.org/harvard-policies/community-norms.html">Harvard’s Dataverse</a>,  <a href="http://figshare.com/licensing">Figshare,</a> and  <a href="http://www.datadryad.org/pages/faq#deposit">Dryad</a>, recommends <a href="https://creativecommons.org/about/cc0">CC0</a> for data and database licensing, especially scientific data. Although CC0 doesn’t legally require users of the data to cite the source, it does not take away the moral responsibility to give attribution, as is common in scientific research; with substantive reuse of data, authors and researchers are expected to cite both the data package and the original publication from which it was derived.<br /><br />
 Data depositors can opt-out of using the CC0 waiver for datasets, especially if pre-existing agreements prohibit such a license.
     </message>
 
+    <message key="xmlui.Submission.submit.DescribeStep.hint.researchdata.language">Default is English. If the data includes multiple languages, or if it’s in a language other than English, you can look up <a href="http://www.loc.gov/standards/iso639-2/php/code_list.php">3-character language codes here</a>.</message>
+    <message key="xmlui.Submission.submit.DescribeStep.hint.researchdata.funder">Any person or organizational body who funded or sponsored the study. Use <a herf="http://search.crossref.org/fundref">FundRef</a> to find standardized funder names.</message>
+    <message key="xmlui.Submission.submit.DescribeStep.hint.researchdata.spatial">Give as much information as possible to prevent conflated entries. We recommend using the <a href="http://www.geonames.org/">GeoNames geographical database</a> to find the preferred name.</message>
+    <message key="xmlui.Submission.submit.DescribeStep.hint.researchdata.DOI">Permanent link to the original dataset, if it has been published outside of the repository. Visit Fondren’s <a herf="http://libguides.rice.edu/c.php?g=402144">DOI</a> Libguide for more information on DOIs.</message>
 
 
 </catalogue>

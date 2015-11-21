@@ -36,7 +36,7 @@
      <!-- scholarship.rice.edu  --><name-map collection-handle="1911/75119" form-name="fondrennewsform" /><!--News from Fondren-->
      <!-- scholarship.rice.edu  --><name-map collection-handle="1911/71399" form-name="archivethefuture" /><!--Recovery of a Heritage in the Making-->
 
-     <!-- dspacedev.rice.edu  --><!--name-map collection-handle="1911/77660" form-name="researchdata" /-->
+     <!-- dspacedev.rice.edu  --><!--name-map collection-handle="1911/77660" form-name="researchdataform" /-->
 
  </form-map>
 
@@ -97,8 +97,8 @@
               <dc-element>creator</dc-element>
               <dc-qualifier></dc-qualifier>
               <repeatable>true</repeatable>
-              <label>Inventor(s)</label>
-              <input-type>Creator(s) of the dataset</input-type>
+              <label>Creator(s) of the dataset</label>
+              <input-type>name</input-type>
               <hint>Last name, e.g. Smith First name (s) + “Jr,” e.g. Donald, Jr</hint>
               <required></required>
             </field>
@@ -110,7 +110,7 @@
                 <repeatable>true</repeatable>
                 <label>Associated funding agency/agencies</label>
                 <input-type>onebox</input-type>
-                <hint>Any person or organizational body who funded or sponsored the study. Use FundRef to find standardized funder names.</hint>
+                <hint>xmlui.Submission.submit.DescribeStep.hint.researchdata.funder</hint>
                 <required></required>
             </field>
 
@@ -125,7 +125,7 @@
                 <required></required>
             </field>
 
-            <field>
+            <!--field>
                 <dc-schema>dc</dc-schema>
                 <dc-element>contributor</dc-element>
                 <dc-qualifier>org</dc-qualifier>
@@ -134,7 +134,20 @@
                 <input-type value-pairs-name="researchdata_contributororg">dropdown</input-type>
                 <hint>Lab, center, institute or department affiliated with the creation of the dataset.</hint>
                 <required></required>
-            </field>
+            </field-->
+
+            <field>
+                 <dc-schema>dc</dc-schema>
+                 <dc-element>contributor</dc-element>
+                 <dc-qualifier>org</dc-qualifier>
+                 <repeatable>false</repeatable>
+                 <label>Affiliated Rice entity</label>
+                 <input-type>onebox</input-type>
+                 <hint>Lab, center, institute or department affiliated with the creation of the dataset.</hint>
+                 <required></required>
+                 <vocabulary>RDMT</vocabulary>
+             </field>
+
 
            <field>
               <dc-schema>dc</dc-schema>
@@ -143,7 +156,7 @@
               <repeatable>true</repeatable>
               <label>Language of the dataset</label>
               <input-type>onebox</input-type>
-              <hint>Default is English. If the data includes multiple languages, or if it’s in a language other than English, you can look up &lt;a href="http://www.loc.gov/standards/iso639-2/php/code_list.php"&gt;3-character language codes here&lt;/a&gt;.</hint>
+              <hint>xmlui.Submission.submit.DescribeStep.hint.researchdata.language</hint>
               <required>You must enter Language of the dataset for this item.</required>
             </field>
 
@@ -165,7 +178,7 @@
                <repeatable>true</repeatable>
                 <label>The geographic location(s) covering the data</label>
                 <input-type>onebox</input-type>
-                <hint>Give as much information as possible to prevent conflated entries. We recommend using the &lt;a href="http://www.geonames.org/"&gt;GeoNames geographical database&lt;/a&gt; to find the preferred name.</hint>
+                <hint>xmlui.Submission.submit.DescribeStep.hint.researchdata.spatial</hint>
                 <required></required>
               </field>
 
@@ -242,7 +255,7 @@
               <repeatable>true</repeatable>
               <label>DOI</label>
               <input-type>onebox</input-type>
-              <hint>Permanent link to the original dataset, if it has been published in outside the repository.</hint>
+              <hint>xmlui.Submission.submit.DescribeStep.hint.researchdata.DOI</hint>
               <required></required>
             </field>
             <field>
@@ -438,7 +451,7 @@
             <repeatable>true</repeatable>
             <label>Authors</label>
             <input-type>name</input-type>
-            <hint>Last name, e.g. Smith First name ( e.g. Donald Jr. </hint>
+            <hint>Last name, e.g. Smith First name ( e.g. Donald Jr. )</hint>
             <required></required>
           </field>
         <field>
@@ -3499,6 +3512,10 @@ it, please enter the types and the actual numbers or codes below.</hint>
        <displayed-value>Moving Image</displayed-value>
        <stored-value>Moving Image</stored-value>
      </pair>
+         <pair>
+           <displayed-value>Still Image</displayed-value>
+           <stored-value>Still Image</stored-value>
+         </pair>
          <pair>
            <displayed-value>Sound</displayed-value>
            <stored-value>Sound</stored-value>
