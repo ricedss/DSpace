@@ -27,7 +27,7 @@
     <!--                    <xsl:call-template name="itemSummaryView-DIM-URI"/-->
                         <xsl:call-template name="itemSummaryView-DIM-alternative-title"/>
                         <xsl:call-template name="itemSummaryView-DIM-authors"/>
-			<xsl:call-template name="itemSummaryView-DIM-artist"/>
+			<xsl:call-template name="itemSummaryView-DIM-vraartist"/>
                         <xsl:call-template name="itemSummaryView-DIM-architect"/>
                         <xsl:call-template name="itemSummaryView-DIM-illustrator"/>
                         <xsl:call-template name="itemSummaryView-DIM-photographer"/>
