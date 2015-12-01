@@ -79,7 +79,7 @@
             <repeatable>false</repeatable>
             <label>Title of Dataset</label>
             <input-type>onebox</input-type>
-            <hint>In the cases of datasets connected to a single published study, article or dissertation (such as replication or supplemental data), use the published name of the piece. When data is not attached to a single published work, or is related to multiple works, try to include as many details (especially the Who, What, Where, and When) in your title to convey the most information using the shortest space possible. Also, bearing in mind potential misinterpretations of word choice.</hint>
+            <hint>In the cases of datasets connected to a single published study, article or dissertation (such as replication or supplemental data), use the published name of the piece. When data is not attached to a single published work, or is related to multiple works, try to include as many details (especially the Who, What, Where, and When) in your title to convey the most information using the shortest space possible. Also, bear in mind potential misinterpretations of word choice.</hint>
             <required>You must enter a Title of Dataset for this item.</required>
           </field>
             <field>
@@ -99,7 +99,7 @@
               <repeatable>true</repeatable>
               <label>Creator(s) of the dataset</label>
               <input-type>name</input-type>
-              <hint>Last name, e.g. Smith First name (s) + “Jr,” e.g. Donald, Jr</hint>
+              <hint></hint>
               <required></required>
             </field>
 
@@ -140,7 +140,7 @@
                  <dc-schema>dc</dc-schema>
                  <dc-element>contributor</dc-element>
                  <dc-qualifier>org</dc-qualifier>
-                 <repeatable>false</repeatable>
+                 <repeatable>true</repeatable>
                  <label>Affiliated Rice entity</label>
                  <input-type>onebox</input-type>
                  <hint>Lab, center, institute or department affiliated with the creation of the dataset.</hint>
@@ -167,7 +167,7 @@
                <repeatable>true</repeatable>
                 <label>Time period covered by the data</label>
                 <input-type>onebox</input-type>
-                <hint>Use “start” and “end” separated by a semicolon to indicate time span. Either side can be omitted, in the case of a single or open-ended interval. Examples: start=2009-01-01; end=2012-03-31 start=1929; end=1939 start=2010 2012 end=1976</hint>
+                <hint>Example: 1929-1939</hint>
                 <required></required>
               </field>
 
@@ -189,7 +189,7 @@
               <repeatable>false</repeatable>
               <label>Date of publication or distribution of the dataset</label>
               <input-type>date</input-type>
-              <hint>Format as YYYY. When republishing datasets, use the original date the data was made publicly accessible.</hint>
+              <hint>When republishing datasets, use the original date the data was made publicly accessible.</hint>
               <required></required>
             </field>
             <field>
@@ -267,6 +267,7 @@
                  <input-type>onebox</input-type>
                  <hint></hint>
                  <required></required>
+                <visibility>workflow</visibility>
                </field>
 
             <field>
