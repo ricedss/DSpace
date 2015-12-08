@@ -40,13 +40,20 @@
         <url-pattern>/*</url-pattern>
     </filter-mapping>
 
-    <listener>
-        <listener-class>org.dspace.app.util.DSpaceContextListener</listener-class>
-    </listener>
-
-    <listener>
+    <!--
+       DSpace Kernel startup listener. This listener is in charge of initializing/starting the
+       DSpace Kernel. It MUST be listed BEFORE any other DSpace listeners, as DSpace services
+       will not function until the Kernel is initialized.
+    -->
+     <listener>
         <listener-class>org.dspace.servicemanager.servlet.DSpaceKernelServletContextListener</listener-class>
-    </listener>
+     </listener>
+
+     <listener>
+        <listener-class>org.dspace.app.util.DSpaceContextListener</listener-class>
+     </listener>
+
+
 
     <servlet>
         <servlet-name>rdf-serialization</servlet-name>

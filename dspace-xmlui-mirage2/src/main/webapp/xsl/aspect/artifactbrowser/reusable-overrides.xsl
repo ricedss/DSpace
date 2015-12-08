@@ -2085,7 +2085,7 @@ references to stylesheets pulled directly from the pageMeta element. -->
 
         <!-- Add all Google Scholar Metadata values -->
         <xsl:for-each select="/dri:document/dri:meta/dri:pageMeta/dri:metadata[substring(@element, 1, 9) = 'citation_']">
-            <meta name="{@element}" content="{.}">&nbsp;</meta>
+            <meta content="{.}" name="{@element}"> </meta>
         </xsl:for-each>
 
         <!-- Add MathJAX JS library to render scientific formulas-->

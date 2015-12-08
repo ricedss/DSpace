@@ -257,7 +257,7 @@
              <dc-schema>dc</dc-schema>
              <dc-element>identifier</dc-element>
                <dc-qualifier>patentID</dc-qualifier>
-             <display-format>Patent @field@ </display-format>
+             <display-format>Patent @field@. </display-format>
            </field>
 
                 <!-- source -->
@@ -267,6 +267,14 @@
                  <dc-qualifier>issued</dc-qualifier>
                  <display-format> issued @field@.</display-format>
                </field>
+
+            <!-- URI -->
+           <field>
+             <dc-schema>dc</dc-schema>
+             <dc-element>identifier</dc-element>
+             <dc-qualifier>uri</dc-qualifier>
+             <display-format> Retrieved from &lt;a href="@field@"&gt;@field@&lt;/a&gt;.</display-format>
+           </field>
 
 
             </citation>
@@ -1198,7 +1206,7 @@
               <dc-schema>dc</dc-schema>
               <dc-element>contributor</dc-element>
               <dc-qualifier>photographer</dc-qualifier>
-              <display-format multiple-value-seperator=",">@field@(photographer).</display-format>
+              <display-format multiple-value-seperator=",">@field@ (photographer).</display-format>
             </field>
 
             <!-- if the contributor.author is empty, try to use contributor.photographer or contributor.illustrator -->
@@ -1206,7 +1214,7 @@
               <dc-schema>dc</dc-schema>
               <dc-element>contributor</dc-element>
               <dc-qualifier>illustrator</dc-qualifier>
-              <display-format multiple-value-seperator=",">@field@(illustrator).</display-format>
+              <display-format multiple-value-seperator=","> @field@ (illustrator).</display-format>
             </field>
 
             <!-- Title -->
@@ -1246,23 +1254,23 @@
              <dc-schema>dc</dc-schema>
              <dc-element>date</dc-element>
              <dc-qualifier>issued</dc-qualifier>
-             <display-format format-it="year-only"> (@field@):</display-format>
+             <display-format format-it="year-only"> (@field@) </display-format>
            </field>
 
-            <!-- Journal Page Number -->
-           <!--field>
+            <!-- publisher -->
+           <field>
              <dc-schema>dc</dc-schema>
-             <dc-element>citation</dc-element>
-             <dc-qualifier>pageNumber</dc-qualifier>
-             <display-format> pp. @field@.</display-format>
-           </field-->
+             <dc-element>publisher</dc-element>
+             <dc-qualifier></dc-qualifier>
+             <display-format>@field@:</display-format>
+           </field>
 
             <!-- Journal Page Number -->
             <field>
                 <dc-schema>dc</dc-schema>
                 <dc-element>citation</dc-element>
                 <dc-qualifier>firstpage</dc-qualifier>
-                <display-format>@field@.</display-format>
+                <display-format> @field@.</display-format>
             </field>
 
             <field>

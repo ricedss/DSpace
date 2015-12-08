@@ -51,19 +51,16 @@
                         <xsl:call-template name="itemSummaryView-collections"/>
 </xsl:template>
 
-        <xsl:template name="itemSummaryView-DIM-vraartist">
-        <xsl:if test="dim:field[@schema='vra' and @element='agent' and descendant::text()]">
+  <xsl:template name="itemSummaryView-DIM-vraartist">
+        <xsl:if test="dim:field[@mdschema='vra' and @element='agent']">
             <div class="simple-item-view-vraagent item-page-field-wrapper table">
                 <h5><i18n:text>xmlui.Rice.vraartist</i18n:text></h5>
                 <span>
-                    <xsl:for-each select="dim:field[@schema='vra' and @element='agent']">
-                        <a>
-                            <xsl:attribute name="href">
-                                <xsl:copy-of select="./node()"/>
-                            </xsl:attribute>
+                    <xsl:for-each select="dim:field[@mdschema='vra' and @element='agent']">
+
                             <xsl:copy-of select="./node()"/>
-                        </a>
-                        <xsl:if test="count(following-sibling::dim:field[@schema='vra'][@element='agent']) != 0">
+
+                        <xsl:if test="count(following-sibling::dim:field[@mdschema='vra'][@element='agent']) != 0">
                             <br/>
                         </xsl:if>
                     </xsl:for-each>
@@ -78,12 +75,7 @@
                 <h5><i18n:text>xmlui.Rice.datenote</i18n:text></h5>
                 <span>
                     <xsl:for-each select="dim:field[@element='date' and @qualifier='note']">
-                        <a>
-                            <xsl:attribute name="href">
-                                <xsl:copy-of select="./node()"/>
-                            </xsl:attribute>
                             <xsl:copy-of select="./node()"/>
-                        </a>
                         <xsl:if test="count(following-sibling::dim:field[@element='date' and @qualifier='note']) != 0">
                             <br/>
                         </xsl:if>

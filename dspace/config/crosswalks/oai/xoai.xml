@@ -16,7 +16,7 @@
     <Contexts>
         <Context baseurl="request" name="Default Context">
             <!-- Restrict access to hidden items by default -->
-            <Filter red="defaultFilter" />
+            <Filter ref="defaultFilter" />
 
             <Format ref="oaidc"/>
             <Format ref="mets"/>
@@ -47,7 +47,7 @@
             <!-- Date format, field prefixes, etc are ensured by the transformer -->
             <Transformer ref="driverTransformer"/>
             <!-- The driver filter -->
-            <Filter red="driverFilter"/>
+            <Filter ref="driverFilter"/>
             <!-- Just an alias, in fact it returns all items within the driver context -->
             <Set ref="driverSet"/>
             <!-- Metadata Formats -->
@@ -55,7 +55,7 @@
             <Format ref="mets"/>
             <Format ref="didl"/>
             <Description>
-                This contexts complies with Driver rules.
+                This context complies with Driver rules.
             </Description>
         </Context>
 
@@ -72,14 +72,14 @@
             <!-- Date format, field prefixes, etc are ensured by the transformer -->
             <Transformer ref="openaireTransformer"/>
             <!-- OpenAIRE filter -->
-            <Filter red="openAireFilter"/>
+            <Filter ref="openAireFilter"/>
             <!-- Just an alias, in fact it returns all items within the driver context -->
             <Set ref="openaireSet"/>
             <!-- Metadata Formats -->
             <Format ref="oaidc"/>
             <Format ref="mets"/>
             <Description>
-                This contexts complies with OpenAIRE rules.
+                This context complies with OpenAIRE rules.
             </Description>
         </Context>
     </Contexts>
@@ -373,7 +373,7 @@
             <Configuration>
                 <string name="field">dc.rights</string>
                 <string name="operator">contains</string>
-                <list>
+                <list name="values">
                     <string>open access</string>
                     <string>openAccess</string>
                 </list>
@@ -400,7 +400,7 @@
             <Configuration>
                 <string name="field">dc.relation</string>
                 <string name="operator">starts_with</string>
-                <string name="value">info:eu-repo/grantAgreement/EC/FP</string>
+                <string name="value">info:eu-repo/grantAgreement/EC</string>
             </Configuration>
         </CustomCondition>
     </Filters>

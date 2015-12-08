@@ -760,8 +760,6 @@ public class GoogleMetadata
     }
 
     /**
-     * Fetch all metadata mappings
-     *
      * Fetch retaining the order of the values for any given key in which they
      * where added (like authors).
      *
@@ -770,10 +768,8 @@ public class GoogleMetadata
      * 
      * @return Iterable of metadata fields mapped to Google-formatted values
      */
-    //public Set<Entry<String, String>> getMappings()
     public Collection<Entry<String, String>> getMappings()
     {
-        //return new HashSet<>(metadataMappings.entries());
         return metadataMappings.entries();
     }
 
