@@ -213,7 +213,7 @@
                                 </script>
             </xsl:if>
    <!-- Ying added this key to activate jwplayer analytics -->
-            <script type="text/javascript">jwplayer.key="Wntm1vNVaEE9HkzSe42YA5n26se24g2VpQ+cew==";</script>
+
 
             <xsl:variable name="page_title" select="/dri:document/dri:meta/dri:pageMeta/dri:metadata[@element='title']" />
             <title>

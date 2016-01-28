@@ -485,7 +485,7 @@
                  <dc-schema>thesis</dc-schema>
                  <dc-element>degree</dc-element>
                  <dc-qualifier>level</dc-qualifier>
-                 <display-format> @field@ Thesis, </display-format>
+                 <display-format> @field@, </display-format>
                </field>
 
                 <!-- University -->
@@ -1213,6 +1213,14 @@
             <field max-n-value="3" max-n-ending="et al." noshow-if-exist="dc.contributor.author;dc.creator" op="AND">
               <dc-schema>dc</dc-schema>
               <dc-element>contributor</dc-element>
+              <dc-qualifier>performer</dc-qualifier>
+              <display-format multiple-value-seperator=",">@field@ (performer).</display-format>
+            </field>
+
+            <!-- if the contributor.author is empty, try to use contributor.photographer or contributor.illustrator -->
+            <field max-n-value="3" max-n-ending="et al." noshow-if-exist="dc.contributor.author;dc.creator" op="AND">
+              <dc-schema>dc</dc-schema>
+              <dc-element>contributor</dc-element>
               <dc-qualifier>illustrator</dc-qualifier>
               <display-format multiple-value-seperator=","> @field@ (illustrator).</display-format>
             </field>
@@ -1270,14 +1278,21 @@
                 <dc-schema>dc</dc-schema>
                 <dc-element>citation</dc-element>
                 <dc-qualifier>firstpage</dc-qualifier>
-                <display-format> @field@.</display-format>
+                <display-format> @field@</display-format>
             </field>
 
             <field>
                 <dc-schema>dc</dc-schema>
                 <dc-element>citation</dc-element>
                 <dc-qualifier>lastpage</dc-qualifier>
-                <display-format>-@field@.</display-format>
+                <display-format>-@field@</display-format>
+            </field>
+
+            <field show-if-exist="dc.citation.firstpage">
+                <dc-schema></dc-schema>
+                <dc-element></dc-element>
+                <dc-qualifier></dc-qualifier>
+                <display-format>.</display-format>
             </field>
 
             <!-- DOI -->

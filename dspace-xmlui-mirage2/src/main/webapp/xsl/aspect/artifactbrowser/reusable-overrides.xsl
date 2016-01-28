@@ -1684,7 +1684,7 @@ playerInstance.setup({
                  <div>
                     <xsl:for-each select="dim:field[@element='degree' and @qualifier='name']">
                         <xsl:copy-of select="./node()"/>
-                        <xsl:text> thesis</xsl:text>
+
                         <xsl:if test="count(following-sibling::dim:field[@element='degree' and @qualifier='name']) != 0">
                             <br/>
                         </xsl:if>
