@@ -1808,11 +1808,11 @@ playerInstance.setup({
                     <td>
                         <div class="hiddenvalue">
                             <xsl:copy-of select="./node()"/>
-                            <xsl:if test="./@authority and ./@confidence">
+                            <!--xsl:if test="./@authority and ./@confidence">
                                 <xsl:call-template name="authorityConfidenceIcon">
                                     <xsl:with-param name="confidence" select="./@confidence"/>
                                 </xsl:call-template>
-                            </xsl:if>
+                            </xsl:if-->
                         </div>
                     </td>
                 </tr>
@@ -1830,11 +1830,11 @@ playerInstance.setup({
                             </xsl:attribute>
                             <xsl:copy-of select="./node()"/>
                         </a>
-                        <xsl:if test="./@authority and ./@confidence">
+                        <!--xsl:if test="./@authority and ./@confidence">
                             <xsl:call-template name="authorityConfidenceIcon">
                                 <xsl:with-param name="confidence" select="./@confidence"/>
                             </xsl:call-template>
-                        </xsl:if>
+                        </xsl:if-->
                     </td>
                 </tr>
             </xsl:when>
@@ -1856,11 +1856,11 @@ playerInstance.setup({
                         <td>
                             <xsl:for-each select="parent::dim:dim/dim:field[@element=current()/@element and @qualifier=current()/@qualifier]">
                                 <xsl:copy-of select="./node()"/>
-                                <xsl:if test="./@authority and ./@confidence">
+                                <!--xsl:if test="./@authority and ./@confidence">
                                     <xsl:call-template name="authorityConfidenceIcon">
                                         <xsl:with-param name="confidence" select="./@confidence"/>
                                     </xsl:call-template>
-                                </xsl:if>
+                                </xsl:if-->
                                 <br/>
                             </xsl:for-each>
                         </td>
@@ -1877,11 +1877,11 @@ playerInstance.setup({
                     <td>
                         <xsl:for-each select="parent::dim:dim/dim:field[@element=current()/@element and not(@qualifier)]">
                             <xsl:copy-of select="./node()"/>
-                            <xsl:if test="./@authority and ./@confidence">
+                            <!--xsl:if test="./@authority and ./@confidence">
                                 <xsl:call-template name="authorityConfidenceIcon">
                                     <xsl:with-param name="confidence" select="./@confidence"/>
                                 </xsl:call-template>
-                            </xsl:if>
+                            </xsl:if-->
                             <br/>
                         </xsl:for-each>
                     </td>
@@ -1913,11 +1913,11 @@ playerInstance.setup({
                                 </xsl:copy>
                             </xsl:otherwise>
                         </xsl:choose>
-                        <xsl:if test="./@authority and ./@confidence">
+                        <!--xsl:if test="./@authority and ./@confidence">
                             <xsl:call-template name="authorityConfidenceIcon">
                                 <xsl:with-param name="confidence" select="./@confidence"/>
                             </xsl:call-template>
-                        </xsl:if>
+                        </xsl:if-->
                     </td>
                 </tr>
             </xsl:otherwise>
