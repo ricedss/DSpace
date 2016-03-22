@@ -35,7 +35,7 @@
 
      <!-- scholarship.rice.edu  --><name-map collection-handle="1911/75119" form-name="fondrennewsform" /><!--News from Fondren-->
      <!-- scholarship.rice.edu  --><name-map collection-handle="1911/71399" form-name="archivethefuture" /><!--Recovery of a Heritage in the Making-->
-
+                                   <name-map collection-handle="1911/81971" form-name="teacherarchiveform"/>
      <!-- dspacedev.rice.edu  --><!--name-map collection-handle="1911/77660" form-name="researchdataform" /-->
 
  </form-map>
@@ -58,6 +58,242 @@
  <!-- serves as a 'this field is required' flag.                           -->
 
  <form-definitions>
+
+          <!-- teacher archive  Form -->
+      <form name="teacherarchiveform">
+        <page number="1">
+            <field>
+                <dc-schema>dc</dc-schema>
+                <dc-element>contributor</dc-element>
+                <dc-qualifier>author</dc-qualifier>
+                <repeatable>true</repeatable>
+                <label>Authors</label>
+                <input-type>onebox</input-type>
+                <hint>Last name, e.g. Smith First name (s) + “Jr,” e.g. Donald Jr</hint>
+                <required></required>
+            </field>
+            <field>
+                <dc-schema>dc</dc-schema>
+                <dc-element>title</dc-element>
+                <dc-qualifier></dc-qualifier>
+                <repeatable>false</repeatable>
+                <label>Title</label>
+                <input-type>onebox</input-type>
+                <hint>Enter full title as appears on article.</hint>
+                <required>You must enter a Title for this item.</required>
+            </field>
+            <field>
+              <dc-schema>dc</dc-schema>
+              <dc-element>date</dc-element>
+              <dc-qualifier>issued</dc-qualifier>
+              <repeatable>false</repeatable>
+              <label>Date of Issue</label>
+              <input-type>date</input-type>
+              <hint>Date published or first used in classroom. If only year is known, leave month and day fields blank.</hint>
+              <required>You must enter Date of issue for this item.</required>
+            </field>
+
+          <field>
+            <dc-schema>local</dc-schema>
+            <dc-element>educational</dc-element>
+            <dc-qualifier>resourceType</dc-qualifier>
+            <repeatable>false</repeatable>
+            <label>Resource Type</label>
+            <input-type value-pairs-name="teacherResourceType">dropdown</input-type>
+             <hint>Select one term, use most primary type.</hint>
+            <required>You must enter Resource Type for this item.</required>
+          </field>
+
+             <field>
+               <dc-schema>dc</dc-schema>
+               <dc-element>type</dc-element>
+               <dc-qualifier>dcmi</dc-qualifier>
+               <repeatable>false</repeatable>
+               <label>Content Format</label>
+               <input-type value-pairs-name="researchdata_dcmitype">dropdown</input-type>
+                <hint>Most resources are text. When there are multiple entries, choose primary. ‘Moving image’ refers to video files.</hint>
+               <required>You must enter Content Format for this item.</required>
+             </field>
+
+            <field>
+               <dc-schema>dc</dc-schema>
+               <dc-element>language </dc-element>
+               <dc-qualifier>iso</dc-qualifier>
+               <repeatable>true</repeatable>
+               <label>Language</label>
+               <input-type>onebox</input-type>
+               <hint>xmlui.Submission.submit.DescribeStep.hint.researchdata.language</hint>
+               <required>You must enter Language for this item.</required>
+             </field>
+
+
+            <field>
+               <dc-schema>dc</dc-schema>
+               <dc-element>subject</dc-element>
+               <dc-qualifier></dc-qualifier>
+               <repeatable>false</repeatable>
+               <label>Discipline</label>
+               <input-type value-pairs-name="teacherarchive_discipline">dropdown</input-type>
+               <hint>Select Rice Program or discipline.</hint>
+               <required>You must enter Discipline for this item.</required>
+           </field>
+
+            <field>
+               <dc-schema>dcterms</dc-schema>
+               <dc-element>audience</dc-element>
+               <dc-qualifier></dc-qualifier>
+               <repeatable>false</repeatable>
+               <label>Audience</label>
+               <input-type value-pairs-name="teacherarchive_audience">dropdown</input-type>
+               <hint>Select most appropriate term</hint>
+               <required>You must enter Audience for this item.</required>
+           </field>
+            <field>
+               <dc-schema>dcterms</dc-schema>
+               <dc-element>educationLevel</dc-element>
+               <dc-qualifier></dc-qualifier>
+               <repeatable>false</repeatable>
+               <label>Education Level</label>
+               <input-type value-pairs-name="teacherarchive_educationlevel">dropdown</input-type>
+               <hint>Select most appropriate term</hint>
+               <required>You must enter Education Level for this item.</required>
+           </field>
+
+             <field>
+                <dc-schema>dc</dc-schema>
+                <dc-element>format</dc-element>
+                <dc-qualifier>extant</dc-qualifier>
+                <repeatable>false</repeatable>
+                <label>Size</label>
+                <input-type>onebox</input-type>
+                <hint>Enter page count (e.g. 12 pp) if PDF.</hint>
+                <required></required>
+            </field>
+
+            <field>
+                <dc-schema>dc</dc-schema>
+                <dc-element>description</dc-element>
+                <dc-qualifier></dc-qualifier>
+                <repeatable>false</repeatable>
+                 <label>Description</label>
+                 <input-type>textarea</input-type>
+                 <hint></hint>
+                 <required></required>
+               </field>
+
+            <field>
+                  <dc-schema>dc</dc-schema>
+                  <dc-element>description</dc-element>
+                  <dc-qualifier>abstract</dc-qualifier>
+                  <repeatable>false</repeatable>
+                   <label>Abstract</label>
+                   <input-type>textarea</input-type>
+                   <hint>Enter abstract of item </hint>
+                   <required></required>
+                 </field>
+            <field>
+              <dc-schema>dc</dc-schema>
+              <dc-element>citation</dc-element>
+              <dc-qualifier>journalTitle</dc-qualifier>
+              <repeatable>false</repeatable>
+              <label>Journal Title</label>
+              <input-type>onebox</input-type>
+              <hint>Title of journal.</hint>
+              <required></required>
+            </field>
+            <field>
+              <dc-schema>dc</dc-schema>
+              <dc-element>citation</dc-element>
+              <dc-qualifier>volumeNumber</dc-qualifier>
+              <repeatable>false</repeatable>
+              <label>Volume Number(s)</label>
+              <input-type>onebox</input-type>
+              <hint></hint>
+              <required></required>
+            </field>
+            <field>
+              <dc-schema>dc</dc-schema>
+              <dc-element>citation</dc-element>
+              <dc-qualifier>issueNumber</dc-qualifier>
+              <repeatable>false</repeatable>
+              <label>Issue Number(s)</label>
+              <input-type>onebox</input-type>
+              <hint></hint>
+              <required></required>
+            </field>
+            <field>
+              <dc-schema>dc</dc-schema>
+              <dc-element>citation</dc-element>
+              <dc-qualifier>pageNumber</dc-qualifier>
+              <repeatable>false</repeatable>
+              <label>Page Number(s)</label>
+              <input-type>onebox</input-type>
+              <hint></hint>
+              <required></required>
+            </field>
+
+            <field>
+                <dc-schema>dc</dc-schema>
+                <dc-element>contributor</dc-element>
+                <dc-qualifier>publisher</dc-qualifier>
+                <repeatable>false</repeatable>
+                <label>Publisher</label>
+                <input-type>onebox</input-type>
+                <hint>Enter the name of the publisher.</hint>
+                <required></required>
+            </field>
+
+            <field>
+                <dc-schema>dc</dc-schema>
+                <dc-element>identifier</dc-element>
+                <dc-qualifier></dc-qualifier>
+                <!-- An input-type of qualdrop_value MUST be marked as repeatable -->
+                <repeatable>true</repeatable>
+                <label>Identifiers</label>
+                <input-type value-pairs-name="facultypub_identifiers">qualdrop_value</input-type>
+                <hint>If the item has any identification numbers associated with it. When available, DOI (digital object identifier) MUST be entered. </hint>
+                <required></required>
+            </field>
+
+            <field>
+                 <dc-schema>dc</dc-schema>
+                 <dc-element>type</dc-element>
+                 <dc-qualifier>publication</dc-qualifier>
+                 <repeatable>false</repeatable>
+                 <label>Version of Work</label>
+                 <input-type value-pairs-name="type_publication">dropdown</input-type>
+                 <hint>“Pre-print” is the first draft of the work, before peer-review. “Post-print” is the version submitted to the publisher after peer-review. “Publisher version” is the version of record, as found in print or on the publisher’s website.</hint>
+                 <required></required>
+                 <vocabulary>RDMT</vocabulary>
+             </field>
+
+
+            <field>
+               <dc-schema>dc</dc-schema>
+               <dc-element>citation</dc-element>
+               <dc-qualifier>conferenceName</dc-qualifier>
+               <repeatable>false</repeatable>
+                <label>Conference</label>
+                <input-type>onebox</input-type>
+                <hint>If paper presented at conference, enter the name of conference.</hint>
+                <required></required>
+              </field>
+
+            <field>
+               <dc-schema>dc</dc-schema>
+               <dc-element>citation</dc-element>
+               <dc-qualifier>conferenceDate</dc-qualifier>
+               <repeatable>false</repeatable>
+                <label>Conference Date</label>
+                <input-type>onebox</input-type>
+                <hint>If paper presented at conference, enter conference date. YYYY-MM-DD</hint>
+                <required></required>
+              </field>
+
+              </page>
+      </form>
+
+     <!--END teacher archive  Form -->
 
      <!--Research Data Form -->
       <form name="researchdataform">

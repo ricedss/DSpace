@@ -40,6 +40,7 @@
 
 package org.dspace.app.xmlui.utils;
 
+
 import org.apache.commons.cli.*;
 import org.dspace.app.xmlui.wing.Namespace;
 import org.dspace.content.Collection;
@@ -64,6 +65,7 @@ import java.io.PrintWriter;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.TreeMap;
+import org.dspace.core.ConfigurationManager;
 
 // SAX classes.
 //JAXP 1.1
@@ -86,8 +88,8 @@ public class ThresherXMLGenerator
 
         public static void main(String[] argv) throws Exception
         {
-            String filePath = "/ds/data/dspace/config/externalXML";
-
+            //String filePath = "/ds/sw/dspace/config/externalXML";
+            String filePath = ConfigurationManager.getProperty("xmlui.externalxml.dir");
             // create an options object and populate it
             CommandLineParser parser = new PosixParser();
 
@@ -224,6 +226,7 @@ public class ThresherXMLGenerator
                     Metadatum[] dcpage = item.getMetadata("dc","citation", "pageNumber", Item.ANY);
                     Metadatum[] dcvolume = item.getMetadata("dc","citation", "volumeNumber", Item.ANY);
                     Metadatum[] dcissue = item.getMetadata("dc","citation", "issueNumber", Item.ANY);
+                     Metadatum[] dcvolumeyear = item.getMetadata("dc","citation", "volumeYear", Item.ANY);
                     if(dcpage != null && dcpage.length != 0){
                         // this is an article, do nothing
                         if((dcvolume != null) && (dcvolume.length != 0)){
@@ -234,6 +237,10 @@ public class ThresherXMLGenerator
                         if((dcissue != null) && (dcissue.length != 0)){
                         }else{
                             System.out.println("This item " + itemHandle + " has no issue number!!!");
+                        }
+                        if((dcvolumeyear != null) && (dcvolumeyear.length != 0)){
+                        }else{
+                            System.out.println("This item " + itemHandle + " has no volume year!!!");
                         }
                     }else{
                         // this is an issue volume index. I'd like to know the volume number, and/or issue number, issue date and handle
@@ -310,6 +317,15 @@ public class ThresherXMLGenerator
                             System.out.println("This item " + itemHandle + " has no issue number!!!");
                         }
 
+                        String volumeYear = "";
+                        if((dcvolumeyear != null) && (dcvolumeyear.length != 0)){
+                            volumeYear = dcvolumeyear[0].value;
+                            //System.out.println("This is an issue - " + issueNum );
+
+                        }else{
+                            System.out.println("This item " + itemHandle + " has no volume year!!!");
+                        }
+
                         Metadatum[] dcdate = item.getMetadata("dc","date", "issued", Item.ANY);
                         String date = "";
                         if((dcdate != null) && (dcdate.length != 0)){
@@ -321,7 +337,7 @@ public class ThresherXMLGenerator
                             System.out.println("This item " + itemHandle + " has no date info!!!");
                         }
 
-                        ItemInfo itemInfo = new ItemInfo(itemHandle, volumeNum, date, issueNum, "");
+                        ItemInfo itemInfo = new ItemInfo(itemHandle, volumeNum, date, issueNum, volumeYear);
                         volumeIssue.put(NomalizeNum(volumeNum)+NomalizeNum(issueNum)+itemHandle, itemInfo);
                     }
 
@@ -375,14 +391,23 @@ public class ThresherXMLGenerator
                           }else{
                               int datei = Integer.parseInt(date.substring(0,4));
                               String datev = date.substring(0,4);
+                              String volumeYear = itemInfo.getVolyear();
+                              // add another field for grouping in order
+
                               if(RIPYear.containsKey(volnum)){
-                                  atts.addAttribute("","","vol","CDATA",volnum+" ("+RIPYear.get(volnum)+")");
+                                  //atts.addAttribute("","","vol","CDATA",volnum+" ("+RIPYear.get(volnum)+")");
+                                  atts.addAttribute("","","vol","CDATA",volnum+" ("+ volumeYear +")");
+                                  atts.addAttribute("","","groupingvol","CDATA",NomalizeNum(volnum)+""+volumeYear);
                               }else{
 
                                   int datej = datei + 1;
                                   datev = datei + "-" + datej;
                                   RIPYear.put(volnum, datev);
-                                  atts.addAttribute("","","vol","CDATA",volnum+" ("+datev+")");
+                                  // let's replace the datev with volumeYear
+                                  //atts.addAttribute("","","vol","CDATA",volnum+" ("+datev+")");
+                                  //String volumeYear = itemInfo.getVolyear();
+                                  atts.addAttribute("","","vol","CDATA",volnum+" ("+volumeYear+")");
+                                  atts.addAttribute("","","groupingvol","CDATA",NomalizeNum(volnum)+""+volumeYear);
                               }
                           }
                           if(itemInfo.getIssue().equalsIgnoreCase("0")){
@@ -405,6 +430,8 @@ public class ThresherXMLGenerator
 
 private String NomalizeNum(String num){
     if(num.length()==1){
+        return "00"+num;
+    }if (num.length()==2){
         return "0"+num;
     }
     return num;
@@ -416,12 +443,12 @@ private class ItemInfo{
     private String volume;
     private String date;
     private String issue;
-    private String realvol;
+    private String volyear;
 
-    public ItemInfo(String handle, String volume, String date, String issue, String vol){
+    public ItemInfo(String handle, String volume, String date, String issue, String volyear){
         this.handle = handle;
         this.volume = volume;
-        this.realvol = vol;
+        this.volyear = volyear;
         this.date = date;
         this.issue = issue;
     }
@@ -438,8 +465,10 @@ private class ItemInfo{
     public String getIssue(){
         return this.issue;
     }
-    public String getRealvol(){
-        return this.realvol;
+    public String getVolyear(){
+        return this.volyear;
     }
 }
+
+
 }

@@ -18,7 +18,7 @@
     <xsl:output indent="yes"/>
 
 	<!-- Set up the key for the Muenchian grouping -->
-	<xsl:key name="issues-by-vol" match="cds:issue" use="@vol"/>
+	<xsl:key name="issues-by-vol" match="cds:issue" use="@groupingvol"/>
 	
 	<!--
         The document variable is a reference to the top of the original DRI 
@@ -40,7 +40,7 @@
         <!-- List all the volumes and their issues here. -->
 
         <div class="panel-group" id="accordion">
-        <xsl:apply-templates select="//cds:issue[generate-id(.) = generate-id(key('issues-by-vol', @vol)[1])]"/>
+        <xsl:apply-templates select="//cds:issue[generate-id(.) = generate-id(key('issues-by-vol', @groupingvol)[1])]"/>
         </div>
     </xsl:template>
 
@@ -53,6 +53,8 @@
         <xsl:variable name="collection_handle" select="substring-after($document/dri:meta/dri:pageMeta/dri:metadata[@element='focus' and @qualifier='container'], ':')"/>
 
         <xsl:variable name="volnum" select="substring-before(@vol, ' (')"/>
+        <xsl:variable name="volyear" select="substring-before(substring-after(@vol, ' ('), ')')"/>
+
             <!--  data-target="#v{$volnum}" -->
         <div class="journal-volume-group panel panel-default">
                 <!-- i18n: Volume N -->
@@ -60,7 +62,7 @@
                  <h4 class="panel-title">
                      <a
                      data-toggle="collapse"
-                     href="#v{$volnum}">
+                     href="#v{$volnum}{$volyear}">
 
                      <i18n:translate>
                          <i18n:text>xmlui.Periodicals.VolumeNumber</i18n:text>
@@ -71,9 +73,9 @@
                      </a>
                  </h4>
             </div>
-            <div id="v{$volnum}" class="panel-collapse collapse">
+            <div id="v{$volnum}{$volyear}" class="panel-collapse collapse">
                 <div class="panel-body">
-                    <xsl:for-each select="key('issues-by-vol', @vol)">
+                    <xsl:for-each select="key('issues-by-vol', @groupingvol)">
                          <a href="{$context_path}/handle/{@handle}">
                         <!-- i18n: Issue N (YYYY-MM-DD) -->
                                 <i18n:translate>
