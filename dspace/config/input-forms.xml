@@ -180,7 +180,8 @@
                  <hint></hint>
                  <required></required>
                </field>
-
+       </page>
+       <page number="2">
             <field>
                   <dc-schema>dc</dc-schema>
                   <dc-element>description</dc-element>
@@ -4480,6 +4481,280 @@ it, please enter the types and the actual numbers or codes below.</hint>
     </pair>
      </value-pairs>
 
+     <value-pairs value-pairs-name="teacherResourceType" dc-term="">
+         <pair>
+             <displayed-value>Activities and labs</displayed-value>
+             <stored-value>Activities and labs</stored-value>
+         </pair>
+         <pair>
+             <displayed-value>Assessment materials</displayed-value>
+             <stored-value>Assessment materials</stored-value>
+         </pair>
+         <pair>
+             <displayed-value>Audio Lectures</displayed-value>
+             <stored-value>Audio Lectures</stored-value>
+         </pair>
+         <pair>
+             <displayed-value>Case studies</displayed-value>
+             <stored-value>Case studies</stored-value>
+         </pair>
+         <pair>
+             <displayed-value>Datasets</displayed-value>
+             <stored-value>Datasets</stored-value>
+         </pair>
+         <pair>
+             <displayed-value>Exams and tests</displayed-value>
+             <stored-value>Exams and tests</stored-value>
+         </pair>
+         <pair>
+             <displayed-value>Full courses</displayed-value>
+             <stored-value>Full courses</stored-value>
+         </pair>
+         <pair>
+             <displayed-value>Games</displayed-value>
+             <stored-value>Games</stored-value>
+         </pair>
+         <pair>
+             <displayed-value>Graphs</displayed-value>
+             <stored-value>Graphs</stored-value>
+         </pair>
+         <pair>
+             <displayed-value>Homework and assignments</displayed-value>
+             <stored-value>Homework and assignments</stored-value>
+         </pair>
+         <pair>
+             <displayed-value>Images and illustrations</displayed-value>
+             <stored-value>Images and illustrations</stored-value>
+         </pair>
+         <pair>
+             <displayed-value>Instructional materials</displayed-value>
+             <stored-value>Instructional materials</stored-value>
+         </pair>
+         <pair>
+             <displayed-value>Lectures</displayed-value>
+             <stored-value>Lectures</stored-value>
+         </pair>
+         <pair>
+             <displayed-value>Lesson plans</displayed-value>
+             <stored-value>Lesson plans</stored-value>
+         </pair>
+         <pair>
+             <displayed-value>Modules</displayed-value>
+             <stored-value>Modules</stored-value>
+         </pair>
+         <pair>
+             <displayed-value>Presentations</displayed-value>
+             <stored-value>Presentations</stored-value>
+         </pair>
+         <pair>
+             <displayed-value>Primary sources</displayed-value>
+             <stored-value>Primary sources</stored-value>
+         </pair>
+         <pair>
+             <displayed-value>Readings</displayed-value>
+             <stored-value>Readings</stored-value>
+         </pair>
+         <pair>
+             <displayed-value>Reference materials</displayed-value>
+             <stored-value>Reference materials</stored-value>
+         </pair>
+         <pair>
+             <displayed-value>Resource reviews</displayed-value>
+             <stored-value>Resource reviews</stored-value>
+         </pair>
+         <pair>
+             <displayed-value>Simulations</displayed-value>
+             <stored-value>Simulations</stored-value>
+         </pair>
+         <pair>
+             <displayed-value>Student guides</displayed-value>
+             <stored-value>Student guides</stored-value>
+         </pair>
+         <pair>
+             <displayed-value>Syllabi</displayed-value>
+             <stored-value>Syllabi</stored-value>
+         </pair>
+         <pair>
+             <displayed-value>Teaching and learning </displayed-value>
+             <stored-value>Teaching and learning </stored-value>
+         </pair>
+         <pair>
+             <displayed-value>Strategies</displayed-value>
+             <stored-value>Strategies</stored-value>
+         </pair>
+         <pair>
+             <displayed-value>Textbooks</displayed-value>
+             <stored-value>Textbooks</stored-value>
+         </pair>
+         <pair>
+             <displayed-value>Units of study</displayed-value>
+             <stored-value>Units of study</stored-value>
+         </pair>
+         <pair>
+             <displayed-value>Video lectures</displayed-value>
+             <stored-value>Video lectures</stored-value>
+         </pair>
+         <pair>
+             <displayed-value>Workshop materials</displayed-value>
+             <stored-value>Workshop materials</stored-value>
+         </pair>
+         <pair>
+             <displayed-value>Other</displayed-value>
+             <stored-value>Other</stored-value>
+         </pair>
+     </value-pairs>
+
+     <value-pairs value-pairs-name="teacherarchive_discipline" dc-term="">
+         <pair>
+             <displayed-value>Applied Science</displayed-value>
+             <stored-value>Applied Science</stored-value>
+         </pair>
+         <pair>
+                <displayed-value>Architecture</displayed-value>
+                <stored-value>Architecture</stored-value>
+            </pair>
+         <pair>
+                <displayed-value>Art and Art History</displayed-value>
+                <stored-value>Art and Art History</stored-value>
+            </pair>
+         <pair>
+                <displayed-value>Biology</displayed-value>
+                <stored-value>Biology</stored-value>
+            </pair>
+         <pair>
+                <displayed-value>Chemistry</displayed-value>
+                <stored-value>Chemistry</stored-value>
+            </pair>
+         <pair>
+                <displayed-value>Computing and Information</displayed-value>
+                <stored-value>Computing and Information</stored-value>
+            </pair>
+         <pair>
+                <displayed-value>Earth Sciences</displayed-value>
+                <stored-value>Earth Sciences</stored-value>
+            </pair>
+         <pair>
+                <displayed-value>Ecology</displayed-value>
+                <stored-value>Ecology</stored-value>
+            </pair>
+         <pair>
+                <displayed-value>Economics</displayed-value>
+                <stored-value>Economics</stored-value>
+            </pair>
+         <pair>
+                <displayed-value>Engineering</displayed-value>
+                <stored-value>Engineering</stored-value>
+            </pair>
+         <pair>
+                <displayed-value>History</displayed-value>
+                <stored-value>History</stored-value>
+            </pair>
+         <pair>
+                <displayed-value>Life Science</displayed-value>
+                <stored-value>Life Science</stored-value>
+            </pair>
+         <pair>
+                <displayed-value>Linguistics</displayed-value>
+                <stored-value>Linguistics</stored-value>
+            </pair>
+         <pair>
+                <displayed-value>Literature</displayed-value>
+                <stored-value>Literature</stored-value>
+            </pair>
+         <pair>
+                <displayed-value>Materials Science</displayed-value>
+                <stored-value>Materials Science</stored-value>
+            </pair>
+         <pair>
+                <displayed-value>Mathematics</displayed-value>
+                <stored-value>Mathematics</stored-value>
+            </pair>
+         <pair>
+                <displayed-value>Music</displayed-value>
+                <stored-value>Music</stored-value>
+            </pair>
+         <pair>
+                <displayed-value>Philosophy</displayed-value>
+                <stored-value>Philosophy</stored-value>
+            </pair>
+         <pair>
+                <displayed-value>Physics</displayed-value>
+                <stored-value>Physics</stored-value>
+            </pair>
+         <pair>
+                <displayed-value>Political Science</displayed-value>
+                <stored-value>Political Science</stored-value>
+            </pair>
+         <pair>
+                <displayed-value>Psychology</displayed-value>
+                <stored-value>Psychology</stored-value>
+            </pair>
+         <pair>
+                <displayed-value>Religious Studies</displayed-value>
+                <stored-value>Religious Studies</stored-value>
+            </pair>
+         <pair>
+                <displayed-value>Science and Technology</displayed-value>
+                <stored-value>Science and Technology</stored-value>
+            </pair>
+         <pair>
+                <displayed-value>Social Sciences</displayed-value>
+                <stored-value>Social Sciences</stored-value>
+            </pair>
+         <pair>
+                <displayed-value>Space Science</displayed-value>
+                <stored-value>Space Science</stored-value>
+            </pair>
+         <pair>
+                <displayed-value>Technology</displayed-value>
+                <stored-value>Technology</stored-value>
+            </pair>
+
+       </value-pairs>
+     <value-pairs value-pairs-name="teacherarchive_audience" dc-term="">
+         <pair>
+             <displayed-value>Administrator</displayed-value>
+             <stored-value>Administrator</stored-value>
+         </pair>
+         <pair>
+             <displayed-value>Educator</displayed-value>
+             <stored-value>Educator</stored-value>
+         </pair>
+         <pair>
+             <displayed-value>General Public</displayed-value>
+             <stored-value>General Public</stored-value>
+         </pair>
+         <pair>
+             <displayed-value>Professional/Practitioner</displayed-value>
+             <stored-value>Professional/Practitioner</stored-value>
+         </pair>
+         <pair>
+             <displayed-value>Learner</displayed-value>
+             <stored-value>Learner</stored-value>
+         </pair>
+         <pair>
+             <displayed-value>Researcher</displayed-value>
+             <stored-value>Researcher</stored-value>
+         </pair>
+     </value-pairs>
+     <value-pairs value-pairs-name="teacherarchive_educationlevel" dc-term="">
+         <pair>
+             <displayed-value>Undergraduate (Lower Division)</displayed-value>
+             <stored-value>Undergraduate (Lower Division)</stored-value>
+         </pair>
+         <pair>
+               <displayed-value>Undergraduate (Upper Division)</displayed-value>
+               <stored-value>Undergraduate (Upper Division)</stored-value>
+           </pair>
+         <pair>
+               <displayed-value>Graduate/Professional</displayed-value>
+               <stored-value>Graduate/Professional</stored-value>
+           </pair>
+         <pair>
+               <displayed-value>General Public</displayed-value>
+               <stored-value>General Public</stored-value>
+           </pair>
+           </value-pairs>
     </form-value-pairs>
 
 </input-forms>
