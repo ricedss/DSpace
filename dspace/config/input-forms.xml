@@ -2165,7 +2165,7 @@
             <dc-qualifier>journalTitle</dc-qualifier>
             <repeatable>false</repeatable>
             <label>Journal Title</label>
-              <type-bind>Journal paper</type-bind>
+              <type-bind>Journal article</type-bind>
             <input-type>onebox</input-type>
             <hint>xmlui.Submission.submit.DescribeStep.hint.eceform.journaltitle</hint>
             <required></required>
@@ -2609,7 +2609,7 @@ it, please enter the types and the actual numbers or codes below.</hint>
             <dc-qualifier>journalTitle</dc-qualifier>
             <repeatable>false</repeatable>
             <label>Journal Title</label>
-              <type-bind>Journal paper</type-bind>
+              <type-bind>Journal article</type-bind>
             <input-type>onebox</input-type>
             <hint>xmlui.Submission.submit.DescribeStep.hint.eceform.journaltitle</hint>
             <required></required>
@@ -2856,7 +2856,7 @@ it, please enter the types and the actual numbers or codes below.</hint>
             <dc-qualifier>journalTitle</dc-qualifier>
             <repeatable>false</repeatable>
             <label>Journal Title</label>
-              <type-bind>Journal paper</type-bind>
+              <type-bind>Journal article</type-bind>
             <input-type>onebox</input-type>
             <hint>xmlui.Submission.submit.DescribeStep.hint.eceform.journaltitle</hint>
             <required></required>
@@ -3519,8 +3519,8 @@ it, please enter the types and the actual numbers or codes below.</hint>
        <stored-value>Invention report</stored-value>
      </pair>
      <pair>
-       <displayed-value>Journal paper</displayed-value>
-       <stored-value>Journal paper</stored-value>
+       <displayed-value>Journal article</displayed-value>
+       <stored-value>Journal article</stored-value>
      </pair>
      <pair>
        <displayed-value>Masters thesis</displayed-value>
