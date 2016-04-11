@@ -36,7 +36,7 @@
      <!-- scholarship.rice.edu  --><name-map collection-handle="1911/75119" form-name="fondrennewsform" /><!--News from Fondren-->
      <!-- scholarship.rice.edu  --><name-map collection-handle="1911/71399" form-name="archivethefuture" /><!--Recovery of a Heritage in the Making-->
                                    <name-map collection-handle="1911/81971" form-name="teacherarchiveform"/>
-     <!-- dspacedev.rice.edu  --><!--name-map collection-handle="1911/77660" form-name="researchdataform" /-->
+     <!-- scholarship.rice.edu  --><name-map collection-handle="1911/77660" form-name="researchdataform" />
 
  </form-map>
 
@@ -3732,8 +3732,8 @@ it, please enter the types and the actual numbers or codes below.</hint>
        <stored-value>post-print</stored-value>
      </pair>
      <pair>
-       <displayed-value>published version</displayed-value>
-       <stored-value>published version</stored-value>
+       <displayed-value>publisher version</displayed-value>
+       <stored-value>publisher version</stored-value>
      </pair>
      </value-pairs>
 

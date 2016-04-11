@@ -1895,7 +1895,7 @@ playerInstance.setup({
                     <!-- Ying (via MMS): Parse the values in all other fields to determine whether they contain URLs or mark-up. Turn any URLs into links and any mark-up into mark-up. -->
                     <td>
                         <xsl:choose>
-                            <xsl:when test="contains(.,'http://') and $metadatafieldname!='dc.identifier.citation'">
+                            <xsl:when test="(contains(.,'http://') or contains(.,'https://') ) and $metadatafieldname!='dc.identifier.citation'">
                                 <xsl:call-template name="makeLinkFromText"/>
                             </xsl:when>
                             <xsl:otherwise>

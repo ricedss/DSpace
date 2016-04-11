@@ -29,6 +29,7 @@
       <xsl:call-template name="itemSummaryView-DIM-authors"/>
       <xsl:call-template name="itemSummaryView-DIM-abstract"/>
       <xsl:call-template name="itemSummaryView-DIM-subject-discipline"/>
+       <xsl:call-template name="itemSummaryView-DIM-resource-type"/>
       <xsl:call-template name="itemSummaryView-DIM-audience"/>
       <xsl:call-template name="itemSummaryView-DIM-educationlevel"/>
       <xsl:call-template name="itemSummaryView-DIM-citation"/>
@@ -74,6 +75,21 @@
             </div>
          </xsl:if>
     </xsl:template>
+
+    <!-- 'Resource Type' row in simple item record -->
+     <xsl:template name="itemSummaryView-DIM-resourcetype">
+         <xsl:if test="dim:field[@schema='local' and @element='educational' and @qualifier='resourceType']">
+             <div class="simple-item-view-series item-page-field-wrapper table">
+             <h5><i18n:text>xmlui.Rice.resourcetype</i18n:text></h5>
+                      <xsl:for-each select="dim:field[dim:field[@schema='local' and @element='educational' and @qualifier='resourceType']">
+                          <xsl:copy-of select="./node()"/>
+                          <xsl:if test="count(following-sibling::dim:field[@schema='local' and @element='educational' and @qualifier='resourceType']) != 0">
+                              <br/>
+                          </xsl:if>
+                      </xsl:for-each>
+             </div>
+          </xsl:if>
+     </xsl:template>
 
     <!-- 'Education Level' row in simple item record -->
     <xsl:template name="itemSummaryView-DIM-educationlevel">
