@@ -2731,7 +2731,10 @@
     <message key="xmlui.Rice.FormatExtent">Length</message>
     <message key="xmlui.Rice.resourcetype">Resource Type</message>
     <message key="xmlui.Rice.relationURI">Published Version</message>
+    <message key="xmlui.Rice.subjectdiscipline">Discipline</message>
     <message key="xmlui.ArtifactBrowser.AdvancedSearch.type_subjectlocal">Broad Terms</message>
+    <message key="xmlui.ArtifactBrowser.AdvancedSearch.type_resourcetype">Resource Type</message>
+    <message key="xmlui.ArtifactBrowser.SimpleSearch.filter.resourcetype">Resource Type</message>
 
 
     <message key="xmlui.Rice.datenote">Date(s)</message>
@@ -2786,6 +2789,6 @@ Data depositors can opt-out of using the CC0 waiver for datasets, especially if 
     <message key="xmlui.Submission.submit.DescribeStep.hint.researchdata.funder">Any person or organizational body who funded or sponsored the study. Use <a herf="http://search.crossref.org/fundref">FundRef</a> to find standardized funder names.</message>
     <message key="xmlui.Submission.submit.DescribeStep.hint.researchdata.spatial">Give as much information as possible to prevent conflated entries. We recommend using the <a href="http://www.geonames.org/">GeoNames geographical database</a> to find the preferred name.</message>
     <message key="xmlui.Submission.submit.DescribeStep.hint.researchdata.DOI">Permanent link to the original dataset, if it has been published outside of the repository. Visit Fondren’s <a herf="http://libguides.rice.edu/c.php?g=402144">DOI</a> Libguide for more information on DOIs.</message>
-
+    <message key="xmlui.Discovery.AbstractSearch.type_resourcetype">Resource Type</message>
 
 </catalogue>

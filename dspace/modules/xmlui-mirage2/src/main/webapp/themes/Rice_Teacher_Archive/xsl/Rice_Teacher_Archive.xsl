@@ -32,8 +32,10 @@
        <xsl:call-template name="itemSummaryView-DIM-resource-type"/>
       <xsl:call-template name="itemSummaryView-DIM-audience"/>
       <xsl:call-template name="itemSummaryView-DIM-educationlevel"/>
+        <xsl:call-template name="itemSummaryView-DIM-description"/>
+      <xsl:call-template name="itemSummaryView-DIM-rights"/>
       <xsl:call-template name="itemSummaryView-DIM-citation"/>
-      <xsl:call-template name="itemSummaryView-DIM-uri"/>
+      <xsl:call-template name="itemSummaryView-DIM-URI"/>
       <xsl:call-template name="itemSummaryView-DIM-doi"/>
       <xsl:if test="$ds_item_view_toggle_url != ''">
           <xsl:call-template name="itemSummaryView-show-full"/>
@@ -68,7 +70,7 @@
             <h5><i18n:text>xmlui.Rice.audience</i18n:text></h5>
                      <xsl:for-each select="dim:field[@schema='dcterms' and @element='audience']">
                          <xsl:copy-of select="./node()"/>
-                         <xsl:if test="count(following-sibling::dim:field[@schema='dcterms' and @element='audience') != 0">
+                         <xsl:if test="count(following-sibling::dim:field[@schema='dcterms' and @element='audience']) != 0">
                              <br/>
                          </xsl:if>
                      </xsl:for-each>
@@ -77,11 +79,11 @@
     </xsl:template>
 
     <!-- 'Resource Type' row in simple item record -->
-     <xsl:template name="itemSummaryView-DIM-resourcetype">
+     <xsl:template name="itemSummaryView-DIM-resource-type">
          <xsl:if test="dim:field[@schema='local' and @element='educational' and @qualifier='resourceType']">
              <div class="simple-item-view-series item-page-field-wrapper table">
              <h5><i18n:text>xmlui.Rice.resourcetype</i18n:text></h5>
-                      <xsl:for-each select="dim:field[dim:field[@schema='local' and @element='educational' and @qualifier='resourceType']">
+                      <xsl:for-each select="dim:field[dim:field[@schema='local' and @element='educational' and @qualifier='resourceType']]">
                           <xsl:copy-of select="./node()"/>
                           <xsl:if test="count(following-sibling::dim:field[@schema='local' and @element='educational' and @qualifier='resourceType']) != 0">
                               <br/>

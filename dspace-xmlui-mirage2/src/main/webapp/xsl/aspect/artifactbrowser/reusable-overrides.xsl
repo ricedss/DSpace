@@ -806,106 +806,79 @@
         <div class="file-wrapper row">
             <div class="col-xs-6 col-sm-5">
                 <div class="thumbnail">
-                        <xsl:choose>
+                    <xsl:choose>
 
-                        <xsl:when test="@MIMETYPE='image/jp2'">
-                            <a class="image-link" href="javascript:showJPEG2000Viewer('{$bitstreamurl}')">
-                                <img alt="Thumbnail">
-                                    <xsl:attribute name="src">
-                                        <xsl:value-of select="$context/mets:fileSec/mets:fileGrp[@USE='THUMBNAIL']/
-                                            mets:file[@GROUPID=current()/@GROUPID]/mets:FLocat[@LOCTYPE='URL']/@xlink:href"/>
-                                    </xsl:attribute>
-                                </img>
-                            </a>
-                        </xsl:when>
+                    <xsl:when test="@MIMETYPE='image/jp2'">
+                        <a class="image-link" href="javascript:showJPEG2000Viewer('{$bitstreamurl}')">
+                            <img alt="Thumbnail">
+                                <xsl:attribute name="src">
+                                    <xsl:value-of select="$context/mets:fileSec/mets:fileGrp[@USE='THUMBNAIL']/
+                                        mets:file[@GROUPID=current()/@GROUPID]/mets:FLocat[@LOCTYPE='URL']/@xlink:href"/>
+                                </xsl:attribute>
+                            </img>
+                        </a>
+                    </xsl:when>
 
-                        <xsl:when test="@MIMETYPE='video/mp4'">
-<div class="videoContainer" style="height: 0;overflow: hidden;padding-bottom: 56.25%;padding-top: 25px;position: relative;">
-                          <div id="{$streamingfilename}" style="position:absolute;width:100% !important;height: 100% !important;">Loading the player...</div>
-                            <xsl:variable name="mp4thumb1" select="$context/mets:fileSec/mets:fileGrp[@USE='THUMBNAIL']/
-                                mets:file[@GROUPID=current()/@GROUPID]/mets:FLocat[@LOCTYPE='URL']/@xlink:href"/>
+                    <xsl:when test="@MIMETYPE='video/mp4'">
+                        <div class="videoContainer" style="height: 0;overflow: hidden;padding-bottom: 56.25%;padding-top: 25px;position: relative;">
+                        <div id="{$streamingfilename}" style="position:absolute;width:100% !important;height: 100% !important;">Loading the player...</div>
+                        <xsl:variable name="mp4thumb1" select="$context/mets:fileSec/mets:fileGrp[@USE='THUMBNAIL']/
+                            mets:file[@GROUPID=current()/@GROUPID]/mets:FLocat[@LOCTYPE='URL']/@xlink:href"/>
                         <xsl:variable name="mp4thumb" select="substring-before($mp4thumb1, '?')"/>
 
-          <!--                   <video id="{$streamingfilename}" class="video-js vjs-default-skin">
-                                 <xsl:attribute name="controls" />
-                                 <xsl:attribute name="preload">
-                                      <xsl:text>none</xsl:text>
-                                 </xsl:attribute>
-                                 <xsl:attribute name="width">
-                                      <xsl:value-of select="320"/>
-                                 </xsl:attribute>
-                                 <xsl:attribute name="height">
-                                      <xsl:value-of select="264"/>
-                                 </xsl:attribute>
-                                 <xsl:attribute name="poster">
-                                     <xsl:text>https://dspacedev-v2.rice.edu/</xsl:text><xsl:value-of select="substring-before($mp4thumb, '?')"/>
-                                 </xsl:attribute>
-                                 <xsl:attribute name="data-setup">
-                                      <xsl:text>{'example_option':true}</xsl:text>
-                                 </xsl:attribute>
-                                  <source src="/themes/Mirage2/wrc02849_001-webopt.mp4" type='video/mp4' />
-    <track kind="captions" src="demo.captions.vtt" srclang="en" label="English"></track>
-    <track kind="subtitles" src="demo.captions.vtt" srclang="en" label="English"></track>
-    <p class="vjs-no-js">To view this video please enable JavaScript, and consider upgrading to a web browser that <a href="http://videojs.com/html5-video-support/" target="_blank">supports HTML5 video</a></p>
 
 
-                              </video>
-                        </div>
-                       -->
+                      <!--
+                     <script type="text/javascript">
+
+                                                 var playerInstance = jwplayer('<xsl:value-of select="$streamingfilename"/>');
+                    playerInstance.setup({
+                        file: "https://scholarship.rice.edu/bitstream/handle/1911/71397/wrc02861_001intro.mp4?sequence=1",
+                        image: "https://scholarship.rice.edu/bitstream/handle/1911/81431/Evans-Essay.pdf.jpg",
+                        width: 320,
+                        height: 240,
+                        title: "something is wrong",
+                        description: 'A video with a basic title and description!',
+                        primary: "html5"
+
+                    });
+                        file: "https://scholarship.rice.edu/bitstream/handle/1911/71397/wrc02861_001intro.mp4",
+                        image: "https://scholarship.rice.edu/bitstream/handle/1911/81431/Evans-Essay.pdf.jpg",
+                        file: "<xsl:value-of select="$baseURL"/>/help/wrc02849_001-webopt2pass.mp4",
+                        file: "<xsl:value-of select="$baseURL"/><xsl:value-of select="substring-before($bitstreamurl, '?')"/>",
+                         image: "https://dspacedev-v2.rice.edu/<xsl:value-of select="$mp4thumb"/>",
 
 
+                        file: "<xsl:value-of select="$baseURL"/>/<xsl:value-of select="$streamingfilename"/>",
 
-  <!--
- <script type="text/javascript">
+                    -->
+                       <script type="text/javascript">
+                        jwplayer.key = "7v+RIu3+q3k5BpVlhvaNE9PseQLW8aQiUgoyLA==";
+                        var playerInstance = jwplayer('<xsl:value-of select="$streamingfilename"/>');
+                        playerInstance.setup({
 
-                             var playerInstance = jwplayer('<xsl:value-of select="$streamingfilename"/>');
-playerInstance.setup({
-    file: "https://scholarship.rice.edu/bitstream/handle/1911/71397/wrc02861_001intro.mp4?sequence=1",
-    image: "https://scholarship.rice.edu/bitstream/handle/1911/81431/Evans-Essay.pdf.jpg",
-    width: 320,
-    height: 240,
-    title: "something is wrong",
-    description: 'A video with a basic title and description!',
-    primary: "html5"
+                            playlist: [{
+                                image: "<xsl:value-of select='$mp4thumb'/>",
+                                sources: [{
+                                    file: "<xsl:value-of select="$baseURL"/>/streaming/<xsl:value-of select='$streamingfilename'/>"
+                                },{
+                                    file: "rtmp://fldp.rice.edu/fondren/mp4:<xsl:value-of select='$streamingfilename'/>"
+                                }]
 
-});
-    file: "https://scholarship.rice.edu/bitstream/handle/1911/71397/wrc02861_001intro.mp4",
-    image: "https://scholarship.rice.edu/bitstream/handle/1911/81431/Evans-Essay.pdf.jpg",
-    file: "<xsl:value-of select="$baseURL"/>/help/wrc02849_001-webopt2pass.mp4",
-    file: "<xsl:value-of select="$baseURL"/><xsl:value-of select="substring-before($bitstreamurl, '?')"/>",
-     image: "https://dspacedev-v2.rice.edu/<xsl:value-of select="$mp4thumb"/>",
+                            }],
 
-
-    file: "<xsl:value-of select="$baseURL"/>/<xsl:value-of select="$streamingfilename"/>",
-
--->
-   <script type="text/javascript">
-    jwplayer.key = "7v+RIu3+q3k5BpVlhvaNE9PseQLW8aQiUgoyLA==";
-    var playerInstance = jwplayer('<xsl:value-of select="$streamingfilename"/>');
-    playerInstance.setup({
-
-        playlist: [{
-            image: "<xsl:value-of select='$mp4thumb'/>",
-            sources: [{
-                file: "<xsl:value-of select="$baseURL"/>/streaming/<xsl:value-of select='$streamingfilename'/>"
-            },{
-                file: "rtmp://fldp.rice.edu/fondren/mp4:<xsl:value-of select='$streamingfilename'/>"
-            }]
-
-        }],
-
-        primary: "html5",
-        rtmp: {
-             bufferlength: 10
-        },
-    height: "100%",
-    aspectratio:"16:9",
-    allowfullscreen: true,
-    width: "100%",
-    stretching: "exactfit"
-    });
-     </script>
-</div>
+                            primary: "html5",
+                            rtmp: {
+                                 bufferlength: 10
+                            },
+                        height: "100%",
+                        aspectratio:"16:9",
+                        allowfullscreen: true,
+                        width: "100%",
+                        stretching: "exactfit"
+                        });
+                         </script>
+                    </div>
 
                     </xsl:when>
 
@@ -913,26 +886,26 @@ playerInstance.setup({
 
                                 <!-- With JWPlayer 6 -->
 
-     <div id="{$streamingfilename}">Loading the player...</div>
+                            <div id="{$streamingfilename}">Loading the player...</div>
 
-    <script type="text/javascript">
-    jwplayer.key = "7v+RIu3+q3k5BpVlhvaNE9PseQLW8aQiUgoyLA==";
-    var playerInstance = jwplayer('<xsl:value-of select="$streamingfilename"/>');
-    playerInstance.setup({
-                                         playlist: [{
+                            <script type="text/javascript">
+                            jwplayer.key = "7v+RIu3+q3k5BpVlhvaNE9PseQLW8aQiUgoyLA==";
+                            var playerInstance = jwplayer('<xsl:value-of select="$streamingfilename"/>');
+                            playerInstance.setup({
+                                                                 playlist: [{
 
-            sources: [{
-                 file: "<xsl:value-of select="$baseURL"/>/streaming/<xsl:value-of select="$streamingfilename"/>"
-            },{
-                file: "rtmp://fldp.rice.edu/fondren/mp3:<xsl:value-of select='$streamingfilename'/>"
-            }]
+                                    sources: [{
+                                         file: "<xsl:value-of select="$baseURL"/>/streaming/<xsl:value-of select="$streamingfilename"/>"
+                                    },{
+                                        file: "rtmp://fldp.rice.edu/fondren/mp3:<xsl:value-of select='$streamingfilename'/>"
+                                    }]
 
-        }],
-    primary: "html5",
-    height: "30",
-    width: "320",
-    });
-    </script>
+                                }],
+                            primary: "html5",
+                            height: "30",
+                            width: "320",
+                            });
+                            </script>
 
                             </xsl:when>
                             <xsl:otherwise>
@@ -941,30 +914,30 @@ playerInstance.setup({
                                     <xsl:attribute name="href">
                                         <xsl:value-of select="mets:FLocat[@LOCTYPE='URL']/@xlink:href"/>
                                     </xsl:attribute>
-                               <xsl:choose>
-                                    <xsl:when test="$context/mets:fileSec/mets:fileGrp[@USE='THUMBNAIL']/
-                                        mets:file[@GROUPID=current()/@GROUPID]">
-                                        <img alt="Thumbnail">
-                                            <xsl:attribute name="src">
-                                                <xsl:value-of select="$context/mets:fileSec/mets:fileGrp[@USE='THUMBNAIL']/
-                                            mets:file[@GROUPID=current()/@GROUPID]/mets:FLocat[@LOCTYPE='URL']/@xlink:href"/>
-                                            </xsl:attribute>
-                                        </img>
-                                    </xsl:when>
-                                    <xsl:otherwise>
-                                            <img alt="xmlui.mirage2.item-list.thumbnail" i18n:attr="alt" src="{concat($theme-path,'/images/Text_Page_Icon.png')}">
+                                    <xsl:choose>
+                                        <xsl:when test="$context/mets:fileSec/mets:fileGrp[@USE='THUMBNAIL']/
+                                            mets:file[@GROUPID=current()/@GROUPID]">
+                                            <img alt="Thumbnail">
+                                                <xsl:attribute name="src">
+                                                    <xsl:value-of select="$context/mets:fileSec/mets:fileGrp[@USE='THUMBNAIL']/
+                                                mets:file[@GROUPID=current()/@GROUPID]/mets:FLocat[@LOCTYPE='URL']/@xlink:href"/>
+                                                </xsl:attribute>
                                             </img>
-                                        <!--img alt="Thumbnail">
-                                                <xsl:attribute name="data-src">
-                                                <xsl:text>holder.js/100%x</xsl:text>
-                                                <xsl:value-of select="$thumbnail.maxheight"/>
-                                                <xsl:text>/text:No Thumbnail</xsl:text>
-                                            </xsl:attribute>
-                                        </img-->
-                                    </xsl:otherwise>
-                                </xsl:choose>
-                            </a>
-                        </xsl:otherwise>
+                                        </xsl:when>
+                                        <xsl:otherwise>
+                                                <img alt="xmlui.mirage2.item-list.thumbnail" i18n:attr="alt" src="{concat($theme-path,'/images/Text_Page_Icon.png')}">
+                                                </img>
+                                            <!--img alt="Thumbnail">
+                                                    <xsl:attribute name="data-src">
+                                                    <xsl:text>holder.js/100%x</xsl:text>
+                                                    <xsl:value-of select="$thumbnail.maxheight"/>
+                                                    <xsl:text>/text:No Thumbnail</xsl:text>
+                                                </xsl:attribute>
+                                            </img-->
+                                        </xsl:otherwise>
+                                    </xsl:choose>
+                                </a>
+                            </xsl:otherwise>
                         </xsl:choose>
                 </div>
             </div>
@@ -1062,6 +1035,36 @@ playerInstance.setup({
 
 </xsl:template>
 
+    <xsl:template name="view-open">
+        <xsl:param name="context" select="."/>
+           <xsl:variable name="repositoryURL" select="dri:document/dri:meta/dri:pageMeta/dri:trail[1]/@target"/>
+           <xsl:variable name="bitstreamurl1" select="mets:FLocat[@LOCTYPE='URL']/@xlink:href"/>
+           <xsl:variable name="bitstreamurl" select="substring-before($bitstreamurl1, '&amp;isAllowed')"/>
+           <xsl:variable name="streamingfilename">
+               <xsl:value-of select="@ID"/>_<xsl:value-of select="mets:FLocat/@xlink:title"/>
+           </xsl:variable>
+
+        <xsl:choose>
+            <xsl:when test="(@MIMETYPE='audio/x-mp3') or (@MIMETYPE='video/mp4')">
+                 <a>
+                    <xsl:attribute name="href">
+                        <xsl:value-of select="$baseURL"/>/streaming/<xsl:value-of select="$streamingfilename"/>
+                    </xsl:attribute>
+                    <i18n:text>xmlui.dri2xhtml.METS-1.0.item-files-viewOpen</i18n:text>
+                 </a>
+            </xsl:when>
+            <xsl:otherwise>
+                <a>
+                    <xsl:attribute name="href">
+                    <xsl:value-of select="mets:FLocat[@LOCTYPE='URL']/@xlink:href"/>
+                    </xsl:attribute>
+                    <i18n:text>xmlui.dri2xhtml.METS-1.0.item-files-viewOpen</i18n:text>
+                </a>
+            </xsl:otherwise>
+        </xsl:choose>
+    </xsl:template>
+
+
     <xsl:template name="simple-item-record-rows">
 
     <!--                    <xsl:call-template name="itemSummaryView-DIM-URI"/-->
@@ -1109,6 +1112,18 @@ playerInstance.setup({
             </div>
         </xsl:if>
     </xsl:template>
+    <xsl:template name="itemSummaryView-DIM-rights">
+    <xsl:if test="dim:field[@element='rights' and not(@qualifier)]">
+        <div class="simple-item-view-uri item-page-field-wrapper table">
+            <h5><i18n:text>xmlui.Rice.rights</i18n:text></h5>
+            <span>
+                <xsl:for-each select="dim:field[@element='rights' and not(@qualifier)]">
+                    <xsl:copy-of select="./node()"/>
+                </xsl:for-each>
+            </span>
+        </div>
+    </xsl:if>
+</xsl:template>
     <xsl:template name="itemSummaryView-DIM-authors">
         <xsl:if test="dim:field[@element='contributor'][@qualifier='author' and descendant::text()] or dim:field[@element='creator' and descendant::text()]">
             <div class="simple-item-view-authors item-page-field-wrapper table">
@@ -1501,11 +1516,16 @@ playerInstance.setup({
              <div class="simple-item-view-description item-page-field-wrapper table">
                  <h5><i18n:text>xmlui.dri2xhtml.METS-1.0.item-description</i18n:text></h5>
                  <div>
-                     <xsl:copy>
-                         <xsl:call-template name="parse">
-                             <xsl:with-param name="str" select="dim:field[@element='description' and not(@qualifier)][1]/node()"/>
-                         </xsl:call-template>
-                     </xsl:copy>
+                     <xsl:for-each select="dim:field[@element='description' and not(@qualifier)]">
+                        <xsl:choose>
+                            <xsl:when test="(contains(.,'http://') or contains(.,'https://') )">
+                                <xsl:call-template name="makeLinkFromText"/>
+                            </xsl:when>
+                            <xsl:otherwise>
+                                <xsl:value-of select="."></xsl:value-of>
+                            </xsl:otherwise>
+                        </xsl:choose>
+                     </xsl:for-each>
                  </div>
              </div>
          </xsl:if>
@@ -2094,6 +2114,7 @@ references to stylesheets pulled directly from the pageMeta element. -->
                 MathJax.Hub.Config({
                   tex2jax: {
                     inlineMath: [['$','$'], ['\\(','\\)']],
+                    processEscapes: true,
                     ignoreClass: "detail-field-data|detailtable|exception"
                   },
                   TeX: {
