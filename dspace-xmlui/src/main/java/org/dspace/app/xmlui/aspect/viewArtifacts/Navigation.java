@@ -13,6 +13,7 @@ import org.apache.cocoon.environment.Request;
 import org.apache.cocoon.util.HashUtil;
 import org.apache.excalibur.source.SourceValidity;
 import org.apache.excalibur.source.impl.validity.NOPValidity;
+import org.apache.log4j.Logger;
 import org.dspace.app.util.Util;
 import org.dspace.app.xmlui.cocoon.AbstractDSpaceTransformer;
 import org.dspace.app.xmlui.utils.HandleUtil;
@@ -45,6 +46,8 @@ import java.sql.SQLException;
  */
 public class Navigation extends AbstractDSpaceTransformer implements CacheableProcessingComponent {
 
+	/** Log4j logger */
+	public static final Logger log = Logger.getLogger(Navigation.class);
     /**
      * Generate the unique caching key.
      * This key must be unique inside the space of this component.
@@ -121,8 +124,25 @@ public class Navigation extends AbstractDSpaceTransformer implements CacheablePr
         String analyticsKey = ConfigurationManager.getProperty("xmlui.google.analytics.key");
         if (analyticsKey != null && analyticsKey.length() > 0)
         {
+	        boolean omit = false;
+	        String omitAddrs = ConfigurationManager.getProperty("xmlui.google.analytics.omitAddrs");
+	        if (omitAddrs != null && omitAddrs.length() > 0) {
+		        // check request IP against list. If match, don't add the GA code.
+		        String remoteAddr = request.getRemoteAddr();
+		        log.info("--------- omitAddrs = '"+omitAddrs+"', remoteAddr = '"+remoteAddr+"'");
+		        String[] omits = omitAddrs.split(",");
+		        for (int i=0, len=omits.length; i<len; i++) {
+			        if (remoteAddr.startsWith(omits[i])) {
+				        log.info("------------------ match on '"+omits[i]+"'");
+				        omit = true;
+				        break;
+			        }
+		        }
+	        }
+			if (!omit) {
                 analyticsKey = analyticsKey.trim();
                 pageMeta.addMetadata("google","analytics").addContent(analyticsKey);
+			}
         }
 
         // add metadata for OpenSearch auto-discovery links if enabled

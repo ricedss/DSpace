@@ -53,10 +53,6 @@
                 <entry key="1911/79695" value-ref="ChaoConfiguration" />
                 <entry key="1911/82046" value-ref="HARTConfiguration" />
                 <entry key="1911/75169" value-ref="ChaoConfiguration" />
-                <entry key="1911/81971" value-ref="TeacherResourceConfiguration" />
-                <entry key="1911/88946" value-ref="TeacherResourceConfiguration" />
-                <entry key="1911/88947" value-ref="TeacherResourceConfiguration" />
-                <entry key="1911/88948" value-ref="TeacherResourceConfiguration" />
 
                <!--Use site to override the default configuration for the home page & default discovery page-->
                <entry key="site" value-ref="defaultConfiguration" />
