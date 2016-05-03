@@ -183,8 +183,23 @@ public class Navigation extends AbstractDSpaceTransformer implements CacheablePr
         String analyticsKey = ConfigurationManager.getProperty("xmlui.google.analytics.key");
         if (analyticsKey != null && analyticsKey.length() > 0)
         {
+	        boolean omit = false;
+	        String omitAddrs = ConfigurationManager.getProperty("xmlui.google.analytics.omitAddrs");
+	        if (omitAddrs != null && omitAddrs.length() > 0) {
+		        // check request IP against list. If match, don't add the GA code.
+		        String remoteAddr = request.getRemoteAddr();
+		        String[] omits = omitAddrs.split(",");
+		        for (int i=0, len=omits.length; i<len; i++) {
+			        if (remoteAddr.startsWith(omits[i])) {
+				        omit = true;
+				        break;
+			        }
+		        }
+	        }
+			if (!omit) {
                 analyticsKey = analyticsKey.trim();
                 pageMeta.addMetadata("google","analytics").addContent(analyticsKey);
+			}
         }
         
         // add metadata for OpenSearch auto-discovery links if enabled
