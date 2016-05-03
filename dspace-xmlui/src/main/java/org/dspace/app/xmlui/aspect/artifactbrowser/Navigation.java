@@ -7,6 +7,8 @@
  */
 package org.dspace.app.xmlui.aspect.artifactbrowser;
 
+import org.apache.log4j.Logger;
+
 import java.io.IOException;
 import java.io.Serializable;
 import java.sql.SQLException;
@@ -46,6 +48,9 @@ import org.xml.sax.SAXException;
  */
 public class Navigation extends AbstractDSpaceTransformer implements CacheableProcessingComponent
 {
+	/** Log4j logger */
+	public static final Logger log = Logger.getLogger(Navigation.class);
+
     /** Language Strings */
     private static final Message T_head_all_of_dspace =
         message("xmlui.ArtifactBrowser.Navigation.head_all_of_dspace");
@@ -188,9 +193,11 @@ public class Navigation extends AbstractDSpaceTransformer implements CacheablePr
 	        if (omitAddrs != null && omitAddrs.length() > 0) {
 		        // check request IP against list. If match, don't add the GA code.
 		        String remoteAddr = request.getRemoteAddr();
+		        log.info("--------- omitAddrs = '"+omitAddrs+"', remoteAddr = '"+remoteAddr+"'");
 		        String[] omits = omitAddrs.split(",");
 		        for (int i=0, len=omits.length; i<len; i++) {
 			        if (remoteAddr.startsWith(omits[i])) {
+				        log.info("------------------ match on '"+omits[i]+"'");
 				        omit = true;
 				        break;
 			        }
