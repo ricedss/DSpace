@@ -1263,13 +1263,14 @@
             <h5><i18n:text>xmlui.ArtifactBrowser.AdvancedSearch.type_series</i18n:text></h5>
                      <xsl:for-each select="dim:field[@element='relation' and @qualifier='ispartofseries']">
                          <xsl:copy-of select="./node()"/>
-                         <xsl:if test="count(following-sibling::dim:field[@element='date' and @qualifier='issued']) != 0">
+                         <xsl:if test="count(following-sibling::dim:field[@element='relation' and @qualifier='ispartofseries']) != 0">
                              <br/>
                          </xsl:if>
                      </xsl:for-each>
             </div>
          </xsl:if>
     </xsl:template>
+
 
      <!-- 'Issue' row in simple item record -->
      <xsl:template name="itemSummaryView-DIM-issue">
@@ -2108,13 +2109,15 @@ references to stylesheets pulled directly from the pageMeta element. -->
             <meta content="{.}" name="{@element}"> </meta>
         </xsl:for-each>
 
-        <!-- Add MathJAX JS library to render scientific formulas-->
+        <!-- Add MathJAX JS library to render scientific formulas
+              inlineMath: [['$','$'], ['\\(','\\)']],
+                    processEscapes: true,
+
+        -->
         <xsl:if test="confman:getProperty('webui.browse.render-scientific-formulas') = 'true'">
             <script type="text/x-mathjax-config">
                 MathJax.Hub.Config({
                   tex2jax: {
-                    inlineMath: [['$','$'], ['\\(','\\)']],
-                    processEscapes: true,
                     ignoreClass: "detail-field-data|detailtable|exception"
                   },
                   TeX: {

@@ -222,6 +222,8 @@
         <theme name="Rice Thresher" handle="1911/64890" path="Rice_Thresher/"/>
         <theme name="Rice RIP" handle="1911/8328" path="Rice_RIP/"/>
         <theme name="Rice Thresher 1" handle="1911/27631" path="Rice_Thresher_1/"/>
+        <!--theme name="Rice Undergraduate" handle="1911/90432" path="Rice_Undergrats/"/-->
+        <theme name="Rice Baker Institute" handle="1911/20460" path="Rice_Baker/"/>
 
         <!--theme name="Rice Teacher Archive" handle="1911/81971" path="Rice_Teacher_Archive/"/>
         <theme name="Rice Teacher Archive" handle="1911/81971" path="Rice_Teacher_Archive/"/>

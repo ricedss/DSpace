@@ -88,13 +88,15 @@
     		</dim:field>
     	</xsl:if>
     	
-    	<!-- identifier element: dc.identifier.* -->
+
+    	<!-- identifier element: dc.identifier.doi
+    	update to match local mapping-->
     	<xsl:if test="./@epdcx:propertyURI='http://purl.org/dc/elements/1.1/identifier'">
     		<xsl:element name="dim:field">
     			<xsl:attribute name="mdschema">dc</xsl:attribute>
     			<xsl:attribute name="element">identifier</xsl:attribute>
     			<xsl:if test="epdcx:valueString[@epdcx:sesURI='http://purl.org/dc/terms/URI']">
-    				<xsl:attribute name="qualifier">uri</xsl:attribute>
+    				<xsl:attribute name="qualifier">doi</xsl:attribute>
     			</xsl:if>
     			<xsl:value-of select="epdcx:valueString"/>
     		</xsl:element>
@@ -106,12 +108,37 @@
     			<xsl:value-of select="epdcx:valueString"/>
     		</dim:field>
     	</xsl:if>
-    	
+
+<!-- item type element: dc.type.dcmi
+     add term for local usage-->
+<xsl:if test="./@epdcx:propertyURI='http://purl.org/dc/elements/1.1/type' and ./@epdcx:vesURI='http://purl.org/eprint/terms/Type'">
+  <xsl:if test="./@epdcx:valueURI='http://purl.org/eprint/type/JournalArticle'">
+    <dim:field mdschema="dc" element="type" qualifier="genre">
+      Text
+      </dim:field>
+    </xsl:if>
+  </xsl:if>
+
+<!-- local publication status element: dc.type.publication -->
+<xsl:if test="./@epdcx:propertyURI='http://purl.org/eprint/status/PeerReviewed'">
+  <dim:field mdschema="dc" element="type" qualifier="publication">
+    publisher version
+    </dim:field>
+  </xsl:if>
+<!-- add depositor's name: dc.local.sword.agent -->
+<xsl:if test="./@epdcx:propertyURI='http://purl.org/dc/elements/1.1/publisher'">
+  <dim:field mdschema="local" element="sword" qualifier="agent">
+    <xsl:value-of select="epdcx:valueString"/>
+    </dim:field>
+  </xsl:if>
+
+
+
     	<!-- item type element: dc.type -->
     	<xsl:if test="./@epdcx:propertyURI='http://purl.org/dc/elements/1.1/type' and ./@epdcx:vesURI='http://purl.org/eprint/terms/Type'">
     		<xsl:if test="./@epdcx:valueURI='http://purl.org/eprint/type/JournalArticle'">
     			<dim:field mdschema="dc" element="type">
-    				Journal Article
+    				Journal article
     			</dim:field>
     		</xsl:if>
     	</xsl:if>
@@ -139,9 +166,10 @@
     		</dim:field>
     	</xsl:if>
 
-        <!-- bibliographic citation element: dc.identifier.citation -->
+    	<!-- bibliographic citation element: dcterms.bibliographicCitation
+    	ADD for local mapping-->
         <xsl:if test="./@epdcx:propertyURI='http://purl.org/eprint/terms/bibliographicCitation'">
-            <dim:field mdschema="dc" element="identifier" qualifier="citation">
+        	<dim:field mdschema="dcterms" element="bibliographicCitation">
                 <xsl:value-of select="epdcx:valueString"/>
             </dim:field>
         </xsl:if>
