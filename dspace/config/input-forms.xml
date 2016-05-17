@@ -37,7 +37,7 @@
      <!-- scholarship.rice.edu  --><name-map collection-handle="1911/71399" form-name="archivethefuture" /><!--Recovery of a Heritage in the Making-->
                                    <!--name-map collection-handle="1911/81971" form-name="teacherarchiveform"/-->
      <!-- scholarship.rice.edu  --><name-map collection-handle="1911/77660" form-name="researchdataform" />
-                                <name-map collection-handle="1911/20460" form-name="bakerform" />
+                                <name-map collection-handle="1911/20461" form-name="bakerform" />
 
  </form-map>
 
@@ -770,7 +770,7 @@
                  <dc-element>source</dc-element>
                  <dc-qualifier>provenance</dc-qualifier>
                  <repeatable>false</repeatable>
-                 <label>Provenance</label>
+                 <label>Changes to source files</label>
                  <input-type>onebox</input-type>
                  <hint>xmlui.Submission.submit.DescribeStep.hint.researchdata.sourceprovenance</hint>
                  <required></required>

@@ -36,7 +36,7 @@
      <!-- dspace.rice.edu -->  <name-map collection-handle="1911/71399" submission-name="NoEmbargoSteps" />
      <name-map collection-handle="1911/79705" submission-name="NoLicenseStep" />
 
-     <!--name-map collection-handle="1911/77660" submission-name="ResearchdataStep" /-->
+     <name-map collection-handle="1911/77660" submission-name="ResearchdataStep" />
 
    <!--name-map collection-handle="default" submission-name="traditional" /-->
      <name-map collection-handle="default" submission-name="facultypub" />
