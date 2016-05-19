@@ -98,8 +98,28 @@
         <!--name-map scope="1911/35952" citation-name="histimage-default"/--> <!-- Rice University Presidential Inauguration Speeches -->
 
         <name-map scope="1911/77660" citation-name="dataset-default"/>
-        <name-map scope="1911/20461" citation-name="baker-default"/>
-        <name-map scope="1911/90432" citation-name="undergraduate-default"/>
+
+        <name-map scope="1911/88869" citation-name="baker-default"/>
+        <name-map scope="1911/88867" citation-name="baker-default"/>
+        <name-map scope="1911/88864" citation-name="baker-default"/>
+        <name-map scope="1911/88878" citation-name="baker-default"/>
+        <name-map scope="1911/88876" citation-name="baker-default"/>
+        <name-map scope="1911/88865" citation-name="baker-default"/>
+        <name-map scope="1911/88866" citation-name="baker-default"/>
+        <name-map scope="1911/88870" citation-name="baker-default"/>
+        <name-map scope="1911/88881" citation-name="baker-default"/>
+        <name-map scope="1911/88874" citation-name="baker-default"/>
+        <name-map scope="1911/88868" citation-name="baker-default"/>
+        <name-map scope="1911/88875" citation-name="baker-default"/>
+        <name-map scope="1911/88873" citation-name="baker-default"/>
+        <name-map scope="1911/20460" citation-name="baker-default"/>
+        <name-map scope="1911/88879" citation-name="baker-default"/>
+        <name-map scope="1911/88872" citation-name="baker-default"/>
+        <name-map scope="1911/88871" citation-name="baker-default"/>
+        <name-map scope="1911/88880" citation-name="baker-default"/>
+
+
+        <name-map scope="1911/90431" citation-name="undergraduate-default"/>
         <!-- dspaceland, dspacentest -->
 <!--        <name-map scope="1911/2946" citation-name="ece-default">
             <map-type document-type="Conference Paper" citation-name="ece-conference" />
