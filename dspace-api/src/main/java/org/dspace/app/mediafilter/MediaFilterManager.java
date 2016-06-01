@@ -517,6 +517,20 @@ public class MediaFilterManager
                 	done |= filterBitstream(c, myItem, myBitstreams[k]);
                 }
             }
+            // Ying added OHMS bundle to be processed
+            Bundle[] ohmsBundles = myItem.getBundles("OHMS");
+            for (int i = 0; i < ohmsBundles.length; i++)
+            {
+            	// now look at all of the bitstreams
+                Bitstream[] myBitstreams = ohmsBundles[i].getBitstreams();
+
+                for (int k = 0; k < myBitstreams.length; k++)
+                {
+                	done |= filterBitstream(c, myItem, myBitstreams[k]);
+                }
+            }
+            //END Ying added OHMS bundle to be processed
+
         }
         return done;
     }
@@ -749,12 +763,12 @@ public class MediaFilterManager
             System.out.println("PROCESSING: bitstream " + source.getID()
                 + " (item: " + item.getHandle() + ")");
         }
-       // Ying updated this for JPEG2000 Thumbnail generation / Video Audio filter
+       // Ying updated this for OHMS XML / Video Audio filter
         InputStream destStream;
-        String specialmedias = ConfigurationManager.getProperty("filter.org.dspace.app.mediafilter.JPEG2000Filter.inputFormats");
+        String specialmedias = ConfigurationManager.getProperty("filter.org.dspace.app.mediafilter.OHMSFilter.inputFormats");
         specialmedias = specialmedias + ", " + vamedias;
         try {
-            System.out.println("File: " + newName);
+            //System.out.println("Media: " + specialmedias);
             if(specialmedias.indexOf(source.getFormat().getMIMEType().trim()) >= 0){
                 //System.out.println("getting destStream!!! " + source.getFilename() + "== " + source.getName() + "=== " + source.getID() + " ====== " + formatFilter.getFormatString());
                 destStream = formatFilter.getDestinationStream(source.getFilename(), source.getName(), source.getID());
@@ -767,7 +781,7 @@ public class MediaFilterManager
                 destStream = formatFilter.getDestinationStream(source.retrieve());
             }
 
-            // END Ying updated this for JPEG2000 Thumbnail generation
+            // END Ying updated this for OHMS XML / Video Audio filter
 
 
             if (destStream == null)
