@@ -40,12 +40,22 @@
         <xsl:if test="dim:field[@element='relation' and @qualifier='uri']">
             <div class="simple-item-view-relationuri item-page-field-wrapper table">
             <h5>Link to Baker Institute Research Library</h5>
-                     <xsl:for-each select="dim:field[@element='relation' and @qualifier='uri']">
-                         <xsl:copy-of select="./node()"/>
-                         <xsl:if test="count(following-sibling::dim:field[@element='relation' and @qualifier='uri']) != 0">
-                             <br/>
-                         </xsl:if>
-                     </xsl:for-each>
+                 <xsl:for-each select="dim:field[@element='relation' and @qualifier='uri']">
+                      <xsl:choose>
+                          <xsl:when test="(contains(.,'http://') or contains(.,'https://') )">
+                              <xsl:call-template name="makeLinkFromText"/>
+                          </xsl:when>
+                          <xsl:otherwise>
+                              <xsl:copy>
+                                  <xsl:call-template name="parse">
+                                      <xsl:with-param name="str" select="./node()"/>
+                                  </xsl:call-template>
+                              </xsl:copy>
+                          </xsl:otherwise>
+                      </xsl:choose>
+                      <br/>
+
+                 </xsl:for-each>
             </div>
          </xsl:if>
     </xsl:template>

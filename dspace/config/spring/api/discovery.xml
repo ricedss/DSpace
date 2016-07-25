@@ -131,6 +131,7 @@
                 <ref bean="searchFilterType" />
                 <ref bean="searchFilterDegreeDepartment" />
                 <ref bean="searchFilterDegreeDiscipline" />
+                <ref bean="searchFilterDOI" />
                 <!--ref bean="searchFilterFulltext" /-->
                 <!-- END Ying customized searchFilter: abstract, doi, fulltext -->
             </list>
@@ -225,6 +226,7 @@
                 <!-- Ying customized searchFilter: abstract, doi, fulltext -->
                 <ref bean="searchFilterAbstract" />
                 <ref bean="searchFilterType" />
+                <ref bean="searchFilterDOI" />
                 <!--ref bean="searchFilterFulltext" /-->
                 <!-- END Ying customized searchFilter: abstract, doi, fulltext -->
             </list>
@@ -426,6 +428,7 @@
                 <!-- Ying customized searchFilter: abstract, doi, fulltext -->
                 <ref bean="searchFilterAbstract" />
                 <ref bean="searchFilterType" />
+                <ref bean="searchFilterDOI" />
                 <!--ref bean="searchFilterFulltext" /-->
                 <!-- END Ying customized searchFilter: abstract, doi, fulltext -->
             </list>
@@ -521,6 +524,7 @@
                 <!-- Ying customized searchFilter: abstract, doi, fulltext -->
                 <ref bean="searchFilterAbstract" />
                 <ref bean="searchFilterType" />
+                <ref bean="searchFilterDOI" />
                 <!--ref bean="searchFilterFulltext" /-->
                 <!-- END Ying customized searchFilter: abstract, doi, fulltext -->
             </list>
@@ -626,6 +630,7 @@
                 <!-- Ying customized searchFilter: abstract, doi, fulltext -->
                 <ref bean="searchFilterAbstract" />
                 <ref bean="searchFilterType" />
+                <ref bean="searchFilterDOI" />
                 <!--ref bean="searchFilterFulltext" /-->
                 <!-- END Ying customized searchFilter: abstract, doi, fulltext -->
             </list>
@@ -724,6 +729,7 @@
                 <ref bean="searchFilterIssuenum" />
                 <ref bean="searchFilterVolumenum" />
                 <ref bean="searchFilterType" />
+                <ref bean="searchFilterDOI" />
             </list>
         </property>
         <!--The sort filters for the discovery search-->
@@ -819,6 +825,7 @@
                 <!--ref bean="searchFilterFulltext" /-->
                 <ref bean="searchFilterCoverageSpatial" />
                 <ref bean="searchFilterType" />
+                <ref bean="searchFilterDOI" />
             </list>
         </property>
         <!--The sort filters for the discovery search-->
@@ -921,6 +928,7 @@
                 <ref bean="searchFilterDegreeLevel" />
                 <ref bean="searchFilterDegreeName" />
                 <ref bean="searchFilterType" />
+                <ref bean="searchFilterDOI" />
             </list>
         </property>
         <!--The sort filters for the discovery search-->
@@ -1012,6 +1020,7 @@
                 <!-- Ying customized searchFilter: abstract, doi, fulltext -->
                 <ref bean="searchFilterAbstract" />
                 <ref bean="searchFilterType" />
+                <ref bean="searchFilterDOI" />
                 <!--ref bean="searchFilterFulltext" /-->
                 <!-- END Ying customized searchFilter: abstract, doi, fulltext -->
             </list>
@@ -1432,6 +1441,18 @@
      <property name="metadataFields">
          <list>
              <value>dc.subject.local</value>
+         </list>
+     </property>
+         <property name="facetLimit" value="10"/>
+         <property name="sortOrder" value="COUNT"/>
+
+     </bean>
+
+    <bean id="searchFilterDOI" class="org.dspace.discovery.configuration.DiscoverySearchFilterFacet">
+     <property name="indexFieldName" value="doi"/>
+     <property name="metadataFields">
+         <list>
+             <value>dc.identifier.doi</value>
          </list>
      </property>
          <property name="facetLimit" value="10"/>
