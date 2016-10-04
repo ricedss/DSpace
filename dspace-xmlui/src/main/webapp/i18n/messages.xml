@@ -2736,6 +2736,8 @@
     <message key="xmlui.ArtifactBrowser.AdvancedSearch.type_resourcetype">Resource Type</message>
     <message key="xmlui.ArtifactBrowser.SimpleSearch.filter.resourcetype">Resource Type</message>
 
+    <message key="xmlui.ArtifactBrowser.AdvancedSearch.type_composer">Composer</message>
+    <message key="xmlui.ArtifactBrowser.SimpleSearch.filter.composer">Composer</message>
 
     <message key="xmlui.Rice.datenote">Date(s)</message>
     <message key="xmlui.Rice.vraartist">Artists</message>

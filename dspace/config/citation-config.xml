@@ -711,8 +711,15 @@
                  <dc-schema>thesis</dc-schema>
                  <dc-element>degree</dc-element>
                  <dc-qualifier>level</dc-qualifier>
-                 <display-format> @field@, </display-format>
+                 <display-format format-it="thesis-diss"> @field@, </display-format>
                </field>
+
+            <!--field>
+                  <dc-schema>thesis</dc-schema>
+                  <dc-element>degree</dc-element>
+                  <dc-qualifier>level</dc-qualifier>
+                  <display-format> @field@, </display-format>
+                </field-->
 
                 <!-- University -->
                <field>

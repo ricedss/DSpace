@@ -86,6 +86,8 @@ public class FormatIt
             return getECEConferenceDate(value);
         }else if(formatit.equalsIgnoreCase("get-wrc")){
             return getWRC(value);
+        }else if(formatit.equalsIgnoreCase("thesis-diss")){
+            return getThesisDiss(value);
         }else{
             // do nothing
             return value;
@@ -261,4 +263,20 @@ public class FormatIt
         return name;
     }
 
+   /**
+     *
+     * If thesis.degree.level = Masters, return “Master’s Thesis”
+     * If thesis.degree.level = Doctoral, return “PhD diss.”
+     *
+     * @param name  full name
+     * @return name with the firstname initial only
+     */
+    private static String getThesisDiss(String degreelevel){
+        if (degreelevel.equalsIgnoreCase("masters") ) {
+            return  "Master’s Thesis";
+        }else if (degreelevel.equalsIgnoreCase("doctoral")) {
+            return "PhD diss.";
+        }
+        return "";
+    }
 }
