@@ -2307,7 +2307,7 @@ private void replaceItem(Context c, Item myitem, String path, String itemname)
 					context = new Context();
 					eperson = EPerson.find(context, oldEPerson.getID());
 					context.setCurrentUser(eperson);
-					context.setIgnoreAuthorization(true);
+					context.turnOffAuthorisationSystem();
 					
 					boolean isResume = theResumeDir!=null;
 					

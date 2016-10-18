@@ -501,6 +501,7 @@ public class SearchFacetFilter extends AbstractDSpaceTransformer implements Cach
         // Clear out our item's cache.
         this.queryResults = null;
         this.validity = null;
+        this.queryArgs = null;
         super.recycle();
     }
 

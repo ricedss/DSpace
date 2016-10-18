@@ -2480,6 +2480,7 @@
     <message key="xmlui.aspect.sherpa.submission.blue">blue</message>
     <message key="xmlui.aspect.sherpa.submission.white">white</message>
     <message key="xmlui.aspect.sherpa.submission.yellow">yellow</message>
+    <message key="xmlui.aspect.sherpa.submission.gray">gray</message>
     <!-- End Versioning -->
     <message key="xmlui.mirage2.itemSummaryView.MetaData">Metadata</message>
     <message key="xmlui.mirage2.itemSummaryView.Collections">Collections</message>
@@ -2738,6 +2739,7 @@
 
     <message key="xmlui.ArtifactBrowser.AdvancedSearch.type_composer">Composer</message>
     <message key="xmlui.ArtifactBrowser.SimpleSearch.filter.composer">Composer</message>
+    <message key="xmlui.Discovery.AbstractSearch.type_composer">Composer</message>
 
     <message key="xmlui.Rice.datenote">Date(s)</message>
     <message key="xmlui.Rice.vraartist">Artists</message>

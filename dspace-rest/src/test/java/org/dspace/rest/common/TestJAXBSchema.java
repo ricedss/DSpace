@@ -22,6 +22,8 @@ import javax.xml.transform.stream.StreamResult;
 import org.apache.commons.io.IOUtils;
 import org.junit.Test;
 
+import com.google.common.base.CharMatcher;
+
 public class TestJAXBSchema {
 
     private static class TestSchemaOutputResolver extends SchemaOutputResolver {
@@ -41,30 +43,32 @@ public class TestJAXBSchema {
     }
 
     @Test
-	public void testFullSchema() throws Exception {
+    public void testFullSchema() throws Exception {
         StringWriter writer = new StringWriter();
         TestSchemaOutputResolver resolver = new TestSchemaOutputResolver(writer);
         JAXBContext context = JAXBContext.newInstance(
-						      Bitstream.class,
-						      CheckSum.class,
-						      Collection.class,
-						      Community.class,
-						      DSpaceObject.class,
-						      Item.class,
-						      MetadataEntry.class,
-						      ResourcePolicy.class,
-						      Status.class,
+                Bitstream.class,
+                CheckSum.class,
+                Collection.class,
+                Community.class,
+                DSpaceObject.class,
+                Item.class,
+                MetadataEntry.class,
+                ResourcePolicy.class,
+                Status.class,
                 User.class
-						      );
+                );
         context.generateSchema(resolver);
 
         String res = "org/dspace/rest/common/expected_xsd0.xsd";
         InputStream is = Thread.currentThread().getContextClassLoader().getResourceAsStream(res);
         String expected = IOUtils.toString(is, "UTF-8");
-
+        
+        String expectedRemoveAllSpaces = CharMatcher.BREAKING_WHITESPACE.removeFrom(expected);
+        String writerRemoveAllSpaces = CharMatcher.BREAKING_WHITESPACE.removeFrom(writer.toString());
         // System.err.println(writer.toString());
-
-        assertEquals("JAXB schema", expected, writer.toString());
+        
+        assertEquals("JAXB schema", expectedRemoveAllSpaces, writerRemoveAllSpaces);
     }
 
 }

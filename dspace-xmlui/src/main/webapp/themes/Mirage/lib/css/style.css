@@ -1466,3 +1466,8 @@ table.discovery-filters th.new-filter-header
 #impact-plumx {
     float:right;
 }
+
+.gray{
+    background-color: #aaaaaa;
+    color: #000000;
+}
