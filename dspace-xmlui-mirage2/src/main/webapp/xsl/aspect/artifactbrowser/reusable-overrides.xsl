@@ -819,7 +819,7 @@
                         </a>
                     </xsl:when>
 
-                    <xsl:when test="@MIMETYPE='video/mp4'">
+                    <xsl:when test="@MIMETYPE='video/mp4' or @MIMETYPE='video/m4v'">
                         <div class="videoContainer" style="height: 0;overflow: hidden;padding-bottom: 56.25%;padding-top: 25px;position: relative;">
                         <div id="{$streamingfilename}" style="position:absolute;width:100% !important;height: 100% !important;">Loading the player...</div>
                         <xsl:variable name="mp4thumb1" select="$context/mets:fileSec/mets:fileGrp[@USE='THUMBNAIL']/

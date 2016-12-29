@@ -626,10 +626,17 @@
             <repeatable>false</repeatable>
             <label>Content Format</label>
             <input-type value-pairs-name="researchdata_dcmitype">dropdown</input-type>
-             <hint></hint>
+             <hint>Select the appropriate term from the dropdown list. Most often, this will be Dataset, defined as "data encoded in a defined structure."</hint>
             <required>You must enter Content Format for this item.</required>
               <visibility>workflow</visibility>
           </field>
+            <field>
+                <dc-schema>dc</dc-schema>
+                <dc-element>type</dc-element>
+                <label>genre</label>
+                <input-type>Content Type</input-type>
+                <hint>xmlui.Submission.submit.DescribeStep.hint.researchdata.typegenre</hint>
+            </field>
         <field>
             <dc-schema>dc</dc-schema>
             <dc-element>title</dc-element>
@@ -657,7 +664,7 @@
               <repeatable>true</repeatable>
               <label>Creator(s) of the dataset</label>
               <input-type>name</input-type>
-              <hint></hint>
+              <hint>Last name, e.g. Smith First name (s) + “Jr,” e.g. Donald, Jr</hint>
               <required></required>
             </field>
 
@@ -677,9 +684,9 @@
                 <dc-element>identifier</dc-element>
                 <dc-qualifier>grantID</dc-qualifier>
                 <repeatable>true</repeatable>
-                <label>Grant Number/ID</label>
+                <label>Award ID</label>
                 <input-type>onebox</input-type>
-                <hint>The funding number(s) and agency that provided a grant used to produce the dataset(s). Example: P20 RR016458 (National Institutes of Health).</hint>
+                <hint>xmlui.Submission.submit.DescribeStep.hint.researchdata.grantid</hint>
                 <required></required>
             </field>
 
@@ -706,6 +713,17 @@
                  <!--vocabulary>RDMT</vocabulary-->
              </field>
 
+            <field>
+                 <dc-schema>dc</dc-schema>
+                 <dc-element>contributor</dc-element>
+                 <dc-qualifier></dc-qualifier>
+                 <repeatable>true</repeatable>
+                 <label>Other Contributor(s)</label>
+                 <input-type></input-type>
+                 <hint>xmlui.Submission.submit.DescribeStep.hint.researchdata.othercontributor</hint>
+                 <required></required>
+                 <!--vocabulary>RDMT</vocabulary-->
+             </field>
 
            <field>
               <dc-schema>dc</dc-schema>
@@ -741,6 +759,17 @@
               </field>
 
             <field>
+               <dc-schema>dc</dc-schema>
+               <dc-element>coverage</dc-element>
+               <dc-qualifier>point</dc-qualifier>
+               <repeatable>true</repeatable>
+                <label>Latitude-Longitude Point Pairs</label>
+                <input-type>onebox</input-type>
+                <hint>xmlui.Submission.submit.DescribeStep.hint.researchdata.coveragepoint</hint>
+                <required></required>
+              </field>
+
+            <field>
               <dc-schema>dc</dc-schema>
               <dc-element>date</dc-element>
               <dc-qualifier>issued</dc-qualifier>
@@ -750,6 +779,17 @@
               <hint>When republishing datasets, use the original date the data was made publicly accessible.</hint>
               <required></required>
             </field>
+            <field>
+              <dc-schema>dc</dc-schema>
+              <dc-element>date</dc-element>
+              <dc-qualifier>created</dc-qualifier>
+              <repeatable>false</repeatable>
+              <label>Date of data creation</label>
+              <input-type>date</input-type>
+              <hint>xmlui.Submission.submit.DescribeStep.hint.researchdata.datecreated</hint>
+              <required></required>
+            </field>
+
             <field>
                <dc-schema>dc</dc-schema>
                <dc-element>description</dc-element>
@@ -769,6 +809,17 @@
                 <label>List of deposited files</label>
                 <input-type>textarea</input-type>
                 <hint>xmlui.Submission.submit.DescribeStep.hint.researchdata.tableofcontents</hint>
+                <required></required>
+              </field>
+
+             <field>
+                <dc-schema>dc</dc-schema>
+                <dc-element>description</dc-element>
+                <dc-qualifier>version</dc-qualifier>
+                <repeatable>false</repeatable>
+                <label>Version number of the dataset</label>
+                <input-type>onebox</input-type>
+                <hint></hint>
                 <required></required>
               </field>
 
@@ -816,6 +867,29 @@
               <hint>xmlui.Submission.submit.DescribeStep.hint.researchdata.DOI</hint>
               <required></required>
             </field>
+
+            <field>
+              <dc-schema>dc</dc-schema>
+              <dc-element>format</dc-element>
+              <dc-qualifier>extent</dc-qualifier>
+              <repeatable>false</repeatable>
+              <label>File size or lengh</label>
+              <input-type>onebox</input-type>
+              <hint>xmlui.Submission.submit.DescribeStep.hint.researchdata.formatextent</hint>
+              <required></required>
+            </field>
+
+            <field>
+              <dc-schema>dc</dc-schema>
+              <dc-element>format</dc-element>
+              <dc-qualifier>mimetype</dc-qualifier>
+              <repeatable>false</repeatable>
+              <label>Technical format</label>
+              <input-type>onebox</input-type>
+              <hint>xmlui.Submission.submit.DescribeStep.hint.researchdata.formatmimetype</hint>
+              <required></required>
+            </field>
+
             <field>
                  <dc-schema>dc</dc-schema>
                  <dc-element>publisher</dc-element>
@@ -839,6 +913,16 @@
                <required></required>
             </field>
 
+             <field>
+               <dc-schema>dc</dc-schema>
+               <dc-element>relation</dc-element>
+               <dc-qualifier></dc-qualifier>
+               <repeatable>true</repeatable>
+               <label>Other relationship(s)</label>
+               <input-type value-pairs-name="researchdata_otherrelation">dropdown</input-type>
+               <hint>xmlui.Submission.submit.DescribeStep.hint.researchdata.otherrelation</hint>
+               <required></required>
+            </field>
               </page>
       </form>
 
@@ -4132,25 +4216,57 @@ it, please enter the types and the actual numbers or codes below.</hint>
 
      <value-pairs value-pairs-name="researchdata_dcmitype" dc-term="type.dcmi">
       <pair>
+       <displayed-value>Audiovisual</displayed-value>
+       <stored-value>Audiovisual</stored-value>
+     </pair>
+     <pair>
+       <displayed-value>Collection</displayed-value>
+       <stored-value>Collection</stored-value>
+     </pair>
+     <pair>
        <displayed-value>Dataset</displayed-value>
        <stored-value>Dataset</stored-value>
      </pair>
-     <pair>
-       <displayed-value>Text</displayed-value>
-       <stored-value>Text</stored-value>
-     </pair>
-     <pair>
-       <displayed-value>MovingImage</displayed-value>
-       <stored-value>MovingImage</stored-value>
-     </pair>
          <pair>
-           <displayed-value>StillImage</displayed-value>
-           <stored-value>StillImage</stored-value>
+           <displayed-value>Event</displayed-value>
+           <stored-value>Event</stored-value>
          </pair>
+         <pair>
+           <displayed-value>Image</displayed-value>
+           <stored-value>Image</stored-value>
+         </pair>
+         <pair>
+          <displayed-value>InteractiveResource</displayed-value>
+          <stored-value>InteractiveResource</stored-value>
+        </pair>
+        <pair>
+          <displayed-value>Model</displayed-value>
+          <stored-value>Model</stored-value>
+        </pair>
+        <pair>
+          <displayed-value>PhysicalObject</displayed-value>
+          <stored-value>PhysicalObject</stored-value>
+        </pair>
+            <pair>
+              <displayed-value>Service</displayed-value>
+              <stored-value>Service</stored-value>
+            </pair>
+            <pair>
+              <displayed-value>Software</displayed-value>
+              <stored-value>Software</stored-value>
+            </pair>
          <pair>
            <displayed-value>Sound</displayed-value>
            <stored-value>Sound</stored-value>
          </pair>
+             <pair>
+               <displayed-value>Text</displayed-value>
+               <stored-value>Text</stored-value>
+             </pair>
+             <pair>
+               <displayed-value>Workflow</displayed-value>
+               <stored-value>Workflow</stored-value>
+             </pair>
      </value-pairs>
 
      <value-pairs value-pairs-name="researchdata_contributororg" dc-term="contributor.org">
@@ -5147,7 +5263,111 @@ it, please enter the types and the actual numbers or codes below.</hint>
                <displayed-value>General Public</displayed-value>
                <stored-value>General Public</stored-value>
            </pair>
-           </value-pairs>
+     </value-pairs>
+     <value-pairs value-pairs-name="researchdata_otherrelation" dc-term="">
+         <pair>
+             <displayed-value>IsCitedBy</displayed-value>
+             <stored-value>IsCitedBy</stored-value>
+         </pair>
+         <pair>
+             <displayed-value>Cites</displayed-value>
+             <stored-value>Cites</stored-value>
+         </pair>
+         <pair>
+             <displayed-value>IsSupplementTo</displayed-value>
+             <stored-value>IsSupplementTo</stored-value>
+         </pair>
+         <pair>
+             <displayed-value>IsSupplementedBy</displayed-value>
+             <stored-value>IsSupplementedBy</stored-value>
+         </pair>
+         <pair>
+             <displayed-value>IsContinuedBy</displayed-value>
+             <stored-value>IsContinuedBy</stored-value>
+         </pair>
+         <pair>
+             <displayed-value>Continues</displayed-value>
+             <stored-value>Continues</stored-value>
+         </pair>
+         <pair>
+             <displayed-value>HasMetadata</displayed-value>
+             <stored-value>HasMetadata</stored-value>
+         </pair>
+         <pair>
+             <displayed-value>IsMetadataFor</displayed-value>
+             <stored-value>IsMetadataFor</stored-value>
+         </pair>
+         <pair>
+             <displayed-value>IsNewVersionOf</displayed-value>
+             <stored-value>IsNewVersionOf</stored-value>
+         </pair>
+         <pair>
+             <displayed-value>IsPreviousVersionOf</displayed-value>
+             <stored-value>IsPreviousVersionOf</stored-value>
+         </pair>
+         <pair>
+             <displayed-value>IsPartOf (*)</displayed-value>
+             <stored-value>IsPartOf (*)</stored-value>
+         </pair>
+         <pair>
+             <displayed-value>HasPart (*)</displayed-value>
+             <stored-value>HasPart (*)</stored-value>
+         </pair>
+         <pair>
+             <displayed-value>IsReferencedBy (*)</displayed-value>
+             <stored-value>IsReferencedBy (*)</stored-value>
+         </pair>
+         <pair>
+             <displayed-value>References (*)</displayed-value>
+             <stored-value>References (*)</stored-value>
+         </pair>
+         <pair>
+             <displayed-value>IsDocumentedBy</displayed-value>
+             <stored-value>IsDocumentedBy</stored-value>
+         </pair>
+         <pair>
+             <displayed-value>Documents</displayed-value>
+             <stored-value>Documents</stored-value>
+         </pair>
+         <pair>
+             <displayed-value>IsCompiledBy</displayed-value>
+             <stored-value>IsCompiledBy</stored-value>
+         </pair>
+         <pair>
+             <displayed-value>Compiles</displayed-value>
+             <stored-value>Compiles</stored-value>
+         </pair>
+         <pair>
+             <displayed-value>IsVariantFormOf</displayed-value>
+             <stored-value>IsVariantFormOf</stored-value>
+         </pair>
+         <pair>
+             <displayed-value>IsOriginalFormOf</displayed-value>
+             <stored-value>IsOriginalFormOf</stored-value>
+         </pair>
+         <pair>
+             <displayed-value>IsIdenticalTo</displayed-value>
+             <stored-value>IsIdenticalTo</stored-value>
+         </pair>
+         <pair>
+             <displayed-value>IsReviewedBy</displayed-value>
+             <stored-value>IsReviewedBy</stored-value>
+         </pair>
+         <pair>
+             <displayed-value>Reviews</displayed-value>
+             <stored-value>Reviews</stored-value>
+         </pair>
+         <pair>
+             <displayed-value>IsDerivedFrom</displayed-value>
+             <stored-value>IsDerivedFrom</stored-value>
+         </pair>
+         <pair>
+             <displayed-value>IsSourceOf</displayed-value>
+             <stored-value>IsSourceOf</stored-value>
+         </pair>
+     </value-pairs>
+
+
     </form-value-pairs>
 
 </input-forms>
