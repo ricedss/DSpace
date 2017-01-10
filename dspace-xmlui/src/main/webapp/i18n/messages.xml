@@ -2806,28 +2806,28 @@ Data depositors can opt-out of using the CC0 waiver for datasets, especially if 
 <br />Paris: +48.52+002.20/
 <br />United States: +38-097/
 <br />Statue of Liberty: +40.6894-074.0447/</i></message>
-    <message key="xmlui.Submission.submit.DescribeStep.hint.researchdata.datecreated">The given time interval for when the data was collected, gathered or otherwise created. May be entered as a range (e.g. 1929-1939).
-
-DCMI recommends using start and end time periods separated by a semicolon.
-
+    <message key="xmlui.Submission.submit.DescribeStep.hint.researchdata.datecreated">The given time interval for when the data was collected, gathered or otherwise created. May be entered as a range (e.g. 1929-1939). <br />DCMI recommends using start and end time periods separated by a semicolon.
 <br /><i>Examples:
 <br />start=2009-01-01; end=2012-03-31
 <br />start=1929; end=1939</i>
-
-Either side of this string can be omitted, in the case of a single or open-ended interval.
-
+<br />Either side of this string can be omitted, in the case of a single or open-ended interval.
 <br /><i>Examples:
 <br />start=2010
 <br />2012
-<br />end=1976</i></message>
+<br />end=1976</i>
+    </message>
+
     <message key="xmlui.Submission.submit.DescribeStep.hint.researchdata.formatextent"><i>Examples:
 <br />15 pages
 <br />6 MB
-<br />Duration 1:15:05</i></message>
+<br />Duration 1:15:05</i>
+    </message>
 
-       <message key="xmlui.Submission.submit.DescribeStep.hint.researchdata.formatmimetype">Use file extension (or <a href="http://www.freeformatter.com/mime-types-list.html" target="_blank">MIME type</a>) where possible <br /><i>Examples:
+    <message key="xmlui.Submission.submit.DescribeStep.hint.researchdata.formatmimetype">Use file extension (or <a href="http://www.freeformatter.com/mime-types-list.html" target="_blank">MIME type</a>) where possible <br /><i>Examples:
 <br />PDF
-<br />XML</i></message>
-    <message key="xmlui.Submission.submit.DescribeStep.hint.researchdata.otherrelation">Any other information relating to or referencing the data. For a list of available contributor types and definitions, please see <a href="https://digitalriceprojects.pbworks.com/w/page/112708771/Relation%20types%20for%20research%20data" target="_blank">Relation Types for Research Data.</a></message>
+<br />XML</i>
+    </message>
+    <message key="xmlui.Submission.submit.DescribeStep.hint.researchdata.otherrelation">Any other information relating to or referencing the data. For a list of available contributor types and definitions, please see <a href="https://digitalriceprojects.pbworks.com/w/page/112708771/Relation%20types%20for%20research%20data" target="_blank">Relation Types for Research Data.</a>
+    </message>
 
 </catalogue>
