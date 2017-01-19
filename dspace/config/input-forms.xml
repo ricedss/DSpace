@@ -628,7 +628,7 @@
             <input-type value-pairs-name="researchdata_dcmitype">dropdown</input-type>
              <hint>Select the appropriate term from the dropdown list. Most often, this will be Dataset, defined as "data encoded in a defined structure."</hint>
             <required>You must enter Content Format for this item.</required>
-              <visibility>workflow</visibility>
+              <!--visibility>workflow</visibility-->
           </field>
           <field>
                 <dc-schema>dc</dc-schema>
@@ -908,7 +908,7 @@
             <field>
                <dc-schema>dc</dc-schema>
                <dc-element>relation</dc-element>
-               <dc-qualifier>isreferencedby</dc-qualifier>
+               <dc-qualifier>IsReferencedBy</dc-qualifier>
                <repeatable>true</repeatable>
                <label>Related publications</label>
                <input-type>onebox</input-type>
@@ -4218,6 +4218,10 @@ it, please enter the types and the actual numbers or codes below.</hint>
      </value-pairs>
 
      <value-pairs value-pairs-name="researchdata_dcmitype" dc-term="type.dcmi">
+     <pair>
+       <displayed-value>Dataset</displayed-value>
+       <stored-value>Dataset</stored-value>
+     </pair>
       <pair>
        <displayed-value>Audiovisual</displayed-value>
        <stored-value>Audiovisual</stored-value>
@@ -4225,10 +4229,6 @@ it, please enter the types and the actual numbers or codes below.</hint>
      <pair>
        <displayed-value>Collection</displayed-value>
        <stored-value>Collection</stored-value>
-     </pair>
-     <pair>
-       <displayed-value>Dataset</displayed-value>
-       <stored-value>Dataset</stored-value>
      </pair>
          <pair>
            <displayed-value>Event</displayed-value>
@@ -5310,19 +5310,19 @@ it, please enter the types and the actual numbers or codes below.</hint>
          </pair>
          <pair>
              <displayed-value>IsPartOf (*)</displayed-value>
-             <stored-value>IsPartOf (*)</stored-value>
+             <stored-value>IsPartOf</stored-value>
          </pair>
          <pair>
              <displayed-value>HasPart (*)</displayed-value>
-             <stored-value>HasPart (*)</stored-value>
+             <stored-value>HasPart</stored-value>
          </pair>
          <pair>
              <displayed-value>IsReferencedBy (*)</displayed-value>
-             <stored-value>IsReferencedBy (*)</stored-value>
+             <stored-value>IsReferencedBy</stored-value>
          </pair>
          <pair>
              <displayed-value>References (*)</displayed-value>
-             <stored-value>References (*)</stored-value>
+             <stored-value>References</stored-value>
          </pair>
          <pair>
              <displayed-value>IsDocumentedBy</displayed-value>
@@ -5392,7 +5392,7 @@ it, please enter the types and the actual numbers or codes below.</hint>
          </pair>
          <pair>
              <displayed-value>editor (*)</displayed-value>
-             <stored-value>editor (*)</stored-value>
+             <stored-value>editor</stored-value>
          </pair>
          <pair>
              <displayed-value>HostingInstitution</displayed-value>
@@ -5452,7 +5452,7 @@ it, please enter the types and the actual numbers or codes below.</hint>
          </pair>
          <pair>
              <displayed-value>other (*)</displayed-value>
-             <stored-value>other (*)</stored-value>
+             <stored-value>other</stored-value>
          </pair>
      </value-pairs>
 
