@@ -1045,10 +1045,18 @@
            </xsl:variable>
 
         <xsl:choose>
-            <xsl:when test="(@MIMETYPE='audio/x-mp3') or (@MIMETYPE='video/mp4')">
+            <xsl:when test="(@MIMETYPE='audio/x-mp3') or (@MIMETYPE='video/mp4') or (@MIMETYPE='video/m4v')">
                  <a>
                     <xsl:attribute name="href">
                         <xsl:value-of select="$baseURL"/>/streaming/<xsl:value-of select="$streamingfilename"/>
+                    </xsl:attribute>
+                    <i18n:text>xmlui.dri2xhtml.METS-1.0.item-files-viewOpen</i18n:text>
+                 </a>
+            </xsl:when>
+            <xsl:when test="(@MIMETYPE='ohms/xml')">
+                 <a>
+                    <xsl:attribute name="href">
+                        <xsl:value-of select="$baseURL"/>/ohms/viewer.php?cachefile=<xsl:value-of select="$streamingfilename"/>
                     </xsl:attribute>
                     <i18n:text>xmlui.dri2xhtml.METS-1.0.item-files-viewOpen</i18n:text>
                  </a>
@@ -1523,7 +1531,7 @@
                                 <xsl:call-template name="makeLinkFromText"/>
                             </xsl:when>
                             <xsl:otherwise>
-                                <xsl:value-of select="."></xsl:value-of>
+                                <xsl:value-of select="."></xsl:value-of><xsl:text> </xsl:text>
                             </xsl:otherwise>
                         </xsl:choose>
                      </xsl:for-each>
