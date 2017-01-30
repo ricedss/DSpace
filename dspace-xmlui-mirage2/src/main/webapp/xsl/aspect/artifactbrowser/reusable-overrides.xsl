@@ -913,7 +913,7 @@
                                 <xsl:attribute name="href">
                                     <xsl:value-of select="$baseURL"/>/ohms/viewer.php?cachefile=<xsl:value-of select="$streamingfilename"/>
                                 </xsl:attribute>
-                                <span class="glyphicon glyphicon-headphones"></span>&nbsp;<span class="glyphicon glyphicon-comment"></span>&nbsp;Synchronized Viewer
+                                <span class="glyphicon glyphicon-headphones"></span><xsl:text> </xsl:text><span class="glyphicon glyphicon-comment"></span><xsl:text> Synchronized Viewer</xsl:text>
                              </a>
                         </xsl:when>
 
