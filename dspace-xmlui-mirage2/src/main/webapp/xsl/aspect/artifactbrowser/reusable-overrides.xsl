@@ -909,7 +909,7 @@
 
                             </xsl:when>
                         <xsl:when test="(@MIMETYPE='ohms/xml')">
-                             <a>
+                             <a type="button" class="btn btn-primary">
                                 <xsl:attribute name="href">
                                     <xsl:value-of select="$baseURL"/>/ohms/viewer.php?cachefile=<xsl:value-of select="$streamingfilename"/>
                                 </xsl:attribute>
