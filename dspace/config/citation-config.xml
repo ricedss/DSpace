@@ -560,7 +560,15 @@
               <dc-schema>dc</dc-schema>
               <dc-element>creator</dc-element>
               <dc-qualifier></dc-qualifier>
-              <display-format multiple-value-seperator=", ">@field@.</display-format>
+              <display-format multiple-value-seperator=", ">@field@</display-format>
+            </field>
+
+            <!-- Year -->
+            <field>
+              <dc-schema>dc</dc-schema>
+              <dc-element>date</dc-element>
+              <dc-qualifier>issued</dc-qualifier>
+              <display-format format-it="year-only"> (@field@):</display-format>
             </field>
 
                 <!-- Title -->
@@ -571,28 +579,37 @@
                  <display-format> @field@.</display-format>
                </field>
 
-            <!-- publisher -->
+            <!-- version -->
            <field>
+             <dc-schema>dc</dc-schema>
+             <dc-element>description</dc-element>
+             <dc-qualifier>version</dc-qualifier>
+             <display-format> @field@.</display-format>
+           </field>
+
+            <!-- publisher -->
+           <!--field>
              <dc-schema>dc</dc-schema>
              <dc-element>publisher</dc-element>
              <display-format> @field@, </display-format>
+           </field-->
+
+
+            <!-- DOI -->
+           <field>
+             <dc-schema>dc</dc-schema>
+             <dc-element>identifier</dc-element>
+             <dc-qualifier>doi</dc-qualifier>
+             <display-format> @field@.</display-format>
            </field>
 
-            <!-- Year -->
-            <field>
-              <dc-schema>dc</dc-schema>
-              <dc-element>date</dc-element>
-              <dc-qualifier>issued</dc-qualifier>
-              <display-format format-it="year-only">@field@.</display-format>
-            </field>
-
-                <!-- URI -->
-               <field>
-                 <dc-schema>dc</dc-schema>
-                 <dc-element>identifier</dc-element>
-                 <dc-qualifier>uri</dc-qualifier>
-                 <display-format> &lt;a href="@field@"&gt;@field@&lt;/a&gt;.</display-format>
-               </field>
+            <!-- URI -->
+           <field noshow-if-exist="dc.identifier.doi">
+             <dc-schema>dc</dc-schema>
+             <dc-element>identifier</dc-element>
+             <dc-qualifier>uri</dc-qualifier>
+             <display-format> &lt;a href="@field@"&gt;@field@&lt;/a&gt;.</display-format>
+           </field>
 
 
             </citation>
