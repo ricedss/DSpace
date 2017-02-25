@@ -1702,7 +1702,7 @@
             <repeatable>true</repeatable>
             <label>Identifiers</label>
             <input-type value-pairs-name="facultypub_identifiers">qualdrop_value</input-type>
-            <hint>If the item has any identification numbers associated with it. When available, DOI (digital object identifier) MUST be entered. </hint>
+            <hint>Include any associated identification numbers. When available, DOI (digital object identifier) MUST be entered. DOIs must include the prefix http://dx.doi.org/. </hint>
             <required></required>
           </field>
 

@@ -579,6 +579,15 @@
                  <display-format> @field@.</display-format>
                </field>
 
+            <!-- Sub Title -->
+           <field>
+             <dc-schema>dc</dc-schema>
+             <dc-element>title</dc-element>
+             <dc-qualifier>subtitle</dc-qualifier>
+             <display-format> [@field@].</display-format>
+           </field>
+
+
             <!-- version -->
            <field>
              <dc-schema>dc</dc-schema>
@@ -588,11 +597,11 @@
            </field>
 
             <!-- publisher -->
-           <!--field>
+           <field>
              <dc-schema>dc</dc-schema>
              <dc-element>publisher</dc-element>
-             <display-format> @field@, </display-format>
-           </field-->
+             <display-format> @field@.</display-format>
+           </field>
 
 
             <!-- DOI -->

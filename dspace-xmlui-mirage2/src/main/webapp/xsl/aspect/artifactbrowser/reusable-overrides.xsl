@@ -1251,7 +1251,7 @@
               </div>
           </xsl:if>
       </xsl:template>
-      <xsl:template name="itemSummaryView-DIM-doi">
+      <!--xsl:template name="itemSummaryView-DIM-doi">
           <xsl:if test="dim:field[@element='identifier' and @qualifier='doi']">
           <div class="simple-item-view-doi item-page-field-wrapper table">
               <h5><i18n:text>xmlui.Rice.doi</i18n:text></h5>
@@ -1271,7 +1271,29 @@
                   </div>
               </div>
           </xsl:if>
-      </xsl:template>
+      </xsl:template-->
+
+    <xsl:template name="itemSummaryView-DIM-doi">
+        <xsl:if test="dim:field[@element='identifier' and @qualifier='doi']">
+        <div class="simple-item-view-doi item-page-field-wrapper table">
+            <h5><i18n:text>xmlui.Rice.doi</i18n:text></h5>
+                <div>
+                    <xsl:for-each select="dim:field[@element='identifier' and @qualifier='doi']">
+                        <a>
+                             <xsl:attribute name="href">
+                                      <xsl:copy-of select="./node()"/>
+                                  </xsl:attribute>
+                        <xsl:copy-of select="./node()"/>
+                        </a>
+                        <xsl:if test="count(following-sibling::dim:field[@element='identifier' and @qualifier='doi']) != 0">
+                            <br/>
+                        </xsl:if>
+
+                    </xsl:for-each>
+                </div>
+            </div>
+        </xsl:if>
+    </xsl:template>
 
     <!-- 'Series' row in simple item record -->
     <xsl:template name="itemSummaryView-DIM-series">
