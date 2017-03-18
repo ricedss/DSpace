@@ -125,10 +125,52 @@
           </div>
       </xsl:template>
 
+     <xsl:template name="itemSummaryView-DIM-description">
+         <xsl:if test="dim:field[@element='description' and not(@qualifier)][1]/node()
+         or dim:field[@element='description' and (@qualifier='degree')][1]/node()
+         or dim:field[@element='description' and (@qualifier='note')][1]/node()">
+             <div class="simple-item-view-description item-page-field-wrapper table">
+                 <h5><i18n:text>xmlui.dri2xhtml.METS-1.0.item-description</i18n:text></h5>
+                 <div>
+                     <xsl:for-each select="dim:field[@element='description' and not(@qualifier)]">
+                        <xsl:choose>
+                            <xsl:when test="(contains(.,'http://') or contains(.,'https://') )">
+                                <xsl:call-template name="makeLinkFromText"/>
+                            </xsl:when>
+                            <xsl:otherwise>
+                                <xsl:value-of select="."></xsl:value-of><xsl:text> </xsl:text>
+                            </xsl:otherwise>
+                        </xsl:choose>
+                     </xsl:for-each>
+                     <xsl:for-each select="dim:field[@element='description' and (@qualifier='description')]">
+                        <xsl:choose>
+                            <xsl:when test="(contains(.,'http://') or contains(.,'https://') )">
+                                <xsl:call-template name="makeLinkFromText"/>
+                            </xsl:when>
+                            <xsl:otherwise>
+                                <xsl:value-of select="."></xsl:value-of><xsl:text> </xsl:text>
+                            </xsl:otherwise>
+                        </xsl:choose>
+                     </xsl:for-each>
+                     <xsl:for-each select="dim:field[@element='description' and (@qualifier='note')]">
+                        <xsl:choose>
+                            <xsl:when test="(contains(.,'http://') or contains(.,'https://') )">
+                                <xsl:call-template name="makeLinkFromText"/>
+                            </xsl:when>
+                            <xsl:otherwise>
+                                <xsl:value-of select="."></xsl:value-of><xsl:text> </xsl:text>
+                            </xsl:otherwise>
+                        </xsl:choose>
+                     </xsl:for-each>
+                 </div>
+             </div>
+         </xsl:if>
+     </xsl:template>
+
         <!--handles the rendering of a single item in a list in metadata mode-->
-  <xsl:template match="dim:dim" mode="itemSummaryList-DIM-metadata">
-      <xsl:param name="href"/>
-      <div class="artifact-description">
+     <xsl:template match="dim:dim" mode="itemSummaryList-DIM-metadata">
+     <xsl:param name="href"/>
+     <div class="artifact-description">
           <h4 class="artifact-title">
               <xsl:element name="a">
                   <xsl:attribute name="href">
