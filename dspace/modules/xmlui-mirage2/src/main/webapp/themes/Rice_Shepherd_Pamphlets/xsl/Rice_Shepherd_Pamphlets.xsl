@@ -126,9 +126,9 @@
       </xsl:template>
 
      <xsl:template name="itemSummaryView-DIM-description">
-         <xsl:if test="dim:field[@element='description' and not(@qualifier)][1]/node()
-         or dim:field[@element='description' and (@qualifier='degree')][1]/node()
-         or dim:field[@element='description' and (@qualifier='note')][1]/node()">
+         <xsl:if test="(dim:field[@element='description' and not(@qualifier)][1]/node())
+         or (dim:field[@element='description' and (@qualifier='degree')][1]/node())
+         or (dim:field[@element='description' and (@qualifier='note')][1]/node())">
              <div class="simple-item-view-description item-page-field-wrapper table">
                  <h5><i18n:text>xmlui.dri2xhtml.METS-1.0.item-description</i18n:text></h5>
                  <div>
