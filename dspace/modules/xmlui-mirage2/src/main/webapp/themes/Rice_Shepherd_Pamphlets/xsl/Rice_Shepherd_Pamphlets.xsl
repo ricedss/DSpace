@@ -142,7 +142,7 @@
                             </xsl:otherwise>
                         </xsl:choose>
                      </xsl:for-each>
-                     <xsl:for-each select="dim:field[@element='description' and (@qualifier='description')]">
+                     <xsl:for-each select="dim:field[@element='description' and (@qualifier='degree')]">
                         <xsl:choose>
                             <xsl:when test="(contains(.,'http://') or contains(.,'https://') )">
                                 <xsl:call-template name="makeLinkFromText"/>
