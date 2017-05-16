@@ -4202,7 +4202,11 @@ it, please enter the types and the actual numbers or codes below.</hint>
      </pair>
      </value-pairs>
 
-          <value-pairs value-pairs-name="type_publication" dc-term="type.publication">
+     <value-pairs value-pairs-name="type_publication" dc-term="type.publication">
+     <pair>
+           <displayed-value>N/A</displayed-value>
+           <stored-value></stored-value>
+     </pair>
      <pair>
        <displayed-value>pre-print</displayed-value>
        <stored-value>pre-print</stored-value>

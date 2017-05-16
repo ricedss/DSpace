@@ -2829,5 +2829,5 @@ Data depositors can opt-out of using the CC0 waiver for datasets, especially if 
     </message>
     <message key="xmlui.Submission.submit.DescribeStep.hint.researchdata.otherrelation">Any other information relating to or referencing the data. For a list of available contributor types and definitions, please see <a href="https://digitalriceprojects.pbworks.com/w/page/112708771/Relation%20types%20for%20research%20data" target="_blank">Relation Types for Research Data.</a>
     </message>
-
+    <message key="xmlui.dri2xhtml.METS-1.0.item-relation">Relation</message>
 </catalogue>

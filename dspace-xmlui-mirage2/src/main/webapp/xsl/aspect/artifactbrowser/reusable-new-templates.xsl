@@ -316,7 +316,7 @@
                 </xsl:when>
                 <!-- MMS: Ditto for a comma preceded by a period.  -->
                 <xsl:when test="contains($url-body, ', ')">
-                    <xsl:value-of select="substring-before($url-body, '. ')"/>
+                    <xsl:value-of select="substring-before($url-body, ', ')"/>
                 </xsl:when>
                 <!-- MMS: If none of the above cases are met and the last character is a period, it's more likely to be the
                      end of a sentence than the end of the link. -->
