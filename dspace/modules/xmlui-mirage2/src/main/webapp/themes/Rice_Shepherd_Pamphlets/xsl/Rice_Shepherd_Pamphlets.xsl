@@ -31,8 +31,71 @@
 
     <xsl:output indent="yes"/>
 
+    <xsl:template name="simple-item-record-rows">
+
+            <!--xsl:call-template name="itemSummaryView-DIM-alternative-title"/-->
+            <xsl:call-template name="itemSummaryView-DIM-authors"/>
+            <xsl:call-template name="itemSummaryView-DIM-date"/>
+            <xsl:call-template name="itemSummaryView-DIM-description"/>
+            <xsl:call-template name="itemSummaryView-DIM-citation"/>
+            <xsl:call-template name="itemSummaryView-DIM-subject"/>
+            <xsl:call-template name="itemSummaryView-DIM-publisher"/>
+        <xsl:call-template name="itemSummaryView-DIM-relation"/>
+            <xsl:call-template name="itemSummaryView-DIM-URI"/>
+            <xsl:if test="$ds_item_view_toggle_url != ''">
+                <xsl:call-template name="itemSummaryView-show-full"/>
+            </xsl:if>
+            <xsl:call-template name="itemSummaryView-collections"/>
+    </xsl:template>
+
+       <xsl:template name="itemSummaryView-DIM-relation">
+        <xsl:if test="dim:field[@element='relation'][@qualifier='HasPart' and descendant::text()]
+                      or dim:field[@element='relation'][@qualifier='IsPartOf' and descendant::text()]
+                      or dim:field[@element='relation'][@qualifier='IsPartOfSeries' and descendant::text()]
+                      or dim:field[@element='relation'][@qualifier='IsReferencedBy' and descendant::text()]">
+
+            <div class="simple-item-view-authors item-page-field-wrapper table">
+                <h5><i18n:text>xmlui.dri2xhtml.METS-1.0.item-relation</i18n:text></h5>
+                <xsl:choose>
+                    <xsl:when test="dim:field[@element='relation'][@qualifier='HasPart']">
+                        <xsl:for-each select="dim:field[@element='relation'][@qualifier='HasPart']">
+                            <div>
+
+                                <xsl:copy-of select="node()"/> <xsl:text> </xsl:text>
+                            </div>
+                        </xsl:for-each>
+                    </xsl:when>
+                    <xsl:when test="dim:field[@element='relation'][@qualifier='IsPartOf']">
+                          <xsl:for-each select="dim:field[@element='relation'][@qualifier='IsPartOf']">
+                              <div>
+
+                                  <xsl:copy-of select="node()"/> <xsl:text> </xsl:text>
+                              </div>
+                          </xsl:for-each>
+                      </xsl:when>
+                    <xsl:when test="dim:field[@element='relation'][@qualifier='IsPartOfSeries']">
+                          <xsl:for-each select="dim:field[@element='relation'][@qualifier='IsPartOfSeries']">
+                              <div>
+
+                                  <xsl:copy-of select="node()"/> <xsl:text> </xsl:text>
+                              </div>
+                          </xsl:for-each>
+                      </xsl:when>
+                    <xsl:when test="dim:field[@element='relation'][@qualifier='IsReferencedBy']">
+                          <xsl:for-each select="dim:field[@element='relation'][@qualifier='IsReferencedBy']">
+                              <div>
+
+                                  <xsl:copy-of select="node()"/> <xsl:text> </xsl:text>
+                              </div>
+                          </xsl:for-each>
+                      </xsl:when>
+                </xsl:choose>
+            </div>
+        </xsl:if>
+    </xsl:template>
+
     <!-- From item-list.xsl - Generate the info about the item from the metadata section -->
-      <xsl:template match="dim:dim" mode="itemSummaryList-DIM">
+      <xsl:template match="dim:dim" mode="itemSummaryList-DIM-DEBUG">
           <xsl:variable name="itemWithdrawn" select="@withdrawn" />
           <div class="artifact-description">
               <div class="artifact-title">
@@ -168,7 +231,7 @@
      </xsl:template>
 
         <!--handles the rendering of a single item in a list in metadata mode-->
-     <xsl:template match="dim:dim" mode="itemSummaryList-DIM-metadata">
+     <xsl:template match="dim:dim" mode="itemSummaryList-DIM-metadata-DEBUG">
      <xsl:param name="href"/>
      <div class="artifact-description">
           <h4 class="artifact-title">
