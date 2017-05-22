@@ -57,35 +57,65 @@
             <div class="simple-item-view-authors item-page-field-wrapper table">
                 <h5><i18n:text>xmlui.dri2xhtml.METS-1.0.item-relation</i18n:text></h5>
                 <xsl:choose>
+
                     <xsl:when test="dim:field[@element='relation'][@qualifier='HasPart']">
                         <xsl:for-each select="dim:field[@element='relation'][@qualifier='HasPart']">
                             <div>
+                                <xsl:choose>
 
-                                <xsl:copy-of select="node()"/> <xsl:text> </xsl:text>
+                                    <xsl:when test="(contains(.,'http://') or contains(.,'https://') )">
+                                        <xsl:call-template name="makeLinkFromText"/>
+                                    </xsl:when>
+                                    <xsl:otherwise>
+                                        <xsl:copy-of select="node()"/> <xsl:text> </xsl:text>
+                                    </xsl:otherwise>
+                                </xsl:choose>
+
                             </div>
                         </xsl:for-each>
                     </xsl:when>
                     <xsl:when test="dim:field[@element='relation'][@qualifier='IsPartOf']">
                           <xsl:for-each select="dim:field[@element='relation'][@qualifier='IsPartOf']">
                               <div>
+                                  <xsl:choose>
 
-                                  <xsl:copy-of select="node()"/> <xsl:text> </xsl:text>
+                                       <xsl:when test="(contains(.,'http://') or contains(.,'https://') )">
+                                           <xsl:call-template name="makeLinkFromText"/>
+                                       </xsl:when>
+                                       <xsl:otherwise>
+                                           <xsl:copy-of select="node()"/> <xsl:text> </xsl:text>
+                                       </xsl:otherwise>
+                                   </xsl:choose>
                               </div>
                           </xsl:for-each>
                       </xsl:when>
                     <xsl:when test="dim:field[@element='relation'][@qualifier='IsPartOfSeries']">
                           <xsl:for-each select="dim:field[@element='relation'][@qualifier='IsPartOfSeries']">
                               <div>
+                                  <xsl:choose>
 
-                                  <xsl:copy-of select="node()"/> <xsl:text> </xsl:text>
+                                       <xsl:when test="(contains(.,'http://') or contains(.,'https://') )">
+                                           <xsl:call-template name="makeLinkFromText"/>
+                                       </xsl:when>
+                                       <xsl:otherwise>
+                                           <xsl:copy-of select="node()"/> <xsl:text> </xsl:text>
+                                       </xsl:otherwise>
+                                   </xsl:choose>
                               </div>
                           </xsl:for-each>
                       </xsl:when>
                     <xsl:when test="dim:field[@element='relation'][@qualifier='IsReferencedBy']">
                           <xsl:for-each select="dim:field[@element='relation'][@qualifier='IsReferencedBy']">
                               <div>
+                                  <xsl:choose>
 
-                                  <xsl:copy-of select="node()"/> <xsl:text> </xsl:text>
+                                       <xsl:when test="(contains(.,'http://') or contains(.,'https://') )">
+                                           <xsl:call-template name="makeLinkFromText"/>
+                                       </xsl:when>
+                                       <xsl:otherwise>
+                                           <xsl:copy-of select="node()"/> <xsl:text> </xsl:text>
+                                       </xsl:otherwise>
+                                   </xsl:choose>
                               </div>
                           </xsl:for-each>
                       </xsl:when>
