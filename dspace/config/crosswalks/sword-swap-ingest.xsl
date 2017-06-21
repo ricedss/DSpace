@@ -127,7 +127,7 @@
   </xsl:if>
 <!-- add depositor's name: dc.local.sword.agent -->
 <xsl:if test="./@epdcx:propertyURI='http://purl.org/dc/elements/1.1/publisher'">
-  <dim:field mdschema="local" element="sword" qualifier="agent">
+  <dim:field mdschema="dc" element="contributor" qualifier="publisher">
     <xsl:value-of select="epdcx:valueString"/>
     </dim:field>
   </xsl:if>
