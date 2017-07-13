@@ -109,28 +109,29 @@
     		</dim:field>
     	</xsl:if>
 
-<!-- item type element: dc.type.dcmi
-     add term for local usage-->
-<xsl:if test="./@epdcx:propertyURI='http://purl.org/dc/elements/1.1/type' and ./@epdcx:vesURI='http://purl.org/eprint/terms/Type'">
-  <xsl:if test="./@epdcx:valueURI='http://purl.org/eprint/type/JournalArticle'">
-    <dim:field mdschema="dc" element="type" qualifier="genre">
-      Text
-      </dim:field>
-    </xsl:if>
-  </xsl:if>
+        <!-- item type element: dc.type.dcmi
+             add term for local usage-->
+        <xsl:if test="./@epdcx:propertyURI='http://purl.org/dc/elements/1.1/type' and ./@epdcx:vesURI='http://purl.org/eprint/terms/Type'">
+          <xsl:if test="./@epdcx:valueURI='http://purl.org/eprint/type/JournalArticle'">
+            <dim:field mdschema="dc" element="type" qualifier="dcmi">
+              Text
+              </dim:field>
+            </xsl:if>
+          </xsl:if>
 
-<!-- local publication status element: dc.type.publication -->
-<xsl:if test="./@epdcx:propertyURI='http://purl.org/eprint/status/PeerReviewed'">
-  <dim:field mdschema="dc" element="type" qualifier="publication">
-    publisher version
-    </dim:field>
-  </xsl:if>
-<!-- add depositor's name: dc.local.sword.agent -->
-<xsl:if test="./@epdcx:propertyURI='http://purl.org/dc/elements/1.1/publisher'">
-  <dim:field mdschema="dc" element="contributor" qualifier="publisher">
-    <xsl:value-of select="epdcx:valueString"/>
-    </dim:field>
-  </xsl:if>
+        <!-- local publication status element: dc.type.publication -->
+        <xsl:if test="./@epdcx:propertyURI='http://purl.org/eprint/status/PeerReviewed'">
+          <dim:field mdschema="dc" element="type" qualifier="publication">
+            publisher version
+            </dim:field>
+          </xsl:if>
+
+        <!-- add depositor's name: dc.local.sword.agent -->
+        <xsl:if test="./@epdcx:propertyURI='http://purl.org/dc/elements/1.1/publisher'">
+          <dim:field mdschema="dc" element="contributor" qualifier="publisher">
+            <xsl:value-of select="epdcx:valueString"/>
+            </dim:field>
+          </xsl:if>
 
 
 
