@@ -1131,7 +1131,7 @@
     </xsl:template>
     <xsl:template name="itemSummaryView-DIM-rights">
     <xsl:if test="dim:field[@element='rights' and not(@qualifier)]">
-        <div class="simple-item-view-uri item-page-field-wrapper table">
+        <div class="simple-item-view-rights item-page-field-wrapper table">
             <h5><i18n:text>xmlui.Rice.rights</i18n:text></h5>
             <span>
                 <xsl:for-each select="dim:field[@element='rights' and not(@qualifier)]">
