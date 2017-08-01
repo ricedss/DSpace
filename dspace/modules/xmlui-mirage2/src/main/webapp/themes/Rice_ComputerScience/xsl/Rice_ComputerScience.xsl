@@ -53,10 +53,10 @@
       </xsl:template>
 
    <xsl:template name="itemSummaryView-DIM-digitalidentifier">
-        <xsl:if test="dim:field[@element='digital'][@qualifier='identifier' and descendant::text()]">
+        <xsl:if test="dim:field[@element='identifier'][@qualifier='digital' and descendant::text()]">
             <div class="simple-item-view-digitalidentifier item-page-field-wrapper table">
                 <h5><i18n:text>xmlui.Rice.digitalidentifier</i18n:text></h5>
-                        <xsl:for-each select="dim:field[@element='digital'][@qualifier='identifier']">
+                        <xsl:for-each select="dim:field[@element='identifier'][@qualifier='digital']">
                             <div>
 
                                 <xsl:copy-of select="node()"/>
