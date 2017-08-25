@@ -25,6 +25,10 @@ import java.util.*;
  * A curation job to find derived bitstreams in the same item with the same sequence number and delete the older ones,
  * and also to find multiple derived thumbnails and extracted text for the same original file and delete the older ones.
  *
+ * If you want it to actually *do* the deletes and not just report, you need to create
+ * {config.dir}/modules/{taskname}.cfg and add the line "doDelete = true" inside it, where taskname is the
+ * name you configured in curation.cfg for this task.
+ *
  * @author Sid Byrd
  */
 @Mutative
