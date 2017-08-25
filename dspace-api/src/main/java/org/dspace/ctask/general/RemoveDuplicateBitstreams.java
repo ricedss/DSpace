@@ -99,6 +99,8 @@ public class RemoveDuplicateBitstreams extends AbstractCurationTask
                     setResult(resultsStr);
                     report(resultsStr);
                 }
+
+                item.decache();
             } catch (AuthorizeException | SQLException | IOException e) {
                 // Something went wrong
                 logDebugMessage(e.getMessage());
@@ -188,7 +190,7 @@ public class RemoveDuplicateBitstreams extends AbstractCurationTask
     private int processDupes(List<Bitstream> dupes, String handle)
             throws SQLException, AuthorizeException, IOException
     {
-        results.append(String.format("Processing %d dupes in item %s", dupes.size(), handle));
+        results.append(String.format("Processing %d dupes in item %s\n", dupes.size(), handle));
         int deletedCount = 0;
 
         // Sort in ID order, then delete all but the last.
@@ -237,3 +239,26 @@ public class RemoveDuplicateBitstreams extends AbstractCurationTask
         return deletedCount;
     }
 }
+
+
+/*
+As a bonus, here's a DSpace 5 SQL query to list bitstreams with duplicate sequence IDs:
+
+select handle.handle, bit.sequence_id, bit.bitstream_id, mv.text_value as title
+    from bitstream as bit
+        join bundle2bitstream as b2b on b2b.bitstream_id=bit.bitstream_id
+        join item2bundle as i2b on i2b.bundle_id=b2b.bundle_id
+        inner join (
+            select i2b.item_id, bit.sequence_id, count(*)
+                from bitstream as bit
+                    join bundle2bitstream as b2b on b2b.bitstream_id=bit.bitstream_id
+                    join item2bundle as i2b on i2b.bundle_id=b2b.bundle_id
+                group by i2b.item_id, bit.sequence_id
+                having count(*) > 1
+        ) as dup on i2b.item_id=dup.item_id and bit.sequence_id=dup.sequence_id
+        join handle on handle.resource_id=i2b.item_id
+        join metadatavalue as mv on mv.resource_id=bit.bitstream_id and mv.resource_type_id=0
+        join metadatafieldregistry as mfr on mfr.element='title' and mfr.qualifier is null and mv.metadata_field_id=mfr.metadata_field_id
+        join metadataschemaregistry as msr on msr.short_id='dc' and mfr.metadata_schema_id=msr.metadata_schema_id
+
+ */
