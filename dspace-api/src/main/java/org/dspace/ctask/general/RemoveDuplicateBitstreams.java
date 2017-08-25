@@ -131,7 +131,7 @@ public class RemoveDuplicateBitstreams extends AbstractCurationTask
      * @param bitCompare A Comparator on Bitstreams such that if bitCompare.compare(b1, b2)==0, then
      *                   b1 and b2 are considered duplicates.
      * @return Whether any duplicates were deleted (or would have been deleted if doDelete).
-     * @throws SQLException If traversing or remoing a DSpace object failed due to DB.
+     * @throws SQLException If traversing or removing a DSpace object failed due to DB.
      * @throws AuthorizeException If not authorized to remove a DSpace object.
      * @throws IOException If removing a DSpace object failed due to IO.
      */
@@ -143,32 +143,33 @@ public class RemoveDuplicateBitstreams extends AbstractCurationTask
 
         // Run through the bitstreams looking for the value twice in a row.
         Bitstream prevB = null;
-        int dupeStart = -1;
+        int dupeStartI = -1;
         boolean inDupe = false;
         boolean changed = false;
-        for (int i=0, bitLen = bits.size(); i<bitLen; i++)
+        int listSize = bits.size();
+        for (int i=0; i<listSize; i++)
         {
             Bitstream b = bits.get(i);
             if (prevB != null && bitCompare.compare(b, prevB) == 0) // There's more than one bitstream with this value!
             {
                 if (!inDupe)
                 {
-                    dupeStart = i;
+                    dupeStartI = i-1;
                     inDupe = changed = true;
                 }
             }
             else if (inDupe) // We just went past the last Bitstream from a dupe set.
             {
-                int deletedCount = processDupes(bits.subList(dupeStart, i+1), item.getHandle());
+                int deletedCount = processDupes(bits.subList(dupeStartI, i), item.getHandle());
                 i -= deletedCount;
-                bitLen -= deletedCount;
+                listSize -= deletedCount;
                 inDupe = false;
             }
             prevB = b;
         }
         if (inDupe) // Leftover dupe from the last Bitstream encountered.
         {
-            processDupes(bits.subList(dupeStart, bits.size()), item.getHandle());
+            processDupes(bits.subList(dupeStartI, listSize), item.getHandle());
         }
         return changed;
     }
@@ -197,17 +198,20 @@ public class RemoveDuplicateBitstreams extends AbstractCurationTask
         {
             Bitstream b = it.next();
 
+            // Delete Bitstream unless it's last, i.e. unless it has the highest ID of the dupes set.
+            boolean delete = it.hasNext();
+
             // Report whether we're deleting or not.
-            String currentAction = (it.hasNext()) ? action : "Keeping";
+            String currentAction = (delete) ? action : "Keeping";
             results.append(String.format("%s bitstream with id %d, seq %d, name %s\n", currentAction,
                     b.getID(), b.getSequenceID(), b.getName()));
 
-            // Delete unless it's the last Bitstream.
-            if (it.hasNext()) {
+            if (delete)
+            {
+                deletedCount++;
 
                 // Remove from dupes list.
                 it.remove();
-                deletedCount++;
 
                 // Remove from DSpace.
                 if (doDelete)
