@@ -808,6 +808,7 @@ public class BasicWorkflowServiceImpl implements BasicWorkflowService
             EPerson ep = item.getSubmitter();
             // Get the Locale
             Locale supportedLocale = I18nUtil.getEPersonLocale(ep);
+            // try to send email
             Email email = Email.getEmail(I18nUtil.getEmailFilename(supportedLocale, "submit_archive"));
 
             // Get the item handle to email to user

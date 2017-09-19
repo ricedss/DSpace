@@ -167,6 +167,8 @@ public interface ItemService extends DSpaceObjectService<Item>, DSpaceObjectLega
      */
     public List<Community> getCommunities(Context context, Item item) throws SQLException;
 
+    // Ying added this to have replace item work again
+    public void cleanItem(Context context, Item item) throws SQLException, AuthorizeException, IOException;
 
     /**
      * Get the bundles matching a bundle name (name corresponds roughly to type)
@@ -571,4 +573,9 @@ public interface ItemService extends DSpaceObjectService<Item>, DSpaceObjectLega
 	 * @return <code>true</code> if the item is linked to a workspaceitem or workflowitem
 	 */
     boolean isInProgressSubmission(Context context, Item item) throws SQLException;
+
+    /*
+     * Ying added 04/2017
+     **/
+    public Bitstream getPrimaryBitstream(Context context, Item item) throws SQLException;
 }

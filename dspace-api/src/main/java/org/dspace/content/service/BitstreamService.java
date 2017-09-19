@@ -163,7 +163,8 @@ public interface BitstreamService extends DSpaceObjectService<Bitstream>, DSpace
      */
     public List<Bitstream> findDeletedBitstreams(Context context) throws SQLException;
 
-
+    // Ying added this
+    //public String getFilename(Context context, Bitstream bitstream);
     /**
      * Remove a bitstream that has been set to "deleted" from the database
      * @param context the dspace context

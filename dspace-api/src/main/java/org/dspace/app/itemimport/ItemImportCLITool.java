@@ -64,6 +64,7 @@ public class ItemImportCLITool {
 
             options.addOption("a", "add", false, "add items to DSpace");
             options.addOption("b", "add-bte", false, "add items to DSpace via Biblio-Transformation-Engine (BTE)");
+            options.addOption("f", "fileadd", false, "add files to existing items in DSpace");
             options.addOption("r", "replace", false, "replace items in mapfile");
             options.addOption("d", "delete", false,
                     "delete items listed in mapfile");
@@ -121,6 +122,11 @@ public class ItemImportCLITool {
 
             if (line.hasOption('a')) {
                 command = "add";
+            }
+
+            if (line.hasOption('f'))
+            {
+                command = "fileadd";
             }
 
             if (line.hasOption('r')) {
@@ -222,7 +228,8 @@ public class ItemImportCLITool {
                     System.exit(1);
                 }
 
-                if (collections == null) {
+                if (collections == null && !"fileadd".equals(command))
+                {
                     System.out.println("No collections given. Assuming 'collections' file inside item directory");
                     commandLineCollections = false;
                 }
@@ -318,7 +325,8 @@ public class ItemImportCLITool {
 
             // don't need to validate collections set if command is "delete"
             // also if no collections are given in the command line
-            if (!"delete".equals(command) && commandLineCollections) {
+            if ((!"delete".equals(command) && commandLineCollections) || "fileadd".equals(command))
+            {
                 System.out.println("Destination collections:");
 
                 mycollections = new ArrayList<>();
@@ -373,6 +381,11 @@ public class ItemImportCLITool {
 
                 if ("add".equals(command)) {
                     myloader.addItems(c, mycollections, sourcedir, mapfile, template);
+                }
+                else if ("fileadd".equals(command))
+                {
+                    myloader.addFilesToItems(c, mycollections, sourcedir, mapfile, template);
+
                 } else if ("replace".equals(command)) {
                     myloader.replaceItems(c, mycollections, sourcedir, mapfile, template);
                 } else if ("delete".equals(command)) {

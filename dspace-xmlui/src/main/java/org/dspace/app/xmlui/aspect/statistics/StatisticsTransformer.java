@@ -44,6 +44,7 @@ public class StatisticsTransformer extends AbstractDSpaceTransformer {
     private static final String T_head_visits_countries = "xmlui.statistics.visits.countries";
     private static final String T_head_visits_cities = "xmlui.statistics.visits.cities";
     private static final String T_head_visits_bitstream = "xmlui.statistics.visits.bitstreams";
+	private static final String T_head_top10_visits_item = "xmlui.statistics.visits.top10item";
 
     private Date dateStart = null;
     private Date dateEnd = null;
@@ -188,8 +189,30 @@ public class StatisticsTransformer extends AbstractDSpaceTransformer {
 							+ " and handle: " + dso.getHandle(), e);
 		}
 		
-		
-		
+		// Ying added this for top 10 items of community or collection
+		if(!(dso instanceof org.dspace.content.Item)){
+		    try {
+			/** List of the top 10 items for the community or collection **/
+			StatisticsListing statListing = new StatisticsListing(
+					new StatisticsDataVisits(dso));
+
+			statListing.setTitle(T_head_top10_visits_item);
+			statListing.setId("list2");
+
+			//Adding a new generator for our top 10 items without a name length delimiter
+			DatasetDSpaceObjectGenerator dsoAxis = new DatasetDSpaceObjectGenerator();
+			dsoAxis.addDsoChild(Constants.ITEM, 10, false, -1);
+			statListing.addDatasetGenerator(dsoAxis);
+
+			//Render the list as a table
+			addDisplayListing(division, statListing);
+
+		    } catch (Exception e) {
+			log.error("Error occurred while creating statistics for home page", e);
+		    }
+		}
+		// END Ying
+
 		try {
 
 			StatisticsTable statisticsTable = new StatisticsTable(new StatisticsDataVisits(dso));
@@ -243,7 +266,8 @@ public class StatisticsTransformer extends AbstractDSpaceTransformer {
                        new StatisticsDataVisits(dso));
 
             statListing.setTitle(T_head_visits_countries);
-            statListing.setId("list2");
+	    //Ying           statListing.setId("list2");
+	    statListing.setId("list3");
 
 //            DatasetDSpaceObjectGenerator dsoAxis = new DatasetDSpaceObjectGenerator();
 //            dsoAxis.addDsoChild(dso.getType(), 10, false, -1);
@@ -266,7 +290,8 @@ public class StatisticsTransformer extends AbstractDSpaceTransformer {
                        new StatisticsDataVisits(dso));
 
             statListing.setTitle(T_head_visits_cities);
-            statListing.setId("list3");
+	    // Ying            statListing.setId("list3");
+	    statListing.setId("list4");
 
 //            DatasetDSpaceObjectGenerator dsoAxis = new DatasetDSpaceObjectGenerator();
 //            dsoAxis.addDsoChild(dso.getType(), 10, false, -1);

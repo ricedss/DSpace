@@ -2504,5 +2504,326 @@
     <message key="xmlui.Submission.submit.progressbar.lookup">Lookup</message>
     <message key="xmlui.ChoiceLookupTransformer.lookup">Lookup</message>
 
+     <!-- ######################################
+             Rice Customizations begin here
+         ###################################### -->
 
+    <!-- 1. Customizations/overrides of above texts (done separately here instead of replacing texts in-place above to ease upgrading to newer versions of DSpace) -->
+
+    <message key="xmlui.general.dspace_home">Rice Scholarship Home</message>
+    <message key="xmlui.general.go_home">Go to front page</message>
+    <message key="xmlui.feed.general_description">The Rice University online scholarship archive captures, stores, indexes, preserves, and distributes digital research material.</message>
+    <message key="xmlui.ArtifactBrowser.AbstractSearch.all_of_dspace">Entire Archive</message>
+    <message key="xmlui.ArtifactBrowser.AdvancedSearch.search_scope_help">Limit your search to a community or sub-community.</message>
+    <message key="xmlui.ArtifactBrowser.CollectionViewer.all_of_dspace">Entire Archive</message>
+    <message key="xmlui.ArtifactBrowser.CollectionViewer.advanced_search_link">Advanced Search Within This Collection</message>
+    <message key="xmlui.ArtifactBrowser.CommunityBrowser.head">Communities in the archive</message>
+    <message key="xmlui.ArtifactBrowser.CommunityViewer.all_of_dspace">Entire Archive</message>
+    <message key="xmlui.ArtifactBrowser.CommunityViewer.advanced_search_link">Advanced Search Within This Community</message>
+    <message key="xmlui.ArtifactBrowser.FeedbackForm.para1">Thanks for sharing your feedback. Your comments are appreciated!</message>
+    <message key="xmlui.ArtifactBrowser.FrontPageSearch.head">Search the archive</message>
+    <message key="xmlui.ArtifactBrowser.FrontPageSearch.para1">Enter some text in the box below to search the archive.</message>
+    <message key="xmlui.ArtifactBrowser.Navigation.head_all_of_dspace">Entire Archive</message>
+    <message key="xmlui.ArtifactBrowser.RestrictedItem.auth_message">The item is restricted due to the copyright. You must have authorization to view the item. Authorized user may <a href="/login">login here</a> to access the item.</message>
+    <message key="xmlui.EPerson.CannotRegister.para1">The configuration of this repository does not allow registration in this context. Please contact the <a href="../contact">site administrator</a> with questions or comments.</message>
+    <message key="xmlui.EPerson.PasswordLogin.head1">Sign in</message>
+    <message key="xmlui.EPerson.PasswordLogin.para1">Register an account to subscribe to collections for email updates, and submit new items.</message>
+    <message key="xmlui.EPerson.LDAPLogin.head1">Sign in</message>
+    <message key="xmlui.EPerson.RegistrationFinished.para1">You're now registered to use scholarship.rice.edu.  You can subscribe to collections to receive e-mail updates about new items.</message>
+    <message key="xmlui.EPerson.StartForgotPassword.para1">Enter the email address you provided when you registered. An email will be sent to that address with further instructions.</message>
+    <message key="xmlui.EPerson.StartRegistration.para2">Register an account to subscribe to collections for email updates, and submit new items.</message>
+    <message key="xmlui.Submission.general.mydspace_home">My Home</message>
+    <message key="xmlui.Submission.general.go_mydspace">Go to My Home</message>
+    <message key="xmlui.Submission.submit.LicenseStep.info1"><strong>There is one last step:</strong> In order for this archive to reproduce, translate and distribute your submission worldwide, you must agree to the following terms.</message>
+    <message key="xmlui.dri2xhtml.structural.search">Search the archive</message>
+
+    <!-- 2. Entirely new texts -->
+
+    <message key="xmlui.dri2xhtml.METS-1.0.item-advisor">Advisor</message>
+    <message key="xmlui.dri2xhtml.METS-1.0.item-type">Type</message>
+    <message key="xmlui.dri2xhtml.METS-1.0.item-citation">Citation</message>
+    <message key="xmlui.dri2xhtml.METS-1.0.item-publisher">Publisher</message>
+
+    <message key="xmlui.ArtifactBrowser.AdvancedSearch.type_type">Type</message>
+    <message key="xmlui.ArtifactBrowser.Navigation.browse_type">Type</message>
+    <message key="xmlui.ArtifactBrowser.ConfigurableBrowse.title.metadata.type">Browsing {0} by Type {1}</message>
+    <message key="xmlui.ArtifactBrowser.ConfigurableBrowse.trail.metadata.type">Browsing {0} by Type</message>
+    <message key="xmlui.ArtifactBrowser.ConfigurableBrowse.type.column_heading">Type</message>
+
+    <message key="xmlui.Submission.submit.DescribeStep.hint.traditional.author">Enter the names of the authors of this item below.</message>
+    <message key="xmlui.Submission.submit.DescribeStep.hint.traditional.title">Enter the main title of the item.</message>
+    <message key="xmlui.Submission.submit.DescribeStep.hint.traditional.alternativetitle">If the item has any alternative titles, please enter them below.</message>
+    <message key="xmlui.Submission.submit.DescribeStep.hint.traditional.dateissued">Please give the date of previous publication or public distribution below.  You can leave out the day and/or month if they aren't applicable.</message>
+    <message key="xmlui.Submission.submit.DescribeStep.hint.traditional.publisher">Enter the name of the publisher of the previously issued instance of this item.</message>
+    <message key="xmlui.Submission.submit.DescribeStep.hint.traditional.ispartofseries">Enter the series and number assigned to this item by your community.</message>
+    <message key="xmlui.Submission.submit.DescribeStep.hint.traditional.identifier">If the item has any identification numbers or codes associated with it, please enter the types and the actual numbers or codes below.</message>
+    <message key="xmlui.Submission.submit.DescribeStep.hint.traditional.types">Select the type(s) of content of the item. To select more than one value in the list, you may have to hold down the "CTRL" or "Shift" key.</message>
+    <message key="xmlui.Submission.submit.DescribeStep.hint.traditional.abstract">Enter the abstract of this item below.</message>
+    <message key="xmlui.Submission.submit.DescribeStep.hint.traditional.subject">Enter appropriate subject keywords or phrases below.</message>
+    <message key="xmlui.Submission.submit.DescribeStep.hint.traditional.sponsors">Enter the names of any sponsors and/or funding codes in the box below.</message>
+    <message key="xmlui.Submission.submit.DescribeStep.hint.traditional.description">Enter any other description or comments in this box.</message>
+
+    <message key="xmlui.Submission.submit.DescribeStep.hint.eceform.dateissued">For Conference Papers, list the date of the actual conference presentation.  For a Journal Paper, list the date of the published version, or the date of submission.  If listing date of submission, please update when the paper appears.</message>
+    <message key="xmlui.Submission.submit.DescribeStep.hint.eceform.type">For ECE publications, use Conference Paper or Journal Paper types for most entries.</message>
+    <message key="xmlui.Submission.submit.DescribeStep.hint.eceform.subject">Enter the keywords one at a time. Use the 'add' button after each keyword to create the list.</message>
+    <message key="xmlui.Submission.submit.DescribeStep.hint.eceform.sponsor">Enter the names of any sponsors one at a time. Use the 'add' button after each sponsor to create the list.</message>
+    <message key="xmlui.Submission.submit.DescribeStep.hint.eceform.center">Enter CMC or DSP or other center/lab name in ECE.</message>
+    <message key="xmlui.Submission.submit.DescribeStep.hint.eceform.journaltitle">Use IEEE standard names for journals. </message>
+    <message key="xmlui.Submission.submit.DescribeStep.hint.eceform.conferencename">Use IEEE standard conference names without abbreviations and add conference acronym in parenthesis. For example, <i>IEEE International Conference on Acoustics, Speech, and Signal Processing (ICASSP)</i>. </message>
+    <message key="xmlui.Submission.submit.DescribeStep.hint.eceform.conferencedate">Enter year of conference. This will be the same year as in 'Date of Issue'.</message>
+    <message key="xmlui.Submission.submit.UploadECEStep.file_help">Please enter the full path of the file on your computer corresponding to your item. If you click "Browse...", a new window will allow you to select the file from your computer. Add '_final' to the file name of final papers or '_submitted' to the file name of papers under review before submitting.</message>
+    <message key="xmlui.Submission.submit.UploadECEStep.description_help">Optionally, provide a brief description of the file. Use 'Final' for papers that have appeared or 'Submitted' for papers under review. You can add a second file with '_final' later once the paper is accepted and has appeared.</message>
+    <message key="xmlui.ArtifactBrowser.CollectionViewer.head_recent_submissions.1911.2946">Recent Issued</message>
+    <message key="xmlui.ArtifactBrowser.CollectionViewer.head_recent_submissions.1911.10563">Recent Issued</message>
+    <message key="xmlui.administrative.FlowMapperUtils.mapped_items">The items were successfully mapped. One or more item(s) already mapped to the collection. You can't map them twice.</message>
+
+    <message key="xmlui.Submission.submit.DescribeStep.hint.subwayform.datecreated">Enter the date of creation.</message>
+    <message key="xmlui.Submission.submit.DescribeStep.hint.subwayform.digidentifier">Enter the digital identifier. </message>
+    <message key="xmlui.Submission.submit.DescribeStep.hint.subwayform.relation">Enter the web site of the advertisement.</message>
+    <message key="xmlui.Submission.submit.DescribeStep.hint.subwayform.source">Enter the source of the collection.</message>
+    <message key="xmlui.Submission.submit.DescribeStep.hint.subwayform.digspecification">Enter the digital specification.</message>
+    <message key="xmlui.Submission.submit.DescribeStep.hint.subwayform.pcat">Enter the product category</message>
+    <message key="xmlui.Submission.submit.DescribeStep.hint.subwayform.ptype">Enter the product type</message>
+    <message key="xmlui.Submission.submit.DescribeStep.hint.subwayform.brand">Enter the product brand</message>
+
+    <message key="xmlui.Submission.submit.DescribeStep.hint.commencement.contributorpublisher">Standard entry: Rice University</message>
+    <message key="xmlui.Submission.submit.DescribeStep.hint.commencement.publisher">Standard entry: Rice University</message>
+    <message key="xmlui.Submission.submit.DescribeStep.hint.commencement.subjectlcsh">Controlled vocabulary: LCSH.</message>
+    <message key="xmlui.Submission.submit.DescribeStep.hint.commencement.dateissued">YYYY or YYYY-MM-DD </message>
+    <message key="xmlui.Submission.submit.DescribeStep.hint.commencement.formatmedium">Use terms from Getty Art &amp; Architecture Thesaurus: http://www.getty.edu/research/tools/vocabularies/aat/. </message>
+    <message key="xmlui.Submission.submit.DescribeStep.hint.commencement.languageiso">Standard entry: eng (only for text-based resources).</message>
+    <message key="xmlui.Submission.submit.DescribeStep.hint.commencement.rights">Rights to this material belong to Rice University</message>
+    <message key="xmlui.Submission.submit.DescribeStep.hint.commencement.rightsuri">This work is licensed under a Creative Commons Attribution-NonCommercial-ShareAlike 3.0 Unported License http://creativecommons.org/licenses/by-nc-sa/3.0/ </message>
+    <message key="xmlui.Submission.submit.DescribeStep.hint.commencement.identifierdigital">WRC number.</message>
+    <message key="xmlui.Submission.submit.DescribeStep.hint.commencement.datedigital">YYYY</message>
+    <message key="xmlui.Submission.submit.DescribeStep.hint.commencement.digitizationspecifications">Images were captured using the Epson Perfection 1670 PHOTO or Epson Expression 10000XL flatbed scanner and Epson Scan software.  Master Tiff images were scanned at 24-bit color, 400 ppi. Derivative files are PDF/A for text and JPEG2000 for images.</message>
+
+      <message key="xmlui.Submission.submit.DescribeStep.hint.wrchistorical.subject">Locally defined general topics.  Use only these terms: events, key documents, people, places, sports. (Multiple values allowed  for  Various collection only)</message>
+      <message key="xmlui.Submission.submit.DescribeStep.hint.wrchistorical.subjectlcsh">Controlled vocabulary: LCSH. Use terms from Library of Congress Subject Headings (http://authorities.loc.gov/)</message>
+      <message key="xmlui.Submission.submit.DescribeStep.hint.wrchistorical.dateissued">YYYY or YYYY-MM-DD </message>
+      <message key="xmlui.Submission.submit.DescribeStep.hint.wrchistorical.dateoriginal">(optional) May include words such as "ca. 1970" or "pre-1950".</message>
+      <message key="xmlui.Submission.submit.DescribeStep.hint.wrchistorical.formatmedium">Use terms from Getty Art &amp; Architecture Thesaurus (http://www.getty.edu/research/tools/vocabularies/aat/).</message>
+      <message key="xmlui.Submission.submit.DescribeStep.hint.wrchistorical.type">Standard entry: text or image. Use terms from DCMI type vocabulary (http://dublincore.org/documents/dcmi-type-vocabulary/).</message>
+      <message key="xmlui.Submission.submit.DescribeStep.hint.wrchistorical.languageiso">Standard entry: eng (only for text-based resources).</message>
+      <message key="xmlui.Submission.submit.DescribeStep.hint.wrchistorical.rights">This work is licensed under a Creative Commons Attribution-NonCommercial-ShareAlike 3.0 Unported License.</message>
+      <message key="xmlui.Submission.submit.DescribeStep.hint.wrchistorical.rightsuri">http://creativecommons.org/licenses/by-nc-sa/3.0/ </message>
+      <message key="xmlui.Submission.submit.DescribeStep.hint.wrchistorical.sourcecollection">Call number, MSS or Archive location (Box/Folder) </message>
+      <message key="xmlui.Submission.submit.DescribeStep.hint.wrchistorical.publisher">Standard entry: Rice University</message>
+      <message key="xmlui.Submission.submit.DescribeStep.hint.wrchistorical.identifierdigital">WRC number.</message>
+      <message key="xmlui.Submission.submit.DescribeStep.hint.wrchistorical.datedigital">YYYY</message>
+      <message key="xmlui.Submission.submit.DescribeStep.hint.wrchistorical.digitizationspecifications">Enter standardized text for scanning equipment and file formats.</message>
+
+
+    <message key="xmlui.Periodicals.VolumeNumber">Volume {0}</message>
+    <message key="xmlui.Periodicals.IssueNumberAndDate">Issue {0} ({1})</message>
+    <message key="xmlui.Periodicals.BrowseIssue">Browse Issue</message>
+    <message key="xmlui.Periodicals.DownloadCompleteIssue">Download Complete Issue</message>
+    <message key="xmlui.Periodicals.Issue">Issue</message>
+    <message key="xmlui.Periodicals.issuedate">issue date {0}</message>
+    <message key="xmlui.Periodicals.show">show</message>
+    <message key="xmlui.Periodicals.hide">hide</message>
+
+    <message key="xmlui.Americas.SearchThisCommunity">Search this community ...</message>
+    <message key="xmlui.Americas.RiceDigitalScholarshipArchive">Rice Digital Scholarship Archive</message>
+    <message key="xmlui.Americas.Inthe">In the</message>
+    <message key="xmlui.Americas.Community">Community</message>
+    <message key="xmlui.Americas.BrowseCollection">Browse Collection:</message>
+    <message key="xmlui.Americas.Subtitle">Subtitle</message>
+
+    <message key="xmlui.Shepherd.FormsPartPerformance">Forms part of the performance:</message>
+    <message key="xmlui.Shepherd.InformationAboutPerformance">Information about this performance:</message>
+    <message key="xmlui.Shepherd.InformationAboutPiece">Information about this piece:</message>
+    <message key="xmlui.Shepherd.Performedby">Performed by:</message>
+    <message key="xmlui.Shepherd.Performancetype">Performance type:</message>
+    <message key="xmlui.Shepherd.PerformanceIncludesFollowingPiece">This performance includes the following musical piece:</message>
+    <message key="xmlui.Shepherd.PerformanceIncludesFollowingPieces">This performance includes the following musical pieces:</message>
+    <message key="xmlui.Shepherd.Listentomovements">Listen to movements in this piece:</message>
+    <message key="xmlui.Shepherd.Movement">Movement</message>
+    <message key="xmlui.Shepherd.Duration">Duration</message>
+    <message key="xmlui.Shepherd.Streaming">Streaming</message>
+    <message key="xmlui.Shepherd.Composer">Composer:</message>
+    <message key="xmlui.Shepherd.Composers">Composers:</message>
+    <message key="xmlui.Shepherd.PrintedProgramforPerformance">Printed program for this performance:</message>
+    <message key="xmlui.Shepherd.Daterecorded">Date recorded:</message>
+
+    <message key="xmlui.Rice.RecentSubmissionsCommunity">Recent submissions in this community</message>
+    <message key="xmlui.Rice.RecentSubmissionsCollection">Recent submissions in this collection</message>
+    <message key="xmlui.Rice.SeeAll">see all</message>
+    <message key="xmlui.Rice.BrowseTheEntireArchive">Browse the entire archive</message>
+    <message key="xmlui.Rice.Home">Home</message>
+    <message key="xmlui.Rice.FAQ">FAQ</message>
+    <message key="xmlui.Rice.SeeAllItemsCommunity">See all {0} items in this community&#160;&#187;</message>
+    <message key="xmlui.Rice.SeeAllItemsCollection">See all {0} items in this collection&#160;&#187;</message>
+    <message key="xmlui.Rice.ItemsInBrackets">[{0} items]</message>
+    <message key="xmlui.Rice.BrowseThisCommunityBy">Browse this community by:</message>
+    <message key="xmlui.Rice.BrowseThisCollectionBy">Browse this collection by:</message>
+    <message key="xmlui.Rice.SearchWithinCommunity">Search within this community</message>
+    <message key="xmlui.Rice.SearchWithinCollection">Search within this collection</message>
+    <message key="xmlui.Rice.Translator">Translator</message>
+    <message key="xmlui.Rice.Alttitle">Alternative title</message>
+    <message key="xmlui.Rice.RightsAndUsage">Rights and Usage</message>
+    <message key="xmlui.Rice.RelatedLinks">Related Links</message>
+    <message key="xmlui.Rice.ViewOnline">View online</message>
+    <message key="xmlui.Rice.WithPageImages">(with page images)</message>
+    <message key="xmlui.Rice.ViewMarkup">View markup</message>
+    <message key="xmlui.Rice.DatePublished">Date Published</message>
+
+    <message key="xmlui.Rice.Subtitle">Subtitle</message>
+    <message key="xmlui.Rice.Subject.Keywords">Keywords</message>
+    <message key="xmlui.Rice.Subject.LCSH">Keywords</message>
+    <message key="xmlui.Rice.Description.Center">Center</message>
+    <message key="xmlui.Rice_ECE.Subcategory">Subcategory:</message>
+    <message key="xmlui.Rice_ETD.Degree">Degree</message>
+
+    <message key="xmlui.statistics.visits.top10item">Top 10 Visited Items</message>
+    <message key="xmlui.dri2xhtml.METS-1.0.item-doi">DOI</message>
+    <message key="xmlui.dri2xhtml.METS-1.0.item-keyword">Keyword</message>
+
+    <message key="xmlui.ArtifactBrowser.AdvancedSearch.type_discipline">Discipline</message>
+    <message key="xmlui.ArtifactBrowser.AdvancedSearch.type_coverage">Coverage</message>
+    <message key="xmlui.ArtifactBrowser.AdvancedSearch.type_source">Source</message>
+
+    <message key="xmlui.ArtifactBrowser.AdvancedSearch.type_format">Format</message>
+    <message key="xmlui.ArtifactBrowser.AdvancedSearch.type_issuenum">Issue Number</message>
+    <message key="xmlui.ArtifactBrowser.AdvancedSearch.type_volumenum">Volume Number</message>
+
+    <message key="xmlui.ArtifactBrowser.SimpleSearch.filter.abstract">Abstract</message>
+    <message key="xmlui.ArtifactBrowser.SimpleSearch.filter.issuenum">Issue Number</message>
+    <message key="xmlui.ArtifactBrowser.SimpleSearch.filter.volumenum">Volume Number</message>
+    <message key="xmlui.ArtifactBrowser.SimpleSearch.filter.advisor">Advisor</message>
+
+    <message key="xmlui.ArtifactBrowser.SimpleSearch.filter.degreename">Degree Name</message>
+    <message key="xmlui.ArtifactBrowser.SimpleSearch.filter.degreelevel">Degree Level</message>
+    <message key="xmlui.ArtifactBrowser.SimpleSearch.filter.degreediscipline">Discipline</message>
+    <message key="xmlui.ArtifactBrowser.SimpleSearch.filter.degreedepartment">Department</message>
+    <message key="xmlui.ArtifactBrowser.SimpleSearch.filter.contributor">Contributor</message>
+    <message key="xmlui.ArtifactBrowser.SimpleSearch.filter.type">Type</message>
+
+    <message key="xmlui.Discovery.AbstractSearch.type_degreename">Degree Name</message>
+    <message key="xmlui.Discovery.AbstractSearch.type_degreelevel">Degree Level</message>
+    <message key="xmlui.Discovery.AbstractSearch.type_degreediscipline">Discipline</message>
+    <message key="xmlui.Discovery.AbstractSearch.type_degreedepartment">Department</message>
+    <message key="xmlui.Discovery.AbstractSearch.type_advisor">Advisor</message>
+
+
+
+    <message key="xmlui.ArtifactBrowser.AdvancedSearch.type_degreename">Degree Name</message>
+    <message key="xmlui.ArtifactBrowser.AdvancedSearch.type_degreelevel">Degree Level</message>
+    <message key="xmlui.ArtifactBrowser.AdvancedSearch.type_degreediscipline">Discipline</message>
+    <message key="xmlui.ArtifactBrowser.AdvancedSearch.type_degreedepartment">Department</message>
+
+        <message key="xmlui.Rice.department">Department</message>
+
+    <message key="xmlui.Rice.photographer">Photographer</message>
+    <message key="xmlui.Rice.illustrator">Illustrator</message>
+    <message key="xmlui.Rice.architect">Architect</message>
+    <message key="xmlui.Rice.doi">Published Version</message>
+    <message key="xmlui.Rice.uri">Citable link to this page</message>
+    <message key="xmlui.Rice.funder">Funder</message>
+    <message key="xmlui.Rice.isPartOf">Is Part Of</message>
+    <message key="xmlui.ArtifactBrowser.AdvancedSearch.type_coverageSpatial">Coverage</message>
+    <message key="xmlui.Rice.Inventor">Inventor(s)</message>
+    <message key="xmlui.Rice.FormatExtent">Length</message>
+    <message key="xmlui.Rice.resourcetype">Resource Type</message>
+    <message key="xmlui.Rice.relationURI">Published Version</message>
+    <message key="xmlui.Rice.subjectdiscipline">Discipline</message>
+    <message key="xmlui.ArtifactBrowser.AdvancedSearch.type_subjectlocal">Broad Terms</message>
+    <message key="xmlui.ArtifactBrowser.AdvancedSearch.type_resourcetype">Resource Type</message>
+    <message key="xmlui.ArtifactBrowser.SimpleSearch.filter.resourcetype">Resource Type</message>
+
+    <message key="xmlui.ArtifactBrowser.AdvancedSearch.type_composer">Composer</message>
+    <message key="xmlui.ArtifactBrowser.SimpleSearch.filter.composer">Composer</message>
+    <message key="xmlui.Discovery.AbstractSearch.type_composer">Composer</message>
+
+    <message key="xmlui.Rice.datenote">Date(s)</message>
+    <message key="xmlui.Rice.vraartist">Artists</message>
+    <message key="xmlui.ArtifactBrowser.AdvancedSearch.type_vraartist">Artists</message>
+    <message key="xmlui.Discovery.AbstractSearch.type_vraartist">Artists</message>
+    <message key="xmlui.ArtifactBrowser.AdvancedSearch.type_styleperiod">Style/Period</message>
+    <message key="xmlui.Discovery.AbstractSearch.type_styleperiod">Style/Period</message>
+    <message key="xmlui.ArtifactBrowser.AdvancedSearch.type_worktype">Work Type</message>
+    <message key="xmlui.Discovery.AbstractSearch.type_worktype">Work Type</message>
+    <!--message key="xmlui.ArtifactBrowser.AdvancedSearch.type_subtitle">Subtitle</message>
+    <message key="xmlui.Discovery.AbstractSearch.type_subtitle">Filter By: Subtitle</message-->
+
+    <!-- org.dspace.app.xmlui.Submission.submit.UploadStep -->
+	<message key="xmlui.Submission.submit.UploadResearchDataStep.head">Upload File(s)</message>
+	<message key="xmlui.Submission.submit.UploadResearchDataStep.file">File</message>
+	<message key="xmlui.Submission.submit.UploadResearchDataStep.file_help">Files may be uploaded individually or as archive files. When uploading ZIP and other archive files, please consider including a manifest file to describe the contents (e.g. a readme text file) within the archive file. For suggestions on creating a manifest/readme file, please see <a href="http://data.research.cornell.edu/content/readme" target="_blank">Cornell University’s Guide to Writing "readme" Style Metadata</a> or <a href="http://www.datadryad.org/pages/readme" target="blank">Dryad’s guidance on readme files for datasets</a>. Uploaded files should be no larger than 100 MB.</message>
+	<message key="xmlui.Submission.submit.UploadResearchDataStep.file_error">The item must contain at least one file.</message>
+	<message key="xmlui.Submission.submit.UploadResearchDataStep.upload_error">There was a problem uploading your file.  Either the filename you entered was incorrect, there was a network problem which prevented the file from reaching us correctly, or you have attempted to upload a file format marked for internal system use only.  Please try again.</message>
+	<message key="xmlui.Submission.submit.UploadResearchDataStep.virus_error">The file has not been uploaded as it appears to contain a virus. Please contact the system administrator.</message>
+    <message key="xmlui.Submission.submit.UploadResearchDataStep.virus_checker_error">A technical problem was encountered whilst attempting to scan the file for viruses. Please contact the system administrator.</message>
+    <message key="xmlui.Submission.submit.UploadResearchDataStep.description">File Description</message>
+	<message key="xmlui.Submission.submit.UploadResearchDataStep.description_help">Optionally, provide a brief description of the file, for example "<i>Main article</i>", or "<i>Experiment data readings</i>".</message>
+	<message key="xmlui.Submission.submit.UploadResearchDataStep.submit_upload">Upload file &amp; add another</message>
+	<message key="xmlui.Submission.submit.UploadResearchDataStep.head2">Files Uploaded</message>
+	<message key="xmlui.Submission.submit.UploadResearchDataStep.column0">Primary</message>
+	<message key="xmlui.Submission.submit.UploadResearchDataStep.column1">  </message>
+	<message key="xmlui.Submission.submit.UploadResearchDataStep.column2">File</message>
+	<message key="xmlui.Submission.submit.UploadResearchDataStep.column3">Size</message>
+	<message key="xmlui.Submission.submit.UploadResearchDataStep.column4">Description</message>
+	<message key="xmlui.Submission.submit.UploadResearchDataStep.column5">Format</message>
+	<message key="xmlui.Submission.submit.UploadResearchDataStep.column6"></message>
+	<message key="xmlui.Submission.submit.UploadResearchDataStep.unknown_name">Unknown</message>
+	<message key="xmlui.Submission.submit.UploadResearchDataStep.unknown_format">unknown format</message>
+	<message key="xmlui.Submission.submit.UploadResearchDataStep.supported">(Supported)</message>
+	<message key="xmlui.Submission.submit.UploadResearchDataStep.known">(Known)</message>
+	<message key="xmlui.Submission.submit.UploadResearchDataStep.unsupported">(Unsupported)</message>
+	<message key="xmlui.Submission.submit.UploadResearchDataStep.submit_edit">Edit</message>
+	<message key="xmlui.Submission.submit.UploadResearchDataStep.checksum">File checksum:</message>
+	<message key="xmlui.Submission.submit.UploadResearchDataStep.submit_remove">Remove selected files</message>
+
+    <message key="xmlui.Submission.submit.CCLicenseResearchDataStep.head">License Your Work</message>
+    <message key="xmlui.Submission.submit.CCLicenseResearchDataStep.info1">If you wish, you may add a Creative Commons License to your dataset(s). Creative Commons licenses govern what people who read your work may then do with it. <br /> <br />
+<strong>Creative Commons:</strong> Allows you to choose from several licenses that define the terms on which others may use your work, including attribution. <br />
+<strong>CC0:</strong> Creative Commons Universal “No Rights Reserved.” If you are the copyright holder of your work, this allows others to “freely build upon, enhance and reuse the works for any purposes without restriction under copyright law.”<br />
+<strong>Public domain:</strong> For works whose intellectual property rights have expired or been forfeited and may be freely used, with attribution.<br /><br />
+The research data community, including  <a href="http://best-practices.dataverse.org/harvard-policies/community-norms.html" target="_blank">Harvard’s Dataverse</a>,  <a href="https://support.figshare.com/support/solutions/articles/6000079082-why-does-figshare-use-cc-licences-" target="_blank">Figshare,</a> and  <a href="http://www.datadryad.org/pages/faq#deposit" target="_blank">Dryad</a>, recommends <a href="https://creativecommons.org/about/cc0" target="_blank">CC0</a> for data and database licensing, especially scientific data. Although CC0 doesn’t legally require users of the data to cite the source, it does not take away the moral responsibility to give attribution, as is common in scientific research; with substantive reuse of data, authors and researchers are expected to cite both the data package and the original publication from which it was derived.<br /><br />
+Data depositors can opt-out of using the CC0 waiver for datasets, especially if pre-existing agreements prohibit such a license.
+    </message>
+
+    <message key="xmlui.Submission.submit.DescribeStep.hint.researchdata.language">Default is English. If the data includes multiple languages, or if it’s in a language other than English, you can look up <a href="http://www.loc.gov/standards/iso639-2/php/code_list.php" target="_blank">3-character language codes here</a>.</message>
+    <message key="xmlui.Submission.submit.DescribeStep.hint.researchdata.funder">Any person or organizational body who funded or sponsored the study. Use <a href="http://search.crossref.org/fundref" target="_blank">FundRef</a> to find standardized funder names.</message>
+    <message key="xmlui.Submission.submit.DescribeStep.hint.researchdata.spatial">Give as much information as possible to prevent conflated entries. We recommend using the <a href="http://www.geonames.org/" target="_blank">GeoNames geographical database</a> to find the preferred name.</message>
+    <message key="xmlui.Submission.submit.DescribeStep.hint.researchdata.DOI">Permanent link to the original dataset, if it has been published outside of the repository. Visit Fondren’s <a href="http://libguides.rice.edu/c.php?g=402144" target="_blank">DOI Libguide</a> for more information on DOIs. If you have registered an identifier for a previous version of the work (such as a DOI), register a new DOI for major version changes.</message>
+    <message key="xmlui.Discovery.AbstractSearch.type_resourcetype">Resource Type</message>
+    <message key="xmlui.Submission.submit.DescribeStep.hint.researchdata.tableofcontents">Enter a detailed list of the contents being deposited, separated by double dashes (--).<br />Example: <i>Original Stata files: table2.dta -- table2.do -- table1.do -- table1.dta. Non-proprietary versions of files: Table2.csv -- table2-dofile.txt -- Table1.csv -- table1-dofile.txt.</i></message>
+    <message key="xmlui.Submission.submit.DescribeStep.hint.researchdata.digitalspecification">A description of the technical specifications of how the dataset(s) was/were digitized, migrated or created, as well as any special hardware, software or tools needed to display/open the files. If source files were later converted to open source formats, please note that as well.<br />Example: <i>Stata was used to create the original versions of the files.</i></message>
+    <message key="xmlui.Submission.submit.DescribeStep.hint.researchdata.sourceprovenance">Record information regarding anything that has changed in the dataset between publication and deposit.<br />Example: <i>Minor errors in calculations, found after publication, were fixed before deposit.</i></message>
+    <message key="xmlui.administrative.item.AddBitstreamForm.bundle.OHMS">OHMS</message>
+    <message key="xmlui.ArtifactBrowser.SimpleSearch.filter.doi">DOI</message>
+    <message key="xmlui.Submission.submit.DescribeStep.hint.researchdata.typegenre">Content types can be free‐text terms or from the <a href="http://dictionary.casrai.org/Output_Types" target="_blank">CASRAI Publications resource type list</a>.<br /><i>Example: Census data</i></message>
+    <message key="xmlui.Submission.submit.DescribeStep.hint.researchdata.grantid">The funding number(s) and agency that provided a grant used to produce the dataset(s). <br />Example: <i>P20 RR016458 (National Institutes of Health)</i></message>
+    <message key="xmlui.Submission.submit.DescribeStep.hint.researchdata.othercontributor">Any other person, organization, or entity involved in contributing to the creation of the dataset. For a list of available contributor types and definitions, please see <a href="https://digitalriceprojects.pbworks.com/w/page/112707136/Contributors%20for%20research%20data" target="_blank">Contributors for Research Data</a>. Enter a single person’s name as last name, first name.</message>
+    <message key="xmlui.Submission.submit.DescribeStep.hint.researchdata.coveragepoint">Follow <a href="https://en.wikipedia.org/wiki/ISO_6709" target="_blank">ISO 6709</a>, the  standard representation of geographic point location by coordinates. Enter latitude followed by longitude, end with a slash character (/). Use a plus sign for north latitude or east longitude; use a dash for south latitude or west longitude. <br /><i>Examples:
+<br />Paris: +48.52+002.20/
+<br />United States: +38-097/
+<br />Statue of Liberty: +40.6894-074.0447/</i></message>
+    <message key="xmlui.Submission.submit.DescribeStep.hint.researchdata.datecreated">The given time interval for when the data was collected, gathered or otherwise created. May be entered as a range (e.g. 1929-1939). <br />DCMI recommends using start and end time periods separated by a semicolon.
+<br /><i>Examples:
+<br />start=2009-01-01; end=2012-03-31
+<br />start=1929; end=1939</i>
+<br />Either side of this string can be omitted, in the case of a single or open-ended interval.
+<br /><i>Examples:
+<br />start=2010
+<br />2012
+<br />end=1976</i>
+    </message>
+
+    <message key="xmlui.Submission.submit.DescribeStep.hint.researchdata.formatextent"><i>Examples:
+<br />15 pages
+<br />6 MB
+<br />Duration 1:15:05</i>
+    </message>
+
+    <message key="xmlui.Submission.submit.DescribeStep.hint.researchdata.formatmimetype">Use file extension (or <a href="http://www.freeformatter.com/mime-types-list.html" target="_blank">MIME type</a>) where possible <br /><i>Examples:
+<br />PDF
+<br />XML</i>
+    </message>
+    <message key="xmlui.Submission.submit.DescribeStep.hint.researchdata.otherrelation">Any other information relating to or referencing the data. For a list of available contributor types and definitions, please see <a href="https://digitalriceprojects.pbworks.com/w/page/112708771/Relation%20types%20for%20research%20data" target="_blank">Relation Types for Research Data.</a>
+    </message>
+    <message key="xmlui.dri2xhtml.METS-1.0.item-relation">Relation</message>
+    <message key="xmlui.Rice.digitalidentifier">Technical Report Number</message>
+    <message key="xmlui.Rice.rights">Rights</message>
 </catalogue>

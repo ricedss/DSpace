@@ -31,6 +31,9 @@ public class ProfileFormats extends AbstractCurationTask
     // map of formats to occurrences
     protected Map<String, Integer> fmtTable = new HashMap<String, Integer>();
     protected BitstreamFormatService bitstreamFormatService = ContentServiceFactory.getInstance().getBitstreamFormatService();
+    // map of formats to size
+    private Map<String, Long> sizeTable = new HashMap<String, Long>();      // Ying added this for total size
+
 
     /**
      * Perform the curation task upon passed DSO
@@ -54,18 +57,23 @@ public class ProfileFormats extends AbstractCurationTask
         {
             for (Bitstream bs : bundle.getBitstreams())
             {
+                long size = bs.getSize();      // Ying added this for total size
                 String fmt = bs.getFormat(Curator.curationContext()).getShortDescription();
                 Integer count = fmtTable.get(fmt);
+                Long totalsize = sizeTable.get(fmt); // Ying added this for total size
                 if (count == null)
                 {
                     count = 1;
+                    totalsize = bs.getSize();  // Ying added this for total size
                 }
                 else
                 {
                     count += 1;
+                    totalsize += bs.getSize();  // Ying added this for total size
                 }
                 fmtTable.put(fmt, count);
-            }           
+                sizeTable.put(fmt, totalsize);  // Ying added this for total size
+            }
         }
     }
     
@@ -76,10 +84,13 @@ public class ProfileFormats extends AbstractCurationTask
             StringBuilder sb = new StringBuilder();
             for (String fmt : fmtTable.keySet())
             {
+                String sizeIn = bytesTo(sizeTable.get(fmt)); // Ying added this for total size
+
                 BitstreamFormat bsf = bitstreamFormatService.findByShortDescription(Curator.curationContext(), fmt);
                 sb.append(String.format("%6d", fmtTable.get(fmt))).append(" (").
-                append(bitstreamFormatService.getSupportLevelText(bsf).charAt(0)).append(") ").
-                append(bsf.getDescription()).append("\n");
+                append(bitstreamFormatService.getSupportLevelText(bsf).charAt(0)).append(")").
+                append(bsf.getDescription()).append("\t; Total Size: ").
+                append(String.format("%s\n | ", sizeIn)); // Ying added this total size
             }
             report(sb.toString());
             setResult(sb.toString());
@@ -89,4 +100,20 @@ public class ProfileFormats extends AbstractCurationTask
             throw new IOException(sqlE.getMessage(), sqlE);
         }
     }
+
+     // Ying added this for size information
+ private static final long  MEGABYTE = 1024L * 1024L;
+ private static final long  KILOBYTE = 1024L;
+
+ private static String bytesTo(long bytes) {
+     long size = bytes / MEGABYTE ;
+     if (size == 0){
+        size = bytes / KILOBYTE ;
+        return size + "KB" ;
+
+     }else{
+         return size + "MB" ;
+     }
+   }
+
 }

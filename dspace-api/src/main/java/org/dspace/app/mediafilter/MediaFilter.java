@@ -10,6 +10,7 @@ package org.dspace.app.mediafilter;
 import org.dspace.content.Bitstream;
 import org.dspace.content.Item;
 import org.dspace.core.Context;
+import java.io.InputStream;
 
 
 /**
@@ -69,4 +70,22 @@ public abstract class MediaFilter implements FormatFilter
     {
         //default to no post-processing necessary
     }
+
+    // Ying added this for JPEG2000
+    /**
+     *
+     * @param filename
+     *            the full path to the physical file in assetstore, no extension
+     * @param source
+     *            the original filename provided by the submitter
+     *
+     * @return
+     * @throws Exception
+     */
+    @Override
+    public InputStream getDestinationStream(String filename, String source, String ID)
+            throws Exception{
+           return null;
+       }
+    // END Ying added this for JPEG2000
 }

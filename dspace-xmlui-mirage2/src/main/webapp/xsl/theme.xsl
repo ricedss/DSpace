@@ -28,6 +28,9 @@
 	exclude-result-prefixes="i18n dri mets xlink xsl dim xhtml mods dc">
 
     <!--<xsl:import href="../dri2xhtml-alt/dri2xhtml.xsl"/>-->
+    <!-- Ying added this for customized theme -->
+    <xsl:import href="aspect/artifactbrowser/reusable-new-templates.xsl"/>
+    <!-- END Ying added this for customized theme -->
     <xsl:import href="aspect/artifactbrowser/artifactbrowser.xsl"/>
     <xsl:import href="core/global-variables.xsl"/>
     <xsl:import href="core/elements.xsl"/>
@@ -48,6 +51,9 @@
     <xsl:import href="aspect/discovery/discovery.xsl"/>
     <xsl:import href="aspect/artifactbrowser/one-offs.xsl"/>
     <xsl:import href="aspect/submission/submission.xsl"/>
+    <!-- Ying added this for customized theme -->
+    <xsl:import href="aspect/artifactbrowser/reusable-overrides.xsl"/>
+    <!-- END Ying added this for customized theme -->
     <xsl:output indent="yes"/>
 
 

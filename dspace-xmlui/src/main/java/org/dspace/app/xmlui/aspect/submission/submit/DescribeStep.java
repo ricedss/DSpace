@@ -436,8 +436,13 @@ public class DescribeStep extends AbstractSubmissionStep
         Text firstName = fullName.addText(fieldName + "_first");
 
         // Setup the full name
+
         fullName.setLabel(dcInput.getLabel());
-        fullName.setHelp(cleanHints(dcInput.getHints()));
+        // YJ changed this to message
+        Message helpMes = message(cleanHints(dcInput.getHints()));
+        fullName.setHelp(helpMes);
+        //fullName.setHelp(cleanHints(dcInput.getHints()));
+        // END YJ
         if (dcInput.isRequired())
         {
             fullName.setRequired();
@@ -556,7 +561,11 @@ public class DescribeStep extends AbstractSubmissionStep
 
         // Set up the full field
         fullDate.setLabel(dcInput.getLabel());
-        fullDate.setHelp(cleanHints(dcInput.getHints()));
+        // YJ changed this to message
+        Message helpMes = message(cleanHints(dcInput.getHints()));
+        fullDate.setHelp(helpMes);
+        //fullDate.setHelp(cleanHints(dcInput.getHints()));
+        // END YJ
         if (dcInput.isRequired())
         {
             fullDate.setRequired();
@@ -664,8 +673,11 @@ public class DescribeStep extends AbstractSubmissionStep
 
         // Setup the full field.
         fullSeries.setLabel(dcInput.getLabel());
-        fullSeries.setHelp(cleanHints(dcInput.getHints()));
-        if (dcInput.isRequired())
+        // YJ changed this to message
+        Message helpMes = message(cleanHints(dcInput.getHints()));
+        fullSeries.setHelp(helpMes);
+        //fullSeries.setHelp(cleanHints(dcInput.getHints()));
+        // END YJif (dcInput.isRequired())
         {
             fullSeries.setRequired();
         }
@@ -745,7 +757,12 @@ public class DescribeStep extends AbstractSubmissionStep
 
         // Setup the full field.
         qualdrop.setLabel(dcInput.getLabel());
-        qualdrop.setHelp(cleanHints(dcInput.getHints()));
+        // YJ changed this to message
+        Message helpMes = message(cleanHints(dcInput.getHints()));
+        qualdrop.setHelp(helpMes);
+        //qualdrop.setHelp(cleanHints(dcInput.getHints()));
+        // END YJ
+
         if (dcInput.isRequired())
         {
             qualdrop.setRequired();
@@ -825,7 +842,13 @@ public class DescribeStep extends AbstractSubmissionStep
 
         // Setup the text area
         textArea.setLabel(dcInput.getLabel());
-        textArea.setHelp(cleanHints(dcInput.getHints()));
+
+        // YJ changed this to message
+        Message helpMes = message(cleanHints(dcInput.getHints()));
+        textArea.setHelp(helpMes);
+        //textArea.setHelp(cleanHints(dcInput.getHints()));
+        // END YJ
+
         String fieldKey = metadataAuthorityService.makeFieldKey(dcInput.getSchema(), dcInput.getElement(), dcInput.getQualifier());
         boolean isAuth = metadataAuthorityService.isAuthorityControlled(fieldKey);
         if (isAuth)
@@ -1002,7 +1025,11 @@ public class DescribeStep extends AbstractSubmissionStep
 
         //Setup the select field
         select.setLabel(dcInput.getLabel());
-        select.setHelp(cleanHints(dcInput.getHints()));
+        // YJ changed this to message
+        Message helpMes = message(cleanHints(dcInput.getHints()));
+        select.setHelp(helpMes);
+        //select.setHelp(cleanHints(dcInput.getHints()));
+        // END YJ
         if (dcInput.isRequired())
         {
             select.setRequired();
@@ -1087,7 +1114,11 @@ public class DescribeStep extends AbstractSubmissionStep
 
         //      Setup the field
         listField.setLabel(dcInput.getLabel());
-        listField.setHelp(cleanHints(dcInput.getHints()));
+        // YJ changed this to message
+        Message helpMes = message(cleanHints(dcInput.getHints()));
+        listField.setHelp(helpMes);
+        //listField.setHelp(cleanHints(dcInput.getHints()));
+        // END YJ
         if (dcInput.isRequired())
         {
             listField.setRequired();
@@ -1169,7 +1200,12 @@ public class DescribeStep extends AbstractSubmissionStep
 
         // Setup the select field
         text.setLabel(dcInput.getLabel());
-        text.setHelp(cleanHints(dcInput.getHints()));
+        // YJ changed this to message
+        Message helpMes = message(cleanHints(dcInput.getHints()));
+        text.setHelp(helpMes);
+        //text.setHelp(cleanHints(dcInput.getHints()));
+        // END YJ
+
         String fieldKey = metadataAuthorityService.makeFieldKey(dcInput.getSchema(), dcInput.getElement(), dcInput.getQualifier());
         boolean isAuth = metadataAuthorityService.isAuthorityControlled(fieldKey);
         if (isAuth)

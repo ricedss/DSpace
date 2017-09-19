@@ -169,9 +169,27 @@ public class MediaFilterServiceImpl implements MediaFilterService, InitializingB
     @Override
     public boolean filterItem(Context context, Item myItem) throws Exception
     {
+        // Sid updated this for TEI
+        boolean done = false;
+
+        // Check whether the item is special
+        Bitstream primaryBitstream = itemService.getPrimaryBitstream(context, myItem);
+
+        if (primaryBitstream != null
+                && bitstreamService.getFormat(context, primaryBitstream).getMIMEType().equals("text/xml")
+                && itemService.getMetadata(myItem, "dc", "format", "xmlschema", Item.ANY).size() > 0)
+        {
+            // for XML texts, only filter the main TEI XML document. All the images don't need
+            //  thumbnails, and in fact, they just cause performance problems.
+            done = filterBitstream(context, myItem, primaryBitstream);
+        }
+        // END Sid updated this for TEI
+        else
+        {
+            // Normal item -- filter all bitstreams.
         // get 'original' bundles
         List<Bundle> myBundles = itemService.getBundles(myItem, "ORIGINAL");
-        boolean done = false;
+        //boolean done = false;
         for (Bundle myBundle : myBundles) {
             // now look at all of the bitstreams
             List<Bitstream> myBitstreams = myBundle.getBitstreams();
@@ -179,6 +197,21 @@ public class MediaFilterServiceImpl implements MediaFilterService, InitializingB
             for (Bitstream myBitstream : myBitstreams) {
                 done |= filterBitstream(context, myItem, myBitstream);
             }
+        }
+            // Ying added OHMS bundle to be processed
+            List<Bundle> ohmsBundles = itemService.getBundles(myItem, "OHMS");
+            for (int i = 0; i < ohmsBundles.size(); i++)
+            {
+            	// now look at all of the bitstreams
+                List<Bitstream> myBitstreams = ohmsBundles.get(i).getBitstreams();
+
+                for (int k = 0; k < myBitstreams.size(); k++)
+                {
+                	done |= filterBitstream(context, myItem, myBitstreams.get(i));
+                }
+            }
+            //END Ying added OHMS bundle to be processed
+
         }
         return done;
     }
@@ -335,8 +368,12 @@ public class MediaFilterServiceImpl implements MediaFilterService, InitializingB
             }
         }
 
+        // Ying added/updated this to make sure the softlinks will be generated for video and audio even there are thumbnails there already
+        String vamedias = configurationService.getProperty("filter.org.dspace.app.mediafilter.VIDEOAUDIOFilter.inputFormats");
+
+        //ConfigurationManager.getProperty("filter.org.dspace.app.mediafilter.VIDEOAUDIOFilter.inputFormats");
         // if exists and overwrite = false, exit
-        if (!overWrite && (existingBitstream != null))
+        if (!overWrite && (existingBitstream != null) && !(vamedias.indexOf(bitstreamService.getFormat(context, source).getMIMEType().trim()) >= 0))
         {
             if (!isQuiet)
             {
@@ -346,19 +383,36 @@ public class MediaFilterServiceImpl implements MediaFilterService, InitializingB
 
             return false;
         }
-        
+        // END Ying added/updated this to make sure the softlinks will be generated for video and audio even there are thumbnails there already
+
         if(isVerbose) {
             System.out.println("PROCESSING: bitstream " + source.getID()
                 + " (item: " + item.getHandle() + ")");
         }
-
+       // Ying updated this for OHMS XML / Video Audio filter
         InputStream destStream;
+        String specialmedias = configurationService.getProperty("filter.org.dspace.app.mediafilter.OHMSFilter.inputFormats");
+        specialmedias = specialmedias + ", " + vamedias;
         try {
             System.out.println("File: " + newName);
-            destStream = formatFilter.getDestinationStream(item, bitstreamService.retrieve(context, source), isVerbose);
+            if(specialmedias.indexOf(bitstreamService.getFormat(context, source).getMIMEType().trim()) >= 0){
+                //System.out.println("getting destStream!!! " + source.getFilename() + "== " + source.getName() + "=== " + getInternalId() + " ====== " + formatFilter.getFormatString());
+                destStream = formatFilter.getDestinationStream(source.getSource(), source.getName(),  source.getInternalId());
+                if (!isQuiet)
+                {
+                   System.out.println("FILTERED: bitstream " + source.getInternalId()
+                        + " (item: " + item.getHandle() + ") and created the link contents.");
+                }
+            }else{
+                destStream = formatFilter.getDestinationStream(item, bitstreamService.retrieve(context, source), isVerbose);
+            }
+
+            // END Ying updated this for OHMS XML / Video Audio filter
             if (destStream == null) {
-                if (!isQuiet) {
-                    System.out.println("SKIPPED: bitstream " + source.getID()
+
+                if (!isQuiet && !(specialmedias.indexOf(bitstreamService.getFormat(context, source).getMIMEType().trim()) >= 0))
+                {
+                    System.out.println("SKIPPED: bitstream " + source.getInternalId()
                             + " (item: " + item.getHandle() + ") because filtering was unsuccessful");
                 }
 

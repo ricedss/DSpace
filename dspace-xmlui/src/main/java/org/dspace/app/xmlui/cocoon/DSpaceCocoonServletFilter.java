@@ -26,6 +26,7 @@ import org.dspace.app.xmlui.utils.ContextUtil;
 import org.dspace.services.factory.DSpaceServicesFactory;
 import org.dspace.harvest.factory.HarvestServiceFactory;
 import org.dspace.harvest.service.HarvestSchedulingService;
+import org.dspace.app.util.CitationManager;
 
 /**
  * This is a wrapper servlet around the cocoon servlet that performs two functions, 1) it 
@@ -34,7 +35,8 @@ import org.dspace.harvest.service.HarvestSchedulingService;
  * 
  * @author Scott Phillips
  */
-public class DSpaceCocoonServletFilter implements Filter 
+/** Ying Jin updated it for citation generation **/
+public class DSpaceCocoonServletFilter implements Filter
 {
     private static final Logger LOG = Logger.getLogger(DSpaceCocoonServletFilter.class);
 	
@@ -51,9 +53,32 @@ public class DSpaceCocoonServletFilter implements Filter
     	String webappConfigPath    = null;
     	String installedConfigPath = null;
              	            
+        String citationConfig = null;  // YJ added
+
         /**
-         * Stage 3
+      * Stage 3 - YJ added this for citation generation
          * 
+      * Load the citation configuration if exists
+      *
+      * TRICK: you have to place this load before XML UI configuration. Otherwise, it doubles everything you do. WHY?
+      */
+     try{
+         System.out.println("Config for Citation!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+         citationConfig = DSpaceServicesFactory.getInstance().getConfigurationService().getProperty("citation-config");
+         if(citationConfig != null){
+             CitationManager.loadConfig(citationConfig);
+         }
+     }catch (Throwable t){
+         throw new ServletException(
+                 "\n\nDSpace has failed to initialize, during stage 3. Error while attempting to read \n" +
+                 "the Citation configuration file (Path: "+citationConfig+").\n" +
+                 "This has likely occurred because either the file does not exist, or it's permissions \n" +
+                 "are set incorrectly, or the path to the configuration file is incorrect. \n\n", t);
+     }
+
+        /**
+         * Stage 4
+         *
          * Load the XML UI configuration
          */
     	try

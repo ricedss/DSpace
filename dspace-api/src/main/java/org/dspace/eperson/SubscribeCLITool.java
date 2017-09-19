@@ -198,7 +198,16 @@ public class SubscribeCLITool {
                             emailText.append(labels.getString("org.dspace.eperson.Subscribe.untitled"));
                         }
 
-                        List<MetadataValue> authors = itemService.getMetadata(hii.item, MetadataSchema.DC_SCHEMA, "contributor", Item.ANY, Item.ANY);
+                        // Ying customized this with our choices of author
+
+                        //List<MetadataValue> authors = itemService.getMetadata(hii.item, MetadataSchema.DC_SCHEMA, "contributor", Item.ANY, Item.ANY);
+                        List<MetadataValue> authors= new ArrayList<MetadataValue>();
+                        authors.addAll(itemService.getMetadata(hii.item, MetadataSchema.DC_SCHEMA, "contributor", "author", Item.ANY));
+                        authors.addAll(itemService.getMetadata(hii.item, MetadataSchema.DC_SCHEMA, "contributor", "architect", Item.ANY));
+                        authors.addAll(itemService.getMetadata(hii.item, MetadataSchema.DC_SCHEMA, "contributor", "performer", Item.ANY));
+                        authors.addAll(itemService.getMetadata(hii.item, MetadataSchema.DC_SCHEMA, "contributor", "illustrator", Item.ANY));
+                        authors.addAll(itemService.getMetadata(hii.item, MetadataSchema.DC_SCHEMA, "contributor", "photographer", Item.ANY));
+                        authors.addAll(itemService.getMetadata(hii.item, MetadataSchema.DC_SCHEMA, "creator", Item.ANY, Item.ANY));
 
                         if (authors.size() > 0) {
                             emailText.append("\n    ").append(labels.getString("org.dspace.eperson.Subscribe.authors")).append(" ").append(
@@ -209,6 +218,7 @@ public class SubscribeCLITool {
                                         authors.get(k).getValue());
                             }
                         }
+                        // END Ying customized this with our choices of author
 
                         emailText.append("\n         ").append(labels.getString("org.dspace.eperson.Subscribe.id")).append(" ").append(
                                 handleService.getCanonicalForm(hii.handle)).append(

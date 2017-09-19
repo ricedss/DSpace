@@ -25,6 +25,7 @@ import org.dspace.authorize.AuthorizeException;
 import org.dspace.authorize.ResourcePolicy;
 import org.dspace.authorize.service.AuthorizeService;
 import org.dspace.authorize.service.ResourcePolicyService;
+import org.dspace.content.Item;
 import org.dspace.content.authority.Choices;
 import org.dspace.content.dao.ItemDAO;
 import org.dspace.content.service.BitstreamFormatService;
@@ -50,6 +51,7 @@ import org.dspace.services.ConfigurationService;
 import org.dspace.versioning.service.VersioningService;
 import org.dspace.workflow.WorkflowItemService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.dspace.app.util.CitationManager;
 
 /**
  * Service implementation for the Item object.
@@ -269,6 +271,90 @@ public class ItemServiceImpl extends DSpaceObjectServiceImpl<Item> implements It
         return result;
     }
 
+    /**
+     * Ying added this back for replaceitem to work again
+     *
+     * Remove the metadata and bundles from current version. Bitstreams are deleted if
+     * they are not also included in another item.
+     *
+     * @throws SQLException
+     * @throws AuthorizeException
+     * @throws IOException
+     */
+    @Override
+    public void cleanItem(Context context, Item item) throws SQLException, AuthorizeException, IOException
+    {
+        // Check authorisation here. If we don't, it may happen that we remove the
+        // metadata but when getting to the point of removing the bundles we get an exception
+        // leaving the database in an inconsistent state
+        authorizeService.authorizeAction(context, item, Constants.WRITE);
+
+        log.info(LogManager.getHeader(context, "clean_item", "item_id=" + item.getID()));
+
+        // Remove from cache
+        //context.clearCache();(this, getID());
+
+        // Remove from browse indices, if appropriate
+        /** XXX FIXME
+         ** Although all other Browse index updates are managed through
+         ** Event consumers, removing an Item *must* be done *here* (inline)
+         ** because otherwise, tables are left in an inconsistent state
+         ** and the DB transaction will fail.
+         ** Any fix would involve too much work on Browse code that
+         ** is likely to be replaced soon anyway.   --lcs, Aug 2006
+         **
+         ** NB Do not check to see if the item is archived - withdrawn /
+         ** non-archived items may still be tracked in some browse tables
+         ** for administrative purposes, and these need to be removed.
+         **/
+        //               FIXME: there is an exception handling problem here
+        //try
+        //{
+            // Remove from indices and we will index the new data later
+            //IndexBrowse ib = new IndexBrowse(ourContext);
+            //ib.itemRemoved(this);
+
+        //}
+        //catch (BrowseException e)
+        //{
+          //  log.error("caught exception: ", e);
+          //  throw new SQLException(e.getMessage(), e);
+        //}
+
+        // Delete the metadata (in memory; will write to db when update is called)
+        //List<Metadatum> values = new ArrayList<Metadatum>();
+        //setMetadata(values);
+        clearMetadata(context, item, Item.ANY, Item.ANY, Item.ANY, Item.ANY);
+        // Remove bundles
+        List<Bundle> bunds = item.getBundles();
+
+        for (Bundle bund : bunds)
+        {
+            removeBundle(context, item, bund);
+        }
+    }
+
+    /**
+     * SWB added
+     *  Finds an Item's primary bitstream, if present
+     * @return the item's primary Bitstream, or null if there isn't one
+     *
+     * Ying updated 04/2017
+     **/
+    @Override
+    public Bitstream getPrimaryBitstream(Context context, Item item) throws SQLException {
+
+        List<Bundle> originalBundles = getBundles(item, "ORIGINAL");
+        Bitstream primaryBitstream = null;
+        if(CollectionUtils.isNotEmpty(originalBundles))
+        {
+            primaryBitstream = originalBundles.get(0).getPrimaryBitstream();
+            return primaryBitstream;
+        }
+        return null;
+
+    }
+
     @Override
     public List<Bundle> getBundles(Item item, String name) throws SQLException {
         List<Bundle> matchingBundles = new ArrayList<>();
@@ -477,9 +563,17 @@ public class ItemServiceImpl extends DSpaceObjectServiceImpl<Item> implements It
             // Set the last modified date
             item.setLastModified(new Date());
 
+            //updateCitation(context, item); // YJ added this for citation configuration
+
             itemDAO.save(context, item);
 
             if(item.isMetadataModified()){
+                //log.info("MetadataModified!!!\n");
+                if(item.isArchived()){
+                    //log.info("Trying to update Citation!!!\n");
+                    updateCitation(context, item); // YJ added this for citation configuration
+                    //log.info("Updating Citation!!!\n");
+                }
                 context.addEvent(new Event(Event.MODIFY_METADATA, item.getType(), item.getID(), item.getDetails(), getIdentifiers(context, item)));
             }
 
@@ -1262,4 +1356,33 @@ prevent the generation of resource policy entry values with null dspace_object a
 
         return false;
     }
+
+           /**
+        * YJ added this for citation generation
+        */
+       protected void updateCitation(Context context, Item item) {
+           // citation is configed?
+
+           // check the title field, means only generate the citation when there is a title.
+           String name = getName(item);
+
+           if(CitationManager.isConfiged() && name != ""){
+
+               //System.out.println("$$$$$$$$$$$$$$$$$$$ updating citation.....................");
+               // Make a DCValue object
+               //Metadatum listMetadata = new ArrayList<Metadatum>();
+               //MetadataValue dcv = new MetadataValue();
+
+
+               String dcvalue = CitationManager.getCitationString(item);
+               if (( dcvalue != null) && dcvalue.length() > 0){
+                   //dcv.setValue(dcvalue);
+                   //metadata.add(dcv);
+                   //setMetadata(metadata);
+                   try{
+                        setMetadataSingleValue(context, item, MetadataSchema.DC_SCHEMA,"identifier","citation",item.ANY,dcvalue);
+                   }catch (SQLException se){}
+               }
+           }
+       }
 }

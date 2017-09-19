@@ -12,6 +12,18 @@ User-agent: *
 # Disable access to Discovery search and filters
 Disallow: /discover
 Disallow: /search-filter
+Disallow: /displaystats
+# You also may wish to disallow access to the following paths, in order
+# to stop web spiders from accessing user-based content:
+Disallow: /advanced-search
+Disallow: /contact
+Disallow: /feedback
+Disallow: /forgot
+Disallow: /login
+Disallow: /register
+Disallow: /search
+#Sitemap: http://scholarship.rice.edu/sitemap
+#Sitemap: http://scholarship.rice.edu/htmlmap
 
 #
 # Optionally uncomment the following line ONLY if sitemaps are working

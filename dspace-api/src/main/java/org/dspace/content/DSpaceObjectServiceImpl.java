@@ -11,6 +11,7 @@ import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
+import org.dspace.app.util.CitationManager;
 import org.dspace.authorize.AuthorizeException;
 import org.dspace.content.authority.Choices;
 import org.dspace.content.authority.service.ChoiceAuthorityService;
@@ -450,6 +451,8 @@ public abstract class DSpaceObjectServiceImpl<T extends DSpaceObject> implements
             }
         }
 
+        // Ying updated this to ignore the language check for the items; (let's see if the submission hung is caused by this)
+/*
         if (language == null)
         {
             // Value must be null language to match
@@ -467,7 +470,8 @@ public abstract class DSpaceObjectServiceImpl<T extends DSpaceObject> implements
                 return false;
             }
         }
-
+        */
+// Ying might commented this out
         if (!schema.equals(Item.ANY))
         {
             if (metadataSchema != null && !metadataSchema.getName().equals(schema))
@@ -563,6 +567,27 @@ public abstract class DSpaceObjectServiceImpl<T extends DSpaceObject> implements
                 }
         }
     }
+
+    /**
+     * SWB added
+     *  Finds an Item's primary bitstream, if present
+     * @return the item's primary Bitstream, or null if there isn't one
+     *
+     * Ying updated 04/2017
+     **/
+    /*@Override
+    public Bitstream getPrimaryBitstream(Context context, T dso) throws SQLException {
+
+        List<Bundle> originalBundles = ((Item)dso).getBundles(context, dso, "ORIGINAL");
+        Bitstream primaryBitstream = null;
+        if(CollectionUtils.isNotEmpty(originalBundles))
+        {
+            primaryBitstream = originalBundles.get(0).getPrimaryBitstream();
+            return primaryBitstream;
+        }
+        return null;
+
+    }**/
 
     /**
      * Retrieve the place of the metadata value

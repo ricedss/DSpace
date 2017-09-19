@@ -36,6 +36,18 @@ import org.jdom.input.SAXBuilder;
 import org.jdom.output.SAXOutputter;
 import org.xml.sax.SAXException;
 
+import org.xml.sax.InputSource;
+import org.xml.sax.XMLReader;
+import org.xml.sax.helpers.XMLReaderFactory;
+
+import org.dspace.core.ConfigurationManager;
+import java.io.InputStream;
+import java.io.FileInputStream;
+import java.io.File;
+
+
+
+
 /**
  * This is an adapter which translates DSpace containers 
  * (communities and collections) into METS documents. This adapter follows
@@ -587,6 +599,62 @@ public class ContainerAdapter extends AbstractAdapter
     	endElement(METS,"structMap");
     }
     
+/**
+     *  Ying Render the external xml to this mets (not a standard method, but...)
+     * for rendering periodicals only, exception!!! YJ
+     *
+     */
+    protected void renderExtraSections() throws SQLException, SAXException
+    {
+        try{
+
+
+            String externalXMLPath = ConfigurationManager.getProperty("xmlui.externalxml.dir");
+            if(externalXMLPath!=null){
+                String metsID = getMETSID();
+                //metsID here is same as handle, remove the hdl: part
+                String filename = externalXMLPath + "/" + metsID.substring(4).replaceAll("/", "_") + ".xml";
+
+                // find the file with handle.xml
+                File f = new File(filename);
+                if(f.exists()){
+                    InputStream inputStream = new FileInputStream(f);
+
+                    // ///////////////////////////////
+                    // Send the actual XML content
+                    try {
+                        SAXFilter filter = new SAXFilter(contentHandler, lexicalHandler, namespaces);
+                        // Allow the basics for XML
+                        filter.allowIgnorableWhitespace().allowCharacters().allowCDATA().allowPrefixMappings();
+                        // Special option, only allow elements below the second level to pass through. This
+                        // will trim out the METS declaration and only leave the actual METS parts to be
+                        // included.
+                        filter.allowElements(0);
+
+
+                        XMLReader reader = XMLReaderFactory.createXMLReader();
+                        reader.setContentHandler(filter);
+                        reader.setProperty("http://xml.org/sax/properties/lexical-handler", filter);
+                        reader.parse(new InputSource(inputStream));
+                    }
+                    catch (IOException ie)
+                    {
+                        // just ignore the exception and continue on with
+                        //out parsing the xml document.
+                    }
+
+                }
+
+            }
+
+        }
+        catch (Exception e)
+        {
+            // ignore any errors we get, and just add the string literaly.
+        }
+
+
+    }
 
     /**
      * 

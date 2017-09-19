@@ -235,4 +235,12 @@ public interface ItemImportService {
      * @param isQuiet true or false
      */
     public void setQuiet(boolean isQuiet);
+
+    /**
+     ** Ying added this
+     **/
+
+    public void addFilesToItems(Context c, List<Collection> mycollections,
+                                String sourceDir, String mapFile, boolean template) throws Exception;
+
 }
