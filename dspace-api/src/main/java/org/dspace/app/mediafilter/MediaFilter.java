@@ -83,7 +83,7 @@ public abstract class MediaFilter implements FormatFilter
      * @throws Exception
      */
     @Override
-    public InputStream getDestinationStream(String filename, String source, String ID)
+    public InputStream getDestinationStream(Bitstream bitstream)
             throws Exception{
            return null;
        }

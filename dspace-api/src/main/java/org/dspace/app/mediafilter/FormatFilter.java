@@ -72,7 +72,7 @@ public interface FormatFilter
      * @return
      * @throws Exception
      */
-    public InputStream getDestinationStream(String filename, String source, String ID)
+    public InputStream getDestinationStream(Bitstream bitstream)
             throws Exception;
     // END Ying added this for JPEG2000
 

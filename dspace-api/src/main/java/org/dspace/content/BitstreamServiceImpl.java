@@ -24,6 +24,7 @@ import org.dspace.event.Event;
 import org.dspace.storage.bitstore.service.BitstreamStorageService;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.sql.SQLException;
@@ -446,5 +447,99 @@ public class BitstreamServiceImpl extends DSpaceObjectServiceImpl<Bitstream> imp
     @Override
     public List<Bitstream> getNotReferencedBitstreams(Context context) throws SQLException {
         return bitstreamDAO.getNotReferencedBitstreams(context);
+    }
+
+    /**
+     * Ying added this for special streaming
+     *
+     * Return the file path to a bitstream. It's safe to pass in
+     * <code>null</code>.
+     *
+     * @param bitstream
+     *            the database table row for the bitstream. Can be
+     *            <code>null</code>
+     *
+     * @return The corresponding file path in the file system, or <code>null</code>
+     *
+     * @exception IOException
+     *                If a problem occurs while determining the file
+     */
+    @Override
+    public String getFilepath(String baseDir, Bitstream bitstream) throws IOException {
+
+        String REGISTERED_FLAG = "-R";
+        // Check that bitstream is not null
+        if (bitstream == null) {
+            return null;
+        }
+
+        // turn the internal_id into a file path relative to the assetstore
+        // directory
+        String sInternalId = bitstream.getInternalId();
+
+        // there are 4 cases:
+        // -conventional bitstream, conventional storage
+        // -conventional bitstream, srb storage
+        // -registered bitstream, conventional storage
+        // -registered bitstream, srb storage
+        // conventional bitstream - dspace ingested, dspace random name/path
+        // registered bitstream - registered to dspace, any name/path
+        String sIntermediatePath = null;
+        if (isRegisteredBitstream(bitstream)) {
+            sInternalId = sInternalId.substring(REGISTERED_FLAG.length());
+            sIntermediatePath = "";
+        } else {
+
+            // Sanity Check: If the internal ID contains a
+            // pathname separator, it's probably an attempt to
+            // make a path traversal attack, so ignore the path
+            // prefix.  The internal-ID is supposed to be just a
+            // filename, so this will not affect normal operation.
+            if (sInternalId.contains(File.separator)) {
+                sInternalId = sInternalId.substring(sInternalId.lastIndexOf(File.separator) + 1);
+            }
+
+            sIntermediatePath = getIntermediatePath(sInternalId);
+        }
+
+        StringBuilder bufFilename = new StringBuilder();
+        bufFilename.append(baseDir);
+        bufFilename.append(File.separator);
+        bufFilename.append(sIntermediatePath);
+        bufFilename.append(sInternalId);
+        if (log.isDebugEnabled()) {
+            log.debug("Local filename for " + sInternalId + " is "
+                    + bufFilename.toString());
+        }
+        return bufFilename.toString();
+    }
+
+    // You should not change these settings if you have data in the
+    // asset store, as the BitstreamStorageManager will be unable
+    // to find your existing data.
+    private static final int digitsPerLevel = 2;
+
+    private static final int directoryLevels = 3;
+
+    /**
+     * Return the intermediate path derived from the internal_id. This method
+     * splits the id into groups which become subdirectories.
+     *
+     * @param iInternalId
+     *            The internal_id
+     * @return The path based on the id without leading or trailing separators
+     */
+    protected String getIntermediatePath(String iInternalId) {
+        StringBuilder buf = new StringBuilder();
+        for (int i = 0; i < directoryLevels; i++) {
+            int digits = i * digitsPerLevel;
+            if (i > 0) {
+                buf.append(File.separator);
+            }
+            buf.append(iInternalId.substring(digits, digits
+                    + digitsPerLevel));
+        }
+        buf.append(File.separator);
+        return buf.toString();
     }
 }

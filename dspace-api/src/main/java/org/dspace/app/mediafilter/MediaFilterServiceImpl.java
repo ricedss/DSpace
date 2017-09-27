@@ -18,6 +18,7 @@ import org.dspace.core.SelfNamedPlugin;
 import org.dspace.eperson.Group;
 import org.dspace.eperson.service.GroupService;
 import org.dspace.services.ConfigurationService;
+import org.dspace.storage.bitstore.service.BitstreamStorageService;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -370,6 +371,8 @@ public class MediaFilterServiceImpl implements MediaFilterService, InitializingB
 
         // Ying added/updated this to make sure the softlinks will be generated for video and audio even there are thumbnails there already
         String vamedias = configurationService.getProperty("filter.org.dspace.app.mediafilter.VIDEOAUDIOFilter.inputFormats");
+        // get baseDir
+        String baseDir = configurationService.getProperty("dspacebase.dir");
 
         //ConfigurationManager.getProperty("filter.org.dspace.app.mediafilter.VIDEOAUDIOFilter.inputFormats");
         // if exists and overwrite = false, exit
@@ -397,7 +400,7 @@ public class MediaFilterServiceImpl implements MediaFilterService, InitializingB
             System.out.println("File: " + newName);
             if(specialmedias.indexOf(bitstreamService.getFormat(context, source).getMIMEType().trim()) >= 0){
                 //System.out.println("getting destStream!!! " + source.getFilename() + "== " + source.getName() + "=== " + getInternalId() + " ====== " + formatFilter.getFormatString());
-                destStream = formatFilter.getDestinationStream(source.getSource(), source.getName(),  source.getInternalId());
+                destStream = formatFilter.getDestinationStream(source);
                 if (!isQuiet)
                 {
                    System.out.println("FILTERED: bitstream " + source.getInternalId()

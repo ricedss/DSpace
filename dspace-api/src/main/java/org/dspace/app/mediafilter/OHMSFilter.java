@@ -69,6 +69,8 @@ package org.dspace.app.mediafilter;
 
 import java.io.*;
 import java.util.HashMap;
+
+import org.dspace.content.Bitstream;
 import org.dspace.core.ConfigurationManager;
 
 import org.dspace.content.Item;
@@ -135,7 +137,7 @@ public class OHMSFilter extends MediaFilter
     }
 
     @Override
-    public InputStream getDestinationStream(String filename, String source, String ID)
+    public InputStream getDestinationStream(Bitstream source)
         throws Exception
     {
 
@@ -143,11 +145,14 @@ public class OHMSFilter extends MediaFilter
         String streaming_dir = ConfigurationManager.getProperty("streaming.dir");
         String dspacebase_dir = ConfigurationManager.getProperty("dspacebase.dir");
 
-        // special case here that I have to assume the assetstore dir is ending with "assetstore"
+        String ID = source.getInternalId();
 
-        String softpath_to_avfile = "../" + filename.substring(filename.indexOf("assetstore"));
+        // special case here that I have to assume the assetstore dir is ending with "assetstore"
+        String filename = source.getSource();
+        String filepath = source.getFilepath(dspacebase_dir);
+        System.out.println("filename ------ " + filename + ", filepath: " + filepath);
+        String softpath_to_avfile = "../" + filepath.substring(filepath.indexOf("assetstore"));
         //String absolute_path_to_avfile = ConfigurationManager.getProperty("assetstore.dir");
-        //System.out.println("filename ------ " + filename);
         //System.out.println("softpath ------ " + softpath_to_avfile);
         //System.out.println("streaming_dir ------ " + streaming_dir);
 
@@ -157,7 +162,8 @@ public class OHMSFilter extends MediaFilter
         // String extension = (String)extensionHash.get(mimetype);
 
 
-        String streaming_name = "file_" + ID + "_" + source;
+        String streaming_name = "file_" + ID + "_" + filename;
+
         //String softpath_to_avfile =
         String cmd = "ln -sf " + softpath_to_avfile + " " + streaming_dir + "/" + streaming_name;
 
