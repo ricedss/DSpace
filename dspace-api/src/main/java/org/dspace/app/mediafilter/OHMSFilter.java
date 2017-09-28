@@ -141,17 +141,19 @@ public class OHMSFilter extends MediaFilter
         throws Exception
     {
 
-        // get the location of symbolic link. 
+        // get the location of symbolic link.
         String streaming_dir = ConfigurationManager.getProperty("streaming.dir");
-        String dspacebase_dir = ConfigurationManager.getProperty("dspacebase.dir");
+        //String dspacebase_dir = ConfigurationManager.getProperty("dspacebase.dir");
 
         String ID = source.getInternalId();
 
         // special case here that I have to assume the assetstore dir is ending with "assetstore"
         String filename = source.getSource();
-        String filepath = source.getFilepath(dspacebase_dir);
+        String filepath = source.getFilepath();
         System.out.println("filename ------ " + filename + ", filepath: " + filepath);
-        String softpath_to_avfile = "../" + filepath.substring(filepath.indexOf("assetstore"));
+        String softpath_to_avfile = "../assetstore/" + filepath;
+
+        //String softpath_to_avfile = "../" + filepath.substring(filepath.indexOf("assetstore"));
         //String absolute_path_to_avfile = ConfigurationManager.getProperty("assetstore.dir");
         //System.out.println("softpath ------ " + softpath_to_avfile);
         //System.out.println("streaming_dir ------ " + streaming_dir);
@@ -163,12 +165,11 @@ public class OHMSFilter extends MediaFilter
 
 
         String streaming_name = "file_" + ID + "_" + filename;
-
         //String softpath_to_avfile =
         String cmd = "ln -sf " + softpath_to_avfile + " " + streaming_dir + "/" + streaming_name;
 
         //String cmd = "ln -sf " + filename + " " + streaming_dir + "/" + streaming_name;
-        //System.out.println("~~~~~~~~~~~~~~~  ~~ ~~ ~~ ~~ In VIDEOAUDIOFilter: cmd = " + cmd);
+        System.out.println("~~~~~~~~~~~~~~~  ~~ ~~ ~~ ~~ In VIDEOAUDIOFilter: cmd = " + cmd);
         // call to generate the symbolic link
         Runtime.getRuntime().exec(cmd);
         return null;

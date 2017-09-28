@@ -437,9 +437,9 @@ public class Bitstream extends DSpaceObject implements DSpaceObjectLegacySupport
      }
 
      // Ying added this for special Streaming
-     public String getFilepath(String baseDir) throws java.io.IOException
+     public String getFilepath() throws java.io.IOException
      {
-         return getBitstreamService().getFilepath( baseDir, this);
+         return getBitstreamService().getFilepath(this);
      }
 
 }

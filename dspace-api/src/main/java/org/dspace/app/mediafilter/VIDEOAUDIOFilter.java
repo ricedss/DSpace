@@ -142,15 +142,17 @@ public class VIDEOAUDIOFilter extends MediaFilter
 
         // get the location of symbolic link. 
         String streaming_dir = ConfigurationManager.getProperty("streaming.dir");
-        String dspacebase_dir = ConfigurationManager.getProperty("dspacebase.dir");
+        //String dspacebase_dir = ConfigurationManager.getProperty("dspacebase.dir");
 
         String ID = source.getInternalId();
 
         // special case here that I have to assume the assetstore dir is ending with "assetstore"
         String filename = source.getSource();
-        String filepath = source.getFilepath(dspacebase_dir);
+        String filepath = source.getFilepath();
         System.out.println("filename ------ " + filename + ", filepath: " + filepath);
-        String softpath_to_avfile = "../" + filepath.substring(filepath.indexOf("assetstore"));
+        String softpath_to_avfile = "../assetstore/" + filepath;
+
+        //String softpath_to_avfile = "../" + filepath.substring(filepath.indexOf("assetstore"));
         //String absolute_path_to_avfile = ConfigurationManager.getProperty("assetstore.dir");
         //System.out.println("softpath ------ " + softpath_to_avfile);
         //System.out.println("streaming_dir ------ " + streaming_dir);

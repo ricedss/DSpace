@@ -203,6 +203,6 @@ public interface BitstreamService extends DSpaceObjectService<Bitstream>, DSpace
     List<Bitstream> getNotReferencedBitstreams(Context context) throws SQLException;
 
     // Ying added this for special streaming
-    public String getFilepath(String baseDir, Bitstream bitstream) throws IOException;
+    public String getFilepath(Bitstream bitstream) throws IOException;
 
 }

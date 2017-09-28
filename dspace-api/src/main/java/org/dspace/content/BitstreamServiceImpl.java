@@ -465,7 +465,7 @@ public class BitstreamServiceImpl extends DSpaceObjectServiceImpl<Bitstream> imp
      *                If a problem occurs while determining the file
      */
     @Override
-    public String getFilepath(String baseDir, Bitstream bitstream) throws IOException {
+    public String getFilepath(Bitstream bitstream) throws IOException {
 
         String REGISTERED_FLAG = "-R";
         // Check that bitstream is not null
@@ -503,7 +503,7 @@ public class BitstreamServiceImpl extends DSpaceObjectServiceImpl<Bitstream> imp
         }
 
         StringBuilder bufFilename = new StringBuilder();
-        bufFilename.append(baseDir);
+        //bufFilename.append(baseDir);
         bufFilename.append(File.separator);
         bufFilename.append(sIntermediatePath);
         bufFilename.append(sInternalId);
