@@ -147,7 +147,7 @@ public class VIDEOAUDIOFilter extends MediaFilter
         String ID = source.getInternalId();
 
         // special case here that I have to assume the assetstore dir is ending with "assetstore"
-        String filename = source.getSource();
+        String filename = source.getName();
         String filepath = source.getFilepath();
         System.out.println("filename ------ " + filename + ", filepath: " + filepath);
         String softpath_to_avfile = "../assetstore/" + filepath;
