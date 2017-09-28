@@ -145,7 +145,7 @@ public class OHMSFilter extends MediaFilter
         String streaming_dir = ConfigurationManager.getProperty("streaming.dir");
         //String dspacebase_dir = ConfigurationManager.getProperty("dspacebase.dir");
 
-        String ID = source.getInternalId();
+        String ID = source.getID().toString();
 
         // special case here that I have to assume the assetstore dir is ending with "assetstore"
         String filename = source.getName();
