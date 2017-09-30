@@ -376,8 +376,10 @@ public class MediaFilterServiceImpl implements MediaFilterService, InitializingB
 
         //ConfigurationManager.getProperty("filter.org.dspace.app.mediafilter.VIDEOAUDIOFilter.inputFormats");
         // if exists and overwrite = false, exit
+        System.out.println("the VIDEO/AUDIO formats: "+vamedias);
         if (!overWrite && (existingBitstream != null) && !(vamedias.indexOf(bitstreamService.getFormat(context, source).getMIMEType().trim()) >= 0))
         {
+            System.out.println("No video/audio: "+vamedias);
             if (!isQuiet)
             {
                 System.out.println("SKIPPED: bitstream " + source.getID()
