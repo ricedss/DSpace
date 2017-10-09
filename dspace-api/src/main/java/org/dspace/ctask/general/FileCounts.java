@@ -88,7 +88,7 @@ public class FileCounts extends AbstractCurationTask
             }
             report(sb.toString());
             setResult(sb.toString());
-            c.complete();
+            //c.complete();
         }
         catch (SQLException sqlE)
         {

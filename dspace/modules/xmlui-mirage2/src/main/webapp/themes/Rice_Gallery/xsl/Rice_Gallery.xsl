@@ -91,12 +91,6 @@
         <xsl:apply-templates select="*[not(name()='head')]" mode="dsoList"/>
             </ul>
     </xsl:template>
-     <xsl:template match="dri:listDEBUG/dri:list" mode="dsoList" priority="7">
-        <xsl:apply-templates select="dri:head"/>
-         <li class="ds-artifact-item">
-        <xsl:apply-templates select="*[not(name()='head')]" mode="dsoList"/>
-         </li>
-    </xsl:template>
 
     <xsl:template name="itemSummaryList">
         <xsl:param name="handle"/>
@@ -295,7 +289,7 @@
 	</xsl:template>
 
 
-    <xsl:template name="itemSummaryView-DIM-title">
+    <!--xsl:template name="itemSummaryView-DIM-title">
         <xsl:choose>
             <xsl:when test="count(dim:field[@element='title'][not(@qualifier)]) &gt; 1">
                 <h2 class="page-header first-page-header">
@@ -327,7 +321,7 @@
                 </h2>
             </xsl:otherwise>
         </xsl:choose>
-    </xsl:template>
+    </xsl:template-->
 
       <xsl:template name="encode-quotes">
         <xsl:param name="stringToFix"/>   <!-- replace-string is in OSU-local.xsl -->
@@ -478,7 +472,7 @@
             <script src="{concat($theme-path, 'vendor/modernizr/modernizr.js')}">&#160;</script>
 
             <!-- Ying added jwplayer and customized scripts.js in the header -->
-            <script src="{concat($theme-path, 'scripts/jwplayer/jwplayer.js')}">&#160;</script>
+            <!--script src="{concat($theme-path, 'scripts/jwplayer/jwplayer.js')}">&#160;</script-->
             <!--script src="{concat($theme-path, 'scripts/scripts.js')}">&#160;</script-->
 
             <script src="{concat($theme-path, 'lib/gallery.js')}">&#160;</script>
