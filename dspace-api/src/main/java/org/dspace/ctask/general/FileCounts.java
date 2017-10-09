@@ -77,8 +77,8 @@ public class FileCounts extends AbstractCurationTask
     
     private void formatResults() throws IOException
     {
-        try
-        {
+        //try
+        //{
             Context c = new Context();
             StringBuilder sb = new StringBuilder();
             for (String handle : countTable.keySet())
@@ -89,11 +89,11 @@ public class FileCounts extends AbstractCurationTask
             report(sb.toString());
             setResult(sb.toString());
             //c.complete();
-        }
-        catch (SQLException sqlE)
-        {
-            throw new IOException(sqlE.getMessage(), sqlE);
-        }
+            //}
+            //catch (SQLException sqlE)
+            //{
+            //    throw new IOException(sqlE.getMessage(), sqlE);
+            //}
     }
 }
 

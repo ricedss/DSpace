@@ -95,8 +95,8 @@ public class LicenseCounts extends AbstractCurationTask
     
     private void formatResults() throws IOException
     {
-        try
-        {
+        //try
+        //{
             Context c = new Context();
             StringBuilder sb = new StringBuilder();
 	    sb.append("LICENSE Count - \n | ");
@@ -115,11 +115,11 @@ public class LicenseCounts extends AbstractCurationTask
             report(sb.toString());
             setResult(sb.toString());
             //c.complete();
-        }
-        catch (SQLException sqlE)
-        {
-            throw new IOException(sqlE.getMessage(), sqlE);
-        }
+        //}
+        //catch (SQLException sqlE)
+        //{
+        //    throw new IOException(sqlE.getMessage(), sqlE);
+        //}
     }
 }
 
