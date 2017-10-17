@@ -447,10 +447,15 @@ public class DSpaceCSV implements Serializable
 
             // Add the language if there is one (schema.element.qualifier[langauge])
             //if ((value.language != null) && (!"".equals(value.language)))
+
+            // Ying commented this out to ignore the language
+            /*
             if (value.getLanguage() != null)
             {
                 key = key + "[" + value.getLanguage() + "]";
             }
+            */
+            // END Ying commented this out to ignore the language
 
             // Store the item
             if (exportAll || okToExport(metadataField))

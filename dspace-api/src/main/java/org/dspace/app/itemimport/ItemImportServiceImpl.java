@@ -865,11 +865,17 @@ private Item replaceItem(Context c, Item myitem, String path, String itemname)
         String qualifier = getAttributeValue(n, "qualifier"); //NodeValue();
         // //getElementData(n,
         // "qualifier");
+
+        // Ying updated this to ignore the language for the field
+        String language = "";
+        /*
         String language = getAttributeValue(n, "language");
         if (language != null)
         {
             language = language.trim();
         }
+        */
+        // END Ying updated this to ignore the language for the field
 
         if (!isQuiet)
         {

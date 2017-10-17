@@ -236,7 +236,10 @@ public abstract class DSpaceObjectServiceImpl<T extends DSpaceObject> implements
         {
 
             MetadataValue metadataValue = metadataValueService.create(context, dso, metadataField);
-            metadataValue.setLanguage(lang == null ? null : lang.trim());
+            // Ying commented this out to ignore the language
+            //metadataValue.setLanguage(lang == null ? null : lang.trim());
+            metadataValue.setLanguage(null);
+            // END Ying commented this out to ignore the language
 
             // Logic to set Authority and Confidence:
             //  - normalize an empty string for authority to NULL.

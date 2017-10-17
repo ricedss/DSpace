@@ -26,6 +26,7 @@ import org.dspace.statistics.factory.StatisticsServiceFactory;
 import org.dspace.statistics.service.SolrLoggerService;
 import org.dspace.statistics.util.LocationUtils;
 import org.dspace.core.Context;
+import org.dspace.core.I18nUtil;
 import org.dspace.core.Constants;
 import org.dspace.core.ConfigurationManager;
 import org.dspace.app.util.Util;
@@ -118,7 +119,7 @@ public class StatisticsDataVisits extends StatisticsData
         DatasetTimeGenerator dateFacet = null;
         if (getDatasetGenerators().get(0) instanceof DatasetTimeGenerator
                 || (1 < getDatasetGenerators().size() && getDatasetGenerators()
-                        .get(1) instanceof DatasetTimeGenerator))
+                .get(1) instanceof DatasetTimeGenerator))
         {
             if(getDatasetGenerators().get(0) instanceof DatasetTimeGenerator)
             {
@@ -138,8 +139,8 @@ public class StatisticsDataVisits extends StatisticsData
         if ((getDatasetGenerators().get(0) != null && getDatasetGenerators()
                 .get(0).isIncludeTotal())
                 || (1 < getDatasetGenerators().size()
-                        && getDatasetGenerators().get(1) != null && getDatasetGenerators()
-                        .get(1).isIncludeTotal()))
+                && getDatasetGenerators().get(1) != null && getDatasetGenerators()
+                .get(1).isIncludeTotal()))
         {
             showTotal = true;
         }
@@ -305,8 +306,8 @@ public class StatisticsDataVisits extends StatisticsData
                     }
 
                     Map<String, Integer> facetResult = solrLoggerService.queryFacetQuery(query, filterQuery, facetQueries);
-                    
-                    
+
+
                     // TODO: the show total
                     // No need to add this many times
                     // TODO: dit vervangen door te displayen value
@@ -473,7 +474,7 @@ public class StatisticsDataVisits extends StatisticsData
      * @return the name of the given DSO
      */
     protected String getResultName(String value, DatasetQuery datasetQuery,
-            Context context) throws SQLException
+                                   Context context) throws SQLException
     {
         if("continent".equals(datasetQuery.getName())){
             value = LocationUtils.getContinentName(value, context
@@ -487,6 +488,9 @@ public class StatisticsDataVisits extends StatisticsData
             //TODO: CHANGE & THROW AWAY THIS ENTIRE METHOD
             //Check if int
             String dsoId;
+            //DS 3602: Until all legacy stats records have been upgraded to using UUID,
+            //duplicate reports may be presented for each DSO.  A note will be appended when reporting legacy counts.
+            String legacyNote = "";
             int dsoLength = query.getDsoLength();
             try {
                 dsoId = UUID.fromString(value).toString();
@@ -494,6 +498,7 @@ public class StatisticsDataVisits extends StatisticsData
                 try {
                     //Legacy identifier support
                     dsoId = String.valueOf(Integer.parseInt(value));
+                    legacyNote = I18nUtil.getMessage("org.dspace.statistics.content.StatisticsDataVisits.legacy", context);
                 } catch (NumberFormatException e1) {
                     dsoId = null;
                 }
@@ -511,7 +516,7 @@ public class StatisticsDataVisits extends StatisticsData
                         {
                             break;
                         }
-                        return bit.getName();
+                        return bit.getName() + legacyNote;
                     case Constants.ITEM:
                         Item item = itemService.findByIdOrLegacyId(context, dsoId);
                         if(item == null)
@@ -532,7 +537,7 @@ public class StatisticsDataVisits extends StatisticsData
                             }
                         }
 
-                        return name;
+                        return name + legacyNote;
 
                     case Constants.COLLECTION:
                         Collection coll = collectionService.findByIdOrLegacyId(context, dsoId);
@@ -549,7 +554,7 @@ public class StatisticsDataVisits extends StatisticsData
                                 name = name.substring(0, firstSpace) + " ...";
                             }
                         }
-                        return name;
+                        return name + legacyNote;
 
                     case Constants.COMMUNITY:
                         Community comm = communityService.findByIdOrLegacyId(context, dsoId);
@@ -566,7 +571,7 @@ public class StatisticsDataVisits extends StatisticsData
                                 name = name.substring(0, firstSpace) + " ...";
                             }
                         }
-                        return name;
+                        return name + legacyNote;
                 }
             }
         }
@@ -574,7 +579,7 @@ public class StatisticsDataVisits extends StatisticsData
     }
 
     protected Map<String, String> getAttributes(String value,
-            DatasetQuery datasetQuery, Context context) throws SQLException
+                                                DatasetQuery datasetQuery, Context context) throws SQLException
     {
         HashMap<String, String> attrs = new HashMap<String, String>();
         Query query = datasetQuery.getQueries().get(0);
@@ -691,7 +696,7 @@ public class StatisticsDataVisits extends StatisticsData
 
 
     protected ObjectCount[] queryFacetField(DatasetQuery dataset, String query,
-            String filterQuery) throws SolrServerException
+                                            String filterQuery) throws SolrServerException
     {
         String facetType = dataset.getFacetField() == null ? "id" : dataset
                 .getFacetField();
@@ -743,102 +748,111 @@ public class StatisticsDataVisits extends StatisticsData
     }
 
     public class Query {
-            private int dsoType;
-            private DSpaceObject dso;
-            private int dsoLength;
-            private DSpaceObject owningDso;
+        private int dsoType;
+        private DSpaceObject dso;
+        private int dsoLength;
+        private DSpaceObject owningDso;
 
 
-            public Query() {
-                dso = null;
-                dsoType = -1;
-                dso = null;
-                owningDso = null;
-            }
-
-            public void setOwningDso(DSpaceObject owningDso) {
-                this.owningDso = owningDso;
-            }
-
-            public void setDso(DSpaceObject dso, int dsoType){
-                this.dso = dso;
-                this.dsoType = dsoType;
-            }
-
-            public void setDso(DSpaceObject dso, int dsoType, int length){
-                this.dsoType = dsoType;
-                this.dso = dso;
-            }
-
-            public void setDsoType(int dsoType) {
-                this.dsoType = dsoType;
-            }
-
-
-            public int getDsoLength() {
-                return dsoLength;
-            }
-
-
-            public void setDsoLength(int dsoLength) {
-                this.dsoLength = dsoLength;
-            }
-
-            public int getDsoType(){
-                return dsoType;
-            }
-
-            public DSpaceObject getDso() {
-              return dso;
-            }
-
-            public String getQuery() {
-                //Time to construct our query
-                String query = "";
-                //Check (& add if needed) the dsoType
-                if(dsoType != -1)
-                {
-                    query += "type: " + dsoType;
-                }
-
-                //Check (& add if needed) the dsoId
-                if(dso != null)
-                {
-                    query += (query.equals("") ? "" : " AND ");
-                    if(dso instanceof DSpaceObjectLegacySupport){
-                        query += " (id:" + dso.getID() + " OR " + ((DSpaceObjectLegacySupport) dso).getLegacyId() + ")";
-                    }else{
-                        query += "id:" + dso.getID();
-                    }
-                }
-
-
-                if(owningDso != null && currentDso != null){
-                    query += (query.equals("") ? "" : " AND " );
-
-                    String owningStr = "";
-                    switch(currentDso.getType()){
-                        case Constants.ITEM:
-                            owningStr = "owningItem";
-                            break;
-                        case Constants.COLLECTION:
-                            owningStr = "owningColl";
-                            break;
-                        case Constants.COMMUNITY:
-                            owningStr = "owningComm";
-                            break;
-                    }
-                    owningStr += ":" + currentDso.getID();
-                    query += owningStr;
-                }
-
-                if(query.equals(""))
-                {
-                    query = "*:*";
-                }
-
-                return query;
-            }
+        public Query() {
+            dso = null;
+            dsoType = -1;
+            dso = null;
+            owningDso = null;
         }
+
+        public void setOwningDso(DSpaceObject owningDso) {
+            this.owningDso = owningDso;
+        }
+
+        public void setDso(DSpaceObject dso, int dsoType){
+            this.dso = dso;
+            this.dsoType = dsoType;
+        }
+
+        public void setDso(DSpaceObject dso, int dsoType, int length){
+            this.dsoType = dsoType;
+            this.dso = dso;
+        }
+
+        public void setDsoType(int dsoType) {
+            this.dsoType = dsoType;
+        }
+
+
+        public int getDsoLength() {
+            return dsoLength;
+        }
+
+
+        public void setDsoLength(int dsoLength) {
+            this.dsoLength = dsoLength;
+        }
+
+        public int getDsoType(){
+            return dsoType;
+        }
+
+        public DSpaceObject getDso() {
+            return dso;
+        }
+
+        public String getQuery() {
+            //Time to construct our query
+            String query = "";
+            //Check (& add if needed) the dsoType
+            if(dsoType != -1)
+            {
+                query += "type: " + dsoType;
+            }
+
+            //Check (& add if needed) the dsoId
+            if(dso != null)
+            {
+                query += (query.equals("") ? "" : " AND ");
+
+                //DS-3602: For clarity, adding "id:" to the right hand side of the search
+                //In the solr schema, "id" has been declared as the defaultSearchField so the field name is optional
+                if(dso instanceof DSpaceObjectLegacySupport){
+                    query += " (id:" + dso.getID() + " OR id:" + ((DSpaceObjectLegacySupport) dso).getLegacyId() + ")";
+                }else{
+                    query += "id:" + dso.getID();
+                }
+            }
+
+
+            if(owningDso != null && currentDso != null){
+                query += (query.equals("") ? "" : " AND " );
+
+                String owningStr = "";
+                switch(currentDso.getType()){
+                    case Constants.ITEM:
+                        owningStr = "owningItem";
+                        break;
+                    case Constants.COLLECTION:
+                        owningStr = "owningColl";
+                        break;
+                    case Constants.COMMUNITY:
+                        owningStr = "owningComm";
+                        break;
+                }
+                if(currentDso instanceof DSpaceObjectLegacySupport){
+                    owningStr = "(" + owningStr + ":" + currentDso.getID() + " OR "
+                            + owningStr + ":" + ((DSpaceObjectLegacySupport) currentDso).getLegacyId() + ")";
+                }else{
+                    owningStr += ":" + currentDso.getID();
+                }
+
+                query += owningStr;
+            }
+
+            if(query.equals(""))
+            {
+                query = "*:*";
+            }
+
+            return query;
+        }
+    }
 
 }

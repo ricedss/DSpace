@@ -245,6 +245,9 @@ public class ItemExportServiceImpl implements ItemExportService
                     qualifier = "none";
                 }
 
+                // Ying updated this to ignore the language for the field
+                String language = "";
+                /*
                 String language = dcv.getLanguage();
 
                 if (language != null)
@@ -255,6 +258,10 @@ public class ItemExportServiceImpl implements ItemExportService
                 {
                     language = "";
                 }
+    */
+
+                // END Ying updated this to ignore the language for the field
+
 
                 utf8 = ("  <dcvalue element=\"" + metadataField.getElement() + "\" "
                         + "qualifier=\"" + qualifier + "\""

@@ -460,11 +460,16 @@ public class MetadataImport
         // Make a String array of the current values stored in this element
         // First, strip of language if it is there
         String language = null;
+
+        // Ying commented this out to ignore the language
+        /*
         if (md.contains("["))
         {
             String[] bits = md.split("\\[");
             language = bits[1].substring(0, bits[1].length() - 1);
         }
+        */
+        // END Ying commented this out to ignore the language
 
         AuthorityValue fromAuthority = authorityValueService.getAuthorityValueType(md);
         if (md.indexOf(':') > 0) {
