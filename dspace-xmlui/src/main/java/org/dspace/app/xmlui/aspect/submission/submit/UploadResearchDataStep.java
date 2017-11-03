@@ -319,7 +319,7 @@ public class UploadResearchDataStep extends AbstractSubmissionStep
                     row.addCell(null,null,"break-all").addContent(desc);
                 }
 
-                BitstreamFormat format = bitstream.getFormat();
+                BitstreamFormat format = bitstream.getFormat(context);
                 if (format == null)
                 {
                     row.addCellContent(T_unknown_format);
