@@ -507,12 +507,10 @@ private Item replaceItem(Context c, Item myitem, String path, String itemname)
     // keep handle, item permissions, item mapping, item statistics, etc.
     if (! isTest) {
         itemService.cleanItem(c, myitem);
+        itemService.update(c, myitem);
     } else {
         myitem = null;
     }
-
-    // load replacement metadata
-    loadMetadata(c, myitem, path + File.separatorChar + itemname + File.separatorChar);
 
     // restore each saved metadata value
     if (! isTest) {

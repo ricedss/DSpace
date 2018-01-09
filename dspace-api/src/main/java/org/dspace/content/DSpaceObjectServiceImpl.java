@@ -343,6 +343,7 @@ public abstract class DSpaceObjectServiceImpl<T extends DSpaceObject> implements
             // If this value matches, delete it
             if (match(schema, element, qualifier, lang, metadataValue))
             {
+                System.out.println("================== Trying to delete Scheme: " + schema +";Element: "+element +";Qualifier: "+qualifier+"; LANG: "+lang+";MetadataValue: "+metadataValue);
                 metadata.remove();
                 metadataValueService.delete(context, metadataValue);
             }
