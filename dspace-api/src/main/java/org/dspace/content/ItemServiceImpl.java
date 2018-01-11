@@ -327,9 +327,10 @@ public class ItemServiceImpl extends DSpaceObjectServiceImpl<Item> implements It
         //List<Metadatum> values = new ArrayList<Metadatum>();
         //setMetadata(values);
 
+
         clearMetadata(context, item, Item.ANY, Item.ANY, Item.ANY, Item.ANY);
         // remove from cache
-        context.uncacheEntity(item);
+        //context.uncacheEntity(item);
 
         // Remove bundles
         List<Bundle> bunds = item.getBundles();
