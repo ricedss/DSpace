@@ -703,7 +703,7 @@ public class CitationManager
 
                         	// First, copy values to locvalues so it won't change the original
 							for(int i=0; i<values.size(); i++){
-								locvalues.set(i, values.get(i));
+								locvalues.add(i, values.get(i));
 							}
                             String formatit = (String)field.get("format-it");
 
