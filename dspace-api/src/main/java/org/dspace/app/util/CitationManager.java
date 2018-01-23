@@ -687,7 +687,7 @@ public class CitationManager
 
 						// Check here, maybe values from ContentServiceFactory should be copied to a local var so it won't change the actual value
                         List<MetadataValue> values;
-						List<MetadataValue> locvalues = new ArrayList<MetadataValue>();
+						List<String> locvalues = new ArrayList<String>();
                         if ("".equals(dcQualifier))
                         {
                             values = ContentServiceFactory.getInstance().getItemService().getMetadata(item, dcSchema, dcElement, null, Item.ANY);
@@ -703,7 +703,7 @@ public class CitationManager
 
                         	// First, copy values to locvalues so it won't change the original
 							for(int i=0; i<values.size(); i++){
-								locvalues.add(i, values.get(i));
+								locvalues.add(i, values.get(i).getValue());
 							}
                             String formatit = (String)field.get("format-it");
 
@@ -721,7 +721,7 @@ public class CitationManager
                                     }else{
                                         if(max_n_ending != null){
                                             //displayFormat +=  " " + max_n_ending.trim();
-											locvalues.get(nvalue).setValue(max_n_ending.trim());
+											locvalues.set(nvalue,max_n_ending.trim());
                                             nvalue++;
 
                                         }
@@ -737,9 +737,9 @@ public class CitationManager
                                 for (int k=0; k < nvalue; k++){
 
                                    if(formatit!= null){
-                                       fieldValue += FormatIt.formatIt(formatit, locvalues.get(k).getValue());
+                                       fieldValue += FormatIt.formatIt(formatit, locvalues.get(k));
                                    }else{
-                                       fieldValue += locvalues.get(k).getValue();
+                                       fieldValue += locvalues.get(k);
                                    }
                                    if (k == (locvalues.size() - 2)){
                                         fieldValue += " and ";
@@ -750,11 +750,11 @@ public class CitationManager
 
                             }else{
                                     if(formatit!= null){
-                                        fieldValue = FormatIt.formatIt(formatit, locvalues.get(0).getValue());
+                                        fieldValue = FormatIt.formatIt(formatit, locvalues.get(0));
 
                                     }else{
 
-                                        fieldValue = locvalues.get(0).getValue();
+                                        fieldValue = locvalues.get(0);
                                     }
                                 }
                             }
