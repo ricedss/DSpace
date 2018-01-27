@@ -741,7 +741,7 @@ public class CitationManager
                                    }else{
                                        fieldValue += locvalues.get(k);
                                    }
-                                   if (k == (nvalue - 2)){
+                                   if (k == (nvalue - 2) && !locvalues.get(nvalue-1).equals("et al.")){
                                         fieldValue += " and ";
                                    }else if (k < (nvalue - 1)){
                                         fieldValue += seperator + " ";
