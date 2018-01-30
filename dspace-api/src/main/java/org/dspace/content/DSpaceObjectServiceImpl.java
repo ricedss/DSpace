@@ -19,6 +19,7 @@ import org.dspace.content.authority.service.MetadataAuthorityService;
 import org.dspace.content.service.DSpaceObjectService;
 import org.dspace.content.service.MetadataFieldService;
 import org.dspace.content.service.MetadataValueService;
+import org.dspace.content.service.MetadataSchemaService;
 import org.dspace.core.Constants;
 import org.dspace.core.Context;
 import org.dspace.handle.service.HandleService;
@@ -50,6 +51,8 @@ public abstract class DSpaceObjectServiceImpl<T extends DSpaceObject> implements
     protected MetadataValueService metadataValueService;
     @Autowired(required = true)
     protected MetadataFieldService metadataFieldService;
+    @Autowired(required = true)
+    protected MetadataSchemaService metadataSchemaService;
     @Autowired(required = true)
     protected MetadataAuthorityService metadataAuthorityService;
 
@@ -123,14 +126,45 @@ public abstract class DSpaceObjectServiceImpl<T extends DSpaceObject> implements
         return Constants.typeText[dso.getType()];
     }
 
+
     @Override
     public List<MetadataValue> getMetadata(T dso, String schema, String element, String qualifier, String lang) {
         // Build up list of matching values
+
+
         List<MetadataValue> values = new ArrayList<MetadataValue>();
+
+
         for (MetadataValue dcv : dso.getMetadata())
         {
             if (match(schema, element, qualifier, lang, dcv))
             {
+                //Ying added this for citation generation
+                if(schema.equals("dc") && element.equals("identifier") && qualifier.equals("citation")){
+
+                    String name = dso.getName();
+                    if(CitationManager.isConfiged() && name != ""){
+
+                        String dcvalue = CitationManager.getCitationString((Item)dso);
+                        if (( dcvalue != null) && dcvalue.length() > 0) {
+                /*
+                    MetadataValue metadataValue = new MetadataValue();
+                    MetadataField metadataField = new MetadataField();
+                    metadataField.setMetadataSchema(metadataSchemaService.find(context, MetadataSchema.DC_SCHEMA));
+                    metadataField.setElement("identifier");
+                    metadataField.setQualifier("citation");
+                    metadataValue.setMetadataField(metadataField);
+                    metadataValue.setDSpaceObject(dso);
+                    dso.addMetadata(metadataValue);
+                    */
+                            dcv.setValue(dcvalue);
+                        }
+                    }
+
+                }
+
+                //END Ying added this for citation generation
+
                 values.add(dcv);
             }
         }
