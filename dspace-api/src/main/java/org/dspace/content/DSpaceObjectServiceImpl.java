@@ -143,9 +143,11 @@ public abstract class DSpaceObjectServiceImpl<T extends DSpaceObject> implements
                 if(schema.equals("dc") && element.equals("identifier") && qualifier.equals("citation")){
 
                     String name = dso.getName();
+                    System.out.println("Citation on the fly ============== NAME: " + name);
                     if(CitationManager.isConfiged() && name != ""){
 
                         String dcvalue = CitationManager.getCitationString((Item)dso);
+                        System.out.println("Citation on the fly ============== CITATION: " + dcvalue);
                         if (( dcvalue != null) && dcvalue.length() > 0) {
                 /*
                     MetadataValue metadataValue = new MetadataValue();
