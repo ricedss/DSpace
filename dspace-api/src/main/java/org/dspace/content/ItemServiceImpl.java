@@ -339,6 +339,9 @@ public class ItemServiceImpl extends DSpaceObjectServiceImpl<Item> implements It
         {
             removeBundle(context, item, bund);
         }
+        
+        item.setModified();
+        //item.setMetadataModified();
     }
 
     /**
