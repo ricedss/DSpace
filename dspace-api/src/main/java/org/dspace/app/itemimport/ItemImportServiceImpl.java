@@ -507,7 +507,7 @@ private Item replaceItem(Context c, Item myitem, String path, String itemname)
     // keep handle, item permissions, item mapping, item statistics, etc.
     if (! isTest) {
         itemService.cleanItem(c, myitem);
-        itemService.update(c, myitem);
+        //itemService.update(c, myitem);
     } else {
         myitem = null;
     }

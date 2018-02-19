@@ -327,11 +327,22 @@ public class ItemServiceImpl extends DSpaceObjectServiceImpl<Item> implements It
         //List<Metadatum> values = new ArrayList<Metadatum>();
         //setMetadata(values);
 
+        Iterator<MetadataValue> metadata = item.getMetadata().iterator();
+        while (metadata.hasNext()) {
+            MetadataValue metadataValue = metadata.next();
+            MetadataField metadataField = metadataValue.getMetadataField();
+            MetadataSchema metadataSchema = metadataField.getMetadataSchema();
+            String element = metadataField.getElement();
+            String qualifier = metadataField.getQualifier();
+            String schema = metadataSchema.getName();
 
-        clearMetadata(context, item, Item.ANY, Item.ANY, Item.ANY, Item.ANY);
-        // remove from cache
-        //context.uncacheEntity(item);
+            System.out.println("BEGIN Clear MEtadata: " + schema + ' ' + element + ' ' + qualifier);
 
+            clearMetadata(context, item, schema, element, qualifier, Item.ANY);
+            System.out.println("DONE Clear MEtadata: " + schema + ' ' + element + ' ' + qualifier);
+            // remove from cache
+            //context.uncacheEntity(item);
+        }
         // Remove bundles
         List<Bundle> bunds = item.getBundles();
 
@@ -339,8 +350,8 @@ public class ItemServiceImpl extends DSpaceObjectServiceImpl<Item> implements It
         {
             removeBundle(context, item, bund);
         }
-        
-        item.setModified();
+
+        //item.setModified();
         //item.setMetadataModified();
     }
 
