@@ -330,27 +330,9 @@ public class ItemServiceImpl extends DSpaceObjectServiceImpl<Item> implements It
         Iterator<MetadataValue> metadata = item.getMetadata().iterator();
         while (metadata.hasNext()) {
             MetadataValue metadataValue = metadata.next();
-            //MetadataField metadataField = metadataValue.getMetadataField();
-            //MetadataSchema metadataSchema = metadataField.getMetadataSchema();
-            //String element = metadataField.getElement();
-            //String qualifier = metadataField.getQualifier();
-            //String schema = metadataSchema.getName();
-
-            //System.out.println("BEGIN Clear MEtadata: " + schema + ' ' + element + ' ' + qualifier);
-
-            //Iterator<MetadataValue> metadata = item.getMetadata().iterator();
-            //while (metadata.hasNext())
-            //{
-            //    MetadataValue metadataValue = metadata.next();
-                // If this value matches, delete it
-              //  if (match(schema, element, qualifier, Item.ANY, metadataValue))
-               // {
                  //   System.out.println("================== Trying to delete Scheme: " + schema +";Element: "+element +";Qualifier: "+qualifier+"; LANG: "+lang+";MetadataValue: "+metadataValue.getValue());
                     metadata.remove();
                     metadataValueService.delete(context, metadataValue);
-                //}
-                //System.out.println("DONE Clear MEtadata: " + schema + ' ' + element + ' ' + qualifier);
-            //}
             //clearMetadata(context, item, schema, element, qualifier, Item.ANY);
             // remove from cache
             //context.uncacheEntity(item);
@@ -363,7 +345,7 @@ public class ItemServiceImpl extends DSpaceObjectServiceImpl<Item> implements It
             removeBundle(context, item, bund);
         }
 
-        item.setModified();
+        //item.setModified();
         //item.setMetadataModified();
     }
 
