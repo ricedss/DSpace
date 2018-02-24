@@ -70,7 +70,8 @@ public class ItemUpdate {
 		filterAliases.put("ORIGINAL", "org.dspace.app.itemupdate.OriginalBitstreamFilter");
 		filterAliases.put("ORIGINAL_AND_DERIVATIVES", "org.dspace.app.itemupdate.OriginalWithDerivativesBitstreamFilter");
 		filterAliases.put("TEXT", "org.dspace.app.itemupdate.DerivativeTextBitstreamFilter");		
-		filterAliases.put("THUMBNAIL", "org.dspace.app.itemupdate.ThumbnailBitstreamFilter");		
+		filterAliases.put("THUMBNAIL", "org.dspace.app.itemupdate.ThumbnailBitstreamFilter");
+		filterAliases.put("MASTER", "org.dspace.app.itemupdate.MasterBitstreamFilter");
 	}
 	          	                
     // File listing filter to check for folders
