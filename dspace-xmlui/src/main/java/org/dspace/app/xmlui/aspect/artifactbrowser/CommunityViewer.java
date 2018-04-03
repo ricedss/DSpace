@@ -34,6 +34,7 @@ import org.dspace.content.Community;
 import org.dspace.content.DSpaceObject;
 import org.dspace.content.factory.ContentServiceFactory;
 import org.dspace.content.service.CommunityService;
+import org.dspace.core.Context;
 import org.dspace.services.factory.DSpaceServicesFactory;
 import org.xml.sax.SAXException;
 
@@ -101,10 +102,14 @@ public class CommunityViewer extends AbstractDSpaceTransformer implements Cachea
      */
     public SourceValidity getValidity() 
     {
+
         if (this.validity == null)
     	{
             Community community = null;
 	        try {
+                Context.Mode originalMode = context.getCurrentMode();
+                context.setMode(Context.Mode.READ_ONLY);
+
 	            DSpaceObject dso = HandleUtil.obtainHandle(objectModel);
 	            
 	            if (dso == null)
@@ -156,6 +161,7 @@ public class CommunityViewer extends AbstractDSpaceTransformer implements Cachea
 	            }
 
 	            this.validity = validity.complete();
+                context.setMode(originalMode);
 	        } 
 	        catch (Exception e)
 	        {
@@ -179,6 +185,9 @@ public class CommunityViewer extends AbstractDSpaceTransformer implements Cachea
         {
             return;
         }
+
+        Context.Mode originalMode = context.getCurrentMode();
+        context.setMode(Context.Mode.READ_ONLY);
 
         // Set up the major variables
         Community community = (Community) dso;
@@ -216,6 +225,9 @@ public class CommunityViewer extends AbstractDSpaceTransformer implements Cachea
 				pageMeta.addMetadata("feed", feedFormat).addContent(feedURL);
 			}
 		}
+
+        context.setMode(originalMode);
+
     }
 
     /**
@@ -231,6 +243,9 @@ public class CommunityViewer extends AbstractDSpaceTransformer implements Cachea
         {
             return;
         }
+
+        Context.Mode originalMode = context.getCurrentMode();
+        context.setMode(Context.Mode.READ_ONLY);
 
         // Set up the major variables
         Community community = (Community) dso;
@@ -293,6 +308,7 @@ public class CommunityViewer extends AbstractDSpaceTransformer implements Cachea
 
             }
         } // main reference
+        context.setMode(originalMode);
     }
     
 
