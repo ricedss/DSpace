@@ -867,7 +867,7 @@
             <bean class="org.dspace.discovery.configuration.DiscoveryRecentSubmissionsConfiguration">
                 <property name="metadataSortField" value="local.title.orderDisplay" />
                 <property name="type" value="text"/>
-                <property name="max" value="3"/>
+                <property name="max" value="347"/>
             </bean>
         </property>
 
