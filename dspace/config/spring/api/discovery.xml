@@ -57,14 +57,14 @@
 
                 <!-- Limit the americas and timea to 0 resent submission -->
                 <entry key="123456789/2" value-ref="ZeroSubmissionConfiguration" />
-                <entry key="10564" value-ref="ZeroSubmissionConfiguration" />
-                <entry key="5251" value-ref="ZeroSubmissionConfiguration" />
+                <entry key="1911/10564" value-ref="ZeroSubmissionConfiguration" />
+                <entry key="1911/5251" value-ref="ZeroSubmissionConfiguration" />
                 <entry key="123456789/3" value-ref="ZeroSubmissionConfiguration" />
-                <entry key="21844" value-ref="ZeroSubmissionConfiguration" />
-                <entry key="27442" value-ref="ZeroSubmissionConfiguration" />
-                <entry key="9221" value-ref="ZeroSubmissionConfiguration" />
-                <entry key="20693" value-ref="ZeroSubmissionConfiguration" />
-                <entry key="21756" value-ref="ZeroSubmissionConfiguration" />
+                <entry key="1911/21844" value-ref="ZeroSubmissionConfiguration" />
+                <entry key="1911/27442" value-ref="ZeroSubmissionConfiguration" />
+                <entry key="1911/9221" value-ref="ZeroSubmissionConfiguration" />
+                <entry key="1911/20693" value-ref="ZeroSubmissionConfiguration" />
+                <entry key="1911/21756" value-ref="ZeroSubmissionConfiguration" />
 
                <!--Use site to override the default configuration for the home page & default discovery page-->
                  <entry key="site" value-ref="defaultConfiguration" />
