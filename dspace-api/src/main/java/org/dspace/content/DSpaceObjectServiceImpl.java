@@ -140,7 +140,7 @@ public abstract class DSpaceObjectServiceImpl<T extends DSpaceObject> implements
             if (match(schema, element, qualifier, lang, dcv))
             {
                 //Ying added this for citation generation
-                if(schema.equals("dc") && element.equals("identifier") && qualifier.equals("citation")){
+                if(schema.equals("dc") && element.equals("identifier") && qualifier!=null && qualifier.equals("citation")){
 
                     String name = dso.getName();
                     System.out.println("Citation on the fly ============== NAME: " + name);
