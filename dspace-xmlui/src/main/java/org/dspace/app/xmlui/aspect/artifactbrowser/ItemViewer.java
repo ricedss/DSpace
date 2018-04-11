@@ -47,6 +47,7 @@ import org.dspace.app.util.GoogleMetadata;
 import org.dspace.content.crosswalk.CrosswalkException;
 import org.dspace.content.crosswalk.DisseminationCrosswalk;
 import org.dspace.content.factory.ContentServiceFactory;
+import org.dspace.core.Context;
 import org.dspace.services.factory.DSpaceServicesFactory;
 import org.jdom.Element;
 import org.jdom.Text;
@@ -134,11 +135,16 @@ public class ItemViewer extends AbstractDSpaceTransformer implements CacheablePr
         if (this.validity == null)
     	{
 	        try {
+                Context.Mode originalMode = context.getCurrentMode();
+                context.setMode(Context.Mode.READ_ONLY);
+
 	            dso = HandleUtil.obtainHandle(objectModel);
 
 	            DSpaceValidity newValidity = new DSpaceValidity();
 	            newValidity.add(context, dso);
 	            this.validity =  newValidity.complete();
+
+                context.setMode(originalMode);
 	        }
 	        catch (Exception e)
 	        {
@@ -178,6 +184,9 @@ public class ItemViewer extends AbstractDSpaceTransformer implements CacheablePr
         }
 
         Item item = (Item) dso;
+
+        Context.Mode originalMode = context.getCurrentMode();
+        context.setMode(Context.Mode.READ_ONLY);
 
         // Set the page title
         String title = item.getName();
@@ -324,6 +333,8 @@ public class ItemViewer extends AbstractDSpaceTransformer implements CacheablePr
             // TODO: Is this the right exception class?
             throw new WingException(ce);
         }
+
+        context.setMode(originalMode);
     }
 
     /**
@@ -347,6 +358,9 @@ public class ItemViewer extends AbstractDSpaceTransformer implements CacheablePr
         }
 
         Item item = (Item) dso;
+
+        Context.Mode originalMode = context.getCurrentMode();
+        context.setMode(Context.Mode.READ_ONLY);
 
         // Build the item viewer division.
         Division division = body.addDivision("item-view","primary");
@@ -421,6 +435,8 @@ public class ItemViewer extends AbstractDSpaceTransformer implements CacheablePr
                     + "?show=full";
             showfullPara.addXref(link).addContent(T_show_full);
         }
+
+        context.setMode(originalMode);
     }
 
     /**

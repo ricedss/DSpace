@@ -99,7 +99,11 @@ public class DSpaceMETSGenerator extends AbstractGenerator
 		try {
 			// Open a new context.
 			Context context = ContextUtil.obtainContext(objectModel);
-			
+
+			Context.Mode originalMode = context.getCurrentMode();
+			context.setMode(Context.Mode.READ_ONLY);
+
+
 			// Determine which adapter to use
 			AbstractAdapter adapter = resolveAdapter(context);
             if (adapter == null)
@@ -114,7 +118,8 @@ public class DSpaceMETSGenerator extends AbstractGenerator
 			contentHandler.startDocument();
 			adapter.renderMETS(context, contentHandler,lexicalHandler);
 			contentHandler.endDocument();
-			
+
+			context.setMode(originalMode);
 		} catch (WingException we) {
 			throw new ProcessingException(we);
 		} catch (CrosswalkException ce) {
@@ -122,6 +127,7 @@ public class DSpaceMETSGenerator extends AbstractGenerator
 		} catch (SQLException sqle) {
 			throw new ProcessingException(sqle);
 		}
+
 	}
    
 	

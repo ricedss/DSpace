@@ -213,6 +213,9 @@ public class BitstreamReader extends AbstractReader implements Recyclable
             // normal processes will close it.
             boolean BitstreamReaderOpenedContext = !ContextUtil.isContextAvailable(objectModel);
             Context context = ContextUtil.obtainContext(objectModel);
+
+            Context.Mode originalMode = context.getCurrentMode();
+            context.setMode(Context.Mode.READ_ONLY);
             
             // Get our parameters that identify the bitstream
             String itemID = par.getParameter("itemID", null);
@@ -454,6 +457,8 @@ public class BitstreamReader extends AbstractReader implements Recyclable
             // If we created the database connection close it, otherwise leave it open.
             if (BitstreamReaderOpenedContext)
             	context.complete();
+
+            context.setMode(originalMode);
         }
         catch (SQLException sqle)
         {
