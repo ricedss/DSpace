@@ -199,8 +199,7 @@ public class BitstreamReader extends AbstractReader implements Recyclable
     {
         super.setup(resolver, objectModel, src, par);
 
-        try
-        {
+        try {
             this.request = ObjectModelHelper.getRequest(objectModel);
             this.response = ObjectModelHelper.getResponse(objectModel);
 
@@ -216,56 +215,44 @@ public class BitstreamReader extends AbstractReader implements Recyclable
 
             Context.Mode originalMode = context.getCurrentMode();
             context.setMode(Context.Mode.READ_ONLY);
-            
+
             // Get our parameters that identify the bitstream
             String itemID = par.getParameter("itemID", null);
             String bitstreamID = par.getParameter("bitstreamID", null);
             String handle = par.getParameter("handle", null);
-            
+
             int sequence = par.getParameterAsInteger("sequence", -1);
             String name = par.getParameter("name", null);
-        
+
             this.isSpider = par.getParameter("userAgent", "").equals("spider");
 
             // Resolve the bitstream
             Bitstream bitstream = null;
             DSpaceObject dso = null;
-            
-            if (bitstreamID != null)
-            {
+
+            if (bitstreamID != null) {
                 // Direct reference to the individual bitstream ID.
                 bitstream = bitstreamService.findByIdOrLegacyId(context, bitstreamID);
-            }
-            else if (itemID != null)
-            {
+            } else if (itemID != null) {
                 // Referenced by internal itemID
                 item = itemService.findByIdOrLegacyId(context, itemID);
-                
-                if (sequence > -1)
-                {
-                        bitstream = findBitstreamBySequence(item, sequence);
+
+                if (sequence > -1) {
+                    bitstream = findBitstreamBySequence(item, sequence);
+                } else if (name != null) {
+                    bitstream = findBitstreamByName(item, name);
                 }
-                else if (name != null)
-                {
-                        bitstream = findBitstreamByName(item, name);
-                }
-            }
-            else if (handle != null)
-            {
+            } else if (handle != null) {
                 // Reference by an item's handle.
                 dso = handleService.resolveToObject(context, handle);
 
-                if (dso instanceof Item)
-                {
-                    item = (Item)dso;
+                if (dso instanceof Item) {
+                    item = (Item) dso;
 
-                    if (sequence > -1)
-                    {
-                        bitstream = findBitstreamBySequence(item,sequence);
-                    }
-                    else if (name != null)
-                    {
-                        bitstream = findBitstreamByName(item,name);
+                    if (sequence > -1) {
+                        bitstream = findBitstreamBySequence(item, sequence);
+                    } else if (name != null) {
+                        bitstream = findBitstreamByName(item, name);
                     }
                 }
             }
@@ -276,72 +263,62 @@ public class BitstreamReader extends AbstractReader implements Recyclable
 
             // if initial search was by sequence number and found nothing,
             // then try to find bitstream by name (assuming we have a file name)
-            if((sequence > -1 && bitstream==null) && name!=null)
-            {
-                bitstream = findBitstreamByName(item,name);
+            if ((sequence > -1 && bitstream == null) && name != null) {
+                bitstream = findBitstreamByName(item, name);
 
                 // if we found bitstream by name, send a redirect to its new sequence number location
-                if(bitstream!=null)
-                {
+                if (bitstream != null) {
                     String redirectURL = "";
 
                     // build redirect URL based on whether item has a handle assigned yet
-                    if(item.getHandle()!=null && item.getHandle().length()>0)
-                    {
+                    if (item.getHandle() != null && item.getHandle().length() > 0) {
                         redirectURL = request.getContextPath() + "/bitstream/handle/" + item.getHandle();
-                    }
-                    else
-                    {
+                    } else {
                         redirectURL = request.getContextPath() + "/bitstream/item/" + item.getID();
                     }
 
-                        redirectURL += "/" + name + "?sequence=" + bitstream.getSequenceID();
+                    redirectURL += "/" + name + "?sequence=" + bitstream.getSequenceID();
 
-                        HttpServletResponse httpResponse = (HttpServletResponse)
-                        objectModel.get(HttpEnvironment.HTTP_RESPONSE_OBJECT);
-                        httpResponse.sendRedirect(redirectURL);
-                        return;
+                    HttpServletResponse httpResponse = (HttpServletResponse)
+                            objectModel.get(HttpEnvironment.HTTP_RESPONSE_OBJECT);
+                    httpResponse.sendRedirect(redirectURL);
+                    return;
                 }
             }
 
             // Was a bitstream found?
-            if (bitstream == null)
-            {
+            if (bitstream == null) {
                 throw new ResourceNotFoundException("Unable to locate bitstream");
             }
 
             // Is there a User logged in and does the user have access to read it?
             boolean isAuthorized = authorizeService.authorizeActionBoolean(context, bitstream, Constants.READ);
-            if (item != null && item.isWithdrawn() && !authorizeService.isAdmin(context))
-            {
+            if (item != null && item.isWithdrawn() && !authorizeService.isAdmin(context)) {
                 isAuthorized = false;
                 log.info(LogManager.getHeader(context, "view_bitstream", "handle=" + item.getHandle() + ",withdrawn=true"));
             }
             // It item-request is enabled to all request we redirect to restricted-resource immediately without login request  
             String requestItemType = DSpaceServicesFactory.getInstance().getConfigurationService().getProperty("request.item.type");
-            if (!isAuthorized)
-            {
-                if(context.getCurrentUser() != null || StringUtils.equalsIgnoreCase("all", requestItemType)){
-                        // A user is logged in, but they are not authorized to read this bitstream,
-                        // instead of asking them to login again we'll point them to a friendly error
-                        // message that tells them the bitstream is restricted.
-                        String redictURL = request.getContextPath() + "/handle/";
-                        if (item!=null){
-                                redictURL += item.getHandle();
-                        }
-                        else if(dso!=null){
-                                redictURL += dso.getHandle();
-                        }
-                        redictURL += "/restricted-resource?bitstreamId=" + bitstream.getID();
+            if (!isAuthorized) {
+                if (context.getCurrentUser() != null || StringUtils.equalsIgnoreCase("all", requestItemType)) {
+                    // A user is logged in, but they are not authorized to read this bitstream,
+                    // instead of asking them to login again we'll point them to a friendly error
+                    // message that tells them the bitstream is restricted.
+                    String redictURL = request.getContextPath() + "/handle/";
+                    if (item != null) {
+                        redictURL += item.getHandle();
+                    } else if (dso != null) {
+                        redictURL += dso.getHandle();
+                    }
+                    redictURL += "/restricted-resource?bitstreamId=" + bitstream.getID();
 
-                        HttpServletResponse httpResponse = (HttpServletResponse)
-                        objectModel.get(HttpEnvironment.HTTP_RESPONSE_OBJECT);
-                        httpResponse.sendRedirect(redictURL);
-                        return;
-                }
-                else{
-                	if(StringUtils.isBlank(DSpaceServicesFactory.getInstance().getConfigurationService().getProperty("request.item.type")) ||
-                			                			DSpaceServicesFactory.getInstance().getConfigurationService().getProperty("request.item.type").equalsIgnoreCase("logged")){
+                    HttpServletResponse httpResponse = (HttpServletResponse)
+                            objectModel.get(HttpEnvironment.HTTP_RESPONSE_OBJECT);
+                    httpResponse.sendRedirect(redictURL);
+                    return;
+                } else {
+                    if (StringUtils.isBlank(DSpaceServicesFactory.getInstance().getConfigurationService().getProperty("request.item.type")) ||
+                            DSpaceServicesFactory.getInstance().getConfigurationService().getProperty("request.item.type").equalsIgnoreCase("logged")) {
                         // The user does not have read access to this bitstream. Interrupt this current request
                         // and then forward them to the login page so that they can be authenticated. Once that is
                         // successful, their request will be resumed.
@@ -351,10 +328,10 @@ public class BitstreamReader extends AbstractReader implements Recyclable
                         String redictURL = request.getContextPath() + "/login";
 
                         HttpServletResponse httpResponse = (HttpServletResponse)
-                        objectModel.get(HttpEnvironment.HTTP_RESPONSE_OBJECT);
+                                objectModel.get(HttpEnvironment.HTTP_RESPONSE_OBJECT);
                         httpResponse.sendRedirect(redictURL);
                         return;
-                	}
+                    }
                 }
             }
 
@@ -378,7 +355,7 @@ public class BitstreamReader extends AbstractReader implements Recyclable
                 try {
                     //Create the cited document
                     tempFile = citationDocumentService.makeCitedDocument(context, bitstream);
-                    if(tempFile == null) {
+                    if (tempFile == null) {
                         log.error("CitedDocument was null");
                     } else {
                         log.info("CitedDocument was ok," + tempFile.getAbsolutePath());
@@ -386,7 +363,7 @@ public class BitstreamReader extends AbstractReader implements Recyclable
 
 
                     fileInputStream = new FileInputStream(tempFile);
-                    if(fileInputStream == null) {
+                    if (fileInputStream == null) {
                         log.error("Error opening fileInputStream: ");
                     }
 
@@ -405,61 +382,54 @@ public class BitstreamReader extends AbstractReader implements Recyclable
 
             this.bitstreamMimeType = bitstream.getFormat(context).getMIMEType();
             this.bitstreamName = bitstream.getName();
-            if (context.getCurrentUser() == null)
-            {
+            if (context.getCurrentUser() == null) {
                 this.isAnonymouslyReadable = true;
-            }
-            else
-            {
+            } else {
                 this.isAnonymouslyReadable = false;
-                for (ResourcePolicy rp : authorizeService.getPoliciesActionFilter(context, bitstream, Constants.READ))
-                {
-                    if (rp.getGroup() != null && rp.getGroup().getName().equals(Group.ANONYMOUS))
-                    {
+                for (ResourcePolicy rp : authorizeService.getPoliciesActionFilter(context, bitstream, Constants.READ)) {
+                    if (rp.getGroup() != null && rp.getGroup().getName().equals(Group.ANONYMOUS)) {
                         this.isAnonymouslyReadable = true;
                     }
                 }
             }
 
             // Trim any path information from the bitstream
-            if (bitstreamName != null && bitstreamName.length() >0 )
-            {
-                        int finalSlashIndex = bitstreamName.lastIndexOf('/');
-                        if (finalSlashIndex > 0)
-                        {
-                                bitstreamName = bitstreamName.substring(finalSlashIndex+1);
-                        }
-            }
-            else
-            {
+            if (bitstreamName != null && bitstreamName.length() > 0) {
+                int finalSlashIndex = bitstreamName.lastIndexOf('/');
+                if (finalSlashIndex > 0) {
+                    bitstreamName = bitstreamName.substring(finalSlashIndex + 1);
+                }
+            } else {
                 // In-case there is no bitstream name...
-                if(name != null && name.length() > 0) {
+                if (name != null && name.length() > 0) {
                     bitstreamName = name;
-                    if(name.endsWith(".jpg")) {
+                    if (name.endsWith(".jpg")) {
                         bitstreamMimeType = "image/jpeg";
-                    } else if(name.endsWith(".png")) {
+                    } else if (name.endsWith(".png")) {
                         bitstreamMimeType = "image/png";
                     }
                 } else {
                     bitstreamName = "bitstream";
                 }
             }
-            
+
             // Log that the bitstream has been viewed, this is non-cached and the complexity
             // of adding it to the sitemap for every possible bitstream uri is not very tractable
             DSpaceServicesFactory.getInstance().getEventService().fireEvent(
-                                new UsageEvent(
-                                                UsageEvent.Action.VIEW,
-                                                ObjectModelHelper.getRequest(objectModel),
-                                                ContextUtil.obtainContext(ObjectModelHelper.getRequest(objectModel)),
-                                                bitstream));
-            
+                    new UsageEvent(
+                            UsageEvent.Action.VIEW,
+                            ObjectModelHelper.getRequest(objectModel),
+                            ContextUtil.obtainContext(ObjectModelHelper.getRequest(objectModel)),
+                            bitstream));
+
             // If we created the database connection close it, otherwise leave it open.
+            context.setMode(originalMode);
+
             if (BitstreamReaderOpenedContext) {
                 context.complete();
             }
 
-            context.setMode(originalMode);
+
         }
         catch (SQLException sqle)
         {
