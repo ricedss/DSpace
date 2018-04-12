@@ -171,7 +171,7 @@
             <bean class="org.dspace.discovery.configuration.DiscoveryRecentSubmissionsConfiguration">
                 <property name="metadataSortField" value="dc.date.accessioned" />
                 <property name="type" value="date"/>
-                <property name="max" value="3"/>
+                <property name="max" value="20"/>
                 <!-- If enabled the collection home page will not display metadata but show a pageable list of recent submissions -->
                 <property name="useAsHomePage" value="false"/>
             </bean>
@@ -271,7 +271,7 @@
             <bean class="org.dspace.discovery.configuration.DiscoveryRecentSubmissionsConfiguration">
                 <property name="metadataSortField" value="dc.date.accessioned" />
                 <property name="type" value="date"/>
-                <property name="max" value="3"/>
+                <property name="max" value="20"/>
                 <!-- If enabled the collection home page will not display metadata but show a pageable list of recent submissions -->
                 <property name="useAsHomePage" value="false"/>
             </bean>
@@ -368,7 +368,7 @@
             <bean class="org.dspace.discovery.configuration.DiscoveryRecentSubmissionsConfiguration">
                 <property name="metadataSortField" value="dc.date.accessioned" />
                 <property name="type" value="date"/>
-                <property name="max" value="3"/>
+                <property name="max" value="20"/>
                 <!-- If enabled the collection home page will not display metadata but show a pageable list of recent submissions -->
                 <property name="useAsHomePage" value="false"/>
             </bean>
@@ -481,7 +481,7 @@
             <bean class="org.dspace.discovery.configuration.DiscoveryRecentSubmissionsConfiguration">
                 <property name="metadataSortField" value="dc.date.accessioned" />
                 <property name="type" value="date"/>
-                <property name="max" value="0"/>
+                <property name="max" value="20"/>
                 <!-- If enabled the collection home page will not display metadata but show a pageable list of recent submissions -->
                 <property name="useAsHomePage" value="false"/>
             </bean>
@@ -581,7 +581,7 @@
             <bean class="org.dspace.discovery.configuration.DiscoveryRecentSubmissionsConfiguration">
                 <property name="metadataSortField" value="dc.date.accessioned" />
                 <property name="type" value="date"/>
-                <property name="max" value="3"/>
+                <property name="max" value="20"/>
                 <property name="useAsHomePage" value="false"/>
             </bean>
         </property>
@@ -673,7 +673,7 @@
             <bean class="org.dspace.discovery.configuration.DiscoveryRecentSubmissionsConfiguration">
                 <property name="metadataSortField" value="dc.date.accessioned" />
                 <property name="type" value="date"/>
-                <property name="max" value="3"/>
+                <property name="max" value="20"/>
                 <!-- If enabled the collection home page will not display metadata but show a pageable list of recent submissions -->
                 <property name="useAsHomePage" value="false"/>
             </bean>
@@ -777,7 +777,7 @@
             <bean class="org.dspace.discovery.configuration.DiscoveryRecentSubmissionsConfiguration">
                 <property name="metadataSortField" value="dc.date.accessioned" />
                 <property name="type" value="date"/>
-                <property name="max" value="3"/>
+                <property name="max" value="20"/>
             </bean>
         </property>
       <!--Default result per page  -->
@@ -972,7 +972,7 @@
             <bean class="org.dspace.discovery.configuration.DiscoveryRecentSubmissionsConfiguration">
                 <property name="metadataSortField" value="dc.date.accessioned" />
                 <property name="type" value="date"/>
-                <property name="max" value="3"/>
+                <property name="max" value="20"/>
             </bean>
         </property>
       <!--Default result per page  -->
@@ -1069,7 +1069,7 @@
             <bean class="org.dspace.discovery.configuration.DiscoveryRecentSubmissionsConfiguration">
                 <property name="metadataSortField" value="dc.date.accessioned" />
                 <property name="type" value="date"/>
-                <property name="max" value="3"/>
+                <property name="max" value="20"/>
             </bean>
         </property>
         <!--Default result per page  -->
@@ -1165,7 +1165,7 @@
             <bean class="org.dspace.discovery.configuration.DiscoveryRecentSubmissionsConfiguration">
                 <property name="metadataSortField" value="dc.date.accessioned" />
                 <property name="type" value="date"/>
-                <property name="max" value="3"/>
+                <property name="max" value="20"/>
             </bean>
         </property>
         <!--Default result per page  -->
@@ -1268,7 +1268,7 @@
             <bean class="org.dspace.discovery.configuration.DiscoveryRecentSubmissionsConfiguration">
                 <property name="metadataSortField" value="dc.date.accessioned" />
                 <property name="type" value="date"/>
-                <property name="max" value="3"/>
+                <property name="max" value="20"/>
             </bean>
         </property>
         <!--Default result per page  -->
@@ -1362,7 +1362,7 @@
             <bean class="org.dspace.discovery.configuration.DiscoveryRecentSubmissionsConfiguration">
                 <property name="metadataSortField" value="dc.date.accessioned" />
                 <property name="type" value="date"/>
-                <property name="max" value="3"/>
+                <property name="max" value="20"/>
             </bean>
         </property>
         <!--Default result per page  -->
