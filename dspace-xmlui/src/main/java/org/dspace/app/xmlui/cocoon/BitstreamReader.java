@@ -455,8 +455,9 @@ public class BitstreamReader extends AbstractReader implements Recyclable
                                                 bitstream));
             
             // If we created the database connection close it, otherwise leave it open.
-            if (BitstreamReaderOpenedContext)
-            	context.complete();
+            if (BitstreamReaderOpenedContext) {
+                context.complete();
+            }
 
             context.setMode(originalMode);
         }

@@ -76,7 +76,12 @@ public abstract class AbstractDSpaceTransformer extends AbstractWingTransformer
         this.parameters = parameters;
         try
         {
+
             this.context = ContextUtil.obtainContext(objectModel);
+
+            Context.Mode originalMode = this.context.getCurrentMode();
+            this.context.setMode(Context.Mode.READ_ONLY);
+
             this.eperson = context.getCurrentUser();
             Request request = ObjectModelHelper.getRequest(objectModel);
             this.contextPath = request.getContextPath();
@@ -88,6 +93,8 @@ public abstract class AbstractDSpaceTransformer extends AbstractWingTransformer
             this.servletPath = request.getServletPath();
             this.sitemapURI = request.getSitemapURI(); 
             this.knot = FlowHelper.getWebContinuation(objectModel);
+
+            this.context.setMode(originalMode);
         }
         catch (SQLException sqle)
         {

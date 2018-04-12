@@ -18,6 +18,7 @@ import org.dspace.content.Collection;
 import org.dspace.content.DSpaceObject;
 import org.dspace.content.factory.ContentServiceFactory;
 import org.dspace.content.service.ItemService;
+import org.dspace.core.Context;
 import org.xml.sax.SAXException;
 
 import java.io.IOException;
@@ -42,6 +43,10 @@ public class CollectionRecentSubmissions extends AbstractRecentSubmissionTransfo
      */
     public void addBody(Body body) throws SAXException, WingException,
             SQLException, IOException, AuthorizeException {
+
+
+        Context.Mode originalMode = context.getCurrentMode();
+        context.setMode(Context.Mode.READ_ONLY);
 
         DSpaceObject dso = HandleUtil.obtainHandle(objectModel);
         // Set up the major variables
@@ -82,5 +87,6 @@ public class CollectionRecentSubmissions extends AbstractRecentSubmissionTransfo
             if (itemService.countItems(context, collection) > maxRecentSubmissions)
                 addViewMoreLink(lastSubmittedDiv, collection);
         }
+        context.setMode(originalMode);
     }
 }
