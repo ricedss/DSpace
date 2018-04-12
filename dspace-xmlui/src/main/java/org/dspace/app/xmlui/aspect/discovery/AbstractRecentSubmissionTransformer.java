@@ -19,6 +19,7 @@ import org.dspace.app.xmlui.wing.WingException;
 import org.dspace.app.xmlui.wing.element.Division;
 import org.dspace.content.DSpaceObject;
 import org.dspace.core.Constants;
+import org.dspace.core.Context;
 import org.dspace.discovery.*;
 import org.dspace.discovery.configuration.DiscoveryConfiguration;
 import org.dspace.discovery.configuration.DiscoveryRecentSubmissionsConfiguration;
@@ -88,7 +89,10 @@ public abstract class AbstractRecentSubmissionTransformer extends AbstractDSpace
     	{
 	        try
 	        {
-	            DSpaceObject dso = HandleUtil.obtainHandle(objectModel);
+                Context.Mode originalMode = context.getCurrentMode();
+                context.setMode(Context.Mode.READ_ONLY);
+
+                DSpaceObject dso = HandleUtil.obtainHandle(objectModel);
 
 	            DSpaceValidity validity = new DSpaceValidity();
 
@@ -105,6 +109,8 @@ public abstract class AbstractRecentSubmissionTransformer extends AbstractDSpace
                 }
 
 	            this.validity = validity.complete();
+
+                context.setMode(originalMode);
 	        }
 	        catch (Exception e)
 	        {

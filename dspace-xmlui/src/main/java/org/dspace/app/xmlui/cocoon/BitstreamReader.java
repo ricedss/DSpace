@@ -412,6 +412,7 @@ public class BitstreamReader extends AbstractReader implements Recyclable
                     bitstreamName = "bitstream";
                 }
             }
+            context.setMode(originalMode);
 
             // Log that the bitstream has been viewed, this is non-cached and the complexity
             // of adding it to the sitemap for every possible bitstream uri is not very tractable
@@ -423,7 +424,7 @@ public class BitstreamReader extends AbstractReader implements Recyclable
                             bitstream));
 
             // If we created the database connection close it, otherwise leave it open.
-            context.setMode(originalMode);
+
 
             if (BitstreamReaderOpenedContext) {
                 context.complete();

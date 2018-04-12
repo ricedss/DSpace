@@ -50,6 +50,8 @@ public class CommunityBrowse extends AbstractDSpaceTransformer {
 
     @Override
     public void addBody(Body body) throws SAXException, WingException, SQLException, IOException, AuthorizeException, ProcessingException {
+
+
         DSpaceObject dso = HandleUtil.obtainHandle(objectModel);
         if (!(dso instanceof Community))
         {
