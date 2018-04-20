@@ -89,9 +89,15 @@ public class HandleUtil
             handle = handle.substring(0, secondSlash);
 
             Context context = ContextUtil.obtainContext(objectModel);
+
+            Context.Mode originalMode = context.getCurrentMode();
+            context.setMode(Context.Mode.READ_ONLY);
+
             dso = handleService.resolveToObject(context, handle);
 
             request.setAttribute(DSPACE_OBJECT, dso);
+
+            context.setMode(originalMode);
         }
 
         return dso;

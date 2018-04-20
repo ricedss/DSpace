@@ -183,10 +183,11 @@ public class ItemViewer extends AbstractDSpaceTransformer implements CacheablePr
             return;
         }
 
-        Item item = (Item) dso;
-
         Context.Mode originalMode = context.getCurrentMode();
         context.setMode(Context.Mode.READ_ONLY);
+
+        Item item = (Item) dso;
+
 
         // Set the page title
         String title = item.getName();
@@ -357,10 +358,10 @@ public class ItemViewer extends AbstractDSpaceTransformer implements CacheablePr
             return;
         }
 
-        Item item = (Item) dso;
-
         Context.Mode originalMode = context.getCurrentMode();
         context.setMode(Context.Mode.READ_ONLY);
+
+        Item item = (Item) dso;
 
         // Build the item viewer division.
         Division division = body.addDivision("item-view","primary");

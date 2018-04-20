@@ -141,10 +141,10 @@ public class CollectionViewer extends AbstractDSpaceTransformer implements Cache
             return;
         }
 
-        Collection collection = (Collection) dso;
-
         Context.Mode originalMode = context.getCurrentMode();
         context.setMode(Context.Mode.READ_ONLY);
+
+        Collection collection = (Collection) dso;
 
         // Set the page title
         String name = collection.getName();
