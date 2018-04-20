@@ -23,6 +23,7 @@ import org.dspace.authorize.AuthorizeException;
 import org.dspace.content.DSpaceObject;
 import org.dspace.content.factory.ContentServiceFactory;
 import org.dspace.content.service.SiteService;
+import org.dspace.core.Context;
 import org.dspace.services.factory.DSpaceServicesFactory;
 import org.dspace.discovery.DiscoverResult;
 import org.xml.sax.SAXException;
@@ -56,6 +57,11 @@ public class RecentSubmissionTransformer extends AbstractDSpaceTransformer {
 
     @Override
     public void addPageMeta(PageMeta pageMeta) throws SAXException, WingException, UIException, SQLException, IOException, AuthorizeException {
+
+
+        Context.Mode originalMode = context.getCurrentMode();
+        context.setMode(Context.Mode.READ_ONLY);
+
         DSpaceObject dso = getDSpaceObject();
 
         // Set up the major variables
@@ -113,10 +119,16 @@ public class RecentSubmissionTransformer extends AbstractDSpaceTransformer {
                 }
             }
         }
+
+        context.setMode(originalMode);
     }
 
     @Override
     public void addBody(Body body) throws SAXException, WingException, SQLException, IOException, AuthorizeException, ProcessingException {
+
+        Context.Mode originalMode = context.getCurrentMode();
+        context.setMode(Context.Mode.READ_ONLY);
+
         Request request = ObjectModelHelper.getRequest(objectModel);
         DSpaceObject dso = getDSpaceObject();
 
@@ -139,6 +151,8 @@ public class RecentSubmissionTransformer extends AbstractDSpaceTransformer {
                 lastSubmitted.addReference(resultObject);
             }
         }
+
+        context.setMode(originalMode);
     }
 
     protected void setPagination(Request request, DSpaceObject dso, Division mainDivision, DiscoverResult recentlySubmittedItems) throws SQLException {

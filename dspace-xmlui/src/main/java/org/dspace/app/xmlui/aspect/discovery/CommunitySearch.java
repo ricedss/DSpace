@@ -30,6 +30,7 @@ import org.dspace.authorize.AuthorizeException;
 import org.dspace.content.Collection;
 import org.dspace.content.Community;
 import org.dspace.content.DSpaceObject;
+import org.dspace.core.Context;
 import org.dspace.core.LogManager;
 import org.xml.sax.SAXException;
 
@@ -96,7 +97,10 @@ public class CommunitySearch extends AbstractDSpaceTransformer implements Cachea
     	{
             Community community = null;
 	        try {
-	            DSpaceObject dso = HandleUtil.obtainHandle(objectModel);
+                Context.Mode originalMode = context.getCurrentMode();
+                context.setMode(Context.Mode.READ_ONLY);
+
+                DSpaceObject dso = HandleUtil.obtainHandle(objectModel);
 
 	            if (dso == null)
                 {
@@ -127,6 +131,8 @@ public class CommunitySearch extends AbstractDSpaceTransformer implements Cachea
 	            }
 
 	            this.validity = validity.complete();
+
+                context.setMode(originalMode);
 	        }
 	        catch (Exception e)
 	        {
@@ -156,6 +162,9 @@ public class CommunitySearch extends AbstractDSpaceTransformer implements Cachea
     public void addBody(Body body) throws SAXException, WingException,
             UIException, SQLException, IOException, AuthorizeException
     {
+
+        Context.Mode originalMode = context.getCurrentMode();
+        context.setMode(Context.Mode.READ_ONLY);
 
         DSpaceObject dso = HandleUtil.obtainHandle(objectModel);
 
@@ -208,7 +217,7 @@ public class CommunitySearch extends AbstractDSpaceTransformer implements Cachea
   //          browse.addItemXref(url + "/browse?type=author",T_browse_authors);
 //            browse.addItemXref(url + "/browse?type=dateissued",T_browse_dates);
         }
-
+        context.setMode(originalMode);
     }
 
     /**

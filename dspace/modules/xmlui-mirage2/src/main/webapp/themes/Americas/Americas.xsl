@@ -150,7 +150,7 @@
         <xsl:variable name="externalMetadataURL">
             <xsl:text>cocoon:/</xsl:text>
             <xsl:value-of select="@url"/>
-            <xsl:text>?sections=dmdSec,fileSec,structMap</xsl:text>
+            <xsl:text>?sections=dmdSec,fileSec&amp;fileGrpTypes=THUMBNAIL,structMap</xsl:text>
         </xsl:variable>
         <xsl:comment> External Metadata URL: <xsl:value-of select="$externalMetadataURL"/> </xsl:comment>
         <li>

@@ -36,6 +36,8 @@ public class RecentSubmissionUtils {
      */
     public static DiscoverResult getRecentlySubmittedItems(Context context, DSpaceObject dso, int offset) {
         try {
+
+
             DiscoverQuery queryArgs = new DiscoverQuery();
 
             //Add the default filter queries
@@ -61,6 +63,8 @@ public class RecentSubmissionUtils {
                 //No configuration, no results
                 return null;
             }
+
+
         }catch (SearchServiceException se){
             log.error("Caught SearchServiceException while retrieving recent submission for: " + (dso == null ? "home page" : dso.getHandle()), se);
             return null;
