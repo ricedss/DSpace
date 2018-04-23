@@ -52,6 +52,9 @@ public class DSpaceOREGenerator extends AbstractGenerator
 		try {
 			// Grab the context.
 			Context context = ContextUtil.obtainContext(objectModel);
+
+			Context.Mode originalMode = context.getCurrentMode();
+			context.setMode(Context.Mode.READ_ONLY);
 			
 			Item item = getItem(context);
             if (item == null)
@@ -66,7 +69,8 @@ public class DSpaceOREGenerator extends AbstractGenerator
             
             Element ore = xwalk.disseminateElement(context, item);
             out.output(ore);
-            
+
+			context.setMode(originalMode);
 			/* Generate the METS document
 			contentHandler.startDocument();
 			adapter.renderMETS(contentHandler,lexicalHandler);
