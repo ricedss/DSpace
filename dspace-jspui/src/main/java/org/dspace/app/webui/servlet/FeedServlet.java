@@ -53,20 +53,23 @@ import org.dspace.services.factory.DSpaceServicesFactory;
 import org.dspace.sort.SortException;
 import org.dspace.sort.SortOption;
 
+import java.util.Calendar;
+import java.util.TimeZone;
+
 import com.sun.syndication.io.FeedException;
 
 /**
  * Servlet for handling requests for a syndication feed. The Handle of the collection
  * or community is extracted from the URL, e.g: <code>/feed/rss_1.0/1234/5678</code>.
  * Currently supports only RSS feed formats.
- * 
+ *
  * @author Ben Bosman, Richard Rodgers
  */
 public class FeedServlet extends DSpaceServlet
 {
 	//	key for site-wide feed
 	public static final String SITE_FEED_KEY = "site";
-	
+
 	// one hour in milliseconds
 	private static final long HOUR_MSECS = 60 * 60 * 1000;
     /** log4j category */
@@ -88,11 +91,11 @@ public class FeedServlet extends DSpaceServlet
     private List<String> formats = null;
     // Whether to include private items or not
     private boolean includeAll = true;
-    
+
     // services API
     private final transient ConfigurationService configurationService
              = DSpaceServicesFactory.getInstance().getConfigurationService();
-    
+
     private final transient HandleService handleService
              = HandleServiceFactory.getInstance().getHandleService();
 
@@ -151,7 +154,7 @@ public class FeedServlet extends DSpaceServlet
         {
             labelMap.put("metadata." + selector, msgs.getString(SyndicationFeed.MSG_METADATA + selector));
         }
-        
+
         if (path != null)
         {
             // substring(1) is to remove initial '/'
@@ -165,11 +168,11 @@ public class FeedServlet extends DSpaceServlet
         }
 
         DSpaceObject dso = null;
-        
-        //as long as this is not a site wide feed, 
+
+        //as long as this is not a site wide feed,
         //attempt to retrieve the Collection or Community object
         if(handle != null && !handle.equals(SITE_FEED_KEY))
-        { 	
+        {
         	// Determine if handle is a valid reference
         	dso = handleService.resolveToObject(context, handle);
                 if (dso == null)
@@ -179,15 +182,15 @@ public class FeedServlet extends DSpaceServlet
                     return;
         }
         }
-        
-        if (! enabled || (dso != null && 
+
+        if (! enabled || (dso != null &&
         	(dso.getType() != Constants.COLLECTION && dso.getType() != Constants.COMMUNITY)) )
         {
             log.info(LogManager.getHeader(context, "invalid_id", "path=" + path));
             JSPManager.showInvalidIDError(request, response, path, -1);
             return;
         }
-        
+
         // Determine if requested format is supported
         if( feedType == null || ! formats.contains( feedType ) )
         {
@@ -195,7 +198,7 @@ public class FeedServlet extends DSpaceServlet
             JSPManager.showInvalidIDError(request, response, path, -1);
             return;
         }
-        
+
         if (dso != null &&  dso.getType() == Constants.COLLECTION)
         {
             labelMap.put(SyndicationFeed.MSG_FEED_TITLE,
@@ -239,7 +242,7 @@ public class FeedServlet extends DSpaceServlet
         		}
         	}
         }
-        
+
         // either not caching, not found in cache, or feed in cache not current
         if (feed == null)
         {
@@ -250,7 +253,7 @@ public class FeedServlet extends DSpaceServlet
                         cache(cacheKey, new CacheFeed(feed));
         	}
         }
-        
+
         // set the feed to the requested type & return it
         try
         {
@@ -263,21 +266,32 @@ public class FeedServlet extends DSpaceServlet
         	throw new IOException(fex.getMessage(), fex);
         }
     }
-       
+
     private boolean itemsChanged(Context context, DSpaceObject dso, long timeStamp)
             throws SQLException
     {
-        // construct start and end dates
+        /*
+         * Construct start and end dates.
+         *
+         * According to the Solr DateField documentation: "date field shall be
+         * of the form 1995-12-31T23:59:59Z The trailing "Z" designates UTC time
+         * and is mandatory (See below for an explanation of UTC). Optional
+         * fractional seconds are allowed, as long as they do not end in a
+         * trailing 0 (but any precision beyond milliseconds will be ignored).
+         * All other parts are mandatory." Therefore the Full ISO 8601 format
+         * is e.g. "2009-07-16T13:59:21Z" is maintained
+         */
         DCDate dcStartDate = new DCDate( new Date(timeStamp) );
         DCDate dcEndDate = new DCDate( new Date(System.currentTimeMillis()) );
 
         // convert dates to ISO 8601, stripping the time
-        String startDate = dcStartDate.toString().substring(0, 10);
-        String endDate = dcEndDate.toString().substring(0, 10);
-        
+        //String startDate = dcStartDate.toString().substring(0, 10);
+        //String endDate = dcEndDate.toString().substring(0, 10);
+
         // this invocation should return a non-empty list if even 1 item has changed
         try {
-            return (Harvest.harvest(context, dso, startDate, endDate,
+           // return (Harvest.harvest(context, dso, startDate, endDate,
+            return (Harvest.harvest(context, dso, dcStartDate.toString(), dcEndDate.toString(),
         		                0, 1, !includeAll, false, false, includeAll).size() > 0);
         }
         catch (ParseException pe)
@@ -286,7 +300,7 @@ public class FeedServlet extends DSpaceServlet
         	return false;
         }
     }
-    
+
     // returns recently changed items, checking for accessibility
     private List<Item> getItems(Context context, DSpaceObject dso)
     		throws IOException, SQLException
@@ -304,7 +318,7 @@ public class FeedServlet extends DSpaceServlet
     		{
     			throw new IOException("There is no browse index with the name: " + idx);
     		}
-    		
+
     		BrowserScope scope = new BrowserScope(context);
     		scope.setBrowseIndex(bix);
                 if (dso != null)
@@ -321,7 +335,7 @@ public class FeedServlet extends DSpaceServlet
             }
             scope.setOrder(SortOption.DESCENDING);
     		scope.setResultsPerPage(itemCount);
-    		
+
             // gather & add items to the feed.
     		BrowseEngine be = new BrowseEngine(context);
     		BrowseInfo bi = be.browseMini(scope);
@@ -362,11 +376,11 @@ public class FeedServlet extends DSpaceServlet
     		throw new IOException(e.getMessage(), e);
     	}
     }
-    
+
     /************************************************
      * private cache management classes and methods *
      ************************************************/
-     
+
 	/**
      * Add a feed to the cache - reducing the size of the cache by 1 to make room if
      * necessary. The removed entry has an access count equal to the minumum in the cache.
@@ -374,7 +388,7 @@ public class FeedServlet extends DSpaceServlet
      *            The cache key for the feed
      * @param newFeed
      *            The CacheFeed feed to be cached
-     */ 
+     */
     private static void cache(String feedKey, CacheFeed newFeed)
     {
 		// remove older feed to make room if cache full
@@ -385,7 +399,7 @@ public class FeedServlet extends DSpaceServlet
 	    	String minKey = null;
 	    	CacheFeed minFeed = null;
 	    	CacheFeed maxFeed = null;
-	    	
+
 	    	Iterator<String> iter = feedCache.keySet().iterator();
 	    	while (iter.hasNext())
 	    	{
@@ -423,10 +437,10 @@ public class FeedServlet extends DSpaceServlet
     	// add feed to cache
 		feedCache.put(feedKey, newFeed);
     }
-        
+
     /**
      * Class to instrument accesses & currency of a given feed in cache
-     */  
+     */
     private static class CacheFeed
 	{
     	// currency timestamp
@@ -435,13 +449,13 @@ public class FeedServlet extends DSpaceServlet
     	public int hits = 0;
     	// the feed
         private SyndicationFeed feed = null;
-    	
+
         public CacheFeed(SyndicationFeed feed)
     	{
     		this.feed = feed;
     		timeStamp = System.currentTimeMillis();
     	}
-    	    	
+
         public SyndicationFeed access()
     	{
     		++hits;
