@@ -16,6 +16,7 @@ import org.dspace.authorize.AuthorizeException;
 import org.dspace.content.authority.Choices;
 import org.dspace.content.authority.service.ChoiceAuthorityService;
 import org.dspace.content.authority.service.MetadataAuthorityService;
+import org.dspace.content.factory.ContentServiceFactory;
 import org.dspace.content.service.DSpaceObjectService;
 import org.dspace.content.service.MetadataFieldService;
 import org.dspace.content.service.MetadataValueService;
@@ -133,6 +134,7 @@ public abstract class DSpaceObjectServiceImpl<T extends DSpaceObject> implements
 
 
         List<MetadataValue> values = new ArrayList<MetadataValue>();
+        boolean citationAdded = false;
 
 
         for (MetadataValue dcv : dso.getMetadata())
@@ -140,7 +142,13 @@ public abstract class DSpaceObjectServiceImpl<T extends DSpaceObject> implements
             if (match(schema, element, qualifier, lang, dcv))
             {
                 //Ying added this for citation generation
-                if(schema.equals("dc") && element.equals("identifier") && qualifier!=null && qualifier.equals("citation")){
+
+                MetadataField metadataField = dcv.getMetadataField();
+                MetadataSchema metadataSchema = metadataField.getMetadataSchema();
+
+                if (metadataSchema != null && !metadataSchema.getName().equals("dc")
+                        && metadataField.getElement()!=null && metadataField.getElement().equals("identifier")
+                        && (metadataField.getQualifier() != null) && (metadataField.getQualifier().equals("citation"))){
 
                     String name = dso.getName();
                     System.out.println("Citation on the fly ============== NAME: " + name);
@@ -149,27 +157,52 @@ public abstract class DSpaceObjectServiceImpl<T extends DSpaceObject> implements
                         String dcvalue = CitationManager.getCitationString((Item)dso);
                         System.out.println("Citation on the fly ============== CITATION: " + dcvalue);
                         if (( dcvalue != null) && dcvalue.length() > 0) {
-                /*
-                    MetadataValue metadataValue = new MetadataValue();
-                    MetadataField metadataField = new MetadataField();
-                    metadataField.setMetadataSchema(metadataSchemaService.find(context, MetadataSchema.DC_SCHEMA));
-                    metadataField.setElement("identifier");
-                    metadataField.setQualifier("citation");
-                    metadataValue.setMetadataField(metadataField);
-                    metadataValue.setDSpaceObject(dso);
-                    dso.addMetadata(metadataValue);
-                    */
                             dcv.setValue(dcvalue);
+                            citationAdded = true;
                         }
                     }
 
                 }
 
-                //END Ying added this for citation generation
-
                 values.add(dcv);
             }
         }
+        if(!citationAdded && schema.equals(Item.ANY) && element.equals(Item.ANY) && qualifier.equals(Item.ANY)) {
+            //Context context = new Context();
+
+            MetadataSchema metadataSchema = new MetadataSchema();
+            metadataSchema.setName(MetadataSchema.DC_SCHEMA);
+
+            MetadataField metadataField = new MetadataField();
+            metadataField.setElement("identifier");
+            metadataField.setQualifier("citation");
+            metadataField.setScopeNote("");
+            metadataField.setMetadataSchema(metadataSchema);
+
+            MetadataValue metadataValue = new MetadataValue();
+            metadataValue.setMetadataField(metadataField);
+            metadataValue.setDSpaceObject(dso);
+            //dso.addMetadata(metadataValue);
+
+            //MetadataFieldService metadataFieldService = ContentServiceFactory.getInstance().getMetadataFieldService();
+            //MetadataField metadataField = metadataFieldService.create(context, metadataSchema, );
+            //MetadataValue dcv = ContentServiceFactory.getInstance().getMetadataValueService().create(context, dso, metadataField);
+
+
+            String name = dso.getName();
+            System.out.println("Citation on the fly ============== NAME: " + name);
+            if (CitationManager.isConfiged() && name != "") {
+
+                String dcvalue = CitationManager.getCitationString((Item) dso);
+                System.out.println("Citation on the fly ============== CITATION: " + dcvalue);
+                if ((dcvalue != null) && dcvalue.length() > 0) {
+                    metadataValue.setValue(dcvalue);
+                    values.add(metadataValue);
+
+                }
+            }
+        }
+        //END Ying added this for citation generation
 
         // Create an array of matching values
         return values;
@@ -490,6 +523,7 @@ public abstract class DSpaceObjectServiceImpl<T extends DSpaceObject> implements
                 return false;
             }
         }
+
 
         // Ying updated this to ignore the language check for the items; (let's see if the submission hung is caused by this)
 /*
