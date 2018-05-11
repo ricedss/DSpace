@@ -146,7 +146,7 @@ public abstract class DSpaceObjectServiceImpl<T extends DSpaceObject> implements
                 MetadataField metadataField = dcv.getMetadataField();
                 MetadataSchema metadataSchema = metadataField.getMetadataSchema();
 
-                if (metadataSchema != null && !metadataSchema.getName().equals("dc")
+                if (metadataSchema != null && metadataSchema.getName().equals("dc")
                         && metadataField.getElement()!=null && metadataField.getElement().equals("identifier")
                         && (metadataField.getQualifier() != null) && (metadataField.getQualifier().equals("citation"))){
 
