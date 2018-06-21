@@ -275,7 +275,7 @@ public class FormatIt
         if (degreelevel.equalsIgnoreCase("masters") ) {
             return  "Master’s Thesis";
         }else if (degreelevel.equalsIgnoreCase("doctoral")) {
-            return "PhD diss.";
+            return "Diss.";
         }
         return "";
     }
