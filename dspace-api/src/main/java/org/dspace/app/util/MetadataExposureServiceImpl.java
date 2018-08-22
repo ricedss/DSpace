@@ -7,15 +7,19 @@
  */
 package org.dspace.app.util;
 
+import java.sql.SQLException;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
 import org.apache.log4j.Logger;
 import org.dspace.app.util.service.MetadataExposureService;
 import org.dspace.authorize.service.AuthorizeService;
-import org.dspace.core.ConfigurationManager;
 import org.dspace.core.Context;
+import org.dspace.services.ConfigurationService;
 import org.springframework.beans.factory.annotation.Autowired;
-
-import java.sql.SQLException;
-import java.util.*;
 
 /**
  * Static utility class to manage configuration for exposure (hiding) of
@@ -65,6 +69,9 @@ public class MetadataExposureServiceImpl implements MetadataExposureService
     @Autowired(required = true)
     protected AuthorizeService authorizeService;
 
+    @Autowired(required = true)
+    protected ConfigurationService configurationService;
+
     protected MetadataExposureServiceImpl()
     {
 
@@ -72,7 +79,7 @@ public class MetadataExposureServiceImpl implements MetadataExposureService
 
     @Override
     public boolean isHidden(Context context, String schema, String element, String qualifier)
-        throws SQLException
+            throws SQLException
     {
         boolean hidden = false;
 
@@ -132,45 +139,45 @@ public class MetadataExposureServiceImpl implements MetadataExposureService
             hiddenElementSets = new HashMap<>();
             hiddenElementMaps = new HashMap<>();
 
-            Enumeration pne = ConfigurationManager.propertyNames();
-            while (pne.hasMoreElements())
-            {
-                String key = (String)pne.nextElement();
+            List<String> propertyKeys = configurationService.getPropertyKeys();
+            for (String key : propertyKeys) {
                 if (key.startsWith(CONFIG_PREFIX))
                 {
-                    String mdField = key.substring(CONFIG_PREFIX.length());
-                    String segment[] = mdField.split("\\.", 3);
+                    if (configurationService.getBooleanProperty(key, true)){
+                        String mdField = key.substring(CONFIG_PREFIX.length());
+                        String segment[] = mdField.split("\\.", 3);
 
-                    // got schema.element.qualifier
-                    if (segment.length == 3)
-                    {
-                        Map<String,Set<String>> eltMap = hiddenElementMaps.get(segment[0]);
-                        if (eltMap == null)
+                        // got schema.element.qualifier
+                        if (segment.length == 3)
                         {
-                            eltMap = new HashMap<String,Set<String>>();
-                            hiddenElementMaps.put(segment[0], eltMap);
+                            Map<String,Set<String>> eltMap = hiddenElementMaps.get(segment[0]);
+                            if (eltMap == null)
+                            {
+                                eltMap = new HashMap<String,Set<String>>();
+                                hiddenElementMaps.put(segment[0], eltMap);
+                            }
+                            if (!eltMap.containsKey(segment[1]))
+                            {
+                                eltMap.put(segment[1], new HashSet<String>());
+                            }
+                            eltMap.get(segment[1]).add(segment[2]);
                         }
-                        if (!eltMap.containsKey(segment[1]))
-                        {
-                            eltMap.put(segment[1], new HashSet<String>());
-                        }
-                        eltMap.get(segment[1]).add(segment[2]);
-                    }
 
-                    // got schema.element
-                    else if (segment.length == 2)
-                    {
-                        if (!hiddenElementSets.containsKey(segment[0]))
+                        // got schema.element
+                        else if (segment.length == 2)
                         {
-                            hiddenElementSets.put(segment[0], new HashSet<String>());
+                            if (!hiddenElementSets.containsKey(segment[0]))
+                            {
+                                hiddenElementSets.put(segment[0], new HashSet<String>());
+                            }
+                            hiddenElementSets.get(segment[0]).add(segment[1]);
                         }
-                        hiddenElementSets.get(segment[0]).add(segment[1]);
-                    }
 
-                    // oops..
-                    else
-                    {
-                        log.warn("Bad format in hidden metadata directive, field=\""+mdField+"\", config property="+key);
+                        // oops..
+                        else
+                        {
+                            log.warn("Bad format in hidden metadata directive, field=\""+mdField+"\", config property="+key);
+                        }
                     }
                 }
             }

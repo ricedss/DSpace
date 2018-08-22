@@ -55,7 +55,7 @@ public class UpdateHandlePrefix
         else
         {
             HandleService handleService = HandleServiceFactory.getInstance().getHandleService();
-  
+
             String oldH = args[0];
             String newH = args[1];
 
@@ -69,23 +69,23 @@ public class UpdateHandlePrefix
             {
                 // Print info text about changes
                 System.out.println(
-                  "In your repository will be updated " + count + " handle" +
-                  ((count > 1) ? "s" : "") + " to new prefix " + newH +
-                  " from original " + oldH + "!\n"
+                        "In your repository will be updated " + count + " handle" +
+                                ((count > 1) ? "s" : "") + " to new prefix " + newH +
+                                " from original " + oldH + "!\n"
                 );
 
                 // Confirm with the user that this is what they want to do
                 System.out.print(
-                  "Servlet container (e.g. Apache Tomcat, Jetty, Caucho Resin) must be running.\n" +
-                  "If it is necessary, please make a backup of the database.\n" +
-                  "Are you ready to continue? [y/n]: "
+                        "Servlet container (e.g. Apache Tomcat, Jetty, Caucho Resin) must be running.\n" +
+                                "If it is necessary, please make a backup of the database.\n" +
+                                "Are you ready to continue? [y/n]: "
                 );
                 BufferedReader input = new BufferedReader(new InputStreamReader(System.in));
                 String choiceString = input.readLine();
 
                 if (choiceString.equalsIgnoreCase("y"))
                 {
-                	context.turnOffAuthorisationSystem();
+                    context.turnOffAuthorisationSystem();
                     try {
                         log.info("Updating handle prefix from " + oldH + " to " + newH);
 
@@ -93,13 +93,13 @@ public class UpdateHandlePrefix
                         System.out.print("\nUpdating handle table... ");
                         int updHdl = handleService.updateHandlesWithNewPrefix(context, newH, oldH);
                         System.out.println(
-                          updHdl + " item" + ((updHdl > 1) ? "s" : "") + " updated"
+                                updHdl + " item" + ((updHdl > 1) ? "s" : "") + " updated"
                         );
 
                         System.out.print("Updating metadatavalues table... ");
                         MetadataValueService metadataValueService = ContentServiceFactory.getInstance().getMetadataValueService();
 
-                        String handlePrefix = configurationService.getProperty("handle.canonical.prefix");
+                        String handlePrefix = handleService.getCanonicalPrefix();
                         Iterator<MetadataValue> metadataValues = metadataValueService.findByValueLike(context, handlePrefix + oldH);
 
                         int updMeta = 0;
@@ -112,16 +112,16 @@ public class UpdateHandlePrefix
                         }
 
                         System.out.println(
-                          updMeta + " metadata value" + ((updMeta > 1) ? "s" : "") + " updated"
+                                updMeta + " metadata value" + ((updMeta > 1) ? "s" : "") + " updated"
                         );
-                        
+
                         // Commit the changes
                         context.complete();
 
                         log.info(
-                          "Done with updating handle prefix. " +
-                          "It was changed " + updHdl + " handle" + ((updHdl > 1) ? "s" : "") +
-                          " and " + updMeta + " metadata record" + ((updMeta > 1) ? "s" : "")
+                                "Done with updating handle prefix. " +
+                                        "It was changed " + updHdl + " handle" + ((updHdl > 1) ? "s" : "") +
+                                        " and " + updMeta + " metadata record" + ((updMeta > 1) ? "s" : "")
                         );
 
                     }
@@ -152,9 +152,9 @@ public class UpdateHandlePrefix
                         // Not a lot we can do
                         System.out.println("Error during re-indexing.");
                         System.out.println(
-                          "\n\nAutomatic re-indexing failed. Please perform it manually.\n\n" +
-                          "  [dspace]/bin/dspace index-discovery -b\n\n" +
-                          "When launching this command, your servlet container must be running.\n"
+                                "\n\nAutomatic re-indexing failed. Please perform it manually.\n\n" +
+                                        "  [dspace]/bin/dspace index-discovery -b\n\n" +
+                                        "When launching this command, your servlet container must be running.\n"
                         );
                         throw e;
                     }

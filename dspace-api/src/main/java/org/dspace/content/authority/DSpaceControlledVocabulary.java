@@ -73,7 +73,7 @@ public class DSpaceControlledVocabulary extends SelfNamedPlugin implements Choic
 
     public DSpaceControlledVocabulary()
     {
-    	super();
+        super();
     }
 
     public static String[] getPluginNames()
@@ -82,7 +82,7 @@ public class DSpaceControlledVocabulary extends SelfNamedPlugin implements Choic
         {
             initPluginNames();
         }
-        
+
         return (String[]) ArrayUtils.clone(pluginNames);
     }
 
@@ -113,12 +113,12 @@ public class DSpaceControlledVocabulary extends SelfNamedPlugin implements Choic
 
     protected void init()
     {
-    	if (vocabulary == null)
+        if (vocabulary == null)
         {
             ConfigurationService config = DSpaceServicesFactory.getInstance().getConfigurationService();
 
-        	log.info("Initializing " + this.getClass().getName());
-        	vocabularyName = this.getPluginInstanceName();
+            log.info("Initializing " + this.getClass().getName());
+            vocabularyName = this.getPluginInstanceName();
             String vocabulariesPath = config.getProperty("dspace.dir") + "/config/controlled-vocabularies/";
             String configurationPrefix = "vocabulary.plugin." + vocabularyName;
             storeHierarchy = config.getBooleanProperty(configurationPrefix + ".hierarchy.store", storeHierarchy);
@@ -126,52 +126,56 @@ public class DSpaceControlledVocabulary extends SelfNamedPlugin implements Choic
             String configuredDelimiter = config.getProperty(configurationPrefix + ".delimiter");
             if (configuredDelimiter != null)
             {
-            	hierarchyDelimiter = configuredDelimiter.replaceAll("(^\"|\"$)","");
+                hierarchyDelimiter = configuredDelimiter.replaceAll("(^\"|\"$)","");
             }
-        	String filename = vocabulariesPath + vocabularyName + ".xml";
-        	log.info("Loading " + filename);
+            String filename = vocabulariesPath + vocabularyName + ".xml";
+            log.info("Loading " + filename);
             vocabulary = new InputSource(filename);
-    	}
+        }
     }
 
     protected String buildString(Node node)
     {
-    	if (node.getNodeType() == Node.DOCUMENT_NODE)
+        if (node.getNodeType() == Node.DOCUMENT_NODE)
         {
-    		return("");
-    	}
+            return("");
+        }
         else
         {
-    		String parentValue = buildString(node.getParentNode());
-    		Node currentLabel = node.getAttributes().getNamedItem("label");
-    		if (currentLabel != null)
+            String parentValue = buildString(node.getParentNode());
+            Node currentLabel = node.getAttributes().getNamedItem("label");
+            if (currentLabel != null)
             {
-    			String currentValue = currentLabel.getNodeValue();
-    			if (parentValue.equals(""))
+                String currentValue = currentLabel.getNodeValue();
+                if (parentValue.equals(""))
                 {
-    				return currentValue;
-    			}
+                    return currentValue;
+                }
                 else
                 {
-    				return(parentValue + this.hierarchyDelimiter + currentValue);
-    			}
-    		}
+                    return(parentValue + this.hierarchyDelimiter + currentValue);
+                }
+            }
             else
             {
-    			return(parentValue);
-    		}
-    	}
+                return(parentValue);
+            }
+        }
     }
 
     @Override
     public Choices getMatches(String field, String text, Collection collection, int start, int limit, String locale)
     {
-    	init();
-    	log.debug("Getting matches for '" + text + "'");
-    	String xpathExpression = String.format(xpathTemplate, text.replaceAll("'", "&apos;").toLowerCase());
-    	XPath xpath = XPathFactory.newInstance().newXPath();
-    	Choice[] choices;
-    	try {
+        init();
+        log.debug("Getting matches for '" + text + "'");
+        String xpathExpression = "";
+        String[] textHierarchy = text.split(hierarchyDelimiter, -1);
+        for (int i = 0; i < textHierarchy.length; i++) {
+            xpathExpression += String.format(xpathTemplate, textHierarchy[i].replaceAll("'", "&apos;").toLowerCase());
+        }
+        XPath xpath = XPathFactory.newInstance().newXPath();
+        Choice[] choices;
+        try {
             NodeList results = (NodeList) xpath.evaluate(xpathExpression,
                     vocabulary, XPathConstants.NODESET);
             String[] authorities = new String[results.getLength()];
@@ -213,31 +217,31 @@ public class DSpaceControlledVocabulary extends SelfNamedPlugin implements Choic
                             + i], labels[start + i]);
                 }
             }
-    	} catch(XPathExpressionException e) {
-    		choices = new Choice[0];
-    	}
-    	return new Choices(choices, 0, choices.length, Choices.CF_AMBIGUOUS, false);
+        } catch(XPathExpressionException e) {
+            choices = new Choice[0];
+        }
+        return new Choices(choices, 0, choices.length, Choices.CF_AMBIGUOUS, false);
     }
 
     @Override
     public Choices getBestMatch(String field, String text, Collection collection, String locale)
     {
-    	init();
-    	log.debug("Getting best match for '" + text + "'");
+        init();
+        log.debug("Getting best match for '" + text + "'");
         return getMatches(field, text, collection, 0, 2, locale);
     }
 
     @Override
     public String getLabel(String field, String key, String locale)
     {
-    	init();
-    	String xpathExpression = String.format(idTemplate, key);
-    	XPath xpath = XPathFactory.newInstance().newXPath();
-    	try {
-    		Node node = (Node)xpath.evaluate(xpathExpression, vocabulary, XPathConstants.NODE);
-    		return node.getAttributes().getNamedItem("label").getNodeValue();
-    	} catch(XPathExpressionException e) {
-    		return("");
-    	}
+        init();
+        String xpathExpression = String.format(idTemplate, key);
+        XPath xpath = XPathFactory.newInstance().newXPath();
+        try {
+            Node node = (Node)xpath.evaluate(xpathExpression, vocabulary, XPathConstants.NODE);
+            return node.getAttributes().getNamedItem("label").getNodeValue();
+        } catch(XPathExpressionException e) {
+            return("");
+        }
     }
 }

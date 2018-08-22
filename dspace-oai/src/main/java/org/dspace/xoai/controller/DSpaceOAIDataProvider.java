@@ -46,7 +46,7 @@ import static javax.servlet.http.HttpServletResponse.SC_BAD_REQUEST;
 import static org.apache.log4j.Logger.getLogger;
 
 /**
- * 
+ *
  * @author Lyncode Development Team <dspace@lyncode.com>
  */
 @Controller
@@ -94,7 +94,7 @@ public class DSpaceOAIDataProvider
             OutputStream out = response.getOutputStream();
             OAIRequestParameters parameters = new OAIRequestParameters(buildParametersMap(request));
 
-            response.setContentType("application/xml");
+            response.setContentType("text/xml");
             response.setCharacterEncoding("UTF-8");
 
             String identification = xoaiContext + parameters.requestID();
@@ -149,16 +149,16 @@ public class DSpaceOAIDataProvider
             context.abort();
     }
 
-	private Map<String, List<String>> buildParametersMap(
-			HttpServletRequest request) {
-		Map<String, List<String>> map = new HashMap<String, List<String>>();
-		Enumeration names = request.getParameterNames();
-		while (names.hasMoreElements()) {
-			String name = (String) names.nextElement();
-			String[] values = request.getParameterValues(name);
-			map.put(name, asList(values));
-		}
-		return map;
-	}
+    private Map<String, List<String>> buildParametersMap(
+            HttpServletRequest request) {
+        Map<String, List<String>> map = new HashMap<String, List<String>>();
+        Enumeration names = request.getParameterNames();
+        while (names.hasMoreElements()) {
+            String name = (String) names.nextElement();
+            String[] values = request.getParameterValues(name);
+            map.put(name, asList(values));
+        }
+        return map;
+    }
 
 }

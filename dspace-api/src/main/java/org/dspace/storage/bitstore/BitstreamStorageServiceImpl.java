@@ -289,7 +289,7 @@ public class BitstreamStorageServiceImpl implements BitstreamStorageService, Ini
 
 
                 // Since versioning allows for multiple bitstreams, check if the internal identifier isn't used on another place
-                if(0 < bitstreamService.findDuplicateInternalIdentifier(context, bitstream).size())
+                if(bitstreamService.findDuplicateInternalIdentifier(context, bitstream).isEmpty())
                 {
                     stores.get(bitstream.getStoreNumber()).remove(bitstream);
 
@@ -339,23 +339,22 @@ public class BitstreamStorageServiceImpl implements BitstreamStorageService, Ini
         }
     }
 
-    /**
-     *
-     * @param context
-     * @param bitstream the bitstream to be cloned
-     * @return id of the clone bitstream.
-     * @throws SQLException if database error
-     */
-	@Override
-    public Bitstream clone(Context context, Bitstream bitstream) throws SQLException, IOException, AuthorizeException {
-		Bitstream clonedBitstream = bitstreamService.create(context, bitstreamService.retrieve(context, bitstream));
-		List<MetadataValue> metadataValues = bitstreamService.getMetadata(bitstream, Item.ANY, Item.ANY, Item.ANY, Item.ANY);
-		for (MetadataValue metadataValue : metadataValues) {
-			bitstreamService.addMetadata(context, clonedBitstream, metadataValue.getMetadataField(), metadataValue.getLanguage(), metadataValue.getValue(), metadataValue.getAuthority(), metadataValue.getConfidence());
-		}
-		return clonedBitstream;
+    @Override
+    public Bitstream clone(Context context, Bitstream bitstream) throws SQLException, IOException, AuthorizeException
+    {
+        Bitstream clonedBitstream = bitstreamService.clone(context, bitstream);
+        clonedBitstream.setStoreNumber(bitstream.getStoreNumber());
 
-	}
+        List<MetadataValue> metadataValues = bitstreamService.getMetadata(bitstream, Item.ANY, Item.ANY, Item.ANY, Item.ANY);
+
+        for (MetadataValue metadataValue : metadataValues)
+        {
+            bitstreamService.addMetadata(context, clonedBitstream, metadataValue.getMetadataField(), metadataValue.getLanguage(), metadataValue.getValue(), metadataValue.getAuthority(), metadataValue.getConfidence());
+        }
+        bitstreamService.update(context, clonedBitstream);
+        return clonedBitstream;
+
+    }
 
     /**
      * Migrates all assets off of one assetstore to another

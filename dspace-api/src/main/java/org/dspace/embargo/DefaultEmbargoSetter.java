@@ -52,7 +52,7 @@ public class DefaultEmbargoSetter implements EmbargoSetter
      * Parse the terms into a definite date. Terms are expected to consist of
      * either: a token (value configured in 'embargo.terms.open' property) to indicate
      * indefinite embargo, or a literal lift date formatted in ISO 8601 format (yyyy-mm-dd)
-     * 
+     *
      * @param context the DSpace context
      * @param item the item to embargo
      * @param terms the embargo terms
@@ -60,13 +60,13 @@ public class DefaultEmbargoSetter implements EmbargoSetter
      */
     @Override
     public DCDate parseTerms(Context context, Item item, String terms)
-        throws SQLException, AuthorizeException
+            throws SQLException, AuthorizeException
     {
         String termsOpen = DSpaceServicesFactory.getInstance().getConfigurationService().getProperty("embargo.terms.open");
 
-    	if (terms != null && terms.length() > 0)
-    	{
-    		if (termsOpen.equals(terms))
+        if (terms != null && terms.length() > 0)
+        {
+            if (termsOpen.equals(terms))
             {
                 return EmbargoService.FOREVER;
             }
@@ -74,7 +74,7 @@ public class DefaultEmbargoSetter implements EmbargoSetter
             {
                 return new DCDate(terms);
             }
-    	}
+        }
         return null;
     }
 
@@ -87,7 +87,7 @@ public class DefaultEmbargoSetter implements EmbargoSetter
      */
     @Override
     public void setEmbargo(Context context, Item item)
-        throws SQLException, AuthorizeException
+            throws SQLException, AuthorizeException
     {
         DCDate liftDate = EmbargoServiceFactory.getInstance().getEmbargoService().getEmbargoTermsAsDate(context, item);
         for (Bundle bn : item.getBundles())
@@ -108,7 +108,7 @@ public class DefaultEmbargoSetter implements EmbargoSetter
     }
 
     protected void generatePolicies(Context context, Date embargoDate,
-                                        String reason, DSpaceObject dso, Collection owningCollection) throws SQLException, AuthorizeException {
+                                    String reason, DSpaceObject dso, Collection owningCollection) throws SQLException, AuthorizeException {
 
         // add only embargo policy
         if(embargoDate!=null){
@@ -153,7 +153,7 @@ public class DefaultEmbargoSetter implements EmbargoSetter
      */
     @Override
     public void checkEmbargo(Context context, Item item)
-        throws SQLException, AuthorizeException, IOException
+            throws SQLException, AuthorizeException, IOException
     {
         for (Bundle bn : item.getBundles())
         {
@@ -168,9 +168,12 @@ public class DefaultEmbargoSetter implements EmbargoSetter
                     // check for ANY read policies and report them:
                     for (ResourcePolicy rp : getAuthorizeService().getPoliciesActionFilter(context, bn, Constants.READ))
                     {
-                        System.out.println("CHECK WARNING: Item "+item.getHandle()+", Bundle "+bn.getName()+" allows READ by "+
-                          ((rp.getEPerson() != null) ? "Group "+rp.getGroup().getName() :
-                                                      "EPerson "+rp.getEPerson().getFullName()));
+                        if (rp.getStartDate() == null)
+                        {
+                            System.out.println("CHECK WARNING: Item "+item.getHandle()+", Bundle "+bn.getName()+" allows READ by "+
+                                    ((rp.getEPerson() == null) ? "Group "+rp.getGroup().getName() :
+                                            "EPerson "+rp.getEPerson().getFullName()));
+                        }
                     }
                 }
 
@@ -178,9 +181,12 @@ public class DefaultEmbargoSetter implements EmbargoSetter
                 {
                     for (ResourcePolicy rp : getAuthorizeService().getPoliciesActionFilter(context, bs, Constants.READ))
                     {
-                        System.out.println("CHECK WARNING: Item "+item.getHandle()+", Bitstream "+bs.getName()+" (in Bundle "+bn.getName()+") allows READ by "+
-                          ((rp.getEPerson() != null) ? "Group "+rp.getGroup().getName() :
-                                                      "EPerson "+rp.getEPerson().getFullName()));
+                        if (rp.getStartDate() == null)
+                        {
+                            System.out.println("CHECK WARNING: Item "+item.getHandle()+", Bitstream "+bs.getName()+" (in Bundle "+bn.getName()+") allows READ by "+
+                                    ((rp.getEPerson() == null) ? "Group "+rp.getGroup().getName() :
+                                            "EPerson "+rp.getEPerson().getFullName()));
+                        }
                     }
                 }
             }

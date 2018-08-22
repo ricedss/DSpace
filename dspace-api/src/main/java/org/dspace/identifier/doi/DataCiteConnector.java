@@ -19,6 +19,8 @@ import org.apache.http.HttpResponse;
 import org.apache.http.StatusLine;
 import org.apache.http.auth.AuthScope;
 import org.apache.http.auth.UsernamePasswordCredentials;
+import org.apache.http.client.CredentialsProvider;
+import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpDelete;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
@@ -26,7 +28,9 @@ import org.apache.http.client.methods.HttpUriRequest;
 import org.apache.http.client.utils.URIBuilder;
 import org.apache.http.entity.ContentType;
 import org.apache.http.entity.StringEntity;
-import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.impl.client.BasicCredentialsProvider;
+import org.apache.http.impl.client.HttpClientBuilder;
+import org.apache.http.impl.client.StandardHttpRequestRetryHandler;
 import org.apache.http.util.EntityUtils;
 import org.dspace.authorize.AuthorizeException;
 import org.dspace.content.DSpaceObject;
@@ -57,11 +61,11 @@ import org.springframework.beans.factory.annotation.Required;
  * @author Pascal-Nicolas Becker
  */
 public class DataCiteConnector
-implements DOIConnector
+        implements DOIConnector
 {
 
     private static final Logger log = LoggerFactory.getLogger(DataCiteConnector.class);
-    
+
     // Configuration property names
     static final String CFG_USER = "identifier.doi.user";
     static final String CFG_PASSWORD = "identifier.doi.password";
@@ -86,7 +90,7 @@ implements DOIConnector
      * injection.
      */
     protected String HOST;
-    
+
     /**
      * Path on the DataCite server used to generate DOIs. Set by spring
      * dependency injection.
@@ -98,32 +102,32 @@ implements DOIConnector
      */
     protected String METADATA_PATH;
     /**
-     * Name of crosswalk to convert metadata into DataCite Metadata Scheme. Set 
+     * Name of crosswalk to convert metadata into DataCite Metadata Scheme. Set
      * by spring dependency injection.
      */
     protected String CROSSWALK_NAME;
-    /** 
+    /**
      * DisseminationCrosswalk to map local metadata into DataCite metadata.
      * The name of the crosswalk is set by spring dependency injection using
      * {@link #setDisseminationCrosswalkName(String) setDisseminationCrosswalkName} which
      * instantiates the crosswalk.
      */
     protected ParameterizedDisseminationCrosswalk xwalk;
-    
+
     protected ConfigurationService configurationService;
-    
+
     protected String USERNAME;
     protected String PASSWORD;
     @Autowired
     protected HandleService handleService;
-    
+
     public DataCiteConnector()
     {
         this.xwalk = null;
         this.USERNAME = null;
         this.PASSWORD = null;
     }
-    
+
     /**
      * Used to set the scheme to connect the DataCite server. Used by spring
      * dependency injection.
@@ -145,7 +149,7 @@ implements DOIConnector
     {
         this.HOST = DATACITE_HOST;
     }
-    
+
     /**
      * Set the path on the DataCite server to register DOIs. Used by spring
      * dependency injection.
@@ -162,10 +166,10 @@ implements DOIConnector
         {
             DATACITE_DOI_PATH = DATACITE_DOI_PATH + "/";
         }
-        
+
         this.DOI_PATH = DATACITE_DOI_PATH;
     }
-    
+
     /**
      * Set the path to register metadata on DataCite server. Used by spring
      * dependency injection.
@@ -182,18 +186,18 @@ implements DOIConnector
         {
             DATACITE_METADATA_PATH = DATACITE_METADATA_PATH + "/";
         }
-        
+
         this.METADATA_PATH = DATACITE_METADATA_PATH;
     }
-    
-    
+
+
     @Autowired
     @Required
     public void setConfigurationService(ConfigurationService configurationService)
     {
         this.configurationService = configurationService;
     }
-    
+
     /**
      * Set the name of the dissemination crosswalk used to convert the metadata
      * into DataCite Metadata Schema. Used by spring dependency injection.
@@ -204,22 +208,22 @@ implements DOIConnector
     public void setDisseminationCrosswalkName(String CROSSWALK_NAME) {
         this.CROSSWALK_NAME = CROSSWALK_NAME;
     }
-    
+
     protected void prepareXwalk()
     {
         if (null != this.xwalk)
             return;
-        
+
         this.xwalk = (ParameterizedDisseminationCrosswalk) CoreServiceFactory.getInstance().getPluginService().getNamedPlugin(
                 DisseminationCrosswalk.class, this.CROSSWALK_NAME);
-        
+
         if (this.xwalk == null)
         {
             throw new RuntimeException("Can't find crosswalk '"
                     + CROSSWALK_NAME + "'!");
         }
     }
-    
+
     protected String getUsername()
     {
         if (null == this.USERNAME)
@@ -234,7 +238,7 @@ implements DOIConnector
         }
         return this.USERNAME;
     }
-    
+
     protected String getPassword()
     {
         if (null == this.PASSWORD)
@@ -250,14 +254,14 @@ implements DOIConnector
         return this.PASSWORD;
     }
 
-    
+
     @Override
     public boolean isDOIReserved(Context context, String doi)
             throws DOIIdentifierException
     {
         // get mds/metadata/<doi>
         DataCiteResponse resp = this.sendMetadataGetRequest(doi);
-    
+
         switch (resp.getStatusCode())
         {
             // 200 -> reserved
@@ -266,13 +270,13 @@ implements DOIConnector
             {
                 return true;
             }
-                
+
             // 404 "Not Found" means DOI is neither reserved nor registered.
             case (404) :
             {
                 return false;
             }
-                
+
             // 410 GONE -> DOI is set inactive
             // that means metadata has been deleted
             // it is unclear if the doi has been registered before or only reserved.
@@ -282,30 +286,30 @@ implements DOIConnector
             {
                 return true;
             }
-                
+
             // Catch all other http status code in case we forgot one.
             default :
             {
                 log.warn("While checking if the DOI {} is registered, we got a "
-                        + "http status code {} and the message \"{}\".",
+                                + "http status code {} and the message \"{}\".",
                         new String[]
-                        {
-                            doi, Integer.toString(resp.statusCode),
-                            resp.getContent()
-                        });
+                                {
+                                        doi, Integer.toString(resp.statusCode),
+                                        resp.getContent()
+                                });
                 throw new DOIIdentifierException("Unable to parse an answer from "
                         + "DataCite API. Please have a look into DSpace logs.",
                         DOIIdentifierException.BAD_ANSWER);
             }
         }
     }
-    
+
     @Override
     public boolean isDOIRegistered(Context context, String doi)
             throws DOIIdentifierException
     {
         DataCiteResponse response = sendDOIGetRequest(doi);
-        
+
         switch (response.getStatusCode())
         {
             // status code 200 means the doi is reserved and registered
@@ -330,7 +334,7 @@ implements DOIConnector
             default :
             {
                 log.warn("While checking if the DOI {} is registered, we got a "
-                        + "http status code {} and the message \"{}\".",
+                                + "http status code {} and the message \"{}\".",
                         new String[] {doi, Integer.toString(response.statusCode), response.getContent()});
                 throw new DOIIdentifierException("Unable to parse an answer from "
                         + "DataCite API. Please have a look into DSpace logs.",
@@ -339,14 +343,14 @@ implements DOIConnector
         }
     }
 
-    
+
     @Override
     public void deleteDOI(Context context, String doi)
             throws DOIIdentifierException
     {
         if (!isDOIReserved(context, doi))
             return;
-        
+
         // delete mds/metadata/<doi>
         DataCiteResponse resp = this.sendMetadataDeleteRequest(doi);
         switch(resp.getStatusCode())
@@ -367,7 +371,7 @@ implements DOIConnector
             default :
             {
                 log.warn("While deleting metadata of DOI {}, we got a "
-                        + "http status code {} and the message \"{}\".",
+                                + "http status code {} and the message \"{}\".",
                         new String[] {doi, Integer.toString(resp.statusCode), resp.getContent()});
                 throw new DOIIdentifierException("Unable to parse an answer from "
                         + "DataCite API. Please have a look into DSpace logs.",
@@ -379,15 +383,15 @@ implements DOIConnector
     @Override
     public void reserveDOI(Context context, DSpaceObject dso, String doi)
             throws DOIIdentifierException
-    {   
+    {
         this.prepareXwalk();
 
         DSpaceObjectService<DSpaceObject> dSpaceObjectService = ContentServiceFactory.getInstance().getDSpaceObjectService(dso);
 
         if (!this.xwalk.canDisseminate(dso))
         {
-            log.error("Crosswalk " + this.CROSSWALK_NAME 
-                    + " cannot disseminate DSO with type " + dso.getType() 
+            log.error("Crosswalk " + this.CROSSWALK_NAME
+                    + " cannot disseminate DSO with type " + dso.getType()
                     + " and ID " + dso.getID() + ". Giving up reserving the DOI "
                     + doi + ".");
             throw new DOIIdentifierException("Cannot disseminate "
@@ -430,7 +434,7 @@ implements DOIConnector
         catch (CrosswalkException ce)
         {
             log.error("Caught an CrosswalkException while reserving a DOI ("
-                    + doi + ") for DSO with type " + dso.getType() + " and ID " 
+                    + doi + ") for DSO with type " + dso.getType() + " and ID "
                     + dso.getID() + ". Won't reserve the doi.", ce);
             throw new DOIIdentifierException("CrosswalkException occured while "
                     + "converting " + dSpaceObjectService.getTypeText(dso) + "/" + dso.getID()
@@ -441,7 +445,7 @@ implements DOIConnector
         {
             throw new RuntimeException(ex);
         }
-        
+
         String metadataDOI = extractDOI(root);
         if (null == metadataDOI)
         {
@@ -456,16 +460,16 @@ implements DOIConnector
             log.error("While reserving a DOI, the "
                     + "crosswalk to generate the metadata used another DOI than "
                     + "the DOI we're reserving. Cannot reserve DOI " + doi
-                    + " for " + dSpaceObjectService.getTypeText(dso) + " " 
+                    + " for " + dSpaceObjectService.getTypeText(dso) + " "
                     + dso.getID() + ".");
             throw new IllegalStateException("An internal error occured while "
                     + "generating the metadata. Unable to reserve doi, see logs "
                     + "for further information.");
         }
-        
+
         // send metadata as post to mds/metadata
         DataCiteResponse resp = this.sendMetadataPostRequest(doi, root);
-        
+
         switch (resp.getStatusCode())
         {
             // 201 -> created / ok
@@ -483,7 +487,7 @@ implements DOIConnector
                 format.setEncoding("UTF-8");
                 XMLOutputter xout = new XMLOutputter(format);
                 log.info("We send the following XML:\n" + xout.outputString(root));
-                throw new DOIIdentifierException("Unable to reserve DOI " + doi 
+                throw new DOIIdentifierException("Unable to reserve DOI " + doi
                         + ". Please inform your administrator or take a look "
                         +" into the log files.", DOIIdentifierException.BAD_REQUEST);
             }
@@ -499,7 +503,7 @@ implements DOIConnector
             }
         }
     }
-    
+
     @Override
     public void registerDOI(Context context, DSpaceObject dso, String doi)
             throws DOIIdentifierException
@@ -517,7 +521,7 @@ implements DOIConnector
         DataCiteResponse resp = null;
         try
         {
-            resp = this.sendDOIPostRequest(doi, 
+            resp = this.sendDOIPostRequest(doi,
                     handleService.resolveToURL(context, dso.getHandle()));
         }
         catch (SQLException e)
@@ -526,7 +530,7 @@ implements DOIConnector
                     + e.getMessage());
             throw new RuntimeException(e);
         }
-        
+
         switch(resp.statusCode)
         {
             // 201 -> created/updated -> okay
@@ -548,7 +552,7 @@ implements DOIConnector
             case (412) :
             {
                 log.error("We tried to register a DOI {} that has not been reserved "
-                        + "before! The registration agency told us: {}.", doi,
+                                + "before! The registration agency told us: {}.", doi,
                         resp.getContent());
                 throw new DOIIdentifierException("There was an error in handling "
                         + "of DOIs. The DOI we wanted to register had not been "
@@ -568,16 +572,16 @@ implements DOIConnector
             }
         }
     }
-    
+
     @Override
-    public void updateMetadata(Context context, DSpaceObject dso, String doi) 
+    public void updateMetadata(Context context, DSpaceObject dso, String doi)
             throws DOIIdentifierException
-    { 
+    {
         // We can use reserveDOI to update metadata. DataCite API uses the same
         // request for reservation as for updating metadata.
         this.reserveDOI(context, dso, doi);
     }
-    
+
     protected DataCiteResponse sendDOIPostRequest(String doi, String url)
             throws DOIIdentifierException
     {
@@ -585,7 +589,7 @@ implements DOIConnector
         // body must contaion "doi=<doi>\nurl=<url>}n"
         URIBuilder uribuilder = new URIBuilder();
         uribuilder.setScheme(SCHEME).setHost(HOST).setPath(DOI_PATH);
-        
+
         HttpPost httppost = null;
         try
         {
@@ -600,7 +604,7 @@ implements DOIConnector
             throw new RuntimeException("The URL we constructed to check a DOI "
                     + "produced a URISyntaxException. Please check the configuration parameters!", e);
         }
-        
+
         // assemble request content:
         HttpEntity reqEntity = null;
         try
@@ -609,7 +613,7 @@ implements DOIConnector
             ContentType contentType = ContentType.create("text/plain", "UTF-8");
             reqEntity = new StringEntity(req, contentType);
             httppost.setEntity(reqEntity);
-            
+
             return sendHttpRequest(httppost, doi);
         }
         finally
@@ -621,13 +625,13 @@ implements DOIConnector
             }
             catch (IOException ioe)
             {
-               log.info("Caught an IOException while releasing a HTTPEntity:"
-                       + ioe.getMessage());
+                log.info("Caught an IOException while releasing a HTTPEntity:"
+                        + ioe.getMessage());
             }
         }
     }
-    
-    
+
+
     protected DataCiteResponse sendMetadataDeleteRequest(String doi)
             throws DOIIdentifierException
     {
@@ -635,7 +639,7 @@ implements DOIConnector
         URIBuilder uribuilder = new URIBuilder();
         uribuilder.setScheme(SCHEME).setHost(HOST).setPath(METADATA_PATH
                 + doi.substring(DOI.SCHEME.length()));
-        
+
         HttpDelete httpdelete = null;
         try
         {
@@ -652,26 +656,26 @@ implements DOIConnector
         }
         return sendHttpRequest(httpdelete, doi);
     }
-    
+
     protected DataCiteResponse sendDOIGetRequest(String doi)
             throws DOIIdentifierException
     {
         return sendGetRequest(doi, DOI_PATH);
     }
-    
+
     protected DataCiteResponse sendMetadataGetRequest(String doi)
             throws DOIIdentifierException
     {
         return sendGetRequest(doi, METADATA_PATH);
     }
-    
+
     protected DataCiteResponse sendGetRequest(String doi, String path)
             throws DOIIdentifierException
     {
         URIBuilder uribuilder = new URIBuilder();
         uribuilder.setScheme(SCHEME).setHost(HOST).setPath(path
                 + doi.substring(DOI.SCHEME.length()));
-        
+
         HttpGet httpget = null;
         try
         {
@@ -688,7 +692,7 @@ implements DOIConnector
         }
         return sendHttpRequest(httpget, doi);
     }
-    
+
     protected DataCiteResponse sendMetadataPostRequest(String doi, Element metadataRoot)
             throws DOIIdentifierException
     {
@@ -697,7 +701,7 @@ implements DOIConnector
         XMLOutputter xout = new XMLOutputter(format);
         return sendMetadataPostRequest(doi, xout.outputString(new Document(metadataRoot)));
     }
-    
+
     protected DataCiteResponse sendMetadataPostRequest(String doi, String metadata)
             throws DOIIdentifierException
     {
@@ -705,7 +709,7 @@ implements DOIConnector
         // body must contain metadata in DataCite-XML.
         URIBuilder uribuilder = new URIBuilder();
         uribuilder.setScheme(SCHEME).setHost(HOST).setPath(METADATA_PATH);
-        
+
         HttpPost httppost = null;
         try
         {
@@ -720,7 +724,7 @@ implements DOIConnector
             throw new RuntimeException("The URL we constructed to check a DOI "
                     + "produced a URISyntaxException. Please check the configuration parameters!", e);
         }
-        
+
         // assemble request content:
         HttpEntity reqEntity = null;
         try
@@ -728,7 +732,7 @@ implements DOIConnector
             ContentType contentType = ContentType.create("application/xml", "UTF-8");
             reqEntity = new StringEntity(metadata, contentType);
             httppost.setEntity(reqEntity);
-            
+
             return sendHttpRequest(httppost, doi);
         }
         finally
@@ -740,14 +744,14 @@ implements DOIConnector
             }
             catch (IOException ioe)
             {
-               log.info("Caught an IOException while releasing an HTTPEntity:"
-                       + ioe.getMessage());
+                log.info("Caught an IOException while releasing an HTTPEntity:"
+                        + ioe.getMessage());
             }
         }
     }
-    
+
     /**
-     * 
+     *
      * @param req
      * @param doi
      * @return response from DataCite
@@ -756,19 +760,26 @@ implements DOIConnector
     protected DataCiteResponse sendHttpRequest(HttpUriRequest req, String doi)
             throws DOIIdentifierException
     {
-        DefaultHttpClient httpclient = new DefaultHttpClient();
-        httpclient.getCredentialsProvider().setCredentials(
+        // create credentials and auth cache to build the http client
+        CredentialsProvider credentialsProvider = new BasicCredentialsProvider();
+        credentialsProvider.setCredentials(
                 new AuthScope(HOST, 443),
                 new UsernamePasswordCredentials(this.getUsername(), this.getPassword()));
-        
+
+        HttpClient httpclient = HttpClientBuilder
+                .create()
+                .setDefaultCredentialsProvider(credentialsProvider)
+                .setRetryHandler(new StandardHttpRequestRetryHandler(3, true))
+                .build();
+
         HttpEntity entity = null;
         try
         {
             HttpResponse response = httpclient.execute(req);
-            
+
             StatusLine status = response.getStatusLine();
             int statusCode = status.getStatusCode();
-            
+
             String content = null;
             entity = response.getEntity();
             if (null != entity)
@@ -796,7 +807,7 @@ implements DOIConnector
              *             }
              *             log.info("----");
              *         } catch (IOException ex) {
-             *             
+             *
              *         }
              *     }
              * } else {
@@ -809,7 +820,7 @@ implements DOIConnector
              * } else {
              *     log.debug("DataCite says: {}", content);
              * }
-             * 
+             *
              */
 
             // We can handle some status codes here, others have to be handled above
@@ -832,7 +843,7 @@ implements DOIConnector
                 case (403) :
                 {
                     log.info("Managing a DOI ({}) was prohibited by the DOI "
-                            + "registration agency: {}", doi, content);
+                            + "registration agency: {}", new String[] {doi, content});
                     throw new DOIIdentifierException("We can check, register or "
                             + "reserve DOIs that belong to us only.",
                             DOIIdentifierException.FOREIGN_DOI);
@@ -843,14 +854,14 @@ implements DOIConnector
                 case (500) :
                 {
                     log.warn("Caught an http status code 500 while managing DOI "
-                            +"{}. Message was: " + content);
+                            +"{}. Message was: {}", new String[] {content, doi});
                     throw new DOIIdentifierException("DataCite API has an internal error. "
                             + "It is temporarily impossible to manage DOIs. "
                             + "Further information can be found in DSpace log file.",
                             DOIIdentifierException.INTERNAL_ERROR);
                 }
             }
-            
+
 
             return new DataCiteResponse(statusCode, content);
         }
@@ -878,13 +889,13 @@ implements DOIConnector
 
     // returns null or handle
     protected String extractAlternateIdentifier(Context context, String content)
-    throws SQLException, DOIIdentifierException
+            throws SQLException, DOIIdentifierException
     {
         if (content == null)
         {
             return null;
         }
-        
+
         // parse the XML
         SAXBuilder saxBuilder = new SAXBuilder();
         Document doc = null;
@@ -902,9 +913,9 @@ implements DOIConnector
                     + "a response from the DataCite API.", jde,
                     DOIIdentifierException.BAD_ANSWER);
         }
-        
+
         String handle = null;
-        
+
         Iterator<Element> it = doc.getDescendants(new ElementFilter("alternateIdentifier"));
         while (handle == null && it.hasNext())
         {
@@ -922,7 +933,7 @@ implements DOIConnector
 
         return handle;
     }
-    
+
     protected String extractDOI(Element root) {
         Element doi = root.getChild("identifier", root.getNamespace());
         return (null == doi) ? null : doi.getTextTrim();
@@ -934,7 +945,7 @@ implements DOIConnector
             return root;
         }
         Element identifier = new Element("identifier",
-                    configurationService.getProperty(CFG_NAMESPACE,
+                configurationService.getProperty(CFG_NAMESPACE,
                         "http://datacite.org/schema/kernel-3"));
         identifier.setAttribute("identifierType", "DOI");
         identifier.addContent(doi.substring(DOI.SCHEME.length()));
@@ -951,12 +962,12 @@ implements DOIConnector
             this.statusCode = statusCode;
             this.content = content;
         }
-        
+
         protected int getStatusCode()
         {
             return this.statusCode;
         }
-        
+
         protected String getContent()
         {
             return this.content;

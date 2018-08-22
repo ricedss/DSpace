@@ -10,9 +10,9 @@
     functionality.  The template may include what we might consider bug fixes or feature additions 
     to the base set of stylesheets provided by DSpace.  However, depending on the circumstances, even 
     these overrides may need to be overridden (e.g. the Shepherd School theme displays "mets:file" 
-    differently).  
+    differently).
     
-    It differs from reusable-new-templates.xsl in that it contains overrides of templates that have 
+    It differs from reusable-new-templates.xsl in tdhat it contains overrides of templates that have
     already been defined elsewhere (mostly in the base set of DSPace stylesheets) or that are very 
     similar to those defined elsewhere but with a greater specificity applied.
     
@@ -886,10 +886,15 @@
                                     file: "<xsl:value-of select="$baseURL"/>/streaming/<xsl:value-of select='$streamingfilename'/>"
                                 },{
                                     file: "rtmp://fldp.rice.edu/fondren/mp4:<xsl:value-of select='$streamingfilename'/>"
-                                }]
+                                }],
+                               tracks: [{
+                                   file: "<xsl:value-of select="$baseURL"/>/streaming/test.vtt",
+                                   label: "English",
+                                   kind: "captions",
+                                   "default": true
+                               }]
 
                             }],
-
                             primary: "html5",
                             rtmp: {
                                  bufferlength: 10
@@ -919,7 +924,15 @@
                                          file: "<xsl:value-of select="$baseURL"/>/streaming/<xsl:value-of select="$streamingfilename"/>"
                                     },{
                                         file: "rtmp://fldp.rice.edu/fondren/mp3:<xsl:value-of select='$streamingfilename'/>"
-                                    }]
+                                    }],
+                                tracks: [{
+                                    file: "<xsl:value-of select="$baseURL"/>/streaming/test.vtt",
+                                    label: "English",
+                                    kind: "captions",
+                                    "default": true
+                                }]
+
+
 
                                 }],
                             primary: "html5",
@@ -2338,8 +2351,9 @@ references to stylesheets pulled directly from the pageMeta element. -->
                     </ul>
                     <ul class="nav navbar-nav pull-left">
                         <li>
-                      <a href="/page/deposit" ><span class="glyphicon glyphicon-import" aria-hidden="true"></span><span class="hidden-xs"> Deposit your work</span></a>
-                     </li>
+                            <!--a href="/page/deposit" ><span class="glyphicon glyphicon-import" aria-hidden="true"></span><span class="hidden-xs"> Deposit your work</span></a-->
+                            <a href="https://library.rice.edu/submit-your-work" ><span class="glyphicon glyphicon-import" aria-hidden="true"></span><span class="hidden-xs"> Deposit your work</span></a>
+                        </li>
                         <li> </li>
 
                     </ul>

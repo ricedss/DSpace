@@ -32,7 +32,7 @@ import org.dspace.services.factory.DSpaceServicesFactory;
 /**
  * AbstractCurationTask encapsulates a few common patterns of task use,
  * resources, and convenience methods.
- * 
+ *
  * @author richardrodgers
  */
 public abstract class AbstractCurationTask implements CurationTask
@@ -61,7 +61,7 @@ public abstract class AbstractCurationTask implements CurationTask
 
     @Override
     public abstract int perform(DSpaceObject dso) throws IOException;
-    
+
     /**
      * Distributes a task through a DSpace container - a convenience method
      * for tasks declaring the <code>@Distributive</code> property. 
@@ -75,7 +75,7 @@ public abstract class AbstractCurationTask implements CurationTask
      * Individual tasks MUST override either the <code>performObject</code> method or
      * the <code>performItem</code> method to ensure the task is run on either all
      * DSOs or just all Items, respectively.
-     * 
+     *
      * @param dso current DSpaceObject
      * @throws IOException if IO error
      */
@@ -85,7 +85,7 @@ public abstract class AbstractCurationTask implements CurationTask
         {
             //perform task on this current object
             performObject(dso);
-            
+
             //next, we'll try to distribute to all child objects, based on container type
             int type = dso.getType();
             if (Constants.COLLECTION == type)
@@ -93,7 +93,9 @@ public abstract class AbstractCurationTask implements CurationTask
                 Iterator<Item> iter = itemService.findByCollection(Curator.curationContext(), (Collection) dso);
                 while (iter.hasNext())
                 {
-                    performObject(iter.next());
+                    Item item = iter.next();
+                    performObject(item);
+                    Curator.curationContext().uncacheEntity(item);
                 }
             }
             else if (Constants.COMMUNITY == type)
@@ -120,38 +122,38 @@ public abstract class AbstractCurationTask implements CurationTask
         catch (SQLException sqlE)
         {
             throw new IOException(sqlE.getMessage(), sqlE);
-        }       
+        }
     }
-    
+
     /**
      * Performs task upon a single DSpaceObject. Used in conjunction with the
      * <code>distribute</code> method to run a single task across multiple DSpaceObjects.
      * <P>
      * By default, this method just wraps a call to <code>performItem</code>
-     * for each Item Object. 
+     * for each Item Object.
      * <P>
      * You should override this method if you want to use
      * <code>distribute</code> to run your task across multiple DSpace Objects.
      * <P>
-     * Either this method or <code>performItem</code> should be overridden if 
+     * Either this method or <code>performItem</code> should be overridden if
      * <code>distribute</code> method is used.
-     * 
+     *
      * @param dso the DSpaceObject
      * @throws SQLException if database error
      * @throws IOException if IO error
      */
     protected void performObject(DSpaceObject dso) throws SQLException, IOException
     {
-        // By default this method only performs tasks on Items 
+        // By default this method only performs tasks on Items
         // (You should override this method if you want to perform task on all objects)
         if(dso.getType()==Constants.ITEM)
         {
             performItem((Item)dso);
-        }    
-        
+        }
+
         //no-op for all other types of DSpace Objects
     }
-    
+
     /**
      * Performs task upon a single DSpace Item. Used in conjunction with the
      * <code>distribute</code> method to run a single task across multiple Items.
@@ -159,9 +161,9 @@ public abstract class AbstractCurationTask implements CurationTask
      * You should override this method if you want to use
      * <code>distribute</code> to run your task across multiple DSpace Items.
      * <P>
-     * Either this method or <code>performObject</code> should be overridden if 
+     * Either this method or <code>performObject</code> should be overridden if
      * <code>distribute</code> method is used.
-     * 
+     *
      * @param item the DSpace Item
      * @throws SQLException if database error
      * @throws IOException if IO error
@@ -177,13 +179,13 @@ public abstract class AbstractCurationTask implements CurationTask
         DSpaceObject dso = dereference(ctx, id);
         return (dso != null) ? perform(dso) : Curator.CURATE_FAIL;
     }
-    
+
     /**
      * Returns a DSpaceObject for passed identifier, if it exists
-     * 
+     *
      * @param ctx
      *        DSpace context
-     * @param id 
+     * @param id
      *        canonical id of object
      * @return dso
      *        DSpace object, or null if no object with id exists
@@ -203,7 +205,7 @@ public abstract class AbstractCurationTask implements CurationTask
 
     /**
      * Sends message to the reporting stream
-     * 
+     *
      * @param message
      *        the message to stream
      */
@@ -214,7 +216,7 @@ public abstract class AbstractCurationTask implements CurationTask
 
     /**
      * Assigns the result of the task performance
-     * 
+     *
      * @param result
      *        the result string
      */
@@ -222,16 +224,16 @@ public abstract class AbstractCurationTask implements CurationTask
     {
         curator.setResult(taskId, result);
     }
-    
+
     /**
      * Returns task configuration property value for passed name, else
      * <code>null</code> if no properties defined or no value for passed key.
-     * 
+     *
      * @param name
      *        the property name
      * @return value
      *        the property value, or null
-     * 
+     *
      */
     protected String taskProperty(String name)
     {
@@ -239,97 +241,97 @@ public abstract class AbstractCurationTask implements CurationTask
         if(StringUtils.isNotBlank(taskId))
         {
             return configurationService.getProperty(taskId + "." + name);
-    	}
+        }
         else
         {
             return configurationService.getProperty(name);
         }
     }
-    
+
     /**
      * Returns task configuration integer property value for passed name, else
      * passed default value if no properties defined or no value for passed key.
-     * 
+     *
      * @param name
      *        the property name
      * @param defaultValue value
      *        the default value
      * @return value
      *        the property value, or default value
-     * 
+     *
      */
     protected int taskIntProperty(String name, int defaultValue)
     {
         // If a taskID/Name is specified, prepend it on the configuration name
-    	if(StringUtils.isNotBlank(taskId))
+        if(StringUtils.isNotBlank(taskId))
         {
             return configurationService.getIntProperty(taskId + "." + name, defaultValue);
-    	}
+        }
         else
         {
             return configurationService.getIntProperty(name, defaultValue);
         }
-    } 
-    
+    }
+
     /**
      * Returns task configuration long property value for passed name, else
      * passed default value if no properties defined or no value for passed key.
-     * 
+     *
      * @param name
      *        the property name
      * @param defaultValue value
      *        the default value
      * @return value
      *        the property value, or default
-     * 
+     *
      */
     protected long taskLongProperty(String name, long defaultValue)
     {
         // If a taskID/Name is specified, prepend it on the configuration name
-    	if(StringUtils.isNotBlank(taskId))
+        if(StringUtils.isNotBlank(taskId))
         {
             return configurationService.getLongProperty(taskId + "." + name, defaultValue);
-    	}
+        }
         else
         {
             return configurationService.getLongProperty(name, defaultValue);
         }
-    }  
-    
+    }
+
     /**
      * Returns task configuration boolean property value for passed name, else
      * passed default value if no properties defined or no value for passed key.
-     * 
+     *
      * @param name
      *        the property name
      * @param defaultValue value
      *        the default value
      * @return value
      *        the property value, or default
-     * 
+     *
      */
     protected boolean taskBooleanProperty(String name, boolean defaultValue)
     {
         // If a taskID/Name is specified, prepend it on the configuration name
-    	if(StringUtils.isNotBlank(taskId))
+        if(StringUtils.isNotBlank(taskId))
         {
             return configurationService.getBooleanProperty(taskId + "." + name, defaultValue);
-    	}
+        }
         else
         {
             return configurationService.getBooleanProperty(name, defaultValue);
         }
     }
-    
+
     /**
      * Returns task configuration Array property value for passed name, else
      * <code>null</code> if no properties defined or no value for passed key.
-     * 
+     *
      * @param name
      *        the property name
      * @return value
      *        the property value, or null
-     * 
+     *
      */
     protected String[] taskArrayProperty(String name)
     {
@@ -337,7 +339,7 @@ public abstract class AbstractCurationTask implements CurationTask
         if(StringUtils.isNotBlank(taskId))
         {
             return configurationService.getArrayProperty(taskId + "." + name);
-    	}
+        }
         else
         {
             return configurationService.getArrayProperty(name);

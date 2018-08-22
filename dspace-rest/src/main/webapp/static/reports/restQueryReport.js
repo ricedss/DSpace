@@ -7,10 +7,15 @@
  */
 var QueryReport = function() {
     Report.call(this);
-    
+
     //If sortable.js is included, uncomment the following
     //this.hasSorttable = function(){return true;}
-    
+
+    //Indicate if Password Authentication is supported
+    //this.makeAuthLink = function(){return true;};
+    //Indicate if Shibboleth Authentication is supported
+    //this.makeShibLink = function(){return true;};
+
     this.getDefaultParameters = function(){
         return {
             "collSel[]"     : [],
@@ -20,7 +25,7 @@ var QueryReport = function() {
             "show_fields[]" : [],
             "filters"       : "",
             "limit"         : this.ITEM_LIMIT,
-            "offset"        : 0,          
+            "offset"        : 0,
         };
     }
     this.getCurrentParameters = function(){
@@ -44,12 +49,12 @@ var QueryReport = function() {
     var self = this;
 
     this.init = function() {
-        this.baseInit();    
+        this.baseInit();
     }
-    
+
     this.initMetadataFields = function() {
         this.myMetadataFields = new QueryableMetadataFields(self);
-        this.myMetadataFields.load();        
+        this.myMetadataFields.load();
     }
     this.myAuth.callback = function(data) {
         var communitySelector = new CommunitySelector(self, $("#collSelector"), self.myReportParameters.params["collSel[]"]);
@@ -60,26 +65,26 @@ var QueryReport = function() {
         this.spinner.spin($("body")[0]);
         $("button").attr("disabled", true);
         $.ajax({
-            url: "/rest/filtered-items", 
-            data: this.getCurrentParameters(), 
+            url: "/rest/filtered-items",
+            data: this.getCurrentParameters(),
             dataType: "json",
             headers: self.myAuth.getHeaders(),
             success: function(data){
                 data.metadata = $("#show-fields select").val();
                 self.drawItemFilterTable(data);
                 self.spinner.stop();
-                  $("button").not("#next,#prev").attr("disabled", false);
+                $("button").not("#next,#prev").attr("disabled", false);
             },
             error: function(xhr, status, errorThrown) {
                 alert("Error in /rest/filtered-items "+ status+ " " + errorThrown);
             },
             complete: function(xhr, status, errorThrown) {
                 self.spinner.stop();
-                  $("button").not("#next,#prev").attr("disabled", false);
+                $("button").not("#next,#prev").attr("disabled", false);
             }
         });
     }
-    
+
     this.drawItemFilterTable = function(data) {
         $("#itemtable").replaceWith($('<table id="itemtable" class="sortable"></table>'));
         var itbl = $("#itemtable");
@@ -89,30 +94,30 @@ var QueryReport = function() {
         self.myHtmlUtil.addTh(tr, "collection");
         self.myHtmlUtil.addTh(tr, "Item Handle");
         self.myHtmlUtil.addTh(tr, "dc.title" + self.getLangSuffix());
-        
+
         var mdCols = [];
         if (data.metadata) {
             $.each(data.metadata, function(index, field) {
                 if (field != "") {
                     self.myHtmlUtil.addTh(tr,field + self.getLangSuffix()).addClass("returnFields");
-                    mdCols[mdCols.length] = field;            
+                    mdCols[mdCols.length] = field;
                 }
-            });            
+            });
         }
-        
+
         $.each(data.items, function(index, item){
             var tr = self.myHtmlUtil.addTr(itbl);
             tr.addClass(index % 2 == 0 ? "odd data" : "even data");
             self.myHtmlUtil.addTd(tr, self.myReportParameters.getOffset()+index+1).addClass("num");
             self.myHtmlUtil.addTd(tr, self.getId(item));
             if (item.parentCollection == null) {
-                self.myHtmlUtil.addTd(tr, "--");            
+                self.myHtmlUtil.addTd(tr, "--");
             } else {
                 self.myHtmlUtil.addTdAnchor(tr, item.parentCollection.name, self.ROOTPATH + item.parentCollection.handle);
             }
             self.myHtmlUtil.addTdAnchor(tr, item.handle, self.ROOTPATH + item.handle);
             self.myHtmlUtil.addTd(tr, item.name);
-            
+
             for(var i=0; i<mdCols.length; i++) {
                 var key =  mdCols[i];
                 var td = self.myHtmlUtil.addTd(tr, "");
@@ -126,7 +131,7 @@ var QueryReport = function() {
                 });
             }
         });
-        
+
         this.displayItems(data["query-annotation"],
             this.myReportParameters.getOffset(),
             this.myReportParameters.getLimit(),
@@ -134,26 +139,26 @@ var QueryReport = function() {
             function(){
                 self.myReportParameters.updateOffset(false);
                 self.runQuery();
-            }, 
+            },
             function(){
                 self.myReportParameters.updateOffset(true);
                 self.runQuery();
             }
         );
-        
+
         if (this.hasSorttable()) {
-            sorttable.makeSortable(itbl[0]);            
+            sorttable.makeSortable(itbl[0]);
         }
-        $("#metadatadiv").accordion("option", "active", $("#metadatadiv > h3").length - 1); 
+        $("#metadatadiv").accordion("option", "active", $("#metadatadiv > h3").length - 1);
     }
-    
+
     //Ignore the first column containing a row number and the item handle, get handle for the collection
     this.exportCol = function(colnum, col) {
         var data = "";
         if (colnum == 0) return "";
         if (colnum == 3) return "";
         data += (colnum == 1) ? "" : ",";
-        
+
         if (colnum == 2) {
             var anchor = $(col).find("a");
             var href = anchor.is("a") ? anchor.attr("href").replace(self.ROOTPATH,"") : $(col).text();
@@ -173,7 +178,7 @@ $(document).ready(function(){
 var QueryableMetadataFields = function(report) {
     MetadataFields.call(this, report);
     var self = this;
-    
+
     this.initFields = function(data, report) {
         self.metadataSchemas = data;
         var params = report.myReportParameters.params;
@@ -188,61 +193,61 @@ var QueryableMetadataFields = function(report) {
                     var op = ops.length > i ? ops[i] : "";
                     var val = vals.length > i ? vals[i] : "";
                     self.drawFilterQuery(fields[i],op,val);
-                } 
-            }                
+                }
+            }
         }
         self.drawShowFields(params["show_fields[]"]);
-        self.initQueries();        
+        self.initQueries();
         report.spinner.stop();
         $(".query-button").attr("disabled", false);
     }
-    
+
     this.initQueries = function() {
         $("#predefselect")
-          .append($("<option value='new'>New Query</option>"))
-          .append($("<option value='q1'>Has No Title</option>"))
-          .append($("<option value='q2'>Has No dc.identifier.uri</option>"))
-          .append($("<option value='q3'>Has compound subject</option>"))
-          .append($("<option value='q4'>Has compound dc.contributor.author</option>"))
-          .append($("<option value='q5'>Has compound dc.creator</option>"))
-          .append($("<option value='q6'>Has URL in dc.description</option>"))
-          .append($("<option value='q7'>Has full text in dc.description.provenance</option>"))
-          .append($("<option value='q8'>Has non-full text in dc.description.provenance</option>"))
-          .append($("<option value='q9'>Has empty metadata</option>"))
-          .append($("<option value='q10'>Has unbreaking metadata in description</option>"))
-          .append($("<option value='q12'>Has XML entity in metadata</option>"))
-          .append($("<option value='q13'>Has non-ascii character in metadata</option>"))
-          .on("change",function(){
-              $("div.metadata").remove();
-              var val = $("#predefselect").val();
-              if (val ==  'new') {
-                  self.drawFilterQuery("","","");            
-              } else if (val ==  'q1') {
-                  self.drawFilterQuery("dc.title","doesnt_exist","");                        
-              } else if (val ==  'q2') {
-                  self.drawFilterQuery("dc.identifier.uri","doesnt_exist","");                        
-              } else if (val ==  'q3') {
-                  self.drawFilterQuery("dc.subject.*","like","%;%");                        
-              } else if (val ==  'q4') {
-                  self.drawFilterQuery("dc.contributor.author","like","% and %");                        
-              } else if (val ==  'q5') {
-                  self.drawFilterQuery("dc.creator","like","% and %");                        
-              } else if (val ==  'q6') {
-                  self.drawFilterQuery("dc.description","matches","^.*(http://|https://|mailto:).*$");                        
-              } else if (val ==  'q7') {
-                  self.drawFilterQuery("dc.description.provenance","matches","^.*No\\. of bitstreams(.|\\r|\\n|\\r\\n)*\\.(PDF|pdf|DOC|doc|PPT|ppt|DOCX|docx|PPTX|pptx).*$");                        
-              } else if (val ==  'q8') {
-                  self.drawFilterQuery("dc.description.provenance","doesnt_match","^.*No\\. of bitstreams(.|\\r|\\n|\\r\\n)*\\.(PDF|pdf|DOC|doc|PPT|ppt|DOCX|docx|PPTX|pptx).*$");                        
-              } else if (val ==  'q9') {
-                  self.drawFilterQuery("*","matches","^\\s*$");                        
-              } else if (val ==  'q10') {
-                  self.drawFilterQuery("dc.description.*","matches","^.*[^\\s]{50,}.*$");                        
-              } else if (val ==  'q12') {
-                  self.drawFilterQuery("*","matches","^.*&#.*$");                        
-              } else if (val ==  'q13') {
-                  self.drawFilterQuery("*","matches","^.*[^[:ascii:]].*$");                        
-              }
-          });
+            .append($("<option value='new'>New Query</option>"))
+            .append($("<option value='q1'>Has No Title</option>"))
+            .append($("<option value='q2'>Has No dc.identifier.uri</option>"))
+            .append($("<option value='q3'>Has compound subject</option>"))
+            .append($("<option value='q4'>Has compound dc.contributor.author</option>"))
+            .append($("<option value='q5'>Has compound dc.creator</option>"))
+            .append($("<option value='q6'>Has URL in dc.description</option>"))
+            .append($("<option value='q7'>Has full text in dc.description.provenance</option>"))
+            .append($("<option value='q8'>Has non-full text in dc.description.provenance</option>"))
+            .append($("<option value='q9'>Has empty metadata</option>"))
+            .append($("<option value='q10'>Has unbreaking metadata in description</option>"))
+            .append($("<option value='q12'>Has XML entity in metadata</option>"))
+            .append($("<option value='q13'>Has non-ascii character in metadata</option>"))
+            .on("change",function(){
+                $("div.metadata").remove();
+                var val = $("#predefselect").val();
+                if (val ==  'new') {
+                    self.drawFilterQuery("","","");
+                } else if (val ==  'q1') {
+                    self.drawFilterQuery("dc.title","doesnt_exist","");
+                } else if (val ==  'q2') {
+                    self.drawFilterQuery("dc.identifier.uri","doesnt_exist","");
+                } else if (val ==  'q3') {
+                    self.drawFilterQuery("dc.subject.*","like","%;%");
+                } else if (val ==  'q4') {
+                    self.drawFilterQuery("dc.contributor.author","like","% and %");
+                } else if (val ==  'q5') {
+                    self.drawFilterQuery("dc.creator","like","% and %");
+                } else if (val ==  'q6') {
+                    self.drawFilterQuery("dc.description","matches","^.*(http://|https://|mailto:).*$");
+                } else if (val ==  'q7') {
+                    self.drawFilterQuery("dc.description.provenance","matches","^.*No\\. of bitstreams(.|\\r|\\n|\\r\\n)*\\.(PDF|pdf|DOC|doc|PPT|ppt|DOCX|docx|PPTX|pptx).*$");
+                } else if (val ==  'q8') {
+                    self.drawFilterQuery("dc.description.provenance","doesnt_match","^.*No\\. of bitstreams(.|\\r|\\n|\\r\\n)*\\.(PDF|pdf|DOC|doc|PPT|ppt|DOCX|docx|PPTX|pptx).*$");
+                } else if (val ==  'q9') {
+                    self.drawFilterQuery("*","matches","^\\s*$");
+                } else if (val ==  'q10') {
+                    self.drawFilterQuery("dc.description.*","matches","^.*[^\\s]{50,}.*$");
+                } else if (val ==  'q12') {
+                    self.drawFilterQuery("*","matches","^.*&#.*$");
+                } else if (val ==  'q13') {
+                    self.drawFilterQuery("*","matches","^.*[^[:ascii:]].*$");
+                }
+            });
     }
 
     this.drawFilterQuery = function(pField, pOp, pVal) {
@@ -261,7 +266,7 @@ var QueryableMetadataFields = function(report) {
                     var wildname = name + ".*";
                     var opt = $("<option/>");
                     opt.attr("value",wildname).text(wildname);
-                    sel.append(opt);                
+                    sel.append(opt);
                 }
                 var opt = $("<option/>");
                 opt.attr("value",name).text(name);
@@ -307,7 +312,7 @@ var QueryableMetadataFields = function(report) {
         var valinput = valop.parent("div.metadata").find("input[name='query_val[]']");
         valinput.attr("readonly",disableval);
         if (disableval) {
-            valinput.val("");        
+            valinput.val("");
         }
     }
 
@@ -316,7 +321,7 @@ var QueryableMetadataFields = function(report) {
         $("button.field_plus:last").attr("disabled",false);
         $("button.field_minus").attr("disabled",false);
         if ($("button.field_minus").length == 1) {
-            $("button.field_minus").attr("disabled",true);                
+            $("button.field_minus").attr("disabled",true);
         }
     }
 }

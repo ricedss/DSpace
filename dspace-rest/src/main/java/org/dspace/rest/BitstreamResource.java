@@ -99,8 +99,8 @@ public class BitstreamResource extends Resource
     @Path("/{bitstream_id}")
     @Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
     public Bitstream getBitstream(@PathParam("bitstream_id") String bitstreamId, @QueryParam("expand") String expand,
-            @QueryParam("userIP") String user_ip, @QueryParam("userAgent") String user_agent,
-            @QueryParam("xforwardedfor") String xforwardedfor, @Context HttpHeaders headers, @Context HttpServletRequest request)
+                                  @QueryParam("userIP") String user_ip, @QueryParam("userAgent") String user_agent,
+                                  @QueryParam("xforwardedfor") String xforwardedfor, @Context HttpHeaders headers, @Context HttpServletRequest request)
             throws WebApplicationException
     {
 
@@ -211,9 +211,9 @@ public class BitstreamResource extends Resource
     @GET
     @Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
     public Bitstream[] getBitstreams(@QueryParam("expand") String expand,
-            @QueryParam("limit") @DefaultValue("100") Integer limit, @QueryParam("offset") @DefaultValue("0") Integer offset,
-            @QueryParam("userIP") String user_ip, @QueryParam("userAgent") String user_agent,
-            @QueryParam("xforwardedfor") String xforwardedfor, @Context HttpHeaders headers, @Context HttpServletRequest request)
+                                     @QueryParam("limit") @DefaultValue("100") Integer limit, @QueryParam("offset") @DefaultValue("0") Integer offset,
+                                     @QueryParam("userIP") String user_ip, @QueryParam("userAgent") String user_agent,
+                                     @QueryParam("xforwardedfor") String xforwardedfor, @Context HttpHeaders headers, @Context HttpServletRequest request)
             throws WebApplicationException
     {
 
@@ -240,7 +240,7 @@ public class BitstreamResource extends Resource
                 {
                     if (bitstreamService.getParentObject(context, dspaceBitstreams.get(i)) != null)
                     { // To eliminate bitstreams which cause exception, because of
-                      // reading under administrator permissions
+                        // reading under administrator permissions
                         bitstreams.add(new Bitstream(dspaceBitstreams.get(i), servletContext, expand, context));
                         writeStats(dspaceBitstreams.get(i), UsageEvent.Action.VIEW, user_ip, user_agent,
                                 xforwardedfor, headers, request, context);
@@ -293,8 +293,8 @@ public class BitstreamResource extends Resource
     @GET
     @Path("/{bitstream_id}/retrieve")
     public javax.ws.rs.core.Response getBitstreamData(@PathParam("bitstream_id") String bitstreamId,
-            @QueryParam("userIP") String user_ip, @QueryParam("userAgent") String user_agent,
-            @QueryParam("xforwardedfor") String xforwardedfor, @Context HttpHeaders headers, @Context HttpServletRequest request)
+                                                      @QueryParam("userIP") String user_ip, @QueryParam("userAgent") String user_agent,
+                                                      @QueryParam("xforwardedfor") String xforwardedfor, @Context HttpHeaders headers, @Context HttpServletRequest request)
             throws WebApplicationException
     {
 
@@ -367,8 +367,8 @@ public class BitstreamResource extends Resource
     @Path("/{bitstream_id}/policy")
     @Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
     public javax.ws.rs.core.Response addBitstreamPolicy(@PathParam("bitstream_id") String bitstreamId, ResourcePolicy policy,
-            @QueryParam("userIP") String user_ip, @QueryParam("userAgent") String user_agent,
-            @QueryParam("xforwardedfor") String xforwardedfor, @Context HttpHeaders headers, @Context HttpServletRequest request)
+                                                        @QueryParam("userIP") String user_ip, @QueryParam("userAgent") String user_agent,
+                                                        @QueryParam("xforwardedfor") String xforwardedfor, @Context HttpHeaders headers, @Context HttpServletRequest request)
             throws WebApplicationException
     {
 
@@ -438,8 +438,8 @@ public class BitstreamResource extends Resource
     @Path("/{bitstream_id}")
     @Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
     public Response updateBitstream(@PathParam("bitstream_id") String bitstreamId, Bitstream bitstream,
-            @QueryParam("userIP") String user_ip, @QueryParam("userAgent") String user_agent,
-            @QueryParam("xforwardedfor") String xforwardedfor, @Context HttpHeaders headers, @Context HttpServletRequest request)
+                                    @QueryParam("userIP") String user_ip, @QueryParam("userAgent") String user_agent,
+                                    @QueryParam("xforwardedfor") String xforwardedfor, @Context HttpHeaders headers, @Context HttpServletRequest request)
             throws WebApplicationException
     {
 
@@ -543,8 +543,8 @@ public class BitstreamResource extends Resource
     @PUT
     @Path("/{bitstream_id}/data")
     public Response updateBitstreamData(@PathParam("bitstream_id") String bitstreamId, InputStream is,
-            @QueryParam("userIP") String user_ip, @QueryParam("userAgent") String user_agent,
-            @QueryParam("xforwardedfor") String xforwardedfor, @Context HttpHeaders headers, @Context HttpServletRequest request)
+                                        @QueryParam("userIP") String user_ip, @QueryParam("userAgent") String user_agent,
+                                        @QueryParam("xforwardedfor") String xforwardedfor, @Context HttpHeaders headers, @Context HttpServletRequest request)
             throws WebApplicationException
     {
 
@@ -564,6 +564,7 @@ public class BitstreamResource extends Resource
             UUID newBitstreamId = bitstreamStorageService.store(context, dspaceBitstream, is);
             log.trace("Bitstream data stored: " + newBitstreamId);
 
+            context.complete();
         }
         catch (SQLException e)
         {
@@ -613,8 +614,8 @@ public class BitstreamResource extends Resource
     @DELETE
     @Path("/{bitstream_id}")
     public Response deleteBitstream(@PathParam("bitstream_id") String bitstreamId, @QueryParam("userIP") String user_ip,
-            @QueryParam("userAgent") String user_agent, @QueryParam("xforwardedfor") String xforwardedfor,
-            @Context HttpHeaders headers, @Context HttpServletRequest request) throws WebApplicationException
+                                    @QueryParam("userAgent") String user_agent, @QueryParam("xforwardedfor") String xforwardedfor,
+                                    @Context HttpHeaders headers, @Context HttpServletRequest request) throws WebApplicationException
     {
 
         log.info("Deleting bitstream(id=" + bitstreamId + ").");
@@ -675,8 +676,8 @@ public class BitstreamResource extends Resource
     @DELETE
     @Path("/{bitstream_id}/policy/{policy_id}")
     public javax.ws.rs.core.Response deleteBitstreamPolicy(@PathParam("bitstream_id") String bitstreamId,
-            @PathParam("policy_id") Integer policyId, @QueryParam("userIP") String user_ip, @QueryParam("userAgent") String user_agent,
-            @QueryParam("xforwardedfor") String xforwardedfor, @Context HttpHeaders headers, @Context HttpServletRequest request)
+                                                           @PathParam("policy_id") Integer policyId, @QueryParam("userIP") String user_ip, @QueryParam("userAgent") String user_agent,
+                                                           @QueryParam("xforwardedfor") String xforwardedfor, @Context HttpHeaders headers, @Context HttpServletRequest request)
             throws WebApplicationException
     {
         log.info("Deleting  policy(id=" + policyId + ") from bitstream(id=" + bitstreamId + ").");
@@ -701,7 +702,7 @@ public class BitstreamResource extends Resource
                 }
                 log.trace("Policy for bitstream(id=" + bitstreamId + ") was successfully removed.");
             }
-
+            context.complete();
         }
         catch (SQLException e)
         {

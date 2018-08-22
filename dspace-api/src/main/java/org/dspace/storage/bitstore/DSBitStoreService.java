@@ -21,7 +21,7 @@ import java.util.Map;
  * Native DSpace (or "Directory Scatter" if you prefer) asset store.
  * Implements a directory 'scatter' algorithm to avoid OS limits on
  * files per directory.
- * 
+ *
  * @author Peter Breton, Robert Tansley, Richard Rodgers, Peter Dietz
  */
 
@@ -29,7 +29,7 @@ public class DSBitStoreService implements BitStoreService
 {
     /** log4j log */
     private static Logger log = Logger.getLogger(DSBitStoreService.class);
-    
+
     // These settings control the way an identifier is hashed into
     // directory and file names
     //
@@ -43,41 +43,41 @@ public class DSBitStoreService implements BitStoreService
     private static final int digitsPerLevel = 2;
 
     private static final int directoryLevels = 3;
-    
+
     // Checksum algorithm
     private static final String CSA = "MD5";
 
     /** the asset directory */
-	private File baseDir;
-	
-	public DSBitStoreService()
-	{
-	}
+    private File baseDir;
 
-	/**
+    public DSBitStoreService()
+    {
+    }
+
+    /**
      * Initialize the asset store
      *
      */
-	public void init()
-	{
-		// the config string contains just the asset store directory path
+    public void init()
+    {
+        // the config string contains just the asset store directory path
         //set baseDir?
-	}
+    }
 
-	/**
+    /**
      * Return an identifier unique to this asset store instance
-     * 
+     *
      * @return a unique ID
      */
-	public String generateId()
-	{
+    public String generateId()
+    {
         return Utils.generateKey();
-	}
+    }
 
-	/**
+    /**
      * Retrieve the bits for the asset with ID. If the asset does not
      * exist, returns null.
-     * 
+     *
      * @param bitstream
      *            The ID of the asset to retrieve
      * @exception java.io.IOException
@@ -85,8 +85,8 @@ public class DSBitStoreService implements BitStoreService
      *
      * @return The stream of bits, or null
      */
-	public InputStream get(Bitstream bitstream) throws IOException
-	{
+    public InputStream get(Bitstream bitstream) throws IOException
+    {
         try {
             return new FileInputStream(getFile(bitstream));
         } catch (Exception e)
@@ -94,7 +94,7 @@ public class DSBitStoreService implements BitStoreService
             log.error("get(" + bitstream.getInternalId() + ")", e);
             throw new IOException(e);
         }
-	}
+    }
 
     /**
      * Store a stream of bits.
@@ -109,45 +109,45 @@ public class DSBitStoreService implements BitStoreService
      * @exception java.io.IOException
      *             If a problem occurs while storing the bits
      */
-	public void put(Bitstream bitstream, InputStream in) throws IOException
-	{
-        try {
+    public void put(Bitstream bitstream, InputStream in) throws IOException
+    {
+        try
+        {
             File file = getFile(bitstream);
 
             // Make the parent dirs if necessary
             File parent = file.getParentFile();
-            if (!parent.exists()) {
+            if (!parent.exists())
+            {
                 parent.mkdirs();
             }
             //Create the corresponding file and open it
             file.createNewFile();
 
-            FileOutputStream fos = new FileOutputStream(file);
+            try (
+                    FileOutputStream fos = new FileOutputStream(file);
+                    // Read through a digest input stream that will work out the MD5
+                    DigestInputStream dis = new DigestInputStream(in, MessageDigest.getInstance(CSA));
+            )
+            {
+                Utils.bufferedCopy(dis, fos);
+                in.close();
 
-            // Read through a digest input stream that will work out the MD5
-            DigestInputStream dis = null;
-
-            try {
-                dis = new DigestInputStream(in, MessageDigest.getInstance(CSA));
+                bitstream.setSizeBytes(file.length());
+                bitstream.setChecksum(Utils.toHex(dis.getMessageDigest().digest()));
+                bitstream.setChecksumAlgorithm(CSA);
             }
-            // Should never happen
-            catch (NoSuchAlgorithmException nsae) {
+            catch (NoSuchAlgorithmException nsae)
+            {
+                // Should never happen
                 log.warn("Caught NoSuchAlgorithmException", nsae);
             }
-
-            Utils.bufferedCopy(dis, fos);
-            fos.close();
-            in.close();
-
-            bitstream.setSizeBytes(file.length());
-            bitstream.setChecksum(Utils.toHex(dis.getMessageDigest().digest()));
-            bitstream.setChecksumAlgorithm(CSA);
         } catch (Exception e) {
             log.error("put(" + bitstream.getInternalId() + ", inputstream)", e);
             throw new IOException(e);
         }
-	}
-	
+    }
+
     /**
      * Obtain technical metadata about an asset in the asset store.
      *
@@ -161,8 +161,8 @@ public class DSBitStoreService implements BitStoreService
      * @return attrs
      *            A Map with key/value pairs of desired metadata
      */
-	public Map about(Bitstream bitstream, Map attrs) throws IOException
-	{
+    public Map about(Bitstream bitstream, Map attrs) throws IOException
+    {
         try {
             // potentially expensive, since it may calculate the checksum
             File file = getFile(bitstream);
@@ -202,7 +202,7 @@ public class DSBitStoreService implements BitStoreService
             log.error("about(" + bitstream.getInternalId() + ")", e);
             throw new IOException(e);
         }
-	}
+    }
 
     /**
      * Remove an asset from the asset store. An irreversible operation.
@@ -212,8 +212,8 @@ public class DSBitStoreService implements BitStoreService
      * @exception java.io.IOException
      *             If a problem occurs while removing the asset
      */
-	public void remove(Bitstream bitstream) throws IOException
-	{
+    public void remove(Bitstream bitstream) throws IOException
+    {
         try {
             File file = getFile(bitstream);
             if (file != null) {
@@ -227,15 +227,15 @@ public class DSBitStoreService implements BitStoreService
             log.error("remove(" + bitstream.getInternalId() + ")", e);
             throw new IOException(e);
         }
-	}
-	
+    }
+
     ////////////////////////////////////////
     // Internal methods
     ////////////////////////////////////////
-	
-	/**
+
+    /**
      * Delete empty parent directories.
-     * 
+     *
      * @param file
      *            The file with parent directories to delete
      */
@@ -245,13 +245,13 @@ public class DSBitStoreService implements BitStoreService
         {
             return;
         }
- 
-		File tmp = file;
+
+        File tmp = file;
 
         for (int i = 0; i < directoryLevels; i++)
         {
-			File directory = tmp.getParentFile();
-			File[] files = directory.listFiles();
+            File directory = tmp.getParentFile();
+            File[] files = directory.listFiles();
 
             // Only delete empty directories
             if (files.length != 0)
@@ -361,6 +361,4 @@ public class DSBitStoreService implements BitStoreService
     public void setBaseDir(File baseDir) {
         this.baseDir = baseDir;
     }
-
- 
 }

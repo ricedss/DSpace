@@ -9,10 +9,7 @@
 
 -->
 <!--
-  - DSpace build file
-  -
-  - Version:  $Revision$
-  - Date:     $Date$
+  - DSpace installer scripts
   -->
 
 <project name="DSpace" default="help">
@@ -22,17 +19,17 @@
     <!-- ============================================================= -->
 
     <description>
-====================== DSpace platform build file ======================
+        ====================== DSpace platform build file ======================
 
-Common usage:
+        Common usage:
 
-  Fresh install of DSpace:
-    % ant fresh_install
+        Fresh install of DSpace:
+        % ant fresh_install
 
-  Update existing installation, leaving data and configuration intact:
-    % ant -Dconfig=/installdir/config/dspace.cfg update
+        Update existing installation, leaving data and configuration intact:
+        % ant -Dconfig=/installdir/config/dspace.cfg update
 
-========================================================================
+        ========================================================================
     </description>
 
     <!-- DS-1391: Ant 1.8.0+ is required, fail if not available. -->
@@ -82,8 +79,8 @@ Common usage:
         <format property="build.date" pattern="yyyyMMdd-HHmmss" />
     </tstamp>
 
-    <!-- Default location of GeoLiteCity.dat.gz to download. This may be overridden, if URL path changes. -->
-    <property name="geolite" value="http://geolite.maxmind.com/download/geoip/database/GeoLiteCity.dat.gz" />
+    <!-- Default location of GeoLite2 City database to download. This may be overridden, if URL path changes. -->
+    <property name="geolite" value="http://geolite.maxmind.com/download/geoip/database/GeoLite2-City.tar.gz" />
 
     <!-- Default location of lucene-core JAR to download (for update_solr_indexes). This may be overridden, if URL path changes. -->
     <!-- NOTE: this URL should have the version of the JAR replaced with "[version]" -->
@@ -123,8 +120,8 @@ Common usage:
         <echo message="" />
         <echo message="update          --> Update ${dspace.dir} config, etc, lib and web applications without " />
         <echo message="                    touching your data" />
-    	<echo message="update_configs  --> Update your configs directory with new configuration files"/>
-    	<echo message="update_geolite  --> Dowload and install GeoCity database into ${dspace.dir}/config" />
+        <echo message="update_configs  --> Update your configs directory with new configuration files"/>
+        <echo message="update_geolite  --> Dowload and install GeoCity database into ${dspace.dir}/config" />
         <echo message="update_code     --> Update compiled code (bin, lib, and etc directories)" />
         <echo message="update_webapps  --> Update web applications" />
         <echo message="update_solr_indexes --> Checks if any Solr indexes need upgrading (to latest Solr), and if so, upgrades them." />
@@ -142,10 +139,10 @@ Common usage:
         <echo message="" />
         <echo message="-Dconfig=&lt;path/to/dspace.cfg&gt;  -- Where your dspace.cfg configuration" />
         <echo message="                                  is located" />
-    	<echo message="-Doverwrite=false              -- Will force update_configs to no longer copy existing"/>
-    	<echo message="                                  config to .old files when they conflict with"/>
-    	<echo message="                                  the new config.  Instead, new conflicting"/>
-    	<echo message="                                  file with be suffixed with .new."/>
+        <echo message="-Doverwrite=false              -- Will force update_configs to no longer copy existing"/>
+        <echo message="                                  config to .old files when they conflict with"/>
+        <echo message="                                  the new config.  Instead, new conflicting"/>
+        <echo message="                                  file with be suffixed with .new."/>
 
         <echo message="-Dwars=true                    -- Build .war files when updating web" />
         <echo message="                                  applications" />
@@ -185,7 +182,7 @@ Common usage:
     <!-- and should be hand updated afterward                .          -->
     <!-- ============================================================= -->
     <target name="update_configs" depends="overwrite_configs,overwrite_solr_configs" description="Updates the Configuration Directory">
-    	<antcall target="init_geolite" />
+        <antcall target="init_geolite" />
     </target>
 
     <target name="overwrite_configs" description="Overwrites a configuration directory." if="${overwrite}" depends="copy_configs_keep">
@@ -203,13 +200,13 @@ Common usage:
         Copy files that are different in target to *.old suffix
         -->
         <copy todir="${dspace.dir}/config" preservelastmodified="true" overwrite="true">
-                <fileset dir="${dspace.dir}/config">
-                   <and>
+            <fileset dir="${dspace.dir}/config">
+                <and>
                     <different targetdir="config-temp" ignoreFileTimes="true" />
                     <present present="both" targetdir="config-temp" />
-                   </and>
-                    <type type="file" />
-                </fileset>
+                </and>
+                <type type="file" />
+            </fileset>
             <globmapper from="*" to="*-${build.date}.old" />
         </copy>
 
@@ -229,21 +226,21 @@ Common usage:
         <delete dir="config-temp" />
 
         <echo>
-====================================================================
- The DSpace configuration has been updated.
+            ====================================================================
+            The DSpace configuration has been updated.
 
- During the upgrade process the build has attempted to overwrite the
- previous configuration while preserving your previous changes in files
- suffixed "*.old"
+            During the upgrade process the build has attempted to overwrite the
+            previous configuration while preserving your previous changes in files
+            suffixed "*.old"
 
- To complete installation, you should do the following:
+            To complete installation, you should do the following:
 
- * Check that you've properly merged any differences in the following files:
+            * Check that you've properly merged any differences in the following files:
 
         </echo>
 
         <fileset dir="${dspace.dir}/config" id="config.files">
-              <include name="**/*.old"/>
+            <include name="**/*.old"/>
         </fileset>
 
         <pathconvert pathsep="${line.separator}" property="configfiles" refid="config.files"/>
@@ -252,10 +249,10 @@ Common usage:
 
         <echo>
 
-  * To properly merge your previous configuration files, it's
-    best to try to take the newer version and copy your
-    previous changes into it.
-====================================================================
+            * To properly merge your previous configuration files, it's
+            best to try to take the newer version and copy your
+            previous changes into it.
+            ====================================================================
         </echo>
 
     </target>
@@ -288,21 +285,21 @@ Common usage:
         <delete dir="config-temp" />
 
         <echo>
-====================================================================
- The DSpace configuration has been updated.
+            ====================================================================
+            The DSpace configuration has been updated.
 
- During the upgrade process the build has preserved your original
- configuration and placed any conflicting new files next to your
- original suffixed with the "*.new" extension.
+            During the upgrade process the build has preserved your original
+            configuration and placed any conflicting new files next to your
+            original suffixed with the "*.new" extension.
 
- To complete installation, you should do the following:
+            To complete installation, you should do the following:
 
- * Check that you've properly merged any differences in the following files:
+            * Check that you've properly merged any differences in the following files:
 
         </echo>
 
         <fileset dir="${dspace.dir}/config" id="config.files">
-              <include name="**/*.new"/>
+            <include name="**/*.new"/>
         </fileset>
 
         <pathconvert pathsep="${line.separator}" property="configfiles" refid="config.files"/>
@@ -311,12 +308,12 @@ Common usage:
 
         <echo>
 
-  * To properly merge your previous configuration files, it's
-    best to try to take the newer version and copy your
-    previous changes into it. Delete the old and remove the
-    ".new" suffix from the new file.
+            * To properly merge your previous configuration files, it's
+            best to try to take the newer version and copy your
+            previous changes into it. Delete the old and remove the
+            ".new" suffix from the new file.
 
-====================================================================
+            ====================================================================
         </echo>
 
     </target>
@@ -381,9 +378,9 @@ Common usage:
         <copy todir="${dspace.dir}/solr" preservelastmodified="true">
             <fileset dir="solr-config-temp" includes="**/*">
                 <and>
-                   <present present="srconly" targetdir="${dspace.dir}/solr" />
-                   <!-- acts like <exclude name="**/data/**"/> -->
-                   <filename negate="true" name="**/data/**"/>
+                    <present present="srconly" targetdir="${dspace.dir}/solr" />
+                    <!-- acts like <exclude name="**/data/**"/> -->
+                    <filename negate="true" name="**/data/**"/>
                 </and>
             </fileset>
         </copy>
@@ -392,15 +389,15 @@ Common usage:
         Copy files that are different in target to *.old suffix
         -->
         <copy todir="${dspace.dir}/solr" preservelastmodified="true" overwrite="true">
-                <fileset dir="${dspace.dir}/solr">
-                   <and>
+            <fileset dir="${dspace.dir}/solr">
+                <and>
                     <different targetdir="solr-config-temp" ignoreFileTimes="true" />
                     <present present="both" targetdir="solr-config-temp" />
                     <!-- acts like <exclude name="**/data/**"/> -->
                     <filename negate="true" name="**/data/**"/>
-                   </and>
-                   <type type="file" />
-                </fileset>
+                </and>
+                <type type="file" />
+            </fileset>
             <globmapper from="*" to="*-${build.date}.old" />
         </copy>
 
@@ -424,21 +421,21 @@ Common usage:
         <delete dir="solr-config-temp" />
 
         <echo>
-====================================================================
- The DSpace configuration has been updated.
+            ====================================================================
+            The DSpace configuration has been updated.
 
- During the upgrade process the build has attempted to overwrite the
- previous configuration while preserving your previous changes in files
- suffixed "*.old"
+            During the upgrade process the build has attempted to overwrite the
+            previous configuration while preserving your previous changes in files
+            suffixed "*.old"
 
- To complete installation, you should do the following:
+            To complete installation, you should do the following:
 
- * Check that you've properly merged any differences in the following files:
+            * Check that you've properly merged any differences in the following files:
 
         </echo>
 
         <fileset dir="${dspace.dir}/solr" id="config.files">
-              <include name="**/*.old"/>
+            <include name="**/*.old"/>
         </fileset>
 
         <pathconvert pathsep="${line.separator}" property="configfiles" refid="config.files"/>
@@ -447,10 +444,10 @@ Common usage:
 
         <echo>
 
-  * To properly merge your previous configuration files, it's
-    best to try to take the newer version and copy your
-    previous changes into it.
-====================================================================
+            * To properly merge your previous configuration files, it's
+            best to try to take the newer version and copy your
+            previous changes into it.
+            ====================================================================
         </echo>
 
     </target>
@@ -491,21 +488,21 @@ Common usage:
         <delete dir="solr-config-temp" />
 
         <echo>
-====================================================================
- The DSpace configuration has been updated.
+            ====================================================================
+            The DSpace configuration has been updated.
 
- During the upgrade process the build has preserved your original
- configuration and placed any conflicting new files next to your
- original suffixed with the "*.new" extension.
+            During the upgrade process the build has preserved your original
+            configuration and placed any conflicting new files next to your
+            original suffixed with the "*.new" extension.
 
- To complete installation, you should do the following:
+            To complete installation, you should do the following:
 
- * Check that you've properly merged any differences in the following files:
+            * Check that you've properly merged any differences in the following files:
 
         </echo>
 
         <fileset dir="${dspace.dir}/solr" id="config.files">
-              <include name="**/*.new"/>
+            <include name="**/*.new"/>
         </fileset>
 
         <pathconvert pathsep="${line.separator}" property="configfiles" refid="config.files"/>
@@ -514,12 +511,12 @@ Common usage:
 
         <echo>
 
-  * To properly merge your previous configuration files, it's
-    best to try to take the newer version and copy your
-    previous changes into it. Delete the old and remove the
-    ".new" suffix from the new file.
+            * To properly merge your previous configuration files, it's
+            best to try to take the newer version and copy your
+            previous changes into it. Delete the old and remove the
+            ".new" suffix from the new file.
 
-====================================================================
+            ====================================================================
         </echo>
 
     </target>
@@ -581,26 +578,26 @@ Common usage:
             <fileset dir="etc" />
         </copy>
 
-    	<copy todir="${dspace.dir}/solr" preservelastmodified="true">
-    	     <fileset dir="solr"/>
-    	</copy>
+        <copy todir="${dspace.dir}/solr" preservelastmodified="true">
+            <fileset dir="solr"/>
+        </copy>
 
         <echo>
-====================================================================
- ${dspace.dir}/bin was backed up to
+            ====================================================================
+            ${dspace.dir}/bin was backed up to
 
- ${dspace.dir}/bin.bak-${build.date}
+            ${dspace.dir}/bin.bak-${build.date}
 
- ${dspace.dir}/lib was backed up to
+            ${dspace.dir}/lib was backed up to
 
- ${dspace.dir}/lib.bak-${build.date}
+            ${dspace.dir}/lib.bak-${build.date}
 
- ${dspace.dir}/etc was backed up to
+            ${dspace.dir}/etc was backed up to
 
- ${dspace.dir}/etc.bak-${build.date}
+            ${dspace.dir}/etc.bak-${build.date}
 
- Please review these directories and delete if no longer needed.
-====================================================================
+            Please review these directories and delete if no longer needed.
+            ====================================================================
         </echo>
 
     </target>
@@ -619,46 +616,46 @@ Common usage:
         </move>
 
         <echo>
-====================================================================
- ${dspace.dir}/webapps was backed up to
+            ====================================================================
+            ${dspace.dir}/webapps was backed up to
 
- ${dspace.dir}/webapps.bak-${build.date}
+            ${dspace.dir}/webapps.bak-${build.date}
 
- Please review this directory and delete it if it's no longer needed.
-====================================================================
+            Please review this directory and delete it if it's no longer needed.
+            ====================================================================
         </echo>
 
         <antcall target="copy_webapps" />
 
         <echo>
-====================================================================
- Updated DSpace Web application directories are in the
- '${dspace.dir}/webapps' directory.
+            ====================================================================
+            Updated DSpace Web application directories are in the
+            '${dspace.dir}/webapps' directory.
 
- * Stop your Web servlet container (Tomcat, Jetty, Resin etc.)
+            * Stop your Web servlet container (Tomcat, Jetty, Resin etc.)
 
- * If your Web servlet container already loads the DSpace
-   UI web applications from ${dspace.dir}/webapps/, then you
-   can jump straight to restarting your Web servlet container
+            * If your Web servlet container already loads the DSpace
+            UI web applications from ${dspace.dir}/webapps/, then you
+            can jump straight to restarting your Web servlet container
 
- * Otherwise, you will need to copy any web applications from
-   ${dspace.dir}/webapps/ to the appropriate place for your servlet
-   container.  (e.g. '$CATALINA_HOME/webapps' for Tomcat)
+            * Otherwise, you will need to copy any web applications from
+            ${dspace.dir}/webapps/ to the appropriate place for your servlet
+            container.  (e.g. '$CATALINA_HOME/webapps' for Tomcat)
 
-   If you're using Tomcat, you should first delete any existing
-   DSpace directories in '$CATALINA_HOME/webapps/' (e.g. you would
-   delete an existing $CATALINA_HOME/webapps/dspace/ directory).
-   Otherwise, Tomcat may continue to use old code in that directory.
+            If you're using Tomcat, you should first delete any existing
+            DSpace directories in '$CATALINA_HOME/webapps/' (e.g. you would
+            delete an existing $CATALINA_HOME/webapps/dspace/ directory).
+            Otherwise, Tomcat may continue to use old code in that directory.
 
- * Start up your Web servlet container again.
-====================================================================
+            * Start up your Web servlet container again.
+            ====================================================================
         </echo>
 
     </target>
 
 
     <!-- ============================================================= -->
-	<!-- Copy Web Applications to Runtime Location -->
+    <!-- Copy Web Applications to Runtime Location -->
     <!-- ============================================================= -->
 
     <target name="copy_webapps">
@@ -718,9 +715,9 @@ Common usage:
             <fileset dir="${dspace.dir}/webapps/sword/" />
         </war>
 
-    	<war destfile="${dspace.dir}/webapps/solr.war">
-    	            <fileset dir="${dspace.dir}/webapps/solr/" />
-    	</war>
+        <war destfile="${dspace.dir}/webapps/solr.war">
+            <fileset dir="${dspace.dir}/webapps/solr/" />
+        </war>
     </target>
 
 
@@ -754,12 +751,12 @@ Common usage:
 
         <mkdir dir="${report.dir}" />
 
-    	<mkdir dir="${dspace.dir}/solr" />
+        <mkdir dir="${dspace.dir}/solr" />
 
-    	<!-- Runtime files (Could be erased - just for performing purposes) -->
-    	<mkdir dir="${dspace.dir}/var" />
-    	<!-- Runtime files for OAI 2.0 -->
-    	<mkdir dir="${dspace.dir}/var/oai" />
+        <!-- Runtime files (Could be erased - just for performing purposes) -->
+        <mkdir dir="${dspace.dir}/var" />
+        <!-- Runtime files for OAI 2.0 -->
+        <mkdir dir="${dspace.dir}/var/oai" />
     </target>
 
 
@@ -805,7 +802,7 @@ Common usage:
     <target name="install_code"
             depends="init_installation,init_configs"
             description="Do a fresh install of the code, preserving any data."
-            >
+    >
 
         <delete failonerror="no">
             <fileset dir="${dspace.dir}/bin" includes="**/*" />
@@ -836,14 +833,14 @@ Common usage:
             <fileset dir="etc" />
         </copy>
 
-    	<copy todir="${dspace.dir}/solr" preservelastmodified="true">
-    	    <fileset dir="solr" />
-    	</copy>
+        <copy todir="${dspace.dir}/solr" preservelastmodified="true">
+            <fileset dir="solr" />
+        </copy>
 
         <echo>
-====================================================================
- The DSpace code has been installed.
-====================================================================
+            ====================================================================
+            The DSpace code has been installed.
+            ====================================================================
         </echo>
 
     </target>
@@ -863,67 +860,76 @@ Common usage:
 
         <antcall target="copy_webapps" />
 
-    	<antcall target="init_geolite" />
+        <antcall target="init_geolite" />
 
         <echo>
-====================================================================
- The DSpace code has been installed.
+            ====================================================================
+            The DSpace code has been installed.
 
- To complete installation, you should do the following:
+            To complete installation, you should do the following:
 
- * Setup your Web servlet container (e.g. Tomcat) to look for your
-   DSpace web applications in: ${dspace.dir}/webapps/
+            * Setup your Web servlet container (e.g. Tomcat) to look for your
+            DSpace web applications in: ${dspace.dir}/webapps/
 
-   OR, copy any web applications from ${dspace.dir}/webapps/ to
-   the appropriate place for your servlet container.
-   (e.g. '$CATALINA_HOME/webapps' for Tomcat)
+            OR, copy any web applications from ${dspace.dir}/webapps/ to
+            the appropriate place for your servlet container.
+            (e.g. '$CATALINA_HOME/webapps' for Tomcat)
 
- * Start up your servlet container (e.g. Tomcat). DSpace now will
-   initialize the database on the first startup.
+            * Start up your servlet container (e.g. Tomcat). DSpace now will
+            initialize the database on the first startup.
 
- * Make an initial administrator account (an e-person) in DSpace:
+            * Make an initial administrator account (an e-person) in DSpace:
 
-   ${dspace.dir}/bin/dspace create-administrator
+            ${dspace.dir}/bin/dspace create-administrator
 
- You should then be able to access your DSpace's 'home page':
+            You should then be able to access your DSpace's 'home page':
 
-   ${dspace.url}
+            ${dspace.url}
 
-====================================================================
+            ====================================================================
         </echo>
 
     </target>
 
-	<!-- installs GeoCity resolution database -->
+    <!-- installs GeoCity resolution database -->
     <target name="update_geolite">
         <echo>Downloading: ${geolite}</echo>
         <trycatch property="geolite.error">
             <try>
-                <get src="${geolite}" dest="${dspace.dir}/config/GeoLiteCity.dat.gz" verbose="true"/>
-                <gunzip src="${dspace.dir}/config/GeoLiteCity.dat.gz" dest="${dspace.dir}/config/GeoLiteCity.dat" />
-                <delete file="${dspace.dir}/config/GeoLiteCity.dat.gz" />
+                <get src="${geolite}"
+                     dest="${dspace.dir}/config/GeoLite2-City.tar.gz"
+                     verbose="true"/>
+                <untar src="${dspace.dir}/config/GeoLite2-City.tar.gz"
+                       dest="${dspace.dir}/config/"
+                       compression='gzip'>
+                    <patternset>
+                        <include name='**/GeoLite2-City.mmdb'/>
+                    </patternset>
+                    <mapper type='flatten'/>
+                </untar>
+                <delete file="${dspace.dir}/config/GeoLite2-City.tar.gz"/>
             </try>
             <catch>
                 <echo>
-====================================================================
-WARNING : FAILED TO DOWNLOAD GEOLITE DATABASE FILE
-          (Used for DSpace Solr Usage Statistics)
+                    ====================================================================
+                    WARNING : FAILED TO DOWNLOAD GEOLITE DATABASE FILE
+                    (Used for DSpace Solr Usage Statistics)
 
-Underlying Error: ${geolite.error}
+                    Underlying Error: ${geolite.error}
 
-In order to use DSpace Solr Usage Statistics, you will need to
-manually re-run:
+                    In order to use DSpace Solr Usage Statistics, you will need to
+                    manually re-run:
 
-ant update_geolite
+                    ant update_geolite
 
-OR
+                    OR
 
-You may manually install this file by following these steps:
-(1) Download the file from ${geolite}
-(2) Unzip it to create a file named 'GeoLiteCity.dat'
-(3) Copy that file to '${dspace.dir}/config/GeoLiteCity.dat'
+                    You may manually install this file by following these steps:
+                    (1) Download the latest database archive from ${geolite}
+                    (2) Unpack it.'
+                    (3) Copy the file 'GeoLite2-City.mmdb' to '${usage-statistics.dbfile}'.
 
-====================================================================
+                    ====================================================================
                 </echo>
             </catch>
         </trycatch>
@@ -933,7 +939,7 @@ You may manually install this file by following these steps:
     <target name="check_geolite">
         <condition property="need.geolite">
             <not>
-                <available file="${dspace.dir}/config/GeoLiteCity.dat" />
+                <available file="${usage-statistics.dbfile}" />
             </not>
         </condition>
     </target>
@@ -1055,13 +1061,13 @@ You may manually install this file by following these steps:
              We need this special error handling, since we are capturing the
              output in ${version_compare}. -->
         <fail>
-          <condition>
-              <not>
-                <equals arg1="${version_returncode}" arg2="0"/>
-              </not>
-          </condition>
-ERROR occurred while checking Solr index version:
-${version_compare}
+            <condition>
+                <not>
+                    <equals arg1="${version_returncode}" arg2="0"/>
+                </not>
+            </condition>
+            ERROR occurred while checking Solr index version:
+            ${version_compare}
         </fail>
 
         <!-- If the above java command returned -1, that means this index is NOT yet
@@ -1113,29 +1119,29 @@ ${version_compare}
                     </try>
                     <catch>
                         <echo>
-====================================================================
-WARNING : FAILED TO DOWNLOAD LUCENE-CORE.JAR
-          (Needed to upgrade your existing Solr indexes)
+                            ====================================================================
+                            WARNING : FAILED TO DOWNLOAD LUCENE-CORE.JAR
+                            (Needed to upgrade your existing Solr indexes)
 
-Underlying Error: ${lucene.download.error}
+                            Underlying Error: ${lucene.download.error}
 
-In order to upgrade your Solr indexes to the latest version,
-you will need to do the following:
+                            In order to upgrade your Solr indexes to the latest version,
+                            you will need to do the following:
 
-(1) Manually download the lucene-core-${version}.jar at:
+                            (1) Manually download the lucene-core-${version}.jar at:
 
-    ${lucene-core.jar}
+                            ${lucene-core.jar}
 
-(2) Place the JAR in the "[src]/dspace/target/dspace-installer" directory.
+                            (2) Place the JAR in the "[src]/dspace/target/dspace-installer" directory.
 
-    [src]/dspace/target/dspace-installer/${lucene-core}.jar
+                            [src]/dspace/target/dspace-installer/${lucene-core}.jar
 
-(3) Manually re-run the following 'ant' upgrade command:
+                            (3) Manually re-run the following 'ant' upgrade command:
 
-    ant update_solr_indexes
+                            ant update_solr_indexes
 
-For more information, please see the Upgrade Instructions.
-====================================================================
+                            For more information, please see the Upgrade Instructions.
+                            ====================================================================
                         </echo>
                     </catch>
                 </trycatch>

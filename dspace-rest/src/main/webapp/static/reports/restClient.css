@@ -32,7 +32,7 @@ input:read-only {
 }
 div.metadata {
 	padding: 2px;
-    width: 880px;
+	width: 880px;
 }
 #metadatadiv select, #metadatadiv input {
 	padding: 2px;
@@ -40,7 +40,7 @@ div.metadata {
 }
 #metadatadiv fieldset {
 	margin: 6px 15px;
-    width: 850px;
+	width: 850px;
 }
 
 #metadatadiv label {
@@ -88,4 +88,11 @@ fieldset.catdiv div {
 
 .toobig::before {
 	content: "*";
+}
+#exlimit {
+	font-style: italic;
+}
+
+.red {
+	color: red;
 }

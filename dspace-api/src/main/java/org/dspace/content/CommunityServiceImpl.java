@@ -74,7 +74,7 @@ public class CommunityServiceImpl extends DSpaceObjectServiceImpl<Community> imp
     @Override
     public Community create(Community parent, Context context, String handle) throws SQLException, AuthorizeException {
         if (!(authorizeService.isAdmin(context) ||
-              (parent != null && authorizeService.authorizeActionBoolean(context, parent, Constants.ADD))))
+                (parent != null && authorizeService.authorizeActionBoolean(context, parent, Constants.ADD))))
         {
             throw new AuthorizeException(
                     "Only administrators can create communities");
@@ -114,7 +114,7 @@ public class CommunityServiceImpl extends DSpaceObjectServiceImpl<Community> imp
 
         context.addEvent(new Event(Event.CREATE, Constants.COMMUNITY, newCommunity.getID(), newCommunity.getHandle(), getIdentifiers(context, newCommunity)));
 
-                // if creating a top-level Community, simulate an ADD event at the Site.
+        // if creating a top-level Community, simulate an ADD event at the Site.
         if (parent == null)
         {
             context.addEvent(new Event(Event.ADD, Constants.SITE, siteService.findSite(context).getID(),
@@ -250,7 +250,7 @@ public class CommunityServiceImpl extends DSpaceObjectServiceImpl<Community> imp
 
     @Override
     public void update(Context context, Community community) throws SQLException, AuthorizeException {
-                // Check authorisation
+        // Check authorisation
         canEdit(context, community);
 
         log.info(LogManager.getHeader(context, "update_community",
@@ -394,7 +394,7 @@ public class CommunityServiceImpl extends DSpaceObjectServiceImpl<Community> imp
 
     @Override
     public Community createSubcommunity(Context context, Community parentCommunity, String handle) throws SQLException, AuthorizeException {
-                // Check authorisation
+        // Check authorisation
         authorizeService.authorizeAction(context, parentCommunity, Constants.ADD);
 
         Community c = create(parentCommunity, context, handle);
@@ -446,7 +446,7 @@ public class CommunityServiceImpl extends DSpaceObjectServiceImpl<Community> imp
 
     @Override
     public void removeSubcommunity(Context context, Community parentCommunity, Community childCommunity) throws SQLException, AuthorizeException, IOException {
-                // Check authorisation
+        // Check authorisation
         authorizeService.authorizeAction(context, parentCommunity, Constants.REMOVE);
 
         ArrayList<String> removedIdentifiers = getIdentifiers(context, childCommunity);
@@ -454,9 +454,6 @@ public class CommunityServiceImpl extends DSpaceObjectServiceImpl<Community> imp
         UUID removedId = childCommunity.getID();
 
         rawDelete(context, childCommunity);
-
-        childCommunity.removeParentCommunity(parentCommunity);
-        parentCommunity.removeSubCommunity(childCommunity);
 
         log.info(LogManager.getHeader(context, "remove_subcommunity",
                 "parent_comm_id=" + parentCommunity.getID() + ",child_comm_id=" + childCommunity.getID()));
@@ -554,6 +551,13 @@ public class CommunityServiceImpl extends DSpaceObjectServiceImpl<Community> imp
         // Remove any Handle
         handleService.unbindHandle(context, community);
 
+        // Remove the parent-child relationship for the community we want ot delete
+        Community parent = (Community) getParentObject(context, community);
+        if (parent != null) {
+            community.removeParentCommunity(parent);
+            parent.removeSubCommunity(community);
+        }
+
         Group g = community.getAdministrators();
 
         // Delete community row
@@ -616,33 +620,33 @@ public class CommunityServiceImpl extends DSpaceObjectServiceImpl<Community> imp
     }
 
     @Override
-	public DSpaceObject getAdminObject(Context context, Community community, int action) throws SQLException
+    public DSpaceObject getAdminObject(Context context, Community community, int action) throws SQLException
     {
         DSpaceObject adminObject = null;
         switch (action)
         {
-        case Constants.REMOVE:
-            if (AuthorizeConfiguration.canCommunityAdminPerformSubelementDeletion())
-            {
-                adminObject = community;
-            }
-            break;
+            case Constants.REMOVE:
+                if (AuthorizeConfiguration.canCommunityAdminPerformSubelementDeletion())
+                {
+                    adminObject = community;
+                }
+                break;
 
-        case Constants.DELETE:
-            if (AuthorizeConfiguration.canCommunityAdminPerformSubelementDeletion())
-            {
-                adminObject = getParentObject(context, community);
-            }
-            break;
-        case Constants.ADD:
-            if (AuthorizeConfiguration.canCommunityAdminPerformSubelementCreation())
-            {
+            case Constants.DELETE:
+                if (AuthorizeConfiguration.canCommunityAdminPerformSubelementDeletion())
+                {
+                    adminObject = getParentObject(context, community);
+                }
+                break;
+            case Constants.ADD:
+                if (AuthorizeConfiguration.canCommunityAdminPerformSubelementCreation())
+                {
+                    adminObject = community;
+                }
+                break;
+            default:
                 adminObject = community;
-            }
-            break;
-        default:
-            adminObject = community;
-            break;
+                break;
         }
         return adminObject;
     }

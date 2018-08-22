@@ -97,10 +97,10 @@ public class ITCommunityCollection extends AbstractIntegrationTest
         context.turnOffAuthorisationSystem();
         Community parent = communityService.create(null, context);
         Community child1 = communityService.create(parent, context);
-        
+
         Collection col1 = collectionService.create(context, child1);
         Collection col2 = collectionService.create(context, child1);
-        
+
         context.restoreAuthSystemState();
 
         //verify it works as expected
@@ -109,7 +109,7 @@ public class ITCommunityCollection extends AbstractIntegrationTest
         assertThat("testCreateTree 2", (Community) collectionService.getParentObject(context, col1), equalTo(child1));
         assertThat("testCreateTree 3", (Community) collectionService.getParentObject(context, col2), equalTo(child1));
     }
-    
+
     /**
      * Tests the creation of items in a community/collection tree
      */
@@ -122,10 +122,10 @@ public class ITCommunityCollection extends AbstractIntegrationTest
         context.turnOffAuthorisationSystem();
         Community parent = communityService.create(null, context);
         Community child1 = communityService.create(parent, context);
-        
+
         Collection col1 = collectionService.create(context, child1);
         Collection col2 = collectionService.create(context, child1);
-        
+
         Item item1 = installItemService.installItem(context, workspaceItemService.create(context, col1, false));
         Item item2 = installItemService.installItem(context, workspaceItemService.create(context, col2, false));
 
@@ -136,10 +136,10 @@ public class ITCommunityCollection extends AbstractIntegrationTest
         assertThat("testCreateItems 1", (Collection) itemService.getParentObject(context, item2), equalTo(col2));
     }
 
-     /**
-      * Tests that count items works as expected
-      * NOTE: Counts are currently expensive (take a while)
-      */
+    /**
+     * Tests that count items works as expected
+     * NOTE: Counts are currently expensive (take a while)
+     */
     @Test
     @PerfTest(invocations = 10, threads = 1)
     @Required(percentile95 = 2000, average= 1800)
@@ -160,13 +160,13 @@ public class ITCommunityCollection extends AbstractIntegrationTest
             Item item1 = installItemService.installItem(context, workspaceItemService.create(context, col1, false));
             Item item2 = installItemService.installItem(context, workspaceItemService.create(context, col2, false));
         }
-        
+
         // Finally, let's throw in a small wrench and add a mapped item
         // Add it to collection 1
         Item item3 = installItemService.installItem(context, workspaceItemService.create(context, col1, false));
         // Map it into collection 2
         collectionService.addItem(context, col2, item3);
-        
+
         // Our total number of items should be
         int totalitems = items_per_collection*2 + 1;
         // Our collection counts should be
@@ -181,10 +181,10 @@ public class ITCommunityCollection extends AbstractIntegrationTest
         assertThat("testCountItems 3", itemService.countItems(context, parentCom), equalTo(totalitems));
     }
 
-     /**
-      * Tests that ensure Community Admin deletion permissions are being properly
-      * inherited to all objects in the Community hierarchy.
-      */
+    /**
+     * Tests that ensure Community Admin deletion permissions are being properly
+     * inherited to all objects in the Community hierarchy.
+     */
     @Test
     public void testCommunityAdminDeletions() throws SQLException, AuthorizeException, IOException
     {
@@ -206,6 +206,7 @@ public class ITCommunityCollection extends AbstractIntegrationTest
         // Create a hierachy of sub-Communities and Collections and Items.
         Community child = communityService.createSubcommunity(context, parentCom);
         Community child2 = communityService.createSubcommunity(context, parentCom);
+        Community child3 = communityService.createSubcommunity(context, parentCom);
         Community grandchild = communityService.createSubcommunity(context, child);
         Collection childCol = collectionService.create(context, child);
         Collection grandchildCol = collectionService.create(context, grandchild);
@@ -246,6 +247,13 @@ public class ITCommunityCollection extends AbstractIntegrationTest
         // Test deletion of single Sub-Community as a Community Admin
         UUID commId = child2.getID();
         communityService.delete(context, child2);
+        assertThat("Community Admin unable to delete sub-Community",
+                communityService.find(context, commId), nullValue());
+
+        // Test deletion of single Sub-Community with own admin group
+        communityService.createAdministrators(context, child3);
+        commId = child3.getID();
+        communityService.delete(context, child3);
         assertThat("Community Admin unable to delete sub-Community",
                 communityService.find(context, commId), nullValue());
 

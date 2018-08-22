@@ -32,7 +32,7 @@ import java.util.*;
  * Utility class for extracting information about items, possibly just within a
  * certain community or collection, that have been created, modified or
  * withdrawn within a particular range of dates.
- * 
+ *
  * @author Robert Tansley
  * @version $Revision$
  */
@@ -88,16 +88,15 @@ public class Harvest
      * @throws java.text.ParseException If the date is not in a supported format
      */
     public static List<HarvestedItemInfo> harvest(Context context, DSpaceObject scope,
-            String startDate, String endDate, int offset, int limit,
-            boolean items, boolean collections, boolean withdrawn,
-            boolean nonAnon) throws SQLException, ParseException
+                                                  String startDate, String endDate, int offset, int limit,
+                                                  boolean items, boolean collections, boolean withdrawn,
+                                                  boolean nonAnon) throws SQLException, ParseException
     {
         DiscoverQuery discoverQuery = new DiscoverQuery();
         discoverQuery.addFilterQueries("search.resourcetype:" + Constants.ITEM);
 
         if (scope != null)
         {
-            //discoverQuery.addFieldPresentQueries("location:" + scope.getID());
             if (scope instanceof Community)
             {
                 discoverQuery.addFilterQueries("location:m" + scope.getID());
@@ -108,23 +107,17 @@ public class Harvest
             }
         }
 
-        //if (startDate != null)
-
         if (startDate != null && endDate != null)
         {
-            //discoverQuery.addFilterQueries("lastModified => " + new DCDate(startDate).toString());
-            discoverQuery.addFilterQueries("lastModified:[" + new DCDate(startDate).toString() + " TO " + new DCDate(endDate).toString()+ "]");
+            discoverQuery.addFilterQueries("lastModified:[" + new DCDate(startDate).toString()
+                    + " TO " + new DCDate(endDate).toString()+ "]");
         }
-
-        //if (endDate != null)
         else if (startDate != null)
         {
             discoverQuery.addFilterQueries("lastModified:[" + new DCDate(startDate).toString() + " TO *]");
         }
         else if (endDate != null)
-
         {
-            //discoverQuery.addFilterQueries("lastModified <= " + new DCDate(startDate).toString());
             discoverQuery.addFilterQueries("lastModified:[* TO " + new DCDate(endDate).toString()+ " ]");
         }
 
@@ -224,7 +217,7 @@ public class Harvest
      * @throws SQLException if database error
      */
     public static HarvestedItemInfo getSingle(Context context, String handle,
-            boolean collections) throws SQLException
+                                              boolean collections) throws SQLException
     {
         // FIXME: Assume Handle is item
         Item i = (Item) handleService.resolveToObject(context, handle);
@@ -263,7 +256,7 @@ public class Harvest
      * @throws SQLException if database error
      */
     private static void fillCollections(Context context,
-            HarvestedItemInfo itemInfo) throws SQLException
+                                        HarvestedItemInfo itemInfo) throws SQLException
     {
         // Get the collection Handles from DB
         List<Collection> collections = itemInfo.item.getCollections();
