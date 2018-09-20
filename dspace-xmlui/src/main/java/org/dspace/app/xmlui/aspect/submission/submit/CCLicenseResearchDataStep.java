@@ -55,7 +55,7 @@ import org.xml.sax.SAXException;
  * @author Tim Donohue (updated for Configurable Submission)
  * @author Wendy Bossons (updated for DSpace 1.8)
  */
-public class CCLicenseStepResearchDataStep extends AbstractSubmissionStep
+public class CCLicenseResearchDataStep extends AbstractSubmissionStep
 {
 	/** Language Strings **/
 	protected static final Message T_head =
@@ -85,7 +85,7 @@ public class CCLicenseStepResearchDataStep extends AbstractSubmissionStep
 	/**
 	 * Establish our required parameters, abstractStep will enforce these.
 	 */
-	public CCLicenseStepResearchDataStep()
+	public CCLicenseResearchDataStep()
 	{
 		this.requireSubmission = true;
 		this.requireStep = true;
