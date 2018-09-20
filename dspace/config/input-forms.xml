@@ -4053,6 +4053,10 @@ it, please enter the types and the actual numbers or codes below.</hint>
            <stored-value>Report</stored-value>
          </pair>
          <pair>
+             <displayed-value>Technical report</displayed-value>
+             <stored-value>Technical report</stored-value>
+         </pair>
+         <pair>
            <displayed-value>audio recordings</displayed-value>
            <stored-value>audio recordings</stored-value>
          </pair>
