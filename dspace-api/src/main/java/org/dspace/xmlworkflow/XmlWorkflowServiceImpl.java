@@ -137,7 +137,7 @@ public class XmlWorkflowServiceImpl implements XmlWorkflowService {
                     if(role.getScope() == Role.Scope.COLLECTION){
                         WorkflowUtils.createCollectionWorkflowRole(context, collection, roleName, roleGroup);
                     }
-               }
+                }
             }
             return roleGroup;
         } catch (WorkflowConfigurationException e) {
@@ -168,7 +168,7 @@ public class XmlWorkflowServiceImpl implements XmlWorkflowService {
             context.turnOffAuthorisationSystem();
             Step firstStep = wf.getFirstStep();
             if(firstStep.isValidStep(context, wfi)){
-                 activateFirstStep(context, wf, firstStep, wfi);
+                activateFirstStep(context, wf, firstStep, wfi);
             } else {
                 //Get our next step, if none is found, archive our item
                 firstStep = wf.getNextStep(context, wfi, firstStep, ActionResult.OUTCOME_COMPLETE);
@@ -223,7 +223,7 @@ public class XmlWorkflowServiceImpl implements XmlWorkflowService {
     }
 
     protected void grantSubmitterReadPolicies(Context context, Item item) throws SQLException, AuthorizeException {
-              //A list of policies the user has for this item
+        //A list of policies the user has for this item
         List<Integer>  userHasPolicies = new ArrayList<Integer>();
         List<ResourcePolicy> itempols = authorizeService.getPolicies(context, item);
         EPerson submitter = item.getSubmitter();
@@ -235,7 +235,7 @@ public class XmlWorkflowServiceImpl implements XmlWorkflowService {
         }
         //Make sure we don't add duplicate policies
         if(!userHasPolicies.contains(Constants.READ))
-            addPolicyToItem(context, item, Constants.READ, submitter);
+            addPolicyToItem(context, item, Constants.READ, submitter, ResourcePolicy.TYPE_SUBMISSION);
     }
 
 
@@ -682,18 +682,23 @@ public class XmlWorkflowServiceImpl implements XmlWorkflowService {
     }
 
     protected void addPolicyToItem(Context context, Item item, int type, EPerson epa) throws AuthorizeException, SQLException {
+        addPolicyToItem(context, item, type, epa, null);
+    }
+
+    protected void addPolicyToItem(Context context, Item item, int type, EPerson epa, String policyType) throws AuthorizeException, SQLException {
         if(epa != null){
-            authorizeService.addPolicy(context, item, type, epa);
+            authorizeService.addPolicy(context, item, type, epa, policyType);
             List<Bundle> bundles = item.getBundles();
             for (Bundle bundle : bundles) {
-                authorizeService.addPolicy(context, bundle, type, epa);
+                authorizeService.addPolicy(context, bundle, type, epa, policyType);
                 List<Bitstream> bits = bundle.getBitstreams();
                 for (Bitstream bit : bits) {
-                    authorizeService.addPolicy(context, bit, type, epa);
+                    authorizeService.addPolicy(context, bit, type, epa, policyType);
                 }
             }
         }
     }
+
     protected void addGroupPolicyToItem(Context context, Item item, int type, Group group) throws AuthorizeException, SQLException {
         if(group != null){
             authorizeService.addPolicy(context, item, type, group);
@@ -747,7 +752,7 @@ public class XmlWorkflowServiceImpl implements XmlWorkflowService {
 
     @Override
     public WorkspaceItem sendWorkflowItemBackSubmission(Context context, XmlWorkflowItem wi, EPerson e, String provenance,
-            String rejection_message) throws SQLException, AuthorizeException,
+                                                        String rejection_message) throws SQLException, AuthorizeException,
             IOException
     {
 
@@ -839,7 +844,7 @@ public class XmlWorkflowServiceImpl implements XmlWorkflowService {
     protected WorkspaceItem returnToWorkspace(Context c, XmlWorkflowItem wfi)
             throws SQLException, IOException, AuthorizeException
     {
-                // authorize a DSpaceActions.REJECT
+        // authorize a DSpaceActions.REJECT
         // stop workflow
         deleteAllTasks(c, wfi);
 
@@ -916,7 +921,7 @@ public class XmlWorkflowServiceImpl implements XmlWorkflowService {
     }
 
     protected void notifyOfReject(Context c, XmlWorkflowItem wi, EPerson e,
-        String reason)
+                                  String reason)
     {
         try
         {

@@ -41,9 +41,7 @@
 package org.dspace.app.util;
 
 import java.io.File;
-import java.util.Vector;
-import java.util.HashMap;
-import java.util.Iterator;
+import java.util.*;
 import java.lang.Exception;
 import org.xml.sax.SAXException;
 import org.w3c.dom.*;
@@ -63,8 +61,6 @@ import org.dspace.eperson.EPerson;
 import org.dspace.content.factory.ContentServiceFactory;
 import org.dspace.eperson.factory.EPersonServiceFactory;
 import org.dspace.eperson.service.EPersonService;
-
-import java.util.List;
 
 
 /**
@@ -689,8 +685,9 @@ public class CitationManager
                         citationString += displayFormat;
                     }else{
 
-
+						// Check here, maybe values from ContentServiceFactory should be copied to a local var so it won't change the actual value
                         List<MetadataValue> values;
+						List<String> locvalues = new ArrayList<String>();
                         if ("".equals(dcQualifier))
                         {
                             values = ContentServiceFactory.getInstance().getItemService().getMetadata(item, dcSchema, dcElement, null, Item.ANY);
@@ -700,9 +697,14 @@ public class CitationManager
                             values = ContentServiceFactory.getInstance().getItemService().getMetadata(item, dcSchema,  dcElement, dcQualifier, Item.ANY);
                         }
 
+
                         String fieldValue = "";
                         if((values != null) && (values.size() != 0)){
-                            
+
+                        	// First, copy values to locvalues so it won't change the original
+							for(int i=0; i<values.size(); i++){
+								locvalues.add(i, values.get(i).getValue());
+							}
                             String formatit = (String)field.get("format-it");
 
                             if(values.size() > 1){ // with multiple values
@@ -711,15 +713,15 @@ public class CitationManager
                                 // get the max-n-ending, only use it when lengh of value is greater than max-n-value
                                 String max_n_ending = (String)field.get("max-n-ending");
 
-                                int nvalue = values.size();
+                                int nvalue = locvalues.size();
                                 if(max_n_value != null){
                                     nvalue = Integer.valueOf(max_n_value).intValue();
-                                    if(nvalue >= values.size()){
-                                        nvalue = values.size();
+                                    if(nvalue >= locvalues.size()){
+                                        nvalue = locvalues.size();
                                     }else{
                                         if(max_n_ending != null){
                                             //displayFormat +=  " " + max_n_ending.trim();
-                                            values.get(nvalue).setValue(max_n_ending.trim());
+											locvalues.set(nvalue,max_n_ending.trim());
                                             nvalue++;
 
                                         }
@@ -735,24 +737,24 @@ public class CitationManager
                                 for (int k=0; k < nvalue; k++){
 
                                    if(formatit!= null){
-                                       fieldValue += FormatIt.formatIt(formatit, values.get(k).getValue());
+                                       fieldValue += FormatIt.formatIt(formatit, locvalues.get(k));
                                    }else{
-                                       fieldValue += values.get(k).getValue();
+                                       fieldValue += locvalues.get(k);
                                    }
-                                   if (k == (values.size() - 2)){
+                                   if (k == (nvalue - 2) && !locvalues.get(nvalue-1).equals("et al.")){
                                         fieldValue += " and ";
-                                   }else if (k < (values.size() - 1)){
+                                   }else if (k < (nvalue - 1)){
                                         fieldValue += seperator + " ";
                                    }
                                 }
 
                             }else{
                                     if(formatit!= null){
-                                        fieldValue = FormatIt.formatIt(formatit, values.get(0).getValue());
+                                        fieldValue = FormatIt.formatIt(formatit, locvalues.get(0));
 
                                     }else{
 
-                                        fieldValue = values.get(0).getValue();
+                                        fieldValue = locvalues.get(0);
                                     }
                                 }
                             }

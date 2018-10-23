@@ -81,16 +81,16 @@ public class EmbargoServiceImpl implements EmbargoService
 
     @Override
     public void setEmbargo(Context context, Item item)
-        throws SQLException, AuthorizeException
+            throws SQLException, AuthorizeException
     {
         // if lift is null, we might be restoring an item from an AIP
         DCDate myLift = getEmbargoTermsAsDate(context, item);
         if (myLift == null)
         {
-             if ((myLift = recoverEmbargoDate(item)) == null)
-             {
-                 return;
-             }
+            if ((myLift = recoverEmbargoDate(item)) == null)
+            {
+                return;
+            }
         }
         String slift = myLift.toString();
         try
@@ -112,7 +112,7 @@ public class EmbargoServiceImpl implements EmbargoService
 
     @Override
     public DCDate getEmbargoTermsAsDate(Context context, Item item)
-        throws SQLException, AuthorizeException
+            throws SQLException, AuthorizeException
     {
         List<MetadataValue> terms = itemService.getMetadata(item, terms_schema, terms_element,
                 terms_qualifier, Item.ANY);
@@ -148,10 +148,10 @@ public class EmbargoServiceImpl implements EmbargoService
 
     @Override
     public void liftEmbargo(Context context, Item item)
-        throws SQLException, AuthorizeException, IOException
+            throws SQLException, AuthorizeException, IOException
     {
-        // new version of Embargo policies remain in place.
-        //lifter.liftEmbargo(context, item);
+        // Since 3.0 the lift process for all embargoes is performed through the dates on the authorization process (see DS-2588)
+        // lifter.liftEmbargo(context, item);
         itemService.clearMetadata(context, item, lift_schema, lift_element, lift_qualifier, Item.ANY);
 
         // set the dc.date.available value to right now

@@ -93,6 +93,9 @@ public class ItemExportDownloadReader extends AbstractReader implements Recyclab
             this.response = ObjectModelHelper.getResponse(objectModel);
             Context context = ContextUtil.obtainContext(objectModel);
 
+            Context.Mode originalMode = context.getCurrentMode();
+            context.setMode(Context.Mode.READ_ONLY);
+
             // Get our parameters that identify the bitstream
             String fileName = par.getParameter("fileName", null);
             
@@ -134,6 +137,8 @@ public class ItemExportDownloadReader extends AbstractReader implements Recyclab
             this.compressedExportInputStream = itemExportService.getExportDownloadInputStream(fileName, context.getCurrentUser());
             this.compressedExportSize = itemExportService.getExportFileSize(context, fileName);
             this.compressedExportName = fileName;
+
+            context.setMode(originalMode);
         }
         catch (Exception e)
         {

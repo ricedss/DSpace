@@ -32,6 +32,8 @@ import org.dspace.core.ConfigurationManager;
 import org.dspace.core.Constants;
 import org.dspace.core.Context;
 import org.dspace.core.SelfNamedPlugin;
+import org.dspace.handle.factory.HandleServiceFactory;
+import org.dspace.handle.service.HandleService;
 import org.jdom.Attribute;
 import org.jdom.Document;
 import org.jdom.Element;
@@ -79,7 +81,7 @@ import org.jdom.xpath.XPath;
  * @version $Revision$
  */
 public class MODSDisseminationCrosswalk extends SelfNamedPlugin
-    implements DisseminationCrosswalk
+        implements DisseminationCrosswalk
 {
     /** log4j category */
     private static Logger log = Logger.getLogger(MODSDisseminationCrosswalk.class);
@@ -89,6 +91,7 @@ public class MODSDisseminationCrosswalk extends SelfNamedPlugin
     protected final CommunityService communityService = ContentServiceFactory.getInstance().getCommunityService();
     protected final CollectionService collectionService = ContentServiceFactory.getInstance().getCollectionService();
     protected final ItemService itemService = ContentServiceFactory.getInstance().getItemService();
+    protected final HandleService handleService = HandleServiceFactory.getInstance().getHandleService();
 
     /**
      * Fill in the plugin alias table from DSpace configuration entries
@@ -119,19 +122,19 @@ public class MODSDisseminationCrosswalk extends SelfNamedPlugin
      * MODS namespace.
      */
     public static final Namespace MODS_NS =
-        Namespace.getNamespace("mods", "http://www.loc.gov/mods/v3");
+            Namespace.getNamespace("mods", "http://www.loc.gov/mods/v3");
 
     private static final Namespace XLINK_NS =
-        Namespace.getNamespace("xlink", "http://www.w3.org/1999/xlink");
+            Namespace.getNamespace("xlink", "http://www.w3.org/1999/xlink");
 
     private static final Namespace namespaces[] = { MODS_NS, XLINK_NS };
 
     /**  URL of MODS XML Schema */
     public static final String MODS_XSD =
-        "http://www.loc.gov/standards/mods/v3/mods-3-1.xsd";
+            "http://www.loc.gov/standards/mods/v3/mods-3-1.xsd";
 
     private static final String schemaLocation =
-        MODS_NS.getURI()+" "+MODS_XSD;
+            MODS_NS.getURI()+" "+MODS_XSD;
 
     private static XMLOutputter outputUgly = new XMLOutputter();
     private static SAXBuilder builder = new SAXBuilder();
@@ -160,7 +163,7 @@ public class MODSDisseminationCrosswalk extends SelfNamedPlugin
             modsTriple result = new modsTriple();
 
             final String prolog = "<mods xmlns:"+MODS_NS.getPrefix()+"=\""+MODS_NS.getURI()+"\" "+
-                            "xmlns:"+XLINK_NS.getPrefix()+"=\""+XLINK_NS.getURI()+"\">";
+                    "xmlns:"+XLINK_NS.getPrefix()+"=\""+XLINK_NS.getURI()+"\">";
             final String postlog = "</mods>";
             try
             {
@@ -213,7 +216,7 @@ public class MODSDisseminationCrosswalk extends SelfNamedPlugin
      *
      */
     private void initMap()
-        throws CrosswalkInternalException
+            throws CrosswalkInternalException
     {
         if (modsMap != null)
         {
@@ -230,14 +233,14 @@ public class MODSDisseminationCrosswalk extends SelfNamedPlugin
         if (propsFilename == null)
         {
             String msg = "MODS crosswalk missing "+
-                "configuration file for crosswalk named \""+myAlias+"\"";
+                    "configuration file for crosswalk named \""+myAlias+"\"";
             log.error(msg);
             throw new CrosswalkInternalException(msg);
         }
         else
         {
             String parent = ConfigurationManager.getProperty("dspace.dir") +
-                File.separator + "config" + File.separator;
+                    File.separator + "config" + File.separator;
             File propsFile = new File(parent, propsFilename);
             Properties modsConfig = new Properties();
             FileInputStream pfs = null;
@@ -250,7 +253,7 @@ public class MODSDisseminationCrosswalk extends SelfNamedPlugin
             {
                 log.error("Error opening or reading MODS properties file: "+propsFile.toString()+": "+e.toString());
                 throw new CrosswalkInternalException("MODS crosswalk cannot "+
-                    "open config file: "+e.toString(), e);
+                        "open config file: "+e.toString(), e);
             }
             finally
             {
@@ -318,8 +321,8 @@ public class MODSDisseminationCrosswalk extends SelfNamedPlugin
      */
     @Override
     public List<Element> disseminateList(Context context, DSpaceObject dso)
-        throws CrosswalkException,
-               IOException, SQLException, AuthorizeException
+            throws CrosswalkException,
+            IOException, SQLException, AuthorizeException
     {
         return disseminateListInternal(dso, true);
     }
@@ -334,8 +337,8 @@ public class MODSDisseminationCrosswalk extends SelfNamedPlugin
      */
     @Override
     public Element disseminateElement(Context context, DSpaceObject dso)
-        throws CrosswalkException,
-               IOException, SQLException, AuthorizeException
+            throws CrosswalkException,
+            IOException, SQLException, AuthorizeException
     {
         Element root = new Element("mods", MODS_NS);
         root.setAttribute("schemaLocation", schemaLocation, XSI_NS);
@@ -344,7 +347,7 @@ public class MODSDisseminationCrosswalk extends SelfNamedPlugin
     }
 
     private List<Element> disseminateListInternal(DSpaceObject dso, boolean addSchema)
-        throws CrosswalkException, IOException, SQLException, AuthorizeException
+            throws CrosswalkException, IOException, SQLException, AuthorizeException
     {
         List<MockMetadataValue> dcvs = null;
         if (dso.getType() == Constants.ITEM)
@@ -428,9 +431,9 @@ public class MODSDisseminationCrosswalk extends SelfNamedPlugin
     public boolean canDisseminate(DSpaceObject dso)
     {
         return (dso.getType() == Constants.ITEM ||
-            dso.getType() == Constants.COLLECTION ||
-            dso.getType() == Constants.COMMUNITY ||
-            dso.getType() == Constants.SITE);
+                dso.getType() == Constants.COLLECTION ||
+                dso.getType() == Constants.COMMUNITY ||
+                dso.getType() == Constants.SITE);
     }
 
     /**
@@ -455,7 +458,7 @@ public class MODSDisseminationCrosswalk extends SelfNamedPlugin
     {
         List<MockMetadataValue> metadata = new ArrayList<>();
 
-        String identifier_uri = "http://hdl.handle.net/"
+        String identifier_uri = handleService.getCanonicalPrefix()
                 + site.getHandle();
         String title = site.getName();
         String url = site.getURL();
@@ -493,7 +496,7 @@ public class MODSDisseminationCrosswalk extends SelfNamedPlugin
         String description = communityService.getMetadata(community, "introductory_text");
         String description_abstract = communityService.getMetadata(community, "short_description");
         String description_table = communityService.getMetadata(community,"side_bar_text");
-        String identifier_uri = "http://hdl.handle.net/"
+        String identifier_uri = handleService.getCanonicalPrefix()
                 + community.getHandle();
         String rights = communityService.getMetadata(community,"copyright_text");
         String title = communityService.getMetadata(community,"name");
@@ -543,7 +546,7 @@ public class MODSDisseminationCrosswalk extends SelfNamedPlugin
         String description = collectionService.getMetadata(collection, "introductory_text");
         String description_abstract = collectionService.getMetadata(collection, "short_description");
         String description_table = collectionService.getMetadata(collection, "side_bar_text");
-        String identifier_uri = "http://hdl.handle.net/"
+        String identifier_uri = handleService.getCanonicalPrefix()
                 + collection.getHandle();
         String provenance = collectionService.getMetadata(collection, "provenance_description");
         String rights = collectionService.getMetadata(collection, "copyright_text");

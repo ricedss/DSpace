@@ -10,9 +10,9 @@
     functionality.  The template may include what we might consider bug fixes or feature additions 
     to the base set of stylesheets provided by DSpace.  However, depending on the circumstances, even 
     these overrides may need to be overridden (e.g. the Shepherd School theme displays "mets:file" 
-    differently).  
+    differently).
     
-    It differs from reusable-new-templates.xsl in that it contains overrides of templates that have 
+    It differs from reusable-new-templates.xsl in tdhat it contains overrides of templates that have
     already been defined elsewhere (mostly in the base set of DSPace stylesheets) or that are very 
     similar to those defined elsewhere but with a greater specificity applied.
     
@@ -95,7 +95,7 @@
             <xsl:text>cocoon:/</xsl:text>
             <xsl:value-of select="@url"/>
             <!-- Since this is a summary only grab the descriptive metadata, and the thumbnails -->
-            <xsl:text>?sections=dmdSec,fileSec</xsl:text>
+            <xsl:text>?sections=dmdSec,fileSec&amp;fileGrpTypes=THUMBNAIL</xsl:text>
             <!-- An example of requesting a specific metadata standard (MODS and QDC crosswalks only work for items)->
             <xsl:if test="@type='DSpace Item'">
                 <xsl:text>&amp;dmdTypes=DC</xsl:text>
@@ -123,12 +123,23 @@
 
         <xsl:variable name="metsDoc" select="document($externalMetadataUrl)"/>
 
+           <xsl:variable name="type">
+
+               <xsl:for-each select="$metsDoc/mets:METS/mets:dmdSec/mets:mdWrap/mets:xmlData/dim:dim/dim:field[@element='type' and @qualifier='dcmi']">
+
+                   <xsl:if test=". = 'Sound'">
+                       <xsl:value-of select="'music'"/>
+                   </xsl:if>
+               </xsl:for-each>
+           </xsl:variable>
+
         <div class="row ds-artifact-item ">
 
             <!--Generates thumbnails (if present)-->
             <div class="col-sm-3 hidden-xs">
                 <xsl:apply-templates select="$metsDoc/mets:METS/mets:fileSec" mode="artifact-preview">
                     <xsl:with-param name="href" select="concat($context-path, '/handle/', $handle)"/>
+                    <xsl:with-param name="type" select="$type"/>
                 </xsl:apply-templates>
             </div>
 
@@ -274,7 +285,7 @@
                 <xsl:value-of select="$handle"/>
                 <xsl:text>/mets.xml</xsl:text>
                 <!-- Since this is a summary only grab the descriptive metadata, and the thumbnails -->
-                <xsl:text>?sections=dmdSec,fileSec</xsl:text>
+                <xsl:text>?sections=dmdSec,fileSec&amp;fileGrpTypes=THUMBNAIL</xsl:text>
                 <!-- An example of requesting a specific metadata standard (MODS and QDC crosswalks only work for items)->
                 <xsl:if test="@type='DSpace Item'">
                     <xsl:text>&amp;dmdTypes=DC</xsl:text>
@@ -480,7 +491,7 @@
 
 
            <!-- From item-list.xsl - Generate the info about the item from the metadata section -->
-        <xsl:template match="dim:dim" mode="itemSummaryList-DIM">
+        <!--xsl:template match="dim:dim" mode="itemSummaryList-DIM">
             <xsl:variable name="itemWithdrawn" select="@withdrawn" />
             <div class="artifact-description">
                 <div class="artifact-title">
@@ -509,7 +520,7 @@
                     <xsl:attribute name="title">
                         <xsl:call-template name="renderCOinS"/>
                     </xsl:attribute>
-                    &#xFEFF; <!-- non-breaking space to force separating the end tag -->
+                    &#xFEFF;
                 </span>
                 <div class="artifact-info">
                     <span class="author">
@@ -557,12 +568,7 @@
                     <xsl:if test="dim:field[@element='date' and @qualifier='issued'] or dim:field[@element='publisher']">
                         <span class="publisher-date">
                             <xsl:text>(</xsl:text>
-                            <!--xsl:if test="dim:field[@element='publisher']">
-                                <span class="publisher">
-                                    <xsl:copy-of select="dim:field[@element='publisher']/node()"/>
-                                </span>
-                                <xsl:text>, </xsl:text>
-                            </xsl:if-->
+
                             <span class="date">
                                 <xsl:value-of select="substring(dim:field[@element='date' and @qualifier='issued']/node(),1,10)"/>
                             </span>
@@ -571,7 +577,7 @@
                     </xsl:if>
                 </div>
             </div>
-        </xsl:template>
+        </xsl:template-->
 
 
        <!--handles the rendering of a single item in a list in metadata mode-->
@@ -687,6 +693,18 @@
 
         <!-- confman:getProperty('xmlui.theme.mirage.item-list.emphasis') -->
         <xsl:variable name="emphasis" select="'file'"/>
+         <xsl:variable name="type">
+
+            <xsl:for-each select="./mets:dmdSec/mets:mdWrap[@OTHERMDTYPE='DIM']/mets:xmlData/dim:dim/dim:field[@element='type' and @qualifier='dcmi']">
+
+                 <xsl:if test=". = 'Sound'">
+                    <xsl:value-of select="'music'"/>
+                </xsl:if>
+            </xsl:for-each>
+         </xsl:variable>
+
+
+
         <xsl:choose>
             <xsl:when test="'file' = $emphasis">
 
@@ -695,6 +713,7 @@
                     <div class="col-sm-3 hidden-xs">
                         <xsl:apply-templates select="./mets:fileSec" mode="artifact-preview">
                             <xsl:with-param name="href" select="$href"/>
+                            <xsl:with-param name="type" select="$type"/>
                         </xsl:apply-templates>
                     </div>
 
@@ -867,10 +886,15 @@
                                     file: "<xsl:value-of select="$baseURL"/>/streaming/<xsl:value-of select='$streamingfilename'/>"
                                 },{
                                     file: "rtmp://fldp.rice.edu/fondren/mp4:<xsl:value-of select='$streamingfilename'/>"
-                                }]
+                                }],
+                               tracks: [{
+                                   file: "<xsl:value-of select="$baseURL"/>/streaming/test.vtt",
+                                   label: "English",
+                                   kind: "captions",
+                                   "default": true
+                               }]
 
                             }],
-
                             primary: "html5",
                             rtmp: {
                                  bufferlength: 10
@@ -900,7 +924,15 @@
                                          file: "<xsl:value-of select="$baseURL"/>/streaming/<xsl:value-of select="$streamingfilename"/>"
                                     },{
                                         file: "rtmp://fldp.rice.edu/fondren/mp3:<xsl:value-of select='$streamingfilename'/>"
-                                    }]
+                                    }],
+                                tracks: [{
+                                    file: "<xsl:value-of select="$baseURL"/>/streaming/test.vtt",
+                                    label: "English",
+                                    kind: "captions",
+                                    "default": true
+                                }]
+
+
 
                                 }],
                             primary: "html5",
@@ -2319,8 +2351,9 @@ references to stylesheets pulled directly from the pageMeta element. -->
                     </ul>
                     <ul class="nav navbar-nav pull-left">
                         <li>
-                      <a href="/page/deposit" ><span class="glyphicon glyphicon-import" aria-hidden="true"></span><span class="hidden-xs"> Deposit your work</span></a>
-                     </li>
+                            <!--a href="/page/deposit" ><span class="glyphicon glyphicon-import" aria-hidden="true"></span><span class="hidden-xs"> Deposit your work</span></a-->
+                            <a href="https://library.rice.edu/submit-your-work" ><span class="glyphicon glyphicon-import" aria-hidden="true"></span><span class="hidden-xs"> Deposit your work</span></a>
+                        </li>
                         <li> </li>
 
                     </ul>
@@ -2579,6 +2612,7 @@ references to stylesheets pulled directly from the pageMeta element. -->
 
     <xsl:template match="mets:fileSec" mode="artifact-preview">
         <xsl:param name="href"/>
+        <xsl:param name="type"/>
         <div class="thumbnail artifact-preview">
             <a class="image-link" href="{$href}">
                 <xsl:choose>
@@ -2590,7 +2624,7 @@ references to stylesheets pulled directly from the pageMeta element. -->
                             </xsl:attribute>
                         </img>
                     </xsl:when>
-                    <xsl:when test="mets:fileGrp[@USE='CONTENT']/mets:file[@MIMETYPE='audio/x-mp3']">
+                    <xsl:when test="$type='music'">
                         <img alt="xmlui.mirage2.item-list.thumbnail" i18n:attr="alt" src="{concat($theme-path,'/images/40px-High-contrast-audio-volume-high.svg.png')}">
                              </img>
                             </xsl:when>

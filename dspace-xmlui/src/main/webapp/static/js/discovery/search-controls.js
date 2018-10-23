@@ -27,7 +27,7 @@
                 }
                 return false;
             });
-                    //Disable the default click
+            //Disable the default click
             gearControls.find('li.gear-option,li.gear-option a').click(function(event){
                 //Ensure that our html click isn't called !
                 event.stopPropagation();
@@ -57,6 +57,12 @@
 
                     mainForm.find('input[name="' + param + '"]').val(value);
                 }
+
+                //DS-3835 ensure that the current scope is passed as form field "scope"
+                mainForm.find('input[name="current-scope"]')
+                    .val($('select[name="scope"]').val())
+                    .attr("name","scope");
+
                 //Clear the page param
                 mainForm.find('input[name="page"]').val('1');
 

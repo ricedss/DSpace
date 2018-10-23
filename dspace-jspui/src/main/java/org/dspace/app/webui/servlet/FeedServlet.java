@@ -12,6 +12,7 @@ import java.sql.SQLException;
 import java.text.MessageFormat;
 import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -19,6 +20,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.ResourceBundle;
+import java.util.TimeZone;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -59,16 +61,16 @@ import com.sun.syndication.io.FeedException;
  * Servlet for handling requests for a syndication feed. The Handle of the collection
  * or community is extracted from the URL, e.g: <code>/feed/rss_1.0/1234/5678</code>.
  * Currently supports only RSS feed formats.
- * 
+ *
  * @author Ben Bosman, Richard Rodgers
  */
 public class FeedServlet extends DSpaceServlet
 {
-	//	key for site-wide feed
-	public static final String SITE_FEED_KEY = "site";
-	
-	// one hour in milliseconds
-	private static final long HOUR_MSECS = 60 * 60 * 1000;
+    //	key for site-wide feed
+    public static final String SITE_FEED_KEY = "site";
+
+    // one hour in milliseconds
+    private static final long HOUR_MSECS = 60 * 60 * 1000;
     /** log4j category */
     private static final Logger log = Logger.getLogger(FeedServlet.class);
 
@@ -88,23 +90,23 @@ public class FeedServlet extends DSpaceServlet
     private List<String> formats = null;
     // Whether to include private items or not
     private boolean includeAll = true;
-    
+
     // services API
     private final transient ConfigurationService configurationService
-             = DSpaceServicesFactory.getInstance().getConfigurationService();
-    
+            = DSpaceServicesFactory.getInstance().getConfigurationService();
+
     private final transient HandleService handleService
-             = HandleServiceFactory.getInstance().getHandleService();
+            = HandleServiceFactory.getInstance().getHandleService();
 
     private final transient CommunityService communityService
-             = ContentServiceFactory.getInstance().getCommunityService();
+            = ContentServiceFactory.getInstance().getCommunityService();
 
     private final transient CollectionService collectionService
-             = ContentServiceFactory.getInstance().getCollectionService();
+            = ContentServiceFactory.getInstance().getCollectionService();
 
     public FeedServlet()
     {
-    	enabled = configurationService.getBooleanProperty("webui.feed.enable");
+        enabled = configurationService.getBooleanProperty("webui.feed.enable");
 
         // read rest of config info if enabled
         if (enabled)
@@ -131,16 +133,16 @@ public class FeedServlet extends DSpaceServlet
 
     @Override
     protected void doDSGet(Context context, HttpServletRequest request,
-            HttpServletResponse response) throws ServletException, IOException,
+                           HttpServletResponse response) throws ServletException, IOException,
             SQLException, AuthorizeException
-	{
+    {
         includeAll = configurationService.getBooleanProperty("harvest.includerestricted.rss", true);
         String path = request.getPathInfo();
         String feedType = null;
         String handle = null;
 
         // build label map from localized Messages resource bundle
-            Locale locale = request.getLocale();
+        Locale locale = request.getLocale();
         ResourceBundle msgs = ResourceBundle.getBundle("Messages", locale);
         Map<String, String> labelMap = new HashMap<>();
         labelMap.put(SyndicationFeed.MSG_UNTITLED, msgs.getString(clazz + ".notitle"));
@@ -151,7 +153,7 @@ public class FeedServlet extends DSpaceServlet
         {
             labelMap.put("metadata." + selector, msgs.getString(SyndicationFeed.MSG_METADATA + selector));
         }
-        
+
         if (path != null)
         {
             // substring(1) is to remove initial '/'
@@ -159,35 +161,35 @@ public class FeedServlet extends DSpaceServlet
             int split = path.indexOf('/');
             if (split != -1)
             {
-            	feedType = path.substring(0,split);
-            	handle = path.substring(split+1);
+                feedType = path.substring(0,split);
+                handle = path.substring(split+1);
             }
         }
 
         DSpaceObject dso = null;
-        
-        //as long as this is not a site wide feed, 
+
+        //as long as this is not a site wide feed,
         //attempt to retrieve the Collection or Community object
         if(handle != null && !handle.equals(SITE_FEED_KEY))
-        { 	
-        	// Determine if handle is a valid reference
-        	dso = handleService.resolveToObject(context, handle);
-                if (dso == null)
-                {
-                    log.info(LogManager.getHeader(context, "invalid_handle", "path=" + path));
-                    JSPManager.showInvalidIDError(request, response, handle, -1);
-                    return;
+        {
+            // Determine if handle is a valid reference
+            dso = handleService.resolveToObject(context, handle);
+            if (dso == null)
+            {
+                log.info(LogManager.getHeader(context, "invalid_handle", "path=" + path));
+                JSPManager.showInvalidIDError(request, response, handle, -1);
+                return;
+            }
         }
-        }
-        
-        if (! enabled || (dso != null && 
-        	(dso.getType() != Constants.COLLECTION && dso.getType() != Constants.COMMUNITY)) )
+
+        if (! enabled || (dso != null &&
+                (dso.getType() != Constants.COLLECTION && dso.getType() != Constants.COMMUNITY)) )
         {
             log.info(LogManager.getHeader(context, "invalid_id", "path=" + path));
             JSPManager.showInvalidIDError(request, response, path, -1);
             return;
         }
-        
+
         // Determine if requested format is supported
         if( feedType == null || ! formats.contains( feedType ) )
         {
@@ -195,20 +197,20 @@ public class FeedServlet extends DSpaceServlet
             JSPManager.showInvalidIDError(request, response, path, -1);
             return;
         }
-        
+
         if (dso != null &&  dso.getType() == Constants.COLLECTION)
         {
             labelMap.put(SyndicationFeed.MSG_FEED_TITLE,
-                MessageFormat.format(msgs.getString(clazz + ".feed.title"),
-                                     new Object[]{ msgs.getString(clazz + ".feed-type.collection"),
-                                                  collectionService.getMetadata((Collection)dso, "short_description")}));
+                    MessageFormat.format(msgs.getString(clazz + ".feed.title"),
+                            new Object[]{ msgs.getString(clazz + ".feed-type.collection"),
+                                    collectionService.getMetadata((Collection)dso, "short_description")}));
         }
         else if (dso != null &&  dso.getType() == Constants.COMMUNITY)
         {
             labelMap.put(SyndicationFeed.MSG_FEED_TITLE,
-                MessageFormat.format(msgs.getString(clazz + ".feed.title"),
-                                     new Object[]{ msgs.getString(clazz + ".feed-type.community"),
-                                                   communityService.getMetadata((Community)dso, "short_description")}));
+                    MessageFormat.format(msgs.getString(clazz + ".feed.title"),
+                            new Object[]{ msgs.getString(clazz + ".feed-type.community"),
+                                    communityService.getMetadata((Community)dso, "short_description")}));
         }
 
         // Lookup or generate the feed
@@ -217,100 +219,106 @@ public class FeedServlet extends DSpaceServlet
         SyndicationFeed feed = null;
         if (feedCache != null)
         {
-                CacheFeed cFeed = feedCache.get(cacheKey);
-        	if (cFeed != null)  // cache hit, but...
-        	{
-        		// Is the feed current?
-        		boolean cacheFeedCurrent = false;
-        		if (cFeed.timeStamp + (cacheAge * HOUR_MSECS) < System.currentTimeMillis())
-        		{
-        			cacheFeedCurrent = true;
-        		}
-        		// Not current, but have any items changed since feed was created/last checked?
-        		else if ( ! itemsChanged(context, dso, cFeed.timeStamp))
-        		{
-        			// no items have changed, re-stamp feed and use it
-          			cFeed.timeStamp = System.currentTimeMillis();
-          			cacheFeedCurrent = true;
-        		}
-        		if (cacheFeedCurrent)
-        		{
-                                feed = cFeed.access();
-        		}
-        	}
+            CacheFeed cFeed = feedCache.get(cacheKey);
+            if (cFeed != null)  // cache hit, but...
+            {
+                // Is the feed current?
+                boolean cacheFeedCurrent = false;
+                if (cFeed.timeStamp + (cacheAge * HOUR_MSECS) < System.currentTimeMillis())
+                {
+                    cacheFeedCurrent = true;
+                }
+                // Not current, but have any items changed since feed was created/last checked?
+                else if ( ! itemsChanged(context, dso, cFeed.timeStamp))
+                {
+                    // no items have changed, re-stamp feed and use it
+                    cFeed.timeStamp = System.currentTimeMillis();
+                    cacheFeedCurrent = true;
+                }
+                if (cacheFeedCurrent)
+                {
+                    feed = cFeed.access();
+                }
+            }
         }
-        
+
         // either not caching, not found in cache, or feed in cache not current
         if (feed == null)
         {
-                feed = new SyndicationFeed(SyndicationFeed.UITYPE_JSPUI);
-                feed.populate(request, context, dso, getItems(context, dso), labelMap);
-        	if (feedCache != null)
-        	{
-                        cache(cacheKey, new CacheFeed(feed));
-        	}
+            feed = new SyndicationFeed(SyndicationFeed.UITYPE_JSPUI);
+            feed.populate(request, context, dso, getItems(context, dso), labelMap);
+            if (feedCache != null)
+            {
+                cache(cacheKey, new CacheFeed(feed));
+            }
         }
-        
+
         // set the feed to the requested type & return it
         try
         {
-                feed.setType(feedType);
-        	response.setContentType("text/xml; charset=UTF-8");
-                feed.output(response.getWriter());
+            feed.setType(feedType);
+            response.setContentType("text/xml; charset=UTF-8");
+            feed.output(response.getWriter());
         }
         catch( FeedException fex )
         {
-        	throw new IOException(fex.getMessage(), fex);
+            throw new IOException(fex.getMessage(), fex);
         }
     }
-       
+
     private boolean itemsChanged(Context context, DSpaceObject dso, long timeStamp)
             throws SQLException
     {
-        // construct start and end dates
+        /*
+         * Construct start and end dates.
+         *
+         * According to the Solr DateField documentation: "date field shall be
+         * of the form 1995-12-31T23:59:59Z The trailing "Z" designates UTC time
+         * and is mandatory (See below for an explanation of UTC). Optional
+         * fractional seconds are allowed, as long as they do not end in a
+         * trailing 0 (but any precision beyond milliseconds will be ignored).
+         * All other parts are mandatory." Therefore the Full ISO 8601 format
+         * is e.g. "2009-07-16T13:59:21Z" is maintained
+         */
         DCDate dcStartDate = new DCDate( new Date(timeStamp) );
         DCDate dcEndDate = new DCDate( new Date(System.currentTimeMillis()) );
 
-        // convert dates to ISO 8601, stripping the time
-        String startDate = dcStartDate.toString().substring(0, 10);
-        String endDate = dcEndDate.toString().substring(0, 10);
-        
         // this invocation should return a non-empty list if even 1 item has changed
         try {
-            return (Harvest.harvest(context, dso, startDate, endDate,
-        		                0, 1, !includeAll, false, false, includeAll).size() > 0);
+            return (Harvest.harvest(context, dso, dcStartDate.toString(), dcEndDate.toString(),
+                    0, 1, !includeAll, false, false, includeAll).size() > 0);
         }
         catch (ParseException pe)
         {
-        	// This should never get thrown as we have generated the dates ourselves
-        	return false;
+            // This should never get thrown as we have generated the dates ourselves
+            return false;
         }
     }
-    
+
     // returns recently changed items, checking for accessibility
     private List<Item> getItems(Context context, DSpaceObject dso)
-    		throws IOException, SQLException
+            throws IOException, SQLException
     {
-    	try
-    	{
-    		// new method of doing the browse:
-    		String idx = configurationService.getProperty("recent.submissions.sort-option");
-    		if (idx == null)
-    		{
-    			throw new IOException("There is no configuration supplied for: recent.submissions.sort-option");
-    		}
-    		BrowseIndex bix = BrowseIndex.getItemBrowseIndex();
-    		if (bix == null)
-    		{
-    			throw new IOException("There is no browse index with the name: " + idx);
-    		}
-    		
-    		BrowserScope scope = new BrowserScope(context);
-    		scope.setBrowseIndex(bix);
-                if (dso != null)
-                {
-                    scope.setBrowseContainer(dso);
-                }
+        try
+        {
+            // new method of doing the browse:
+            String idx = configurationService.getProperty("recent.submissions.sort-option");
+            if (idx == null)
+            {
+                throw new IOException("There is no configuration supplied for: recent.submissions.sort-option");
+            }
+            BrowseIndex bix = BrowseIndex.getItemBrowseIndex();
+            if (bix == null)
+            {
+                throw new IOException("There is no browse index with the name: " + idx);
+            }
+
+            BrowserScope scope = new BrowserScope(context);
+            scope.setBrowseIndex(bix);
+            if (dso != null)
+            {
+                scope.setBrowseContainer(dso);
+            }
 
             for (SortOption so : SortOption.getSortOptions())
             {
@@ -320,27 +328,27 @@ public class FeedServlet extends DSpaceServlet
                 }
             }
             scope.setOrder(SortOption.DESCENDING);
-    		scope.setResultsPerPage(itemCount);
-    		
+            scope.setResultsPerPage(itemCount);
+
             // gather & add items to the feed.
-    		BrowseEngine be = new BrowseEngine(context);
-    		BrowseInfo bi = be.browseMini(scope);
-    		List<Item> results = bi.getResults();
+            BrowseEngine be = new BrowseEngine(context);
+            BrowseInfo bi = be.browseMini(scope);
+            List<Item> results = bi.getResults();
             if (includeAll)
             {
                 return results;
             }
             else
-                {
-                    // Check to see if we can include this item
+            {
+                // Check to see if we can include this item
                 //Group[] authorizedGroups = AuthorizeManager.getAuthorizedGroups(context, results[i], Constants.READ);
                 //boolean added = false;
                 List<Item> items = new ArrayList<>();
                 for (Item result : results)
-                    {
-                checkAccess:
+                {
+                    checkAccess:
                     for (Group group : authorizeService.getAuthorizedGroups(context, result, Constants.READ))
-                        {
+                    {
                         if ((group.getName() != null && group.getName().equals(Group.ANONYMOUS)))
                         {
                             items.add(result);
@@ -349,103 +357,103 @@ public class FeedServlet extends DSpaceServlet
                     }
                 }
                 return items;
-                }
             }
+        }
         catch (SortException se)
         {
             log.error("caught exception: ", se);
             throw new IOException(se.getMessage(), se);
         }
-    	catch (BrowseException e)
-    	{
-    		log.error("caught exception: ", e);
-    		throw new IOException(e.getMessage(), e);
-    	}
+        catch (BrowseException e)
+        {
+            log.error("caught exception: ", e);
+            throw new IOException(e.getMessage(), e);
+        }
     }
-    
+
     /************************************************
      * private cache management classes and methods *
      ************************************************/
-     
-	/**
+
+    /**
      * Add a feed to the cache - reducing the size of the cache by 1 to make room if
      * necessary. The removed entry has an access count equal to the minumum in the cache.
      * @param feedKey
      *            The cache key for the feed
      * @param newFeed
      *            The CacheFeed feed to be cached
-     */ 
+     */
     private static void cache(String feedKey, CacheFeed newFeed)
     {
-		// remove older feed to make room if cache full
-		if (feedCache.size() >= cacheSize)
-		{
-	    	// cache profiling data
-	    	int total = 0;
-	    	String minKey = null;
-	    	CacheFeed minFeed = null;
-	    	CacheFeed maxFeed = null;
-	    	
-	    	Iterator<String> iter = feedCache.keySet().iterator();
-	    	while (iter.hasNext())
-	    	{
-	    		String key = iter.next();
-	    		CacheFeed feed = feedCache.get(key);
-	    		if (minKey != null)
-	    		{
-	    			if (feed.hits < minFeed.hits)
-	    			{
-	    				minKey = key;
-	    				minFeed = feed;
-	    			}
-	    			if (feed.hits >= maxFeed.hits)
-	    			{
-	    				maxFeed = feed;
-	    			}
-	    		}
-	    		else
-	    		{
-	    			minKey = key;
-	    			minFeed = feed;
+        // remove older feed to make room if cache full
+        if (feedCache.size() >= cacheSize)
+        {
+            // cache profiling data
+            int total = 0;
+            String minKey = null;
+            CacheFeed minFeed = null;
+            CacheFeed maxFeed = null;
+
+            Iterator<String> iter = feedCache.keySet().iterator();
+            while (iter.hasNext())
+            {
+                String key = iter.next();
+                CacheFeed feed = feedCache.get(key);
+                if (minKey != null)
+                {
+                    if (feed.hits < minFeed.hits)
+                    {
+                        minKey = key;
+                        minFeed = feed;
+                    }
+                    if (feed.hits >= maxFeed.hits)
+                    {
+                        maxFeed = feed;
+                    }
+                }
+                else
+                {
+                    minKey = key;
+                    minFeed = feed;
                     maxFeed = feed;
-	    		}
-	    		total += feed.hits;
-	    	}
-	    	// log a profile of the cache to assist administrator in tuning it
-	    	int avg = total / feedCache.size();
-	    	String logMsg = "feedCache() - size: " + feedCache.size() +
-	    	                " Hits - total: " + total + " avg: " + avg +
-	    	                " max: " + maxFeed.hits + " min: " + minFeed.hits;
-	    	log.info(logMsg);
-	    	// remove minimum hits entry
-	    	feedCache.remove(minKey);
-		}
-    	// add feed to cache
-		feedCache.put(feedKey, newFeed);
+                }
+                total += feed.hits;
+            }
+            // log a profile of the cache to assist administrator in tuning it
+            int avg = total / feedCache.size();
+            String logMsg = "feedCache() - size: " + feedCache.size() +
+                    " Hits - total: " + total + " avg: " + avg +
+                    " max: " + maxFeed.hits + " min: " + minFeed.hits;
+            log.info(logMsg);
+            // remove minimum hits entry
+            feedCache.remove(minKey);
+        }
+        // add feed to cache
+        feedCache.put(feedKey, newFeed);
     }
-        
+
     /**
      * Class to instrument accesses & currency of a given feed in cache
-     */  
+     */
     private static class CacheFeed
-	{
-    	// currency timestamp
-    	public long timeStamp = 0L;
-    	// access count
-    	public int hits = 0;
-    	// the feed
+    {
+        // currency timestamp
+        public long timeStamp = 0L;
+        // access count
+        public int hits = 0;
+        // the feed
         private SyndicationFeed feed = null;
-    	
+
         public CacheFeed(SyndicationFeed feed)
-    	{
-    		this.feed = feed;
-    		timeStamp = System.currentTimeMillis();
-    	}
-    	    	
+        {
+            this.feed = feed;
+            timeStamp = System.currentTimeMillis();
+        }
+
         public SyndicationFeed access()
-    	{
-    		++hits;
-    		return feed;
-    	}
-	}
+        {
+            ++hits;
+            return feed;
+        }
+    }
 }

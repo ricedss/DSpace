@@ -29,6 +29,8 @@ import org.dspace.content.factory.ContentServiceFactory;
 import org.dspace.content.service.BitstreamService;
 import org.dspace.content.service.ItemService;
 import org.dspace.core.Context;
+import org.dspace.handle.factory.HandleServiceFactory;
+import org.dspace.handle.service.HandleService;
 import org.elasticsearch.action.search.SearchRequestBuilder;
 import org.elasticsearch.action.search.SearchResponse;
 
@@ -47,15 +49,15 @@ import java.util.*;
  * Provides the usage statistics in CSV form
  * @author Peter Dietz (pdietz84@gmail.com)
  */
-public class CSVOutputter extends AbstractReader implements Recyclable 
+public class CSVOutputter extends AbstractReader implements Recyclable
 {
     protected static final Logger log = Logger.getLogger(CSVOutputter.class);
     private static ThreadLocal<DateFormat> dateFormat = new ThreadLocal<DateFormat>(){
-                    @Override
-                    protected DateFormat initialValue() {
-                        return new SimpleDateFormat("yyyy-MM-dd");
-                    }
-                  };
+        @Override
+        protected DateFormat initialValue() {
+            return new SimpleDateFormat("yyyy-MM-dd");
+        }
+    };
 
     protected Response response;
     protected Request request;
@@ -64,6 +66,7 @@ public class CSVOutputter extends AbstractReader implements Recyclable
 
     protected BitstreamService bitstreamService = ContentServiceFactory.getInstance().getBitstreamService();
     protected ItemService itemService = ContentServiceFactory.getInstance().getItemService();
+    protected HandleService handleService = HandleServiceFactory.getInstance().getHandleService();
 
     public void setup(SourceResolver sourceResolver, Map objectModel, String src, Parameters parameters) throws IOException, SAXException, ProcessingException {
         log.info("CSV Writer for stats");
@@ -100,7 +103,7 @@ public class CSVOutputter extends AbstractReader implements Recyclable
             if(params.containsKey("from")) {
                 fromValue = params.get("from");
             }
-            
+
             String toValue = "";
             if(params.containsKey("to")) {
                 toValue = params.get("to");
@@ -121,10 +124,10 @@ public class CSVOutputter extends AbstractReader implements Recyclable
             } else {
                 toDate = null;
             }
-            
+
             ElasticSearchStatsViewer esStatsViewer = new ElasticSearchStatsViewer(dso, fromDate, toDate);
             if(requestedReport.equalsIgnoreCase("topCountries"))
-            {                
+            {
                 SearchRequestBuilder requestBuilder = esStatsViewer.facetedQueryBuilder(esStatsViewer.facetTopCountries);
                 SearchResponse searchResponse = requestBuilder.execute().actionGet();
 
@@ -183,21 +186,21 @@ public class CSVOutputter extends AbstractReader implements Recyclable
         if(termsFacetEntries.size() == 0) {
             return;
         }
-        
+
         for(TermsFacet.Entry facetEntry : termsFacetEntries)
         {
             if(termType.equalsIgnoreCase("bitstream"))
             {
                 Bitstream bitstream = bitstreamService.findByIdOrLegacyId(context, facetEntry.getTerm().string());
                 Item item = (Item) bitstreamService.getParentObject(context, bitstream);
-                
+
                 String[] entryValues = new String[9];
-                
+
                 entryValues[0] = bitstream.getID() + "";
                 entryValues[1] = bitstream.getName();
                 entryValues[2] = bitstream.getBundles().get(0).getName();
                 entryValues[3] = item.getName();
-                entryValues[4] = "http://hdl.handle.net/" + item.getHandle();
+                entryValues[4] = handleService.getCanonicalPrefix() + item.getHandle();
                 entryValues[5] = wrapInDelimitedString(itemService.getMetadataByMetadataString(item, "dc.creator"));
                 entryValues[6] = wrapInDelimitedString(itemService.getMetadataByMetadataString(item, "dc.publisher"));
                 entryValues[7] = wrapInDelimitedString(itemService.getMetadataByMetadataString(item, "dc.date.issued"));
@@ -208,7 +211,7 @@ public class CSVOutputter extends AbstractReader implements Recyclable
             }
         }
     }
-    
+
     public String wrapInDelimitedString(List<MetadataValue> metadataEntries) {
         StringBuilder metadataString = new StringBuilder();
 
@@ -219,10 +222,10 @@ public class CSVOutputter extends AbstractReader implements Recyclable
             }
             metadataString.append(metadataEntry.getValue());
         }
-        
+
         return metadataString.toString();
     }
-    
+
     private void addDateHistogramFacetToWriter(DateHistogramFacet dateHistogramFacet) {
         List<? extends DateHistogramFacet.Entry> monthlyFacetEntries = dateHistogramFacet.getEntries();
 
@@ -243,7 +246,7 @@ public class CSVOutputter extends AbstractReader implements Recyclable
         out.flush();
         out.close();
     }
-    
+
     public void recycle() {
         this.request = null;
         this.response = null;
@@ -251,5 +254,5 @@ public class CSVOutputter extends AbstractReader implements Recyclable
         this.writer = null;
         super.recycle();
     }
-    
+
 }

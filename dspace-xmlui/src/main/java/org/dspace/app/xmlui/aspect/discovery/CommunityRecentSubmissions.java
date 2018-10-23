@@ -22,6 +22,7 @@ import org.dspace.content.Community;
 import org.dspace.content.DSpaceObject;
 import org.dspace.content.factory.ContentServiceFactory;
 import org.dspace.content.service.ItemService;
+import org.dspace.core.Context;
 import org.xml.sax.SAXException;
 
 /**
@@ -44,6 +45,9 @@ public class CommunityRecentSubmissions extends AbstractRecentSubmissionTransfor
     public void addBody(Body body) throws SAXException, WingException,
             UIException, SQLException, IOException, AuthorizeException
     {
+
+        Context.Mode originalMode = context.getCurrentMode();
+        context.setMode(Context.Mode.READ_ONLY);
 
         DSpaceObject dso = HandleUtil.obtainHandle(objectModel);
         if (!(dso instanceof Community))
@@ -83,5 +87,7 @@ public class CommunityRecentSubmissions extends AbstractRecentSubmissionTransfor
             if (itemService.countItems(context, community) > maxRecentSubmissions)
                 addViewMoreLink(lastSubmittedDiv, dso);
         }
+        context.setMode(originalMode);
     }
+
 }

@@ -43,62 +43,59 @@ import java.util.List;
 @Path("/hierarchy")
 @Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 public class HierarchyResource extends Resource {
-    private static Logger log = Logger.getLogger(HierarchyResource.class);
-    protected SiteService siteService = ContentServiceFactory.getInstance().getSiteService();
-    protected CommunityService communityService = ContentServiceFactory.getInstance().getCommunityService();
-    protected AuthorizeService authorizeService = AuthorizeServiceFactory.getInstance().getAuthorizeService();
-    protected ConfigurationService configurationService = DSpaceServicesFactory.getInstance().getConfigurationService();
-    
-    /**
-    * @param headers
-     *            If you want to access to collection under logged user into
-     *            context. In headers must be set header "rest-dspace-token"
-     *            with passed token from login method.
-     * @return Return instance of collection. It can also return status code
-     *         NOT_FOUND(404) if id of collection is incorrect or status code
-     * @throws UnsupportedEncodingException 
-     * @throws WebApplicationException
-     *             It is thrown when was problem with database reading
-     *             (SQLException) or problem with creating
-     *             context(ContextException). It is thrown by NOT_FOUND and
-     *             UNATHORIZED status codes, too.
-     */
+	private static Logger log = Logger.getLogger(HierarchyResource.class);
+	protected SiteService siteService = ContentServiceFactory.getInstance().getSiteService();
+	protected CommunityService communityService = ContentServiceFactory.getInstance().getCommunityService();
+	protected AuthorizeService authorizeService = AuthorizeServiceFactory.getInstance().getAuthorizeService();
+	protected ConfigurationService configurationService = DSpaceServicesFactory.getInstance().getConfigurationService();
+
+	/**
+	 * @param headers
+	 *            If you want to access to collection under logged user into
+	 *            context. In headers must be set header "rest-dspace-token"
+	 *            with passed token from login method.
+	 * @return Return instance of collection. It can also return status code
+	 *         NOT_FOUND(404) if id of collection is incorrect or status code
+	 * @throws UnsupportedEncodingException
+	 * @throws WebApplicationException
+	 *             It is thrown when was problem with database reading
+	 *             (SQLException) or problem with creating
+	 *             context(ContextException). It is thrown by NOT_FOUND and
+	 *             UNATHORIZED status codes, too.
+	 */
 	@GET
-    @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
-    public HierarchySite getHierarchy(
-    		@QueryParam("userAgent") String user_agent, @QueryParam("xforwardedfor") String xforwardedfor,
-    		@Context HttpHeaders headers, @Context HttpServletRequest request) throws UnsupportedEncodingException, WebApplicationException {
-		
+	@Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
+	public HierarchySite getHierarchy(
+			@QueryParam("userAgent") String user_agent, @QueryParam("xforwardedfor") String xforwardedfor,
+			@Context HttpHeaders headers, @Context HttpServletRequest request) throws UnsupportedEncodingException, WebApplicationException {
+
 		org.dspace.core.Context context = null;
 		HierarchySite repo = new HierarchySite();
-		
-        try {
-            context = createContext();
-            if (!configurationService.getBooleanProperty("rest.hierarchy-authenticate", true)) {
-                context.turnOffAuthorisationSystem();            	
-            }
 
-            Site site = siteService.findSite(context);
-            repo.setId(site.getID().toString());
-            repo.setName(site.getName());
-            repo.setHandle(site.getHandle());
-    		List<Community> dspaceCommunities = communityService.findAllTop(context);
-    		processCommunity(context, repo, dspaceCommunities);
-         } catch (Exception e) {
-        	processException(e.getMessage(), context);
+		try {
+			context = createContext();
+
+			Site site = siteService.findSite(context);
+			repo.setId(site.getID().toString());
+			repo.setName(site.getName());
+			repo.setHandle(site.getHandle());
+			List<Community> dspaceCommunities = communityService.findAllTop(context);
+			processCommunity(context, repo, dspaceCommunities);
+		} catch (Exception e) {
+			processException(e.getMessage(), context);
 		} finally {
-            if(context != null) {
-                try {
-                    context.complete();
-                } catch (SQLException e) {
-                    log.error(e.getMessage() + " occurred while trying to close");
-                }
-            }
-        }
-   		return repo;
-   }
-    
-	
+			if(context != null) {
+				try {
+					context.complete();
+				} catch (SQLException e) {
+					log.error(e.getMessage() + " occurred while trying to close");
+				}
+			}
+		}
+		return repo;
+	}
+
+
 	private void processCommunity(org.dspace.core.Context context, HierarchyCommunity parent, List<Community> communities) throws SQLException {
 		if (communities == null){
 			return;
@@ -127,7 +124,7 @@ public class HierarchyResource extends Resource {
 				}
 			}
 			processCommunity(context, mycomm, comm.getSubcommunities());
-		}		
-		
+		}
+
 	}
 }

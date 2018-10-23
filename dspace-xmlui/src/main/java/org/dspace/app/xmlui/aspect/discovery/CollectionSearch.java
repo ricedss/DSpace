@@ -24,6 +24,7 @@ import org.dspace.app.xmlui.wing.element.*;
 import org.dspace.authorize.AuthorizeException;
 import org.dspace.content.Collection;
 import org.dspace.content.DSpaceObject;
+import org.dspace.core.Context;
 import org.dspace.services.factory.DSpaceServicesFactory;
 import org.xml.sax.SAXException;
 
@@ -109,6 +110,10 @@ public class CollectionSearch extends AbstractDSpaceTransformer implements Cache
             Collection collection = null;
 	        try
 	        {
+
+                Context.Mode originalMode = context.getCurrentMode();
+                context.setMode(Context.Mode.READ_ONLY);
+
 	            DSpaceObject dso = HandleUtil.obtainHandle(objectModel);
 
 	            if (dso == null)
@@ -129,6 +134,8 @@ public class CollectionSearch extends AbstractDSpaceTransformer implements Cache
 	            validity.add(context, collection);
 
 	            this.validity = validity.complete();
+
+                context.setMode(originalMode);
 	        }
 	        catch (Exception e)
 	        {
@@ -147,6 +154,10 @@ public class CollectionSearch extends AbstractDSpaceTransformer implements Cache
             WingException, UIException, SQLException, IOException,
             AuthorizeException
     {
+
+        Context.Mode originalMode = context.getCurrentMode();
+        context.setMode(Context.Mode.READ_ONLY);
+
         DSpaceObject dso = HandleUtil.obtainHandle(objectModel);
         if (!(dso instanceof Collection))
         {
@@ -188,6 +199,7 @@ public class CollectionSearch extends AbstractDSpaceTransformer implements Cache
 				pageMeta.addMetadata("feed", feedFormat).addContent(feedURL);
 			}
 		}
+        context.setMode(originalMode);
     }
 
     /**
@@ -196,6 +208,10 @@ public class CollectionSearch extends AbstractDSpaceTransformer implements Cache
     public void addBody(Body body) throws SAXException, WingException,
             UIException, SQLException, IOException, AuthorizeException
     {
+
+        Context.Mode originalMode = context.getCurrentMode();
+        context.setMode(Context.Mode.READ_ONLY);
+
         DSpaceObject dso = HandleUtil.obtainHandle(objectModel);
         if (!(dso instanceof Collection))
         {
@@ -246,6 +262,7 @@ public class CollectionSearch extends AbstractDSpaceTransformer implements Cache
             //browse.addItemXref(url + "/browse?type=dateissued",T_browse_dates);
         }
 
+        context.setMode(originalMode);
     }
 
 

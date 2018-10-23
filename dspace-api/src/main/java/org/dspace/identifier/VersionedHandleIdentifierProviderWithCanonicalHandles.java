@@ -67,7 +67,7 @@ public class VersionedHandleIdentifierProviderWithCanonicalHandles extends Ident
     @Override
     public boolean supports(String identifier)
     {
-    	String prefix = handleService.getPrefix();
+        String prefix = handleService.getPrefix();
         String canonicalPrefix = DSpaceServicesFactory.getInstance().getConfigurationService().getProperty("handle.canonical.prefix");
         if (identifier == null)
         {
@@ -114,14 +114,14 @@ public class VersionedHandleIdentifierProviderWithCanonicalHandles extends Ident
             if(history!=null)
             {
                 String canonical = getCanonical(context, item);
-                
+
                 // Modify Canonical: 12345/100 will point to the new item
                 try {
                     handleService.modifyHandleDSpaceObject(context, canonical, item);
                 } catch (SQLException ex) {
                     throw new RuntimeException("A problem with the database connection occured.", ex);
                 }
-                
+
                 Version version;
                 Version previous;
                 boolean previousIsFirstVersion = false;
@@ -421,21 +421,6 @@ public class VersionedHandleIdentifierProviderWithCanonicalHandles extends Ident
         return prefix;
     }
 
-    protected static String getCanonicalForm(String handle)
-    {
-
-        // Let the admin define a new prefix, if not then we'll use the
-        // CNRI default. This allows the admin to use "hdl:" if they want to or
-        // use a locally branded prefix handle.myuni.edu.
-        String handlePrefix = ConfigurationManager.getProperty("handle.canonical.prefix");
-        if (handlePrefix == null || handlePrefix.length() == 0)
-        {
-            handlePrefix = "http://hdl.handle.net/";
-        }
-
-        return handlePrefix + handle;
-    }
-
     protected String createNewIdentifier(Context context, DSpaceObject dso, String handleId) throws SQLException {
         if(handleId == null)
         {
@@ -519,10 +504,10 @@ public class VersionedHandleIdentifierProviderWithCanonicalHandles extends Ident
     protected void modifyHandleMetadata(Context context, Item item, String handle)
             throws SQLException, AuthorizeException
     {
-        // we want to exchange the old handle against the new one. To do so, we 
-        // load all identifiers, clear the metadata field, re add all 
+        // we want to exchange the old handle against the new one. To do so, we
+        // load all identifiers, clear the metadata field, re add all
         // identifiers which are not from type handle and add the new handle.
-        String handleref = getCanonicalForm(handle);
+        String handleref = handleService.getCanonicalForm(handle);
         List<MetadataValue> identifiers = itemService.getMetadata(item, MetadataSchema.DC_SCHEMA, "identifier", "uri", Item.ANY);
         itemService.clearMetadata(context, item, MetadataSchema.DC_SCHEMA, "identifier", "uri", Item.ANY);
         for (MetadataValue identifier : identifiers)
@@ -532,7 +517,7 @@ public class VersionedHandleIdentifierProviderWithCanonicalHandles extends Ident
                 // ignore handles
                 continue;
             }
-            itemService.addMetadata(context, 
+            itemService.addMetadata(context,
                     item,
                     identifier.getMetadataField(),
                     identifier.getLanguage(),

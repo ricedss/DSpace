@@ -18,6 +18,7 @@ import org.dspace.app.statistics.*;
 import org.dspace.authorize.AuthorizeException;
 import org.dspace.authorize.factory.AuthorizeServiceFactory;
 import org.dspace.authorize.service.AuthorizeService;
+import org.dspace.core.Context;
 import org.dspace.services.factory.DSpaceServicesFactory;
 import org.apache.cocoon.caching.CacheableProcessingComponent;
 import org.apache.cocoon.environment.Request;
@@ -102,6 +103,9 @@ public class StatisticsViewer extends AbstractDSpaceTransformer implements Cache
         {
             try
             {
+                Context.Mode originalMode = context.getCurrentMode();
+                context.setMode(Context.Mode.READ_ONLY);
+
                 initialise();
                 boolean showReport = DSpaceServicesFactory.getInstance().getConfigurationService().getBooleanProperty("report.public");
 
@@ -144,6 +148,7 @@ public class StatisticsViewer extends AbstractDSpaceTransformer implements Cache
                         validity = newValidity.complete();
                     }
                 }
+                context.setMode(originalMode);
             }
             catch (Exception e)
             {
@@ -200,11 +205,17 @@ public class StatisticsViewer extends AbstractDSpaceTransformer implements Cache
     public void addPageMeta(PageMeta pageMeta) throws SAXException, WingException, UIException,
                                                       SQLException, IOException, AuthorizeException
     {
+        Context.Mode originalMode = context.getCurrentMode();
+        context.setMode(Context.Mode.READ_ONLY);
+
         initialise();
 
         pageMeta.addMetadata("title").addContent(T_page_title);
         pageMeta.addTrailLink(contextPath + "/", T_dspace_home);
         pageMeta.addTrail().addContent(T_page_title);
+
+        context.setMode(originalMode);
+
     }
 
     /**
@@ -222,6 +233,9 @@ public class StatisticsViewer extends AbstractDSpaceTransformer implements Cache
     public void addBody(Body body) throws SAXException, WingException, UIException, SQLException,
             IOException, AuthorizeException
     {
+        Context.Mode originalMode = context.getCurrentMode();
+        context.setMode(Context.Mode.READ_ONLY);
+
         initialise();
         boolean publicise = DSpaceServicesFactory.getInstance().getConfigurationService().getBooleanProperty("report.public");
 
@@ -263,6 +277,8 @@ public class StatisticsViewer extends AbstractDSpaceTransformer implements Cache
             div.setHead(T_empty_title);
             div.addPara(T_empty_text);
         }
+
+        context.setMode(originalMode);
     }
 
     /**

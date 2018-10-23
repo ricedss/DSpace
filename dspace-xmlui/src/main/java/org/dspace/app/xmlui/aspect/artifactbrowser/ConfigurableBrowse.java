@@ -109,7 +109,7 @@ public class ConfigurableBrowse extends AbstractDSpaceTransformer implements
     /** The options for results per page */
     private static final int[] RESULTS_PER_PAGE_PROGRESSION = {5,10,20,40,60,80,100};
     private int currentOffset = 0;
-
+    private String currentOrder;
     /** Cached validity object */
     private SourceValidity validity;
 
@@ -144,9 +144,9 @@ public class ConfigurableBrowse extends AbstractDSpaceTransformer implements
         try
         {
             BrowseParams params = getUserParams();
-            
+
             String key = params.getKey();
-            
+
             if (key != null)
             {
                 DSpaceObject dso = HandleUtil.obtainHandle(objectModel);
@@ -160,13 +160,13 @@ public class ConfigurableBrowse extends AbstractDSpaceTransformer implements
         }
         catch (RuntimeException re)
         {
-            throw re;    
+            throw re;
         }
         catch (Exception e)
         {
             return "0";
         }
-        
+
         return "0";
     }
 
@@ -186,11 +186,11 @@ public class ConfigurableBrowse extends AbstractDSpaceTransformer implements
                 {
                     validity.add(context, dso);
                 }
-                
+
                 BrowseInfo info = getBrowseInfo();
                 validity.add("total:"+info.getTotal());
                 validity.add("start:"+info.getStart());
-                
+
                 // Are we browsing items, or unique metadata?
                 if (isItemBrowse(info))
                 {
@@ -227,7 +227,7 @@ public class ConfigurableBrowse extends AbstractDSpaceTransformer implements
                 log.info(LogManager.getHeader(context, "browse", this.validity.toString()));
             }
         }
-        
+
         return this.validity;
     }
 
@@ -271,17 +271,18 @@ public class ConfigurableBrowse extends AbstractDSpaceTransformer implements
         try {
             params = getUserParams();
         } catch (ResourceNotFoundException e) {
-           HttpServletResponse response = (HttpServletResponse)objectModel
-		.get(HttpEnvironment.HTTP_RESPONSE_OBJECT);
-	    response.setStatus(HttpServletResponse.SC_NOT_FOUND);
+            HttpServletResponse response = (HttpServletResponse)objectModel
+                    .get(HttpEnvironment.HTTP_RESPONSE_OBJECT);
+            response.setStatus(HttpServletResponse.SC_NOT_FOUND);
             return;
         }
 
         BrowseInfo info = getBrowseInfo();
+        currentOrder = params.scope.getOrder();
         if(info == null)
         {
             HttpServletResponse response = (HttpServletResponse)objectModel.get(HttpEnvironment.HTTP_RESPONSE_OBJECT);
- 	        response.setStatus(HttpServletResponse.SC_NOT_FOUND);
+            response.setStatus(HttpServletResponse.SC_NOT_FOUND);
             return;
         }
 
@@ -294,7 +295,7 @@ public class ConfigurableBrowse extends AbstractDSpaceTransformer implements
 
         // Build the internal navigation (jump lists)
         addBrowseJumpNavigation(div, info, params);
-        
+
         // Build the sort and display controls
         addBrowseControls(div, info, params);
 
@@ -330,7 +331,7 @@ public class ConfigurableBrowse extends AbstractDSpaceTransformer implements
                 // Create a table for the results
                 Table singleTable = results.addTable("browse-by-" + type + "-results",
                         browseInfo.getResultCount() + 1, 1);
-            
+
                 // Add the column heading
                 singleTable.addRow(Row.ROLE_HEADER).addCell().addContent(
                         message("xmlui.ArtifactBrowser.ConfigurableBrowse." + type + ".column_heading"));
@@ -344,26 +345,26 @@ public class ConfigurableBrowse extends AbstractDSpaceTransformer implements
                     if (singleEntry[1] != null)
                     {
                         queryParams.put(BrowseParams.FILTER_VALUE[1], encodeForURL(
-                            singleEntry[1]));
+                                singleEntry[1]));
                     }
                     else
                     {
                         queryParams.put(BrowseParams.FILTER_VALUE[0], encodeForURL(
-                            singleEntry[0]));
+                                singleEntry[0]));
                     }
 
                     // Create an entry in the table, and a linked entry
                     Cell cell = singleTable.addRow().addCell();
                     cell.addXref(super.generateURL(BROWSE_URL_BASE, queryParams),
-                          singleEntry[0]);
+                            singleEntry[0]);
                     if (StringUtils.isNotEmpty(singleEntry[2]))
                     {
                         cell.addContent(" ["+singleEntry[2]+"]");
                     }
-                }  
+                }
             }
         }
-        else 
+        else
         {
             results.addPara(T_no_results);
         }
@@ -434,7 +435,7 @@ public class ConfigurableBrowse extends AbstractDSpaceTransformer implements
             year.addOption(false, "-1", T_choose_year);
             int currentYear = DCDate.getCurrent().getYear();
             int i = currentYear;
-            
+
             // Calculate where to move from 1, 5 to 10 year jumps
             int oneYearBreak = ((currentYear - ONE_YEAR_LIMIT) / 5) * 5;
             int fiveYearBreak = ((currentYear - FIVE_YEAR_LIMIT) / 10) * 10;
@@ -462,14 +463,14 @@ public class ConfigurableBrowse extends AbstractDSpaceTransformer implements
             jumpForm = jump.addPara();
             jumpForm.addContent(T_jump_year);
             jumpForm.addText(BrowseParams.STARTS_WITH).setHelp(T_jump_year_help);
-            
+
             jumpForm.addButton("submit").setValue(T_go);
         }
         else
         {
             // Create a clickable list of the alphabet
             List jumpList = jump.addList("jump-list", List.TYPE_SIMPLE, "alphabet");
-            
+
             // browse params for each letter are all the query params
             // WITHOUT the second-stage browse value, and add STARTS_WITH.
             Map<String, String> letterQuery = new HashMap<String, String>(queryParamsGET);
@@ -479,7 +480,7 @@ public class ConfigurableBrowse extends AbstractDSpaceTransformer implements
             }
             letterQuery.put(BrowseParams.STARTS_WITH, "0");
             jumpList.addItemXref(super.generateURL(BROWSE_URL_BASE, letterQuery), "0-9");
-            
+
             for (char c = 'A'; c <= 'Z'; c++)
             {
                 letterQuery.put(BrowseParams.STARTS_WITH, Character.toString(c));
@@ -491,7 +492,7 @@ public class ConfigurableBrowse extends AbstractDSpaceTransformer implements
             Para jumpForm = jump.addPara();
             jumpForm.addContent(T_starts_with);
             jumpForm.addText(BrowseParams.STARTS_WITH).setHelp(T_starts_with_help);
-            
+
             jumpForm.addButton("submit").setValue(T_go);
         }
     }
@@ -512,7 +513,7 @@ public class ConfigurableBrowse extends AbstractDSpaceTransformer implements
 
         queryParams.putAll(params.getCommonParameters());
 
-        Division controls = div.addInteractiveDivision("browse-controls", BROWSE_URL_BASE,
+        Division controls = div.addInteractiveDivision("browse-controls", BROWSE_URL_BASE+(StringUtils.contains(BROWSE_URL_BASE,"?")?"&resetOffset=true":"?resetOffset=true"),
                 Division.METHOD_POST, "browse controls");
 
         // Add all the query parameters as hidden fields on the form
@@ -530,13 +531,13 @@ public class ConfigurableBrowse extends AbstractDSpaceTransformer implements
             {
                 // Create a drop down of the different sort columns available
                 Set<SortOption> sortOptions = SortOption.getSortOptions();
-                
+
                 // Only generate the list if we have multiple columns
                 if (sortOptions.size() > 1)
                 {
                     controlsForm.addContent(T_sort_by);
                     Select sortSelect = controlsForm.addSelect(BrowseParams.SORT_BY);
-    
+
                     for (SortOption so : sortOptions)
                     {
                         if (so.isVisible())
@@ -562,11 +563,11 @@ public class ConfigurableBrowse extends AbstractDSpaceTransformer implements
         // Create a control for the number of records to display
         controlsForm.addContent(T_rpp);
         Select rppSelect = controlsForm.addSelect(BrowseParams.RESULTS_PER_PAGE);
-        
+
         for (int i : RESULTS_PER_PAGE_PROGRESSION)
         {
             rppSelect.addOption((i == info.getResultsPerPage()), i, Integer.toString(i));
- 
+
         }
 
         // Create a control for the number of authors per item to display
@@ -700,13 +701,13 @@ public class ConfigurableBrowse extends AbstractDSpaceTransformer implements
             {
                 throw new ResourceNotFoundException("Browse index " + type + " not found");
             }
-            
+
             // If we don't have a sort column
             if (sortBy == -1)
             {
                 // Get the default one
                 SortOption so = bi.getSortOption();
-                if (so != null)                             
+                if (so != null)
                 {
                     sortBy = so.getNumber();
                 }
@@ -736,10 +737,10 @@ public class ConfigurableBrowse extends AbstractDSpaceTransformer implements
                     throw new UIException("Unable to get sort options", se);
                 }
             }
-            
+
             params.scope.setBrowseIndex(bi);
             params.scope.setSortBy(sortBy);
-            
+
             params.scope.setJumpToItem(RequestUtils.getIntParameter(request, BrowseParams.JUMPTO_ITEM));
             params.scope.setOrder(request.getParameter(BrowseParams.ORDER));
             updateOffset(request, params);
@@ -751,7 +752,7 @@ public class ConfigurableBrowse extends AbstractDSpaceTransformer implements
                 filterValue = request.getParameter(BrowseParams.FILTER_VALUE[1]);
                 params.scope.setAuthorityValue(filterValue);
             }
-            
+
             params.scope.setFilterValue(filterValue);
             params.scope.setJumpToValue(decodeFromURL(request.getParameter(BrowseParams.JUMPTO_VALUE)));
             params.scope.setJumpToValueLang(decodeFromURL(request.getParameter(BrowseParams.JUMPTO_VALUE_LANG)));
@@ -844,7 +845,13 @@ public class ConfigurableBrowse extends AbstractDSpaceTransformer implements
         } catch (ResourceNotFoundException e) {
             return null;
         }
-
+        String paramsOrder = params.scope.getOrder();
+        boolean orderingUpdated = !StringUtils.equals(currentOrder, paramsOrder);
+        if (orderingUpdated) {
+            if (ObjectModelHelper.getRequest(objectModel).getParameters().containsKey("resetOffset")) {
+                params.scope.setOffset(0);
+            }
+        }
         try
         {
             // Create a new browse engine, and perform the browse
@@ -891,7 +898,7 @@ public class ConfigurableBrowse extends AbstractDSpaceTransformer implements
     {
         return info.getBrowseIndex().isItemIndex() || info.isSecondLevel();
     }
-    
+
     /**
      * Is this browse sorted by date?
      * @param info
@@ -900,7 +907,7 @@ public class ConfigurableBrowse extends AbstractDSpaceTransformer implements
     private boolean isSortedByDate(BrowseInfo info)
     {
         return info.getSortOption().isDate() ||
-            (info.getBrowseIndex().isDate() && info.getSortOption().isDefault());
+                (info.getBrowseIndex().isDate() && info.getSortOption().isDefault());
     }
 
     private Message getTitleMessage(BrowseInfo info)
@@ -928,7 +935,7 @@ public class ConfigurableBrowse extends AbstractDSpaceTransformer implements
 
             // Get the name of any scoping element (collection / community)
             String scopeName = "";
-            
+
             if (info.getBrowseContainer() != null)
             {
                 scopeName = info.getBrowseContainer().getName();
@@ -937,7 +944,7 @@ public class ConfigurableBrowse extends AbstractDSpaceTransformer implements
             {
                 scopeName = "";
             }
-            
+
             if (bix.isMetadataIndex())
             {
                 titleMessage = message("xmlui.ArtifactBrowser.ConfigurableBrowse.title.metadata." + bix.getName())
@@ -954,7 +961,7 @@ public class ConfigurableBrowse extends AbstractDSpaceTransformer implements
                         .parameterize(scopeName, value);
             }
         }
-        
+
         return titleMessage;
     }
 
@@ -966,7 +973,7 @@ public class ConfigurableBrowse extends AbstractDSpaceTransformer implements
 
             // Get the name of any scoping element (collection / community)
             String scopeName = "";
-            
+
             if (info.getBrowseContainer() != null)
             {
                 scopeName = info.getBrowseContainer().getName();
@@ -992,7 +999,7 @@ public class ConfigurableBrowse extends AbstractDSpaceTransformer implements
                         .parameterize(scopeName);
             }
         }
-        
+
         return trailMessage;
     }
 }
@@ -1053,7 +1060,9 @@ class BrowseParams
             paramMap.put(scope.getAuthorityValue() != null?
                     BrowseParams.FILTER_VALUE[1]:BrowseParams.FILTER_VALUE[0], scope.getFilterValue());
         }
-
+        if(StringUtils.isNotBlank(scope.getStartsWith())){
+            paramMap.put(STARTS_WITH,scope.getStartsWith());
+        }
         if (scope.getFilterValueLang() != null)
         {
             paramMap.put(BrowseParams.FILTER_VALUE_LANG, scope.getFilterValueLang());
@@ -1093,13 +1102,13 @@ class BrowseParams
 
         return paramMap;
     }
-    
+
     String getKey()
     {
         try
         {
             String key = "";
-            
+
             key += "-" + scope.getBrowseIndex().getName();
             key += "-" + scope.getBrowseLevel();
             key += "-" + scope.getStartsWith();
@@ -1114,7 +1123,7 @@ class BrowseParams
             key += "-" + scope.getJumpToValue();
             key += "-" + scope.getJumpToValueLang();
             key += "-" + etAl;
-    
+
             return key;
         }
         catch (RuntimeException re)

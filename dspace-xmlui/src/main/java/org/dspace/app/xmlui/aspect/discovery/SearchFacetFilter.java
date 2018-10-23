@@ -226,7 +226,7 @@ public class SearchFacetFilter extends AbstractDSpaceTransformer implements Cach
         }
         queryArgs.setFacetOffset(offset);
 
-            //We add +1 so we can use the extra one to make sure that we need to show the next page
+        //We add +1 so we can use the extra one to make sure that we need to show the next page
 //        queryArgs.setFacetLimit();
 
         String facetField = request.getParameter(SearchFilterParam.FACET_FIELD);
@@ -252,7 +252,7 @@ public class SearchFacetFilter extends AbstractDSpaceTransformer implements Cach
     }
 
     private SORT getSortOrder(Request request) {
-        String sortOrderString = request.getParameter("order");
+        String sortOrderString = request.getParameter("filterorder");
         // First check for an already configured sortOrder (provided a new one is not being set)
         if(sortOrder!=null && StringUtils.isBlank(sortOrderString)){
             return sortOrder;
@@ -261,12 +261,12 @@ public class SearchFacetFilter extends AbstractDSpaceTransformer implements Cach
         if(StringUtils.isBlank(sortOrderString) || SORT.valueOf(sortOrderString.toUpperCase())==null){
             sortOrder= SORT.VALUE;
         }else{
-            sortOrder= SORT.valueOf(request.getParameter("order").toUpperCase());
+            sortOrder= SORT.valueOf(request.getParameter("filterorder").toUpperCase());
         }
         return sortOrder;
     }
 
-        /**
+    /**
      * Add a page title and trail links.
      * @throws org.xml.sax.SAXException passed through.
      * @throws org.dspace.app.xmlui.wing.WingException passed through.
@@ -302,7 +302,7 @@ public class SearchFacetFilter extends AbstractDSpaceTransformer implements Cach
         Division div = body.addDivision("browse-by-" + request.getParameter(SearchFilterParam.FACET_FIELD), "primary");
         div.setHead(message("xmlui.Discovery.AbstractSearch.type_" + browseParams.getFacetField()));
         if(getSortOrder(request).equals(SORT.VALUE)){
-        addBrowseJumpNavigation(div, browseParams, request);
+            addBrowseJumpNavigation(div, browseParams, request);
         }
         addBrowseControls(div, browseParams);
 
@@ -356,7 +356,7 @@ public class SearchFacetFilter extends AbstractDSpaceTransformer implements Cach
                     // We put our total results to -1 so this doesn't get shown in the results (will be hidden by the xsl)
                     // The reason why we do this is because solr 1.4 can't retrieve the total number of facets found
                     results.setSimplePagination((int) queryResults.getTotalSearchResults(), offSet + 1,
-                                                    shownItemsMax, getPreviousPageURL(browseParams, request), nextPageUrl);
+                            shownItemsMax, getPreviousPageURL(browseParams, request), nextPageUrl);
 
                     Table singleTable = results.addTable("browse-by-" + facetField + "-results", (int) (queryResults.getDspaceObjects().size() + 1), 1);
 

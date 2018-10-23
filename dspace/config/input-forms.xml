@@ -863,7 +863,7 @@
             <field>
               <dc-schema>dc</dc-schema>
               <dc-element>identifier</dc-element>
-              <dc-qualifier>DOI</dc-qualifier>
+              <dc-qualifier>doi</dc-qualifier>
               <repeatable>true</repeatable>
               <label>DOI</label>
               <input-type>onebox</input-type>
@@ -3008,8 +3008,6 @@ it, please enter the types and the actual numbers or codes below.</hint>
            <hint>xmlui.Submission.submit.DescribeStep.hint.eceform.conferencedate</hint>
            <required></required>
          </field>
-
-
          <field>
            <dc-schema>dc</dc-schema>
            <dc-element>citation</dc-element>
@@ -4053,6 +4051,10 @@ it, please enter the types and the actual numbers or codes below.</hint>
          <pair>
            <displayed-value>Report</displayed-value>
            <stored-value>Report</stored-value>
+         </pair>
+         <pair>
+             <displayed-value>Technical report</displayed-value>
+             <stored-value>Technical report</stored-value>
          </pair>
          <pair>
            <displayed-value>audio recordings</displayed-value>

@@ -23,7 +23,6 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javax.sql.DataSource;
 
-import org.apache.commons.dbcp2.BasicDataSource;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.dspace.core.Context;
@@ -64,10 +63,10 @@ public class DatabaseUtils
     // Reindex flag file is at [dspace]/solr/search/conf/reindex.flag
     // See also setReindexDiscovery()/getReindexDiscover()
     private static final String reindexDiscoveryFilePath = DSpaceServicesFactory.getInstance().getConfigurationService().getProperty("dspace.dir") +
-                            File.separator + "solr" +
-                            File.separator + "search" +
-                            File.separator + "conf" +
-                            File.separator + "reindex.flag";
+            File.separator + "solr" +
+            File.separator + "search" +
+            File.separator + "conf" +
+            File.separator + "reindex.flag";
 
     // Types of databases supported by DSpace. See getDbType()
     public static final String DBMS_POSTGRES="postgres";
@@ -493,7 +492,7 @@ public class DatabaseUtils
                 if(!dbType.equals(DBMS_H2))
                 {
                     scriptLocations.add("filesystem:" + config.getProperty("dspace.dir") +
-                                        "/etc/" + dbType);
+                            "/etc/" + dbType);
                 }
 
                 // Also add the Java package where Flyway will load SQL migrations from (based on DB Type)
@@ -543,6 +542,9 @@ public class DatabaseUtils
     {
         // Get our configured dataSource
         DataSource dataSource = getDataSource();
+        if (null == dataSource) {
+            throw new SQLException("The DataSource is a null reference -- cannot continue.");
+        }
 
         try(Connection connection = dataSource.getConnection())
         {
@@ -596,9 +598,14 @@ public class DatabaseUtils
      * @throws SQLException if database error
      *      If database cannot be upgraded.
      */
-    protected static synchronized void updateDatabase(DataSource datasource, Connection connection, String targetVersion, boolean outOfOrder)
+    protected static synchronized void updateDatabase(DataSource datasource,
+                                                      Connection connection, String targetVersion, boolean outOfOrder)
             throws SQLException
     {
+        if (null == datasource) {
+            throw new SQLException("The datasource is a null reference -- cannot continue.");
+        }
+
         try
         {
             // Setup Flyway API against our database
@@ -998,10 +1005,10 @@ public class DatabaseUtils
                     }
                     // PostgreSQL specific query for a sequence in a particular schema
                     sequenceSQL = "SELECT COUNT(1) FROM pg_class, pg_namespace " +
-                                    "WHERE pg_class.relnamespace=pg_namespace.oid " +
-                                    "AND pg_class.relkind='S' " +
-                                    "AND pg_class.relname=? " +
-                                    "AND pg_namespace.nspname=?";
+                            "WHERE pg_class.relnamespace=pg_namespace.oid " +
+                            "AND pg_class.relkind='S' " +
+                            "AND pg_class.relname=? " +
+                            "AND pg_namespace.nspname=?";
                     // We need to filter by schema in PostgreSQL
                     schemaFilter = true;
                     break;
@@ -1014,8 +1021,8 @@ public class DatabaseUtils
                     // In H2, sequences are listed in the "information_schema.sequences" table
                     // SEE: http://www.h2database.com/html/grammar.html#information_schema
                     sequenceSQL = "SELECT COUNT(1) " +
-                                    "FROM INFORMATION_SCHEMA.SEQUENCES " +
-                                    "WHERE SEQUENCE_NAME = ?";
+                            "FROM INFORMATION_SCHEMA.SEQUENCES " +
+                            "WHERE SEQUENCE_NAME = ?";
                     break;
                 default:
                     throw new SQLException("DBMS " + dbtype + " is unsupported.");
@@ -1107,7 +1114,7 @@ public class DatabaseUtils
             throws SQLException
     {
         String schema = null;
-        
+
         // Try to get the schema from the DB connection itself.
         // As long as the Database driver supports JDBC4.1, there should be a getSchema() method
         // If this method is unimplemented or doesn't exist, it will throw an exception (likely an AbstractMethodError)
@@ -1124,7 +1131,7 @@ public class DatabaseUtils
         {
             schema = canonicalize(connection, DSpaceServicesFactory.getInstance().getConfigurationService().getProperty("db.schema"));
         }
-            
+
         // Still blank? Ok, we'll find a "sane" default based on the DB type
         if(StringUtils.isBlank(schema))
         {
@@ -1154,9 +1161,9 @@ public class DatabaseUtils
      * Return the canonical name for a database identifier based on whether this
      * database defaults to storing identifiers in uppercase or lowercase.
      *
-     * @param connection 
+     * @param connection
      *            Current Database Connection
-     * @param dbIdentifier 
+     * @param dbIdentifier
      *            Identifier to canonicalize (may be a table name, column name, etc)
      * @return The canonical name of the identifier.
      */
@@ -1166,7 +1173,7 @@ public class DatabaseUtils
         // Avoid any null pointers
         if(dbIdentifier==null)
             return null;
-        
+
         DatabaseMetaData meta = connection.getMetaData();
 
         // Check how this database stores its identifiers, etc.
@@ -1174,18 +1181,18 @@ public class DatabaseUtils
         if(meta.storesLowerCaseIdentifiers())
         {
             return StringUtils.lowerCase(dbIdentifier);
-            
+
         }
         else if(meta.storesUpperCaseIdentifiers())
         {
             return StringUtils.upperCase(dbIdentifier);
         }
         else // Otherwise DB doesn't care about case
-        {    
+        {
             return dbIdentifier;
         }
     }
-    
+
     /**
      * Whether or not to tell Discovery to reindex itself based on the updated
      * database.
@@ -1342,7 +1349,7 @@ public class DatabaseUtils
 
     /**
      * Determine the type of Database, based on the DB connection.
-     * 
+     *
      * @param connection current DB Connection
      * @return a DB keyword/type (see DatabaseUtils.DBMS_* constants)
      * @throws SQLException if database error
@@ -1374,6 +1381,7 @@ public class DatabaseUtils
     /**
      * Get a reference to the configured DataSource (which can be used to
      * initialize the database using Flyway).
+     * The DataSource is configured via our ServiceManager (i.e. via Spring).
      * <P>
      * This is NOT public, as we discourage direct connections to the database
      * which bypass Hibernate. Only Flyway should be allowed a direct connection.
@@ -1381,8 +1389,13 @@ public class DatabaseUtils
      */
     protected static DataSource getDataSource()
     {
-        // DataSource is configured via our ServiceManager (i.e. via Spring).
-        return DSpaceServicesFactory.getInstance().getServiceManager().getServiceByName("dataSource", BasicDataSource.class);
+        DataSource dataSource = DSpaceServicesFactory.getInstance()
+                .getServiceManager()
+                .getServiceByName("dataSource", DataSource.class);
+        if (null == dataSource) {
+            log.error("The service manager could not find the DataSource.");
+        }
+        return dataSource;
     }
 
     /**

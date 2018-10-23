@@ -113,17 +113,17 @@ public class ItemTest extends AbstractDSpaceObjectTest
             itemService.delete(context, it);
         } catch(Exception e){
         }
-        
+
         try {
             collectionService.delete(context, collection);
         } catch(Exception e){
         }
-        
+
         try {
             communityService.delete(context, owningCommunity);
         } catch(Exception e){
         }
-        
+
         context.restoreAuthSystemState();
         it = null;
         collection = null;
@@ -194,7 +194,7 @@ public class ItemTest extends AbstractDSpaceObjectTest
      * Test of findBySubmitter method, of class Item.
      */
     @Test
-    public void testFindBySubmitter() throws Exception 
+    public void testFindBySubmitter() throws Exception
     {
         Iterator<Item> all = itemService.findBySubmitter(context, context.getCurrentUser());
         assertThat("testFindBySubmitter 0", all, notNullValue());
@@ -216,6 +216,139 @@ public class ItemTest extends AbstractDSpaceObjectTest
 
         assertThat("testFindBySubmitter 2", all, notNullValue());
         assertFalse("testFindBySubmitter 3", all.hasNext());
+    }
+
+    /**
+     * Test of findInArchiveOrWithdrawnDiscoverableModifiedSince method, of class Item.
+     */
+    @Test
+    public void testFindInArchiveOrWithdrawnDiscoverableModifiedSince() throws Exception {
+        // Init item to be both withdrawn and discoverable
+        it.setWithdrawn(true);
+        it.setArchived(false);
+        it.setDiscoverable(true);
+
+        // Test 0: Using a future 'modified since' date, we should get non-null list, with no items
+        Iterator<Item> all = itemService.findInArchiveOrWithdrawnDiscoverableModifiedSince(context,DateUtils.addDays(it.getLastModified(),1));
+        assertThat("Returned list should not be null", all, notNullValue());
+
+        boolean added = false;
+        while(all.hasNext()) {
+            Item tmp = all.next();
+            if(tmp.equals(it)) {
+                added = true;
+            }
+        }
+
+        // Test 1: we should NOT find our item in this list
+        assertFalse("List should not contain item when passing a date newer than item last-modified date", added);
+
+        // Test 2: Using a past 'modified since' date, we should get a non-null list containing our item
+        all = itemService.findInArchiveOrWithdrawnDiscoverableModifiedSince(context,DateUtils.addDays(it.getLastModified(),-1));
+        assertThat("Returned list should not be null", all, notNullValue());
+
+        added = false;
+        while(all.hasNext()) {
+            Item tmp = all.next();
+            if(tmp.equals(it)) {
+                added = true;
+            }
+        }
+        // Test 3: we should find our item in this list
+        assertTrue("List should contain item when passing a date older than item last-modified date", added);
+
+        // Repeat Tests 2, 3 with withdrawn = false and archived = true as this should result in same behaviour
+        it.setWithdrawn(false);
+        it.setArchived(true);
+
+        // Test 4: Using a past 'modified since' date, we should get a non-null list containing our item
+        all = itemService.findInArchiveOrWithdrawnDiscoverableModifiedSince(context,DateUtils.addDays(it.getLastModified(),-1));
+        assertThat("Returned list should not be null", all, notNullValue());
+
+        added = false;
+        while(all.hasNext()) {
+            Item tmp = all.next();
+            if(tmp.equals(it)) {
+                added = true;
+            }
+        }
+        // Test 5: We should find our item in this list
+        assertTrue("List should contain item when passing a date older than item last-modified date", added);
+
+        // Test 6: Make sure non-discoverable items are not returned, regardless of archived/withdrawn state
+        it.setDiscoverable(false);
+        all = itemService.findInArchiveOrWithdrawnDiscoverableModifiedSince(context,DateUtils.addDays(it.getLastModified(),-1));
+        assertThat("Returned list should not be null", all, notNullValue());
+
+        added = false;
+        while(all.hasNext()) {
+            Item tmp = all.next();
+            if(tmp.equals(it)) {
+                added = true;
+            }
+        }
+        // Test 7: We should not find our item in this list
+        assertFalse("List should not contain non-discoverable items", added);
+
+    }
+
+    /**
+     * Test of findInArchiveOrWithdrawnNonDiscoverableModifiedSince method, of class Item.
+     */
+    @Test
+    public void testFindInArchiveOrWithdrawnNonDiscoverableModifiedSince() throws Exception {
+        // Init item to be both withdrawn and discoverable
+        it.setWithdrawn(true);
+        it.setArchived(false);
+        it.setDiscoverable(false);
+
+        // Test 0: Using a future 'modified since' date, we should get non-null list, with no items
+        Iterator<Item> all = itemService.findInArchiveOrWithdrawnNonDiscoverableModifiedSince(context,DateUtils.addDays(it.getLastModified(),1));
+        assertThat("Returned list should not be null", all, notNullValue());
+
+        boolean added = false;
+        while(all.hasNext()) {
+            Item tmp = all.next();
+            if(tmp.equals(it)) {
+                added = true;
+            }
+        }
+
+        // Test 1: We should NOT find our item in this list
+        assertFalse("List should not contain item when passing a date newer than item last-modified date", added);
+
+        // Test 2: Using a past 'modified since' date, we should get a non-null list containing our item
+        all = itemService.findInArchiveOrWithdrawnNonDiscoverableModifiedSince(context,DateUtils.addDays(it.getLastModified(),-1));
+        assertThat("Returned list should not be null", all, notNullValue());
+
+        added = false;
+        while(all.hasNext()) {
+            Item tmp = all.next();
+            if(tmp.equals(it)) {
+                added = true;
+            }
+        }
+
+        // Test 3: We should find our item in this list
+        assertTrue("List should contain item when passing a date older than item last-modified date", added);
+
+        // Repeat Tests 2, 3 with discoverable = true
+        it.setDiscoverable(true);
+
+        // Test 4: Now we should still get a non-null list with NO items since item is discoverable
+        all = itemService.findInArchiveOrWithdrawnNonDiscoverableModifiedSince(context,DateUtils.addDays(it.getLastModified(),-1));
+        assertThat("Returned list should not be null", all, notNullValue());
+
+        added = false;
+        while(all.hasNext()) {
+            Item tmp = all.next();
+            if(tmp.equals(it)) {
+                added = true;
+            }
+        }
+
+        // Test 5: We should NOT find our item in this list
+        assertFalse("List should not contain discoverable items", added);
     }
 
     /**
@@ -438,7 +571,7 @@ public class ItemTest extends AbstractDSpaceObjectTest
         assertThat("testAddMetadata_7args_1 15",dc.get(1).getConfidence(),equalTo(confidences.get(1)));
     }
 
-     /**
+    /**
      * Test of addMetadata method, of class Item.
      */
     @Test
@@ -479,7 +612,7 @@ public class ItemTest extends AbstractDSpaceObjectTest
      */
     @Test
     public void testAddMetadata_5args_2() throws SQLException {
-         String schema = "dc";
+        String schema = "dc";
         String element = "contributor";
         String qualifier = "author";
         String lang = Item.ANY;
@@ -602,7 +735,7 @@ public class ItemTest extends AbstractDSpaceObjectTest
         context.turnOffAuthorisationSystem();
         EPerson sub = ePersonService.create(context);
         context.restoreAuthSystemState();
-        
+
         it.setSubmitter(sub);
 
         assertThat("testSetSubmitter 0", it.getSubmitter(), notNullValue());
@@ -633,7 +766,7 @@ public class ItemTest extends AbstractDSpaceObjectTest
      * Test of getCommunities method, of class Item.
      */
     @Test
-    public void testGetCommunities() throws Exception 
+    public void testGetCommunities() throws Exception
     {
         assertThat("testGetCommunities 0", itemService.getCommunities(context, it), notNullValue());
         assertTrue("testGetCommunities 1", itemService.getCommunities(context, it).size() == 1);
@@ -780,7 +913,7 @@ public class ItemTest extends AbstractDSpaceObjectTest
         String name = "bundle";
         Bundle created = bundleService.create(context, it, name);
         created.setName(context, name);
-        
+
         it.addBundle(created);
         fail("Exception expected");
     }
@@ -806,7 +939,7 @@ public class ItemTest extends AbstractDSpaceObjectTest
         Bundle created = bundleService.create(context, it, name);
         created.setName(context, name);
         itemService.addBundle(context, it, created);
-        
+
         itemService.removeBundle(context, it, created);
         assertThat("testRemoveBundleAuth 0", itemService.getBundles(it, name), notNullValue());
         assertTrue("testRemoveBundleAuth 1", itemService.getBundles(it, name).size() == 0);
@@ -1137,13 +1270,13 @@ public class ItemTest extends AbstractDSpaceObjectTest
         {{
             // Allow Item withdraw permissions
             AuthorizeUtil.authorizeWithdrawItem((Context) any, (Item) any);
-                result = null;
+            result = null;
         }};
 
         new NonStrictExpectations(authorizeService.getClass())
         {{
-                authorizeService.authorizeAction((Context) any, (Item) any,
-                            Constants.WRITE); result = null;
+            authorizeService.authorizeAction((Context) any, (Item) any,
+                    Constants.WRITE); result = null;
 
         }};
 
@@ -1161,7 +1294,7 @@ public class ItemTest extends AbstractDSpaceObjectTest
         {{
             // Disallow Item withdraw permissions
             AuthorizeUtil.authorizeWithdrawItem((Context) any, (Item) any);
-                result = new AuthorizeException();
+            result = new AuthorizeException();
 
         }};
 
@@ -1178,16 +1311,16 @@ public class ItemTest extends AbstractDSpaceObjectTest
         new NonStrictExpectations(AuthorizeUtil.class)
         {{
             AuthorizeUtil.authorizeWithdrawItem((Context) any, (Item) any);
-                result = null;
+            result = null;
             AuthorizeUtil.authorizeReinstateItem((Context) any, (Item) any);
-                result = null;
+            result = null;
 
         }};
         new NonStrictExpectations(authorizeService.getClass())
         {{
             // Allow Item withdraw and reinstate permissions
             authorizeService.authorizeAction((Context) any, (Item) any,
-                Constants.WRITE); result = null;
+                    Constants.WRITE); result = null;
         }};
 
         itemService.withdraw(context, it);
@@ -1205,15 +1338,15 @@ public class ItemTest extends AbstractDSpaceObjectTest
         {{
             // Allow Item withdraw permissions
             AuthorizeUtil.authorizeWithdrawItem((Context) any, (Item) any);
-                result = null;
+            result = null;
             // Disallow Item reinstate permissions
             AuthorizeUtil.authorizeReinstateItem((Context) any, (Item) any);
-                result = new AuthorizeException();
+            result = new AuthorizeException();
         }};
         new NonStrictExpectations(authorizeService.getClass())
         {{
             authorizeService.authorizeAction((Context) any, (Item) any,
-                Constants.WRITE); result = null;
+                    Constants.WRITE); result = null;
         }};
 
         itemService.withdraw(context, it);
@@ -1235,7 +1368,7 @@ public class ItemTest extends AbstractDSpaceObjectTest
             authorizeService.authorizeAction((Context) any, (Item) any,
                     Constants.DELETE, true); result = null;
             authorizeService.authorizeAction((Context) any, (Item) any,
-                Constants.WRITE); result = null;
+                    Constants.WRITE); result = null;
         }};
 
         UUID id = it.getID();
@@ -1256,7 +1389,7 @@ public class ItemTest extends AbstractDSpaceObjectTest
             authorizeService.authorizeAction((Context) any, (Item) any,
                     Constants.REMOVE); result = new AuthorizeException();
         }};
-        
+
         itemService.delete(context, it);
         fail("Exception expected");
     }
@@ -1273,11 +1406,11 @@ public class ItemTest extends AbstractDSpaceObjectTest
             authorizeService.authorizeAction((Context) any, (Collection) any,
                     Constants.ADD); result = null;
             authorizeService.authorizeAction((Context) any, (Item) any,
-                Constants.WRITE); result = null;
+                    Constants.WRITE); result = null;
             authorizeService.authorizeAction((Context) any, (Item) any,
-                Constants.REMOVE); result = null;
+                    Constants.REMOVE); result = null;
             authorizeService.authorizeAction((Context) any, (Item) any,
-                Constants.DELETE); result = null;
+                    Constants.DELETE); result = null;
 
         }};
 
@@ -1300,7 +1433,7 @@ public class ItemTest extends AbstractDSpaceObjectTest
         context.turnOffAuthorisationSystem();
         Collection c = createCollection();
         context.restoreAuthSystemState();
-        
+
         boolean result = itemService.isOwningCollection(it, c);
         assertFalse("testIsOwningCollection 0",result);
     }
@@ -1409,7 +1542,7 @@ public class ItemTest extends AbstractDSpaceObjectTest
      * Test of inheritCollectionDefaultPolicies method, of class Item.
      */
     @Test
-    public void testInheritCollectionDefaultPolicies() throws Exception 
+    public void testInheritCollectionDefaultPolicies() throws Exception
     {
         context.turnOffAuthorisationSystem();
 
@@ -1644,7 +1777,7 @@ public class ItemTest extends AbstractDSpaceObjectTest
         new NonStrictExpectations(authorizeService.getClass())
         {{
             // Disallow Item WRITE perms
-        	authorizeService.authorizeAction((Context) any, (Item) any,
+            authorizeService.authorizeAction((Context) any, (Item) any,
                     Constants.WRITE); result = new AuthorizeException();
             // Allow Collection WRITE perms
             authorizeService.authorizeAction((Context) any, (Collection) any,
@@ -1699,7 +1832,7 @@ public class ItemTest extends AbstractDSpaceObjectTest
         new NonStrictExpectations(authorizeService.getClass())
         {{
             // Disallow Item WRITE perms
-        	authorizeService.authorizeAction((Context) any, (Item) any,
+            authorizeService.authorizeAction((Context) any, (Item) any,
                     Constants.WRITE, anyBoolean); result = new AuthorizeException();
         }};
         assertFalse("testCanEditBooleanNoAuth2 0", itemService.canEdit(context, wi.getItem()));
@@ -1707,58 +1840,58 @@ public class ItemTest extends AbstractDSpaceObjectTest
 
     /**
      * Test of isInProgressSubmission method, of class Item.
-     * @throws AuthorizeException 
-     * @throws SQLException 
-     * @throws IOException 
-     * 
+     * @throws AuthorizeException
+     * @throws SQLException
+     * @throws IOException
+     *
      */
     @Test
     public void testIsInProgressSubmission() throws SQLException, AuthorizeException, IOException
     {
-    	context.turnOffAuthorisationSystem();
-    	Collection c = createCollection();
+        context.turnOffAuthorisationSystem();
+        Collection c = createCollection();
         WorkspaceItem wi = workspaceItemService.create(context, c, true);
-    	context.restoreAuthSystemState();
+        context.restoreAuthSystemState();
         assertTrue("testIsInProgressSubmission 0", itemService.isInProgressSubmission(context, wi.getItem()));
     }
-    
+
     /**
      * Test of isInProgressSubmission method, of class Item.
-     * @throws AuthorizeException 
-     * @throws SQLException 
-     * @throws IOException 
-     * 
+     * @throws AuthorizeException
+     * @throws SQLException
+     * @throws IOException
+     *
      */
     @Test
     public void testIsInProgressSubmissionFalse() throws SQLException, AuthorizeException, IOException
     {
-    	context.turnOffAuthorisationSystem();
-    	Collection c = createCollection();
+        context.turnOffAuthorisationSystem();
+        Collection c = createCollection();
         WorkspaceItem wi = workspaceItemService.create(context, c, true);
         Item item = installItemService.installItem(context, wi);
-    	context.restoreAuthSystemState();
+        context.restoreAuthSystemState();
         assertFalse("testIsInProgressSubmissionFalse 0", itemService.isInProgressSubmission(context, item));
     }
 
     /**
      * Test of isInProgressSubmission method, of class Item.
-     * @throws AuthorizeException 
-     * @throws SQLException 
-     * @throws IOException 
-     * 
+     * @throws AuthorizeException
+     * @throws SQLException
+     * @throws IOException
+     *
      */
     @Test
     public void testIsInProgressSubmissionFalse2() throws SQLException, AuthorizeException, IOException
     {
-    	context.turnOffAuthorisationSystem();
-    	Collection c = createCollection();
+        context.turnOffAuthorisationSystem();
+        Collection c = createCollection();
         collectionService.createTemplateItem(context, c);
         collectionService.update(context, c);
         Item item = c.getTemplateItem();
-    	context.restoreAuthSystemState();
+        context.restoreAuthSystemState();
         assertFalse("testIsInProgressSubmissionFalse2 0", itemService.isInProgressSubmission(context, item));
     }
-    
+
     /**
      * Test of getName method, of class Item.
      */
@@ -1795,7 +1928,7 @@ public class ItemTest extends AbstractDSpaceObjectTest
         itemService.update(context, it);
 
         result = itemService.findByMetadataField(context, schema, element, qualifier, value);
-        assertThat("testFindByMetadataField 3",result,notNullValue());        
+        assertThat("testFindByMetadataField 3",result,notNullValue());
         assertTrue("testFindByMetadataField 4",result.hasNext());
         assertTrue("testFindByMetadataField 5",result.next().equals(it));
     }

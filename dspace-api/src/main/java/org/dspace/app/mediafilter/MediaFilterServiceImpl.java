@@ -21,6 +21,7 @@ import org.dspace.services.ConfigurationService;
 import org.dspace.storage.bitstore.service.BitstreamStorageService;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
+import java.io.IOException;
 
 import java.io.InputStream;
 import java.util.*;
@@ -348,9 +349,8 @@ public class MediaFilterServiceImpl implements MediaFilterService, InitializingB
         // get bitstream filename, calculate destination filename
         String newName = formatFilter.getFilteredName(source.getName());
 
-        Bitstream existingBitstream = null; // is there an existing rendition?
-        Bundle targetBundle = null; // bundle we're modifying
-
+        Bundle existingBundle = null;
+        Bitstream existingBitstream = null;
         List<Bundle> bundles = itemService.getBundles(item, formatFilter.getBundleName());
 
         // check if destination bitstream exists
@@ -361,8 +361,8 @@ public class MediaFilterServiceImpl implements MediaFilterService, InitializingB
                 List<Bitstream> bitstreams = bundle.getBitstreams();
 
                 for (Bitstream bitstream : bitstreams) {
-                    if (bitstream.getName().equals(newName)) {
-                        targetBundle = bundle;
+                    if (bitstream.getName().trim().equals(newName.trim())) {
+                        existingBundle = bundle;
                         existingBitstream = bitstream;
                     }
                 }
@@ -379,7 +379,7 @@ public class MediaFilterServiceImpl implements MediaFilterService, InitializingB
         System.out.println("the VIDEO/AUDIO formats: "+vamedias);
         if (!overWrite && (existingBitstream != null) && !(vamedias.indexOf(bitstreamService.getFormat(context, source).getMIMEType().trim()) >= 0))
         {
-            System.out.println("No video/audio: "+vamedias);
+            //System.out.println("No video/audio: "+vamedias);
             if (!isQuiet)
             {
                 System.out.println("SKIPPED: bitstream " + source.getID()
@@ -395,83 +395,96 @@ public class MediaFilterServiceImpl implements MediaFilterService, InitializingB
                 + " (item: " + item.getHandle() + ")");
         }
        // Ying updated this for OHMS XML / Video Audio filter
-        InputStream destStream;
+        //InputStream destStream;
         String specialmedias = configurationService.getProperty("filter.org.dspace.app.mediafilter.OHMSFilter.inputFormats");
         specialmedias = specialmedias + ", " + vamedias;
-        try {
-            System.out.println("File: " + newName);
-            if(specialmedias.indexOf(bitstreamService.getFormat(context, source).getMIMEType().trim()) >= 0){
+        System.out.println("File: " + newName);
+        try
+        {
+
+            // get the source stream
+            InputStream srcStream = bitstreamService.retrieve(context, source);
+            // filter the source stream to produce the destination stream
+            // this is the hard work, check for OutOfMemoryErrors at the end of the try clause.
+            InputStream destStream;
+
+            if (specialmedias.indexOf(bitstreamService.getFormat(context, source).getMIMEType().trim()) >= 0) {
                 //System.out.println("getting destStream!!! " + source.getFilename() + "== " + source.getName() + "=== " + getInternalId() + " ====== " + formatFilter.getFormatString());
                 destStream = formatFilter.getDestinationStream(source);
-                if (!isQuiet)
-                {
-                   System.out.println("FILTERED: bitstream " + source.getInternalId()
-                        + " (item: " + item.getHandle() + ") and created the link contents.");
+                if (!isQuiet) {
+                    System.out.println("FILTERED: bitstream " + source.getInternalId()
+                            + " (item: " + item.getHandle() + ") and created the link contents.");
                 }
-            }else{
-                destStream = formatFilter.getDestinationStream(item, bitstreamService.retrieve(context, source), isVerbose);
+            } else {
+                destStream = formatFilter.getDestinationStream(item, srcStream, isVerbose);
             }
 
             // END Ying updated this for OHMS XML / Video Audio filter
             if (destStream == null) {
 
-                if (!isQuiet && !(specialmedias.indexOf(bitstreamService.getFormat(context, source).getMIMEType().trim()) >= 0))
-                {
+                if (!isQuiet && !(specialmedias.indexOf(bitstreamService.getFormat(context, source).getMIMEType().trim()) >= 0)) {
                     System.out.println("SKIPPED: bitstream " + source.getInternalId()
                             + " (item: " + item.getHandle() + ") because filtering was unsuccessful");
                 }
 
                 return false;
             }
+
+
+            Bundle targetBundle; // bundle we're modifying
+            if (bundles.size() < 1)
+            {
+                    // create new bundle if needed
+                    targetBundle = bundleService.create(context, item, formatFilter.getBundleName());
+            }
+            else
+            {
+                // take the first match as we already looked out for the correct bundle name
+                targetBundle = bundles.get(0);
+            }
+
+            // create bitstream to store the filter result
+            Bitstream b = bitstreamService.create(context, targetBundle, destStream);
+            // set the name, source and description of the bitstream
+            b.setName(context, newName);
+            b.setSource(context, "Written by FormatFilter " + formatFilter.getClass().getName() +
+                       " on " + DCDate.getCurrent() + " (GMT).");
+            b.setDescription(context, formatFilter.getDescription());
+            // Set the format of the bitstream
+            BitstreamFormat bf = bitstreamFormatService.findByShortDescription(context,
+                    formatFilter.getFormatString());
+            bitstreamService.setFormat(context, b, bf);
+            bitstreamService.update(context, b);
+
+            //Set permissions on the derivative bitstream
+            //- First remove any existing policies
+            authorizeService.removeAllPolicies(context, b);
+
+            //- Determine if this is a public-derivative format
+            if(publicFiltersClasses.contains(formatFilter.getClass().getSimpleName())) {
+                //- Set derivative bitstream to be publicly accessible
+                Group anonymous = groupService.findByName(context, Group.ANONYMOUS);
+                authorizeService.addPolicy(context, b, Constants.READ, anonymous);
+            } else {
+                //- Inherit policies from the source bitstream
+                authorizeService.inheritPolicies(context, source, b);
+            }
+
+
+            //do post-processing of the generated bitstream
+            formatFilter.postProcessBitstream(context, item, b);
+
         } catch (OutOfMemoryError oome) {
             System.out.println("!!! OutOfMemoryError !!!");
-            return false;
+            //return false;
         }
 
-        // create new bundle if needed
-        if (bundles.size() < 1)
-        {
-            targetBundle = bundleService.create(context, item, formatFilter.getBundleName());
-        }
-        else
-        {
-            // take the first match
-            targetBundle = bundles.get(0);
-        }
-
-        Bitstream b = bitstreamService.create(context, targetBundle, destStream);
-
-        // Now set the format and name of the bitstream
-        b.setName(context, newName);
-        b.setSource(context, "Written by FormatFilter " + formatFilter.getClass().getName() +
-        			" on " + DCDate.getCurrent() + " (GMT)."); 
-        b.setDescription(context, formatFilter.getDescription());
-
-        // Find the proper format
-        BitstreamFormat bf = bitstreamFormatService.findByShortDescription(context,
-                formatFilter.getFormatString());
-        bitstreamService.setFormat(context, b, bf);
-        bitstreamService.update(context, b);
-        
-        //Set permissions on the derivative bitstream
-        //- First remove any existing policies
-        authorizeService.removeAllPolicies(context, b);
-
-        //- Determine if this is a public-derivative format
-        if(publicFiltersClasses.contains(formatFilter.getClass().getSimpleName())) {
-            //- Set derivative bitstream to be publicly accessible
-            Group anonymous = groupService.findByName(context, Group.ANONYMOUS);
-            authorizeService.addPolicy(context, b, Constants.READ, anonymous);
-        } else {
-            //- Inherit policies from the source bitstream
-            authorizeService.inheritPolicies(context, source, b);
-        }
 
         // fixme - set date?
         // we are overwriting, so remove old bitstream
         if (existingBitstream != null)
         {
-            bundleService.removeBitstream(context, targetBundle, existingBitstream);
+            bundleService.removeBitstream(context, existingBundle, existingBitstream);
         }
 
         if (!isQuiet)
@@ -480,8 +493,6 @@ public class MediaFilterServiceImpl implements MediaFilterService, InitializingB
                     + " (item: " + item.getHandle() + ") and created '" + newName + "'");
         }
 
-        //do post-processing of the generated bitstream
-        formatFilter.postProcessBitstream(context, item, b);
         
         return true;
     }

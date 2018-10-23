@@ -7,18 +7,19 @@
  */
 package org.dspace.browse;
 
-import java.sql.SQLException;
-import java.util.List;
-import java.util.ArrayList;
-
+import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.dspace.content.Collection;
 import org.dspace.content.Community;
 import org.dspace.content.Item;
 import org.dspace.core.Context;
 import org.dspace.core.LogManager;
-import org.dspace.sort.SortOption;
 import org.dspace.sort.OrderFormat;
+import org.dspace.sort.SortOption;
+
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * This class does most of the actual grunt work of preparing a browse
@@ -56,7 +57,7 @@ public class BrowseEngine
      * @throws BrowseException if browse error
      */
     public BrowseEngine(Context context)
-        throws BrowseException
+            throws BrowseException
     {
         // set the context
         this.context = context;
@@ -76,7 +77,7 @@ public class BrowseEngine
      * @throws BrowseException if browse error
      */
     public BrowseInfo browse(BrowserScope bs)
-        throws BrowseException
+            throws BrowseException
     {
         log.debug(LogManager.getHeader(context, "browse", ""));
 
@@ -114,7 +115,7 @@ public class BrowseEngine
      * @throws BrowseException if browse error
      */
     public BrowseInfo browseMini(BrowserScope bs)
-        throws BrowseException
+            throws BrowseException
     {
         log.info(LogManager.getHeader(context, "browse_mini", ""));
 
@@ -200,7 +201,7 @@ public class BrowseEngine
      * @throws BrowseException if browse error
      */
     private BrowseInfo browseByItem(BrowserScope bs)
-        throws BrowseException
+            throws BrowseException
     {
         log.info(LogManager.getHeader(context, "browse_by_item", ""));
         try
@@ -220,7 +221,7 @@ public class BrowseEngine
 
                 // make sure the incoming value is normalised
                 value = OrderFormat.makeSortString(value, scope.getFilterValueLang(),
-                            scope.getBrowseIndex().getDataType());
+                        scope.getBrowseIndex().getDataType());
 
                 dao.setAuthorityValue(scope.getAuthorityValue());
 
@@ -228,18 +229,18 @@ public class BrowseEngine
                 if (scope.isSecondLevel())
                 {
                     dao.setFilterValueField("value");
-                    dao.setFilterValue(rawValue);    
+                    dao.setFilterValue(rawValue);
                 }
                 else
                 {
-	                dao.setFilterValueField("sort_value");
-	                dao.setFilterValue(value);
+                    dao.setFilterValueField("sort_value");
+                    dao.setFilterValue(value);
                 }
                 dao.setFilterValuePartial(scope.getFilterValuePartial());
 
                 // to apply the filtering, we need the distinct and map tables for the index
                 dao.setFilterMappingTables(browseIndex.getDistinctTableName(),
-                                           browseIndex.getMapTableName());
+                        browseIndex.getMapTableName());
             }
 
             // define a clause for the WHERE clause which will allow us to constrain
@@ -399,7 +400,7 @@ public class BrowseEngine
      * @throws BrowseException if browse error
      */
     private BrowseInfo browseByValue(BrowserScope bs)
-        throws BrowseException
+            throws BrowseException
     {
         log.info(LogManager.getHeader(context, "browse_by_value", "focus=" + bs.getJumpToValue()));
 
@@ -408,7 +409,7 @@ public class BrowseEngine
             // get the table name that we are going to be getting our data from
             // this is the distinct table constrained to either community or collection
             dao.setTable(browseIndex.getDistinctTableName());
-
+            dao.setStartsWith(StringUtils.lowerCase(scope.getStartsWith()));
             // remind the DAO that this is a distinct value browse, so it knows what sort
             // of query to build
             dao.setDistinct(true);
@@ -418,20 +419,20 @@ public class BrowseEngine
 
             // inform dao about the display frequencies flag
             dao.setEnableBrowseFrequencies(browseIndex.isDisplayFrequencies());
-            
+
             // if we want to display frequencies, we need to pass the map table
             if (browseIndex.isDisplayFrequencies()){
-            	dao.setFilterMappingTables(null, browseIndex.getMapTableName());
+                dao.setFilterMappingTables(null, browseIndex.getMapTableName());
             }
-            
+
             // set our constraints on community or collection
             if (scope.inCollection() || scope.inCommunity())
             {
-            	// Scoped browsing of distinct metadata requires the mapping
+                // Scoped browsing of distinct metadata requires the mapping
                 // table to be specified.
-            	if (!browseIndex.isDisplayFrequencies())
-            		dao.setFilterMappingTables(null, browseIndex.getMapTableName());
-                
+                if (!browseIndex.isDisplayFrequencies())
+                    dao.setFilterMappingTables(null, browseIndex.getMapTableName());
+
                 if (scope.inCollection())
                 {
                     Collection col = (Collection) scope.getBrowseContainer();
@@ -463,15 +464,8 @@ public class BrowseEngine
             String rawFocusValue = null;
             if (offset < 1 && scope.hasJumpToValue() || scope.hasStartsWith())
             {
-                String focusValue = getJumpToValue();
-
                 // store the value to tell the Browse Info object which value we are browsing on
-                rawFocusValue = focusValue;
-
-                // make sure the incoming value is normalised
-                focusValue = normalizeJumpToValue(focusValue);
-
-                offset = getOffsetForDistinctValue(focusValue);
+                rawFocusValue = getJumpToValue();
             }
 
 
@@ -566,7 +560,7 @@ public class BrowseEngine
      * @throws BrowseException if browse error
      */
     private String getJumpToValue()
-        throws BrowseException
+            throws BrowseException
     {
         log.debug(LogManager.getHeader(context, "get_focus_value", ""));
 
@@ -633,7 +627,7 @@ public class BrowseEngine
      * @throws BrowseException if browse error
      */
     private int getOffsetForValue(String value)
-        throws BrowseException
+            throws BrowseException
     {
         // we need to make sure that we select from the correct column.  If the sort option
         // is the 0th option then we use sort_value, but if it is one of the others we have
@@ -669,7 +663,7 @@ public class BrowseEngine
      * @throws BrowseException if browse error
      */
     private int getOffsetForDistinctValue(String value)
-        throws BrowseException
+            throws BrowseException
     {
         if (!browseIndex.isMetadataIndex())
         {
@@ -691,7 +685,7 @@ public class BrowseEngine
      * @throws BrowseException if browse error
      */
     private String normalizeJumpToValue(String value)
-        throws BrowseException
+            throws BrowseException
     {
         // If the scope has a focus value (focus by value)
         if (scope.hasJumpToValue())
@@ -720,7 +714,7 @@ public class BrowseEngine
      * @throws BrowseException if browse error
      */
     private int getTotalResults()
-        throws SQLException, BrowseException
+            throws SQLException, BrowseException
     {
         return getTotalResults(false);
     }
@@ -735,7 +729,7 @@ public class BrowseEngine
      * @throws BrowseException if browse error
      */
     private int getTotalResults(boolean distinct)
-        throws SQLException, BrowseException
+            throws SQLException, BrowseException
     {
         log.debug(LogManager.getHeader(context, "get_total_results", "distinct=" + distinct));
 
@@ -760,7 +754,7 @@ public class BrowseEngine
         dao.setOrderField(null);
         dao.setLimit(-1);
         dao.setOffset(-1);
-        
+
         // perform the query and get the result
         int count = dao.doCountQuery();
 

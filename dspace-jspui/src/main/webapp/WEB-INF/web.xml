@@ -27,7 +27,7 @@
       The location of the DSpace home directory.
     </description>
     <param-name>dspace.dir</param-name>
-    <param-value>${dspace.dir}</param-value>
+    <param-value>/ds/sw/dspace</param-value>
   </context-param>
   
   <context-param>
@@ -146,6 +146,11 @@
   </listener>
 
   <!-- Servlets -->
+
+  <servlet>
+     <servlet-name>xml</servlet-name>
+     <servlet-class>org.dspace.app.webui.servlet.XMLServlet</servlet-class>
+  </servlet>
 
   <servlet>
     <servlet-name>authorize</servlet-name>
@@ -492,6 +497,11 @@
   <!-- Servlet Mappings -->
 
   <servlet-mapping>
+     <servlet-name>xml</servlet-name>
+     <url-pattern>/xml/*</url-pattern>
+  </servlet-mapping>
+
+    <servlet-mapping>
     <servlet-name>authorize</servlet-name>
     <url-pattern>/tools/authorize</url-pattern>
   </servlet-mapping>

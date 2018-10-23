@@ -11,6 +11,7 @@ import org.apache.cocoon.caching.CacheableProcessingComponent;
 import org.apache.cocoon.environment.ObjectModelHelper;
 import org.apache.cocoon.environment.Request;
 import org.apache.cocoon.util.HashUtil;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.excalibur.source.SourceValidity;
 import org.apache.excalibur.source.impl.validity.NOPValidity;
 import org.dspace.app.util.Util;
@@ -60,14 +61,14 @@ public class Navigation extends AbstractDSpaceTransformer implements CacheablePr
     private static final Message T_context_show_version_history= message("xmlui.aspect.versioning.VersioningNavigation.context_show_version_history");
 
     /** Cached validity object */
-	private SourceValidity validity;
+    private SourceValidity validity;
 
     protected GroupService groupService = EPersonServiceFactory.getInstance().getGroupService();
     protected AuthorizeService authorizeService = AuthorizeServiceFactory.getInstance().getAuthorizeService();
     protected ItemService itemService = ContentServiceFactory.getInstance().getItemService();
     protected VersionHistoryService versionHistoryService = VersionServiceFactory.getInstance().getVersionHistoryService();
 
-	 /**
+    /**
      * Generate the unique cache key.
      *
      * @return The generated key hashes the src
@@ -82,8 +83,8 @@ public class Navigation extends AbstractDSpaceTransformer implements CacheablePr
         // succeded or failed. So we don't know whether to cache this
         // under the user's specific cache or under the anonymous user.
         if (request.getParameter("login_email")    != null ||
-             request.getParameter("login_password") != null ||
-               request.getParameter("login_realm")    != null )
+                request.getParameter("login_password") != null ||
+                request.getParameter("login_realm")    != null )
         {
             return "0";
         }
@@ -91,10 +92,10 @@ public class Navigation extends AbstractDSpaceTransformer implements CacheablePr
         String key;
         if (context.getCurrentUser() != null)
         {
-        	key = context.getCurrentUser().getEmail();
+            key = context.getCurrentUser().getEmail();
         }
         else
-        	key = "anonymous";
+            key = "anonymous";
 
         return HashUtil.hash(key);
     }
@@ -107,41 +108,43 @@ public class Navigation extends AbstractDSpaceTransformer implements CacheablePr
      */
     public SourceValidity getValidity()
     {
-    	if (this.validity == null)
-    	{
-    		// Only use the DSpaceValidity object is someone is logged in.
-    		if (context.getCurrentUser() != null)
-    		{
-		        try {
-		            DSpaceValidity validity = new DSpaceValidity();
+        if (this.validity == null)
+        {
+            // Only use the DSpaceValidity object is someone is logged in.
+            if (context.getCurrentUser() != null)
+            {
+                try {
+                    DSpaceValidity validity = new DSpaceValidity();
 
-		            validity.add(context, eperson);
+                    validity.add(context, eperson);
 
-		            java.util.Set<Group> groups = groupService.allMemberGroupsSet(context, eperson);
-		            for (Group group : groups)
-		            {
-		            	validity.add(context, group);
-		            }
+                    java.util.Set<Group> groups = groupService.allMemberGroupsSet(context, eperson);
+                    for (Group group : groups)
+                    {
+                        validity.add(context, group);
+                    }
 
                     DSpaceObject dso = HandleUtil.obtainHandle(objectModel);
-                    if(dso != null)
-                    {
+                    if(dso == null){
+                        dso = getItemById();
+                    }
+                    if (dso != null) {
                         validity.add(context, dso);
                     }
 
-		            this.validity = validity.complete();
-		        }
-		        catch (SQLException sqle)
-		        {
-		            // Just ignore it and return invalid.
-		        }
-    		}
-    		else
-    		{
-    			this.validity = NOPValidity.SHARED_INSTANCE;
-    		}
-    	}
-    	return this.validity;
+                    this.validity = validity.complete();
+                }
+                catch (SQLException sqle)
+                {
+                    // Just ignore it and return invalid.
+                }
+            }
+            else
+            {
+                this.validity = NOPValidity.SHARED_INSTANCE;
+            }
+        }
+        return this.validity;
     }
 
     public void addOptions(Options options) throws SAXException, WingException,
@@ -167,9 +170,9 @@ public class Navigation extends AbstractDSpaceTransformer implements CacheablePr
             dso = getItemById();
         }
 
-    	if (dso != null && dso.getType() == Constants.ITEM)
+        if (dso != null && dso.getType() == Constants.ITEM)
         {
-    		Item item = (Item) dso;
+            Item item = (Item) dso;
             if(authorizeService.isAdmin(this.context, item.getOwningCollection()))
             {
                 boolean headAdded=false;
@@ -189,7 +192,7 @@ public class Navigation extends AbstractDSpaceTransformer implements CacheablePr
                     context.addItem().addXref(contextPath+"/item/versionhistory?itemID="+item.getID(), T_context_show_version_history);
                 }
             }
-    	}
+        }
     }
 
 
@@ -201,6 +204,12 @@ public class Navigation extends AbstractDSpaceTransformer implements CacheablePr
         if (itemId != null)
         {
             item = itemService.find(this.context, itemId);
+        } else {
+            String itemIDParam = parameters.getParameter("itemID", null);
+            if (StringUtils.isNotBlank(itemIDParam)) {
+                itemId = UUID.fromString(itemIDParam);
+                item = itemService.find(context, itemId);
+            }
         }
         return item;
     }

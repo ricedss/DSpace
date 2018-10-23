@@ -27,6 +27,7 @@ import org.dspace.app.xmlui.wing.element.PageMeta;
 import org.dspace.authorize.AuthorizeException;
 import org.dspace.content.Collection;
 import org.dspace.content.DSpaceObject;
+import org.dspace.core.Context;
 import org.dspace.services.factory.DSpaceServicesFactory;
 import org.xml.sax.SAXException;
 
@@ -92,7 +93,10 @@ public class CollectionViewer extends AbstractDSpaceTransformer implements Cache
             Collection collection = null;
 	        try
 	        {
-	            DSpaceObject dso = HandleUtil.obtainHandle(objectModel);
+                Context.Mode originalMode = context.getCurrentMode();
+                context.setMode(Context.Mode.READ_ONLY);
+
+                DSpaceObject dso = HandleUtil.obtainHandle(objectModel);
 	
 	            if (dso == null)
                 {
@@ -112,6 +116,7 @@ public class CollectionViewer extends AbstractDSpaceTransformer implements Cache
 	            validity.add(context, collection);
 	
 	            this.validity = validity.complete();
+                context.setMode(originalMode);
 	        }
 	        catch (Exception e)
 	        {
@@ -135,6 +140,9 @@ public class CollectionViewer extends AbstractDSpaceTransformer implements Cache
         {
             return;
         }
+
+        Context.Mode originalMode = context.getCurrentMode();
+        context.setMode(Context.Mode.READ_ONLY);
 
         Collection collection = (Collection) dso;
 
@@ -171,6 +179,8 @@ public class CollectionViewer extends AbstractDSpaceTransformer implements Cache
 				pageMeta.addMetadata("feed", feedFormat).addContent(feedURL);
 			}
 		}
+
+        context.setMode(originalMode);
     }
 
     /**
@@ -187,6 +197,9 @@ public class CollectionViewer extends AbstractDSpaceTransformer implements Cache
 
         // Set up the major variables
         Collection collection = (Collection) dso;
+
+        Context.Mode originalMode = context.getCurrentMode();
+        context.setMode(Context.Mode.READ_ONLY);
 
         // Build the collection viewer division.
         Division home = body.addDivision("collection-home", "primary repository collection");
@@ -214,6 +227,7 @@ public class CollectionViewer extends AbstractDSpaceTransformer implements Cache
             mainInclude.addReference(collection);
         }
 
+        context.setMode(originalMode);
     }
     
     /**

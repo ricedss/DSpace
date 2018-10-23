@@ -28,7 +28,7 @@ import org.dspace.handle.service.HandleService;
 
 /**
  * Simple utility class for extracting handles.
- * 
+ *
  * @author Scott Phillips
  */
 
@@ -46,7 +46,7 @@ public class HandleUtil
 
     /**
      * Obtain the current DSpace handle for the specified request.
-     * 
+     *
      * @param objectModel
      *            The cocoon model.
      * @return A DSpace handle, or null if none found.
@@ -58,6 +58,7 @@ public class HandleUtil
         Request request = ObjectModelHelper.getRequest(objectModel);
 
         DSpaceObject dso = (DSpaceObject) request.getAttribute(DSPACE_OBJECT);
+        Context context = ContextUtil.obtainContext(objectModel);
 
         if (dso == null)
         {
@@ -88,18 +89,17 @@ public class HandleUtil
 
             handle = handle.substring(0, secondSlash);
 
-            Context context = ContextUtil.obtainContext(objectModel);
             dso = handleService.resolveToObject(context, handle);
 
             request.setAttribute(DSPACE_OBJECT, dso);
         }
 
-        return dso;
+        return context.reloadEntity(dso);
     }
 
     /**
      * Determine if the given DSO is an ancestor of the the parent handle.
-     * 
+     *
      * @param dso
      *            The child DSO object.
      * @param parent
@@ -186,7 +186,7 @@ public class HandleUtil
      * @throws org.dspace.app.xmlui.wing.WingException passed through.
      */
     public static void buildHandleTrail(Context context, DSpaceObject dso, PageMeta pageMeta,
-            String contextPath, boolean linkOriginalObject) throws SQLException, WingException
+                                        String contextPath, boolean linkOriginalObject) throws SQLException, WingException
     {
         // Add the trail back to the repository root.
         Stack<DSpaceObject> stack = new Stack<DSpaceObject>();
@@ -194,18 +194,18 @@ public class HandleUtil
 
         if (aDso instanceof Bitstream)
         {
-        	Bitstream bitstream = (Bitstream) aDso;
-        	List<Bundle> bundles = bitstream.getBundles();
+            Bitstream bitstream = (Bitstream) aDso;
+            List<Bundle> bundles = bitstream.getBundles();
 
-        	aDso = bundles.get(0);
+            aDso = bundles.get(0);
         }
 
         if (aDso instanceof Bundle)
         {
-        	Bundle bundle = (Bundle) aDso;
-        	List<Item> items = bundle.getItems();
+            Bundle bundle = (Bundle) aDso;
+            List<Item> items = bundle.getItems();
 
-        	aDso = items.get(0);
+            aDso = items.get(0);
         }
 
         if (aDso instanceof Item)
@@ -248,25 +248,25 @@ public class HandleUtil
 
             if (pop instanceof Collection)
             {
-            	Collection collection = (Collection) pop;
-            	String name = collection.getName();
-            	if (name == null || name.length() == 0)
+                Collection collection = (Collection) pop;
+                String name = collection.getName();
+                if (name == null || name.length() == 0)
                 {
                     pageMeta.addTrailLink(target, new Message("default", "xmlui.general.untitled"));
                 }
-            	else
+                else
                 {
                     pageMeta.addTrailLink(target, name);
                 }
             }
             else if (pop instanceof Community) {
-            	Community community = (Community) pop;
-            	String name = community.getName();
-            	if (name == null || name.length() == 0)
+                Community community = (Community) pop;
+                String name = community.getName();
+                if (name == null || name.length() == 0)
                 {
                     pageMeta.addTrailLink(target, new Message("default", "xmlui.general.untitled"));
                 }
-            	else
+                else
                 {
                     pageMeta.addTrailLink(target, name);
                 }

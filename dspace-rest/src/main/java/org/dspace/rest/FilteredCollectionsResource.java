@@ -45,7 +45,7 @@ public class FilteredCollectionsResource extends Resource {
     /**
      * Return array of all collections in DSpace. You can add more properties
      * through expand parameter.
-     * 
+     *
      * @param expand
      *            String in which is what you want to add to returned instance
      *            of collection. Options are: "all", "parentCommunityList",
@@ -71,10 +71,10 @@ public class FilteredCollectionsResource extends Resource {
     @GET
     @Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
     public org.dspace.rest.common.FilteredCollection[] getCollections(@QueryParam("expand") String expand,
-            @QueryParam("limit") @DefaultValue("100") Integer limit, @QueryParam("offset") @DefaultValue("0") Integer offset,
-            @QueryParam("userIP") String user_ip, @QueryParam("userAgent") String user_agent,
-            @QueryParam("filters") @DefaultValue("is_item") String filters, @QueryParam("xforwardedfor") String xforwardedfor,
-            @Context ServletContext servletContext, @Context HttpHeaders headers, @Context HttpServletRequest request)
+                                                                      @QueryParam("limit") @DefaultValue("100") Integer limit, @QueryParam("offset") @DefaultValue("0") Integer offset,
+                                                                      @QueryParam("userIP") String user_ip, @QueryParam("userAgent") String user_agent,
+                                                                      @QueryParam("filters") @DefaultValue("is_item") String filters, @QueryParam("xforwardedfor") String xforwardedfor,
+                                                                      @Context ServletContext servletContext, @Context HttpHeaders headers, @Context HttpServletRequest request)
             throws WebApplicationException
     {
 
@@ -85,9 +85,6 @@ public class FilteredCollectionsResource extends Resource {
         try
         {
             context = createContext();
-            if (!configurationService.getBooleanProperty("rest.reporting-authenticate", true)) {
-                context.turnOffAuthorisationSystem();            	
-            }
 
             if (!((limit != null) && (limit >= 0) && (offset != null) && (offset >= 0)))
             {
@@ -129,13 +126,13 @@ public class FilteredCollectionsResource extends Resource {
     /**
      * Return instance of collection with passed id. You can add more properties
      * through expand parameter.
-     * 
+     *
      * @param collection_id
      *            Id of collection in DSpace.
      * @param expand
      *            String in which is what you want to add to returned instance
      *            of collection. Options are: "all", "parentCommunityList",
-     *            "parentCommunity", "topCommunity", "items", "license" and "logo". 
+     *            "parentCommunity", "topCommunity", "items", "license" and "logo".
      *            If you want to use multiple options, it must be separated by commas.
      * @param limit
      *            Limit value for items in list in collection. Default value is
@@ -162,22 +159,19 @@ public class FilteredCollectionsResource extends Resource {
     @GET
     @Path("/{collection_id}")
     @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
-    public org.dspace.rest.common.FilteredCollection getCollection(@PathParam("collection_id") String collection_id, @QueryParam("expand") String expand, 
-    		@QueryParam("limit") @DefaultValue("1000") Integer limit, @QueryParam("offset") @DefaultValue("0") Integer offset,
-    		@QueryParam("userIP") String user_ip, @QueryParam("userAgent") String user_agent, @QueryParam("xforwardedfor") String xforwardedfor,
-    		@QueryParam("filters") @DefaultValue("is_item") String filters,
-    		@Context HttpHeaders headers, @Context HttpServletRequest request, @Context ServletContext servletContext) {
+    public org.dspace.rest.common.FilteredCollection getCollection(@PathParam("collection_id") String collection_id, @QueryParam("expand") String expand,
+                                                                   @QueryParam("limit") @DefaultValue("1000") Integer limit, @QueryParam("offset") @DefaultValue("0") Integer offset,
+                                                                   @QueryParam("userIP") String user_ip, @QueryParam("userAgent") String user_agent, @QueryParam("xforwardedfor") String xforwardedfor,
+                                                                   @QueryParam("filters") @DefaultValue("is_item") String filters,
+                                                                   @Context HttpHeaders headers, @Context HttpServletRequest request, @Context ServletContext servletContext) {
         org.dspace.core.Context context = null;
         FilteredCollection retColl = new org.dspace.rest.common.FilteredCollection();
         try {
             context = createContext();
-            if (!configurationService.getBooleanProperty("rest.reporting-authenticate", true)) {
-                context.turnOffAuthorisationSystem();            	
-            }
 
             org.dspace.content.Collection collection = collectionService.findByIdOrLegacyId(context, collection_id);
             if(authorizeService.authorizeActionBoolean(context, collection, org.dspace.core.Constants.READ)) {
-				writeStats(collection, UsageEvent.Action.VIEW, user_ip, user_agent, xforwardedfor, headers, request, context);
+                writeStats(collection, UsageEvent.Action.VIEW, user_ip, user_agent, xforwardedfor, headers, request, context);
                 retColl = new org.dspace.rest.common.FilteredCollection(collection, servletContext, filters, expand, context, limit, offset);
             } else {
                 throw new WebApplicationException(Response.Status.UNAUTHORIZED);
@@ -187,10 +181,10 @@ public class FilteredCollectionsResource extends Resource {
             processException(e.getMessage(), context);
         } catch (ContextException e) {
             processException(String.format("Could not read collection %d.  %s", collection_id, e.getMessage()), context);
-		} finally {
-			processFinally(context);
+        } finally {
+            processFinally(context);
         }
         return retColl;
     }
-    
+
 }

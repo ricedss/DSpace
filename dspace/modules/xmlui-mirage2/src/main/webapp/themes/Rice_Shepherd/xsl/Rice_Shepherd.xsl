@@ -237,6 +237,12 @@
                 file: "<xsl:value-of select="$baseURL"/>/streaming/<xsl:value-of select='$streamingfilename'/>"
             },{
                 file: "rtmp://fldp.rice.edu/fondren/mp4:<xsl:value-of select='$streamingfilename'/>"
+            }],
+            tracks: [{
+                file: "<xsl:value-of select="$baseURL"/>/streaming/test.vtt",
+                label: "English",
+                kind: "captions",
+                "default": true
             }]
 
         }],
@@ -270,9 +276,17 @@
                  file: "<xsl:value-of select="$baseURL"/>/streaming/<xsl:value-of select="$streamingfilename"/>"
             },{
                 file: "rtmp://fldp.rice.edu/fondren/mp3:<xsl:value-of select='$streamingfilename'/>"
-            }]
+            }],
+                                      tracks: [{
+                                      file: "<xsl:value-of select="$baseURL"/>/streaming/test.vtt",
+                                      label: "English",
+                                      kind: "captions",
+                                      "default": true
+                                      }]
 
-        }],
+
+
+                                      }],
     primary: "html5",
     height: "30",
     width: "320",

@@ -108,7 +108,7 @@ public class PubmedService
                 client.getParams().setIntParameter(CoreConnectionPNames.CONNECTION_TIMEOUT, timeout);
 
                 URIBuilder uriBuilder = new URIBuilder(
-                        "http://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi");
+                        "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi");
                 uriBuilder.addParameter("db", "pubmed");
                 uriBuilder.addParameter("datetype", "edat");
                 uriBuilder.addParameter("retmax", "10");
@@ -217,16 +217,16 @@ public class PubmedService
             throws HttpException, IOException, ParserConfigurationException,
             SAXException
     {
-    	List<Record> results = new ArrayList<Record>();
-    	HttpGet method = null;
-    	try
-    	{
-    		HttpClient client = new DefaultHttpClient();
-    		client.getParams().setIntParameter(CoreConnectionPNames.CONNECTION_TIMEOUT, 5 * timeout);
+        List<Record> results = new ArrayList<Record>();
+        HttpGet method = null;
+        try
+        {
+            HttpClient client = new DefaultHttpClient();
+            client.getParams().setIntParameter(CoreConnectionPNames.CONNECTION_TIMEOUT, 5 * timeout);
 
             try {
                 URIBuilder uriBuilder = new URIBuilder(
-                        "http://eutils.ncbi.nlm.nih.gov/entrez/eutils/efetch.fcgi");
+                        "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/efetch.fcgi");
                 uriBuilder.addParameter("db", "pubmed");
                 uriBuilder.addParameter("retmode", "xml");
                 uriBuilder.addParameter("rettype", "full");
@@ -239,55 +239,55 @@ public class PubmedService
             }
 
             // Execute the method.
-    		HttpResponse response = client.execute(method);
+            HttpResponse response = client.execute(method);
             StatusLine statusLine = response.getStatusLine();
             int statusCode = statusLine.getStatusCode();
 
-    		if (statusCode != HttpStatus.SC_OK)
-    		{
-    			throw new RuntimeException("WS call failed: " + statusLine);
-    		}
+            if (statusCode != HttpStatus.SC_OK)
+            {
+                throw new RuntimeException("WS call failed: " + statusLine);
+            }
 
-    		DocumentBuilderFactory factory = DocumentBuilderFactory
-    				.newInstance();
-    		factory.setValidating(false);
-    		factory.setIgnoringComments(true);
-    		factory.setIgnoringElementContentWhitespace(true);
+            DocumentBuilderFactory factory = DocumentBuilderFactory
+                    .newInstance();
+            factory.setValidating(false);
+            factory.setIgnoringComments(true);
+            factory.setIgnoringElementContentWhitespace(true);
 
-    		DocumentBuilder builder = factory.newDocumentBuilder();
-    		Document inDoc = builder
-    				.parse(response.getEntity().getContent());
+            DocumentBuilder builder = factory.newDocumentBuilder();
+            Document inDoc = builder
+                    .parse(response.getEntity().getContent());
 
-    		Element xmlRoot = inDoc.getDocumentElement();
-    		List<Element> pubArticles = XMLUtils.getElementList(xmlRoot,
-    				"PubmedArticle");
+            Element xmlRoot = inDoc.getDocumentElement();
+            List<Element> pubArticles = XMLUtils.getElementList(xmlRoot,
+                    "PubmedArticle");
 
-    		for (Element xmlArticle : pubArticles)
-    		{
-    			Record pubmedItem = null;
-    			try
-    			{
-    				pubmedItem = PubmedUtils
-    						.convertPubmedDomToRecord(xmlArticle);
-    				results.add(pubmedItem);
-    			}
-    			catch (Exception e)
-    			{
-    				throw new RuntimeException(
-    						"PubmedID is not valid or not exist: "
-    								+ e.getMessage(), e);
-    			}
-    		}
+            for (Element xmlArticle : pubArticles)
+            {
+                Record pubmedItem = null;
+                try
+                {
+                    pubmedItem = PubmedUtils
+                            .convertPubmedDomToRecord(xmlArticle);
+                    results.add(pubmedItem);
+                }
+                catch (Exception e)
+                {
+                    throw new RuntimeException(
+                            "PubmedID is not valid or not exist: "
+                                    + e.getMessage(), e);
+                }
+            }
 
-    		return results;
-    	}
-    	finally
-    	{
-    		if (method != null)
-    		{
-    			method.releaseConnection();
-    		}
-    	}
+            return results;
+        }
+        finally
+        {
+            if (method != null)
+            {
+                method.releaseConnection();
+            }
+        }
     }
 
     public List<Record> search(String doi, String pmid) throws HttpException,

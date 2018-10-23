@@ -9,7 +9,12 @@ var CollReport = function() {
     Report.call(this);
     //If sortable.js is included, uncomment the following
     //this.hasSorttable = function(){return true;}
-    
+
+    //Indicate if Password Authentication is supported
+    //this.makeAuthLink = function(){return true;};
+    //Indicate if Shibboleth Authentication is supported
+    //this.makeShibLink = function(){return true;};
+
     this.COLL_LIMIT = 20;
     this.TOOBIG = 10000;
     this.loadId = 0;
@@ -40,7 +45,7 @@ var CollReport = function() {
     var self = this;
 
     this.init = function() {
-        this.baseInit();    
+        this.baseInit();
         $("#icollection").val(self.myReportParameters.params.icollection);
         $("#ifilter").val(self.myReportParameters.params.ifilter);
         $("#itemResults").accordion({
@@ -49,7 +54,7 @@ var CollReport = function() {
             active: 1
         });
     }
-    
+
     this.myAuth.callback = function(data) {
         self.createCollectionTable();
         $("#table tbody tr").remove();
@@ -63,7 +68,7 @@ var CollReport = function() {
 
     this.createCollectionTable = function() {
         var self = this;
-         var tbl = $("<table/>");
+        var tbl = $("<table/>");
         tbl.attr("id","table");
         $("#report").replaceWith(tbl);
 
@@ -79,13 +84,13 @@ var CollReport = function() {
         self.myHtmlUtil.makeTotalCol(thn);
         thn = self.myHtmlUtil.addTh(tr, "Num Filtered").addClass("sorttable_numeric");
         self.myHtmlUtil.makeTotalCol(thn);
-        
+
         self.addCollections();
     }
 
     this.addCollections = function() {
         var self = this;
-        
+
         $.ajax({
             url: "/rest/hierarchy",
             dataType: "json",
@@ -94,7 +99,7 @@ var CollReport = function() {
                 if (data.community != null) {
                     $.each(data.community, function(index, comm){
                         self.addCommunity(comm, comm);
-                    });                    
+                    });
                 }
                 self.setCollectionCounts(0);
             },
@@ -110,13 +115,13 @@ var CollReport = function() {
         if (comm.collection != null) {
             $.each(comm.collection, function(index, coll){
                 self.addCollection(top, coll);
-            });                    
+            });
         }
         if (comm.community != null) {
             $.each(comm.community, function(index, scomm){
-            self.addCommunity(top, scomm);
-        });                    
-    }
+                self.addCommunity(top, scomm);
+            });
+        }
     };
 
     this.addCollection = function(top, coll) {
@@ -128,15 +133,15 @@ var CollReport = function() {
         var tr = self.myHtmlUtil.addTr(tbody);
         tr.attr("cid", coll.id).attr("index",index).addClass(index % 2 == 0 ? "odd data" : "even data");
         self.myHtmlUtil.addTd(tr, index + 1).addClass("num");
-        var parval = self.myHtmlUtil.getAnchor(top.name, self.ROOTPATH + top.handle); 
-        
+        var parval = self.myHtmlUtil.getAnchor(top.name, self.ROOTPATH + top.handle);
+
         self.myHtmlUtil.addTd(tr, parval).addClass("title comm");
         self.myHtmlUtil.addTdAnchor(tr, coll.name, self.ROOTPATH + coll.handle).addClass("title");
         var td = self.myHtmlUtil.addTd(tr, "").addClass("num").addClass("link").addClass("numCount");
         td = self.myHtmlUtil.addTd(tr, "").addClass("num").addClass("numFiltered");
     };
-    
-    
+
+
     this.setCollectionCounts = function(offset) {
         var self = this;
 
@@ -145,7 +150,7 @@ var CollReport = function() {
             data: {
                 limit  : self.COLL_LIMIT,
                 offset : offset
-             },
+            },
             dataType: "json",
             headers: self.myAuth.getHeaders(),
             success: function(data){
@@ -160,33 +165,33 @@ var CollReport = function() {
                         $("#ifilter").val("");
                     });
                 });
-                
+
                 //cannot assume data returned is full amount in case some items are restricted
                 //if (data.length == self.COLL_LIMIT) {
                 if (data.length > 0) {
                     self.setCollectionCounts(offset + self.COLL_LIMIT);
                     return;
-                }  
+                }
                 self.myHtmlUtil.totalCol(3);
                 $("#table").addClass("sortable");
-                  
-                  if (self.myFilters.getFilterList() != "") {
-                      self.loadData();
-                      if ($("#icollection").val() != "") {
-                          self.drawItemTable($("#icollection").val(), $("#ifilter").val(), 0);
-                      }
-                  }
+
+                if (self.myFilters.getFilterList() != "") {
+                    self.loadData();
+                    if ($("#icollection").val() != "") {
+                        self.drawItemTable($("#icollection").val(), $("#ifilter").val(), 0);
+                    }
+                }
             },
             error: function(xhr, status, errorThrown) {
                 alert("Error in /rest/collections "+ status+ " " + errorThrown);
             },
             complete: function(xhr, status) {
                 self.spinner.stop();
-                  $(".showCollections").attr("disabled", false);
+                $(".showCollections").attr("disabled", false);
             }
-        });    
+        });
     }
-    
+
     this.loadData = function() {
         self.spinner.spin($("h1")[0]);
         $(".showCollections").attr("disabled", true);
@@ -197,14 +202,14 @@ var CollReport = function() {
         self.myFilters.filterString = self.myFilters.getFilterList();
         self.doRow(0, self.THREADS, self.loadId);
     }
-    
+
     this.doRow = function(row, threads, curLoadId) {
         if (self.loadId != curLoadId) return;
         var tr = $("tr[index="+row+"]");
         if (!tr.is("*")){
-            return; 
+            return;
         }
-            
+
         var cid = tr.attr("cid");
         $.ajax({
             url: "/rest/filtered-collections/"+cid,
@@ -228,9 +233,9 @@ var CollReport = function() {
                         var th = self.myHtmlUtil.addTh(trh, filterTitle);
                         th.addClass(filterName).addClass("datacol").addClass("sorttable_numeric");
                         self.myHtmlUtil.makeTotalCol(th);
-                        
+
                         if (itemFilter.description != null) {
-                            th.attr("title", itemFilter.description);                                            
+                            th.attr("title", itemFilter.description);
                         }
 
                         $("tr.data").each(function(){
@@ -238,25 +243,25 @@ var CollReport = function() {
                             td.addClass(filterName).addClass("num").addClass("datacol");
                         });
                     }
-                    
+
                     self.setCellCount(tr, cid, 0, (numItems != numItemsProcessed), itemFilter);
                     self.setFilteredCount(tr, cid, 0, numItems, numItemsProcessed);
                 });
-                
+
                 tr.removeClass("processing");
                 if (!$("#table tr.processing").is("*")) {
                     self.updateSortable();
                     self.totalFilters();
                     self.spinner.stop();
-                        $(".showCollections").attr("disabled", false);
+                    $(".showCollections").attr("disabled", false);
                     return;
                 }
                 if (row % threads == 0 || threads == 1) {
                     for(var i=1; i<=threads; i++) {
                         self.doRow(row+i, threads, curLoadId);
-                    }                    
+                    }
                 }
-             },
+            },
             error: function(xhr, status, errorThrown) {
                 alert("Error in /rest/filtered-collections "+ status+ " " + errorThrown);
             },
@@ -265,22 +270,22 @@ var CollReport = function() {
                 $(".showCollections").attr("disabled", false);
             }
         });
-    };            
-                
+    };
+
     this.updateSortable = function() {
-                    if (self.hasSorttable()) {
-                        $("#table").removeClass("sortable");
-                        $("#table").addClass("sortable");
-                        sorttable.makeSortable($("#table")[0]);                        
-                    }
+        if (self.hasSorttable()) {
+            $("#table").removeClass("sortable");
+            $("#table").addClass("sortable");
+            sorttable.makeSortable($("#table")[0]);
+        }
     }
-    
+
     this.totalFilters = function() {
-                    var colcount = $("#table tr th").length;
-                    for(var i=4; i<colcount; i++) {
-                        self.myHtmlUtil.totalCol(i);
-                    }
-                }
+        var colcount = $("#table tr th").length;
+        for(var i=4; i<colcount; i++) {
+            self.myHtmlUtil.totalCol(i);
+        }
+    }
 
     this.updateRow = function(cid, offset) {
         var tr = $("tr[cid="+cid+"]");
@@ -299,21 +304,21 @@ var CollReport = function() {
                 $.each(data.itemFilters, function(index, itemFilter){
                     self.setCellCount(tr, cid, offset, (numItems != numItemsProcessed + offset),itemFilter);
                 });
-                self.setFilteredCount(tr, cid, offset, numItems, numItemsProcessed);                
-             },
+                self.setFilteredCount(tr, cid, offset, numItems, numItemsProcessed);
+            },
             error: function(xhr, status, errorThrown) {
                 alert("Error in /rest/filtered-collections/ " + cid+ status+ " " + errorThrown);
             },
             complete: function(xhr, status) {
                 self.spinner.stop();
-                  $(".showCollections").attr("disabled", false);
+                $(".showCollections").attr("disabled", false);
             }
         });
-    };            
+    };
 
     this.setFilteredCount = function(tr, cid, offset, numItems, numItemsProcessed) {
         var td = tr.find("td.numFiltered");
-        var total = numItemsProcessed + offset; 
+        var total = numItemsProcessed + offset;
         td.text(total);
         td.removeClass("partial");
         td.removeClass("toobig");
@@ -323,7 +328,7 @@ var CollReport = function() {
                 td.off();
                 td.on("click", function(){
                     if ($(this).hasClass("toobig")) {
-                        if (!confirm("A large number of items are present in this collection.\n\n" + 
+                        if (!confirm("A large number of items are present in this collection.\n\n" +
                                 "If you choose to load this data, it will take some time to load and may impact server performance.")) {
                             return;
                         }
@@ -331,7 +336,7 @@ var CollReport = function() {
                     $(this).off();
                     $(this).removeClass("button");
                     self.updateRow(cid, offset + self.COUNT_LIMIT);
-                });                                            
+                });
             } else {
                 self.updateRow(cid, offset + self.COUNT_LIMIT);
             }
@@ -340,7 +345,7 @@ var CollReport = function() {
             if (numItems >= self.TOOBIG) {
                 td.addClass("toobig");
                 title+= "\nIt will take significant time to apply this filter to the entire collection."
-            }            
+            }
             td.attr("title", title);
             return false;
         } else {
@@ -348,7 +353,7 @@ var CollReport = function() {
         }
         return true;
     }
-    
+
     this.setCellCount = function(tr, cid, offset, isPartial, itemFilter) {
         var filterName = itemFilter["filter-name"];
         var icount = itemFilter["item-count"];
@@ -359,9 +364,9 @@ var CollReport = function() {
         }
         var cur = parseInt(td.text());
         if (!isNaN(cur)) {
-            icount += cur;            
+            icount += cur;
         }
-        
+
         td.removeClass("partial");
         td.removeClass("link");
         td.removeAttr("title");
@@ -372,16 +377,16 @@ var CollReport = function() {
             if (isPartial) {
                 td.addClass("partial");
                 td.attr("title", "Collection partially processed, item counts are incomplete");
-            }    
+            }
             td.on("click", function(){
                 self.drawItemTable(cid,filterName,0);
                 $("#icollection").val(cid);
                 $("#ifilter").val(filterName);
-            });                            
-        }        
+            });
+        }
     }
-    
-                
+
+
     this.drawItemTable = function(cid, filter, offset) {
         self = this;
         self.spinner.spin($("h1")[0]);
@@ -396,8 +401,8 @@ var CollReport = function() {
         var fields = $("#show-fields select").val();
         if (fields != null) {
             $.each(fields, function(index, field){
-                self.myHtmlUtil.addTh(tr, field + self.getLangSuffix());        
-            });        
+                self.myHtmlUtil.addTh(tr, field + self.getLangSuffix());
+            });
         }
 
         var params = {
@@ -407,7 +412,7 @@ var CollReport = function() {
             offset: offset,
             "show_fields[]" : fields,
         }
-        
+
         $.ajax({
             url: "/rest/filtered-collections/"+cid,
             data: params,
@@ -415,7 +420,7 @@ var CollReport = function() {
             headers: self.myAuth.getHeaders(),
             success: function(data){
                 var source = filter == "" ? data.items : data.itemFilters[0].items;
-                
+
                 $.each(source, function(index, item){
                     var tr = self.myHtmlUtil.addTr(itbl);
                     tr.addClass(index % 2 == 0 ? "odd data" : "even data");
@@ -425,7 +430,7 @@ var CollReport = function() {
                     self.myHtmlUtil.addTd(tr, item.name).addClass("ititle");
                     if (fields != null) {
                         $.each(fields, function(index, field){
-                            var text = "";        
+                            var text = "";
                             $.each(item.metadata, function(mindex,mv){
                                 if (mv.key == field) {
                                     if (text != "") {
@@ -435,28 +440,28 @@ var CollReport = function() {
                                 }
                             });
                             self.myHtmlUtil.addTd(tr, text);
-                        });        
+                        });
                     }
                 });
-                self.displayItems(filter + " Items in " + data.name, 
+                self.displayItems(filter + " Items in " + data.name,
                     offset,
                     self.ITEM_LIMIT,
                     data.numberItems,
                     function(){self.drawItemTable(cid, filter, (offset - self.ITEM_LIMIT < 0) ? 0 : offset - self.ITEM_LIMIT);},
                     function(){self.drawItemTable(cid, filter, offset + self.ITEM_LIMIT);}
                 );
-                
+
                 if (self.hasSorttable()){
-                    sorttable.makeSortable(itbl[0]);                    
+                    sorttable.makeSortable(itbl[0]);
                 }
-                $("#metadatadiv").accordion("option", "active", self.ACCIDX_ITEM); 
+                $("#metadatadiv").accordion("option", "active", self.ACCIDX_ITEM);
             },
             error: function(xhr, status, errorThrown) {
                 alert("Error in /rest/filtered-collections "+ status+ " " + errorThrown);
             },
             complete: function(xhr, status) {
                 self.spinner.stop();
-                  $(".showCollections").attr("disabled", false);
+                $(".showCollections").attr("disabled", false);
             }
         });
     }

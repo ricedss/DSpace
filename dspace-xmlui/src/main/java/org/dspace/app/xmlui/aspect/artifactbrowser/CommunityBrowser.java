@@ -307,7 +307,7 @@ public class CommunityBrowser extends AbstractDSpaceTransformer implements Cache
         java.util.List<TreeNode> communityNodes = node.getChildrenOfType(Constants.COMMUNITY);
         if (communityNodes != null && communityNodes.size() > 0)
         {
-            ReferenceSet communitySet = objectInclude.addReferenceSet(ReferenceSet.TYPE_SUMMARY_LIST);
+                ReferenceSet communitySet = objectInclude.addReferenceSet(ReferenceSet.TYPE_SUMMARY_LIST);
             
             for (TreeNode communityNode : communityNodes)
             {

@@ -200,6 +200,7 @@
         <theme name="Rice Undergraduate" handle="1911/90431" path="Rice_Undergrats/"/>
         <theme name="Rice Baker Institute" handle="1911/20460" path="Rice_Baker/"/>
         <theme name="Rice Computer Science" handle="1911/94018" path="Rice_ComputerScience/"/>
+        <!--theme name="Rice CAAM Technical Reports" handle="1911/94663" path="Rice_ComputerScience/"/-->
 
         <!--theme name="Rice Teacher Archive" handle="1911/81971" path="Rice_Teacher_Archive/"/>
         <theme name="Rice Teacher Archive" handle="1911/81971" path="Rice_Teacher_Archive/"/>
