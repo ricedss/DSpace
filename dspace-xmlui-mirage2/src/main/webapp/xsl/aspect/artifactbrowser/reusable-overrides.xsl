@@ -821,6 +821,9 @@
          <xsl:variable name="streamingfilename">
              <xsl:value-of select="@ID"/>_<xsl:value-of select="mets:FLocat/@xlink:title"/>
          </xsl:variable>
+         <xsl:variable name="filename">
+             <xsl:value-of select="mets:FLocat/@xlink:title"/>
+         </xsl:variable>
 
         <div class="file-wrapper row">
             <div class="col-xs-6 col-sm-5">
@@ -875,35 +878,74 @@
                         file: "<xsl:value-of select="$baseURL"/>/<xsl:value-of select="$streamingfilename"/>",
 
                     -->
-                       <script type="text/javascript">
-                        jwplayer.key = "7v+RIu3+q3k5BpVlhvaNE9PseQLW8aQiUgoyLA==";
-                        var playerInstance = jwplayer('<xsl:value-of select="$streamingfilename"/>');
-                        playerInstance.setup({
+                            <xsl:choose>
+                                <xsl:when test="contains($filename, '_caption\.'))">
+                                    <!-- find the sibling vtt file and get the streaming name -->
+                                    <xsl:variable name="vtt_filename">
+                                        <xsl:value-of select='$filename'/><xsl:text>.vtt</xsl:text>
+                                        </xsl:if>
+                                    </xsl:variable>
+                                    <script type="text/javascript">
+                                        jwplayer.key = "7v+RIu3+q3k5BpVlhvaNE9PseQLW8aQiUgoyLA==";
+                                        var playerInstance = jwplayer('<xsl:value-of select="$streamingfilename"/>');
+                                        playerInstance.setup({
 
-                            playlist: [{
-                                image: "<xsl:value-of select='$mp4thumb'/>",
-                                sources: [{
-                                    file: "<xsl:value-of select="$baseURL"/>/streaming/<xsl:value-of select='$streamingfilename'/>"
-                                },{
-                                    file: "rtmp://fldp.rice.edu/fondren/mp4:<xsl:value-of select='$streamingfilename'/>"
-                                }],
-                               tracks: [{
-                                   file: "<xsl:value-of select="$baseURL"/>/streaming/test.vtt",
-                                   label: "English",
-                                   kind: "captions",
-                                   "default": true
-                               }]
+                                            playlist: [{
+                                                image: "<xsl:value-of select='$mp4thumb'/>",
+                                                sources: [{
+                                                    file: "<xsl:value-of select="$baseURL"/>/streaming/<xsl:value-of select='$streamingfilename'/>"
+                                                },{
+                                                    file: "rtmp://fldp.rice.edu/fondren/mp4:<xsl:value-of select='$streamingfilename'/>"
+                                                }],
+                                                tracks: [{
+                                                    file: "<xsl:value-of select="$baseURL"/>/streaming/<xsl:value-of
+                                                        select='$vtt_filename'/>",
+                                                    label: "English",
+                                                    kind: "captions",
+                                                    "default": true
+                                                }]
 
-                            }],
-                            primary: "html5",
-                            rtmp: {
-                                 bufferlength: 10
-                            },
-                        aspectratio:"16:9",
-                        allowfullscreen: true,
-                        width: "100%",
-                        });
-                         </script>
+                                            }],
+                                            primary: "html5",
+                                            rtmp: {
+                                                bufferlength: 10
+                                            },
+                                            aspectratio:"16:9",
+                                            allowfullscreen: true,
+                                            width: "100%",
+                                        });
+                                    </script>
+                                </xsl:when>
+                                <xsl:otherwise>
+                                    <script type="text/javascript">
+                                        jwplayer.key = "7v+RIu3+q3k5BpVlhvaNE9PseQLW8aQiUgoyLA==";
+                                        var playerInstance = jwplayer('<xsl:value-of select="$streamingfilename"/>');
+                                        playerInstance.setup({
+
+                                            playlist: [{
+                                                image: "<xsl:value-of select='$mp4thumb'/>",
+                                                sources: [{
+                                                    file: "<xsl:value-of select="$baseURL"/>/streaming/<xsl:value-of select='$streamingfilename'/>"
+                                                },{
+                                                    file: "rtmp://fldp.rice.edu/fondren/mp4:<xsl:value-of select='$streamingfilename'/>"
+                                                }],
+
+                                            }],
+                                            primary: "html5",
+                                            rtmp: {
+                                                bufferlength: 10
+                                            },
+                                            aspectratio:"16:9",
+                                            allowfullscreen: true,
+                                            width: "100%",
+                                        });
+                                    </script>
+                                </xsl:otherwise>
+
+                            </xsl:choose>
+
+
+
                     </div>
 
                     </xsl:when>
@@ -2222,6 +2264,28 @@ references to stylesheets pulled directly from the pageMeta element. -->
         -->
         <xsl:if test="confman:getProperty('webui.browse.render-scientific-formulas') = 'true'">
             <script type="text/x-mathjax-config">
+
+                MathJax.Hub.Config({
+                    "HTML-CSS": {
+                        messageStyle: "normal",
+                        linebreaks: {
+                            automatic: false
+                        }
+                    },
+                    tex2jax: {
+                        ignoreClass: "detail-field-data|detailtable|exception",
+                        inlineMath: [["\\(","\\)"]],
+                        displayMath: [["$$","$$"],["\\[","\\]"]],
+                        processEscapes: true
+                        },
+                    TeX: {
+                        Macros: {
+                           tr: "{\\scriptscriptstyle\\mathrm{T}}",
+                            AA: '{\\mathring A}'
+                        }
+                    }
+                });
+                <!-- Original from DSpace 6.3
                 MathJax.Hub.Config({
                   tex2jax: {
                     ignoreClass: "detail-field-data|detailtable|exception"
@@ -2231,9 +2295,9 @@ references to stylesheets pulled directly from the pageMeta element. -->
                       AA: '{\\mathring A}'
                     }
                   }
-                });
+                });-->
             </script>
-            <script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">&#160;</script>
+            <script type="text/javascript" async src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">&#160;</script>
         </xsl:if>
 
     </head>
