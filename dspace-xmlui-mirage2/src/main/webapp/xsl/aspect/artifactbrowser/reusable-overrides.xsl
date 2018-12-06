@@ -883,7 +883,6 @@
                                     <!-- find the sibling vtt file and get the streaming name -->
                                     <xsl:variable name="vtt_filename">
                                         <xsl:value-of select='$filename'/><xsl:text>.vtt</xsl:text>
-                                        </xsl:if>
                                     </xsl:variable>
                                     <script type="text/javascript">
                                         jwplayer.key = "7v+RIu3+q3k5BpVlhvaNE9PseQLW8aQiUgoyLA==";
