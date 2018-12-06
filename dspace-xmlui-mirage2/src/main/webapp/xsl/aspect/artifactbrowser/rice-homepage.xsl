@@ -199,6 +199,7 @@
                                     select="/dri:document/dri:meta/dri:pageMeta/dri:metadata[@element='search'][@qualifier='simpleURL']"/>
                         </xsl:attribute>
                         <fieldset>
+                            <legend>Searching scope</legend>
                             <div class="input-group">
                                 <input class="ds-text-field form-control" type="text" placeholder="xmlui.general.search"
                                        i18n:attr="placeholder">

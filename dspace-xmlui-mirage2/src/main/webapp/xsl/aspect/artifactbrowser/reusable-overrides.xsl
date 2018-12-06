@@ -879,7 +879,7 @@
 
                     -->
                             <xsl:choose>
-                                <xsl:when test="contains($filename, '_caption\.'))">
+                                <xsl:when test="contains($filename, '_caption\.')">
                                     <!-- find the sibling vtt file and get the streaming name -->
                                     <xsl:variable name="vtt_filename">
                                         <xsl:value-of select='$filename'/><xsl:text>.vtt</xsl:text>
@@ -2325,7 +2325,7 @@ references to stylesheets pulled directly from the pageMeta element. -->
 
                     <a href="{$context-path}/" class="navbar-brand">
                         <!--img src="{$theme-path}/images/DSpace-logo-line.svg" /-->
-                        <img width="220px" height="84px" src="{$theme-path}/images/RDSA-logo.png" />
+                        <img width="220px" height="84px" src="{$theme-path}/images/RDSA-logo.png" alt="Rice Univesrity Logo" />
                     </a>
 
 
