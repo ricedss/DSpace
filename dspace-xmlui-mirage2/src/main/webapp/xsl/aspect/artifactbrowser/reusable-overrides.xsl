@@ -2296,7 +2296,7 @@ references to stylesheets pulled directly from the pageMeta element. -->
                   }
                 });-->
             </script>
-            <script type="text/javascript" async src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">&#160;</script>
+            <script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">&#160;</script>
         </xsl:if>
 
     </head>
