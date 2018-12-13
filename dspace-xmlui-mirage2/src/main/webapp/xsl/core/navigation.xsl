@@ -57,7 +57,7 @@
                         <fieldset>
                             <legend>Searching scope</legend>
                             <div class="input-group">
-                                <label for="search" class="visuallyhidden"><xsl:text>Search: </xsl:text></label>
+                                <label for="Search" class="visuallyhidden"><xsl:text>Search: </xsl:text></label>
                                 <input class="ds-text-field form-control" type="text" placeholder="xmlui.general.search"
                                        i18n:attr="placeholder">
                                     <xsl:attribute name="name">

@@ -200,6 +200,9 @@
                 </xsl:otherwise>
             </xsl:choose>
         </xsl:variable>
+        <xsl:variable name="filename">
+            <xsl:value-of select="mets:FLocat/@xlink:title"/>
+        </xsl:variable>
 
 
         <div>
@@ -218,81 +221,147 @@
                             </a>
                         </xsl:when>
 
-                        <xsl:when test="@MIMETYPE='video/mp4'">
-                          <div class="videoContainer" style="height: 0;overflow: hidden;padding-bottom: 56.25%;padding-top: 25px;position: relative;">
-                          <div id="{$streamingfilename}" style="position:absolute;width:100% !important;height: 100% !important;">Loading the player...</div>
-                            <xsl:variable name="mp4thumb1" select="$context/mets:fileSec/mets:fileGrp[@USE='THUMBNAIL']/
+                            <xsl:when test="@MIMETYPE='video/mp4' or @MIMETYPE='video/m4v'">
+                                <!--div class="videoContainer" style="height: 0;overflow: hidden;padding-bottom: 56.25%;padding-top: 25px;position: relative;">
+                                <div id="{$streamingfilename}" style="position:absolute;width:100% !important;height: 100% !important;">Loading the player...</div>
+                                -->
+                                <div class="videoContainer">
+                                    <div id="{$streamingfilename}">Loading the player...</div>
+
+                                    <xsl:variable name="mp4thumb1" select="$context/mets:fileSec/mets:fileGrp[@USE='THUMBNAIL']/
                                 mets:file[@GROUPID=current()/@GROUPID]/mets:FLocat[@LOCTYPE='URL']/@xlink:href"/>
-                        <xsl:variable name="mp4thumb" select="substring-before($mp4thumb1, '?')"/>
-                          <!-- With JWPlayer 6 -->
+                                    <xsl:variable name="mp4thumb" select="substring-before($mp4thumb1, '?')"/>
 
-                          <script type="text/javascript">
-    jwplayer.key = "7v+RIu3+q3k5BpVlhvaNE9PseQLW8aQiUgoyLA==";
-    var playerInstance = jwplayer('<xsl:value-of select="$streamingfilename"/>');
-    playerInstance.setup({
+                                    <xsl:choose>
+                                        <xsl:when test="contains($filename, '_caption\.')">
+                                            <!-- find the sibling vtt file and get the streaming name -->
+                                            <xsl:variable name="vtt_filename">
+                                                <xsl:value-of select='$filename'/><xsl:text>.vtt</xsl:text>
+                                            </xsl:variable>
+                                            <script type="text/javascript">
+                                                jwplayer.key = "7v+RIu3+q3k5BpVlhvaNE9PseQLW8aQiUgoyLA==";
+                                                var playerInstance = jwplayer('<xsl:value-of select="$streamingfilename"/>');
+                                                playerInstance.setup({
 
-        playlist: [{
-            image: "<xsl:value-of select='$mp4thumb'/>",
-            sources: [{
-                file: "<xsl:value-of select="$baseURL"/>/streaming/<xsl:value-of select='$streamingfilename'/>"
-            },{
-                file: "rtmp://fldp.rice.edu/fondren/mp4:<xsl:value-of select='$streamingfilename'/>"
-            }],
-            tracks: [{
-                file: "<xsl:value-of select="$baseURL"/>/streaming/test.vtt",
-                label: "English",
-                kind: "captions",
-                "default": true
-            }]
+                                                playlist: [{
+                                                image: "<xsl:value-of select='$mp4thumb'/>",
+                                                sources: [{
+                                                file: "<xsl:value-of select="$baseURL"/>/streaming/<xsl:value-of select='$streamingfilename'/>"
+                                                },{
+                                                file: "rtmp://fldp.rice.edu/fondren/mp4:<xsl:value-of select='$streamingfilename'/>"
+                                                }],
+                                                tracks: [{
+                                                file: "<xsl:value-of select="$baseURL"/>/streaming/<xsl:value-of
+                                                    select='$vtt_filename'/>",
+                                                label: "English",
+                                                kind: "captions",
+                                                "default": true
+                                                }]
 
-        }],
+                                                }],
+                                                primary: "html5",
+                                                rtmp: {
+                                                bufferlength: 10
+                                                },
+                                                aspectratio:"16:9",
+                                                allowfullscreen: true,
+                                                width: "100%",
+                                                });
+                                            </script>
+                                        </xsl:when>
+                                        <xsl:otherwise>
+                                            <script type="text/javascript">
+                                                jwplayer.key = "7v+RIu3+q3k5BpVlhvaNE9PseQLW8aQiUgoyLA==";
+                                                var playerInstance = jwplayer('<xsl:value-of select="$streamingfilename"/>');
+                                                playerInstance.setup({
 
-        primary: "html5",
-        rtmp: {
-             bufferlength: 10
-        },
-    height: "100%",
-    aspectratio:"16:9",
-    allowfullscreen: true,
-    width: "100%",
-    stretching: "exactfit"
-    });
-     </script>
-                    </div>
-                    </xsl:when>
-                    <xsl:when test="@MIMETYPE='audio/x-mp3'">
+                                                playlist: [{
+                                                image: "<xsl:value-of select='$mp4thumb'/>",
+                                                sources: [{
+                                                file: "<xsl:value-of select="$baseURL"/>/streaming/<xsl:value-of select='$streamingfilename'/>"
+                                                },{
+                                                file: "rtmp://fldp.rice.edu/fondren/mp4:<xsl:value-of select='$streamingfilename'/>"
+                                                }],
+
+                                                }],
+                                                primary: "html5",
+                                                rtmp: {
+                                                bufferlength: 10
+                                                },
+                                                aspectratio:"16:9",
+                                                allowfullscreen: true,
+                                                width: "100%",
+                                                });
+                                            </script>
+                                        </xsl:otherwise>
+
+                                    </xsl:choose>
+
+                                </div>
+                            </xsl:when>
+
+                            <xsl:when test="@MIMETYPE='audio/x-mp3'">
 
                                 <!-- With JWPlayer 6 -->
+                                <xsl:choose>
+                                    <xsl:when test="contains($filename, '_caption\.')">
+                                        <!-- find the sibling vtt file and get the streaming name -->
+                                        <xsl:variable name="vtt_filename">
+                                            <xsl:value-of select='$filename'/><xsl:text>.vtt</xsl:text>
+                                        </xsl:variable>
 
-                                  <div id="{$streamingfilename}">Loading the player...</div>
+                                        <div id="{$streamingfilename}">Loading the player...</div>
 
-                                  <script type="text/javascript">
-    jwplayer.key = "7v+RIu3+q3k5BpVlhvaNE9PseQLW8aQiUgoyLA==";
-    var playerInstance = jwplayer('<xsl:value-of select="$streamingfilename"/>');
-    playerInstance.setup({
-                                         playlist: [{
+                                        <script type="text/javascript">
+                                            jwplayer.key = "7v+RIu3+q3k5BpVlhvaNE9PseQLW8aQiUgoyLA==";
+                                            var playerInstance = jwplayer('<xsl:value-of select="$streamingfilename"/>');
+                                            playerInstance.setup({
+                                            playlist: [{
 
-            sources: [{
-                 file: "<xsl:value-of select="$baseURL"/>/streaming/<xsl:value-of select="$streamingfilename"/>"
-            },{
-                file: "rtmp://fldp.rice.edu/fondren/mp3:<xsl:value-of select='$streamingfilename'/>"
-            }],
-                                      tracks: [{
-                                      file: "<xsl:value-of select="$baseURL"/>/streaming/test.vtt",
-                                      label: "English",
-                                      kind: "captions",
-                                      "default": true
-                                      }]
+                                            sources: [{
+                                            file: "<xsl:value-of select="$baseURL"/>/streaming/<xsl:value-of select="$streamingfilename"/>"
+                                            },{
+                                            file: "rtmp://fldp.rice.edu/fondren/mp3:<xsl:value-of select='$streamingfilename'/>"
+                                            }],
+                                            tracks: [{
+                                            file: "<xsl:value-of select="$baseURL"/>/streaming/<xsl:value-of
+                                                select='$vtt_filename'/>",
+                                            label: "English",
+                                            kind: "captions",
+                                            "default": true
+                                            }]
+                                            }],
+                                            primary: "html5",
+                                            height: "30",
+                                            width: "320",
+                                            });
+                                        </script>
+                                    </xsl:when>
+                                    <xsl:otherwise>
 
+                                        <div id="{$streamingfilename}">Loading the player...</div>
 
+                                        <script type="text/javascript">
+                                            jwplayer.key = "7v+RIu3+q3k5BpVlhvaNE9PseQLW8aQiUgoyLA==";
+                                            var playerInstance = jwplayer('<xsl:value-of select="$streamingfilename"/>');
+                                            playerInstance.setup({
+                                            playlist: [{
 
-                                      }],
-    primary: "html5",
-    height: "30",
-    width: "320",
-    });
-    </script>
+                                            sources: [{
+                                            file: "<xsl:value-of select="$baseURL"/>/streaming/<xsl:value-of select="$streamingfilename"/>"
+                                            },{
+                                            file: "rtmp://fldp.rice.edu/fondren/mp3:<xsl:value-of select='$streamingfilename'/>"
+                                            }],
 
+                                            }],
+                                            primary: "html5",
+                                            height: "30",
+                                            width: "320",
+                                            });
+                                        </script>
+
+                                    </xsl:otherwise>
+                                </xsl:choose>
                             </xsl:when>
                             <xsl:otherwise>
                                 <a class="image-link">
