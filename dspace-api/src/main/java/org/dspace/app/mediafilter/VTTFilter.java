@@ -168,7 +168,7 @@ public class VTTFilter extends MediaFilter
         String cmd = "ln -sf " + softpath_to_avfile + " " + streaming_dir + "/" + streaming_name;
 
         //String cmd = "ln -sf " + filename + " " + streaming_dir + "/" + streaming_name;
-        System.out.println("~~~~~~~~~~~~~~~  ~~ ~~ ~~ ~~ In VIDEOAUDIOFilter: cmd = " + cmd);
+        System.out.println("~~~~~~~~~~~~~~~  ~~ ~~ ~~ ~~ In VTTFilter: cmd = " + cmd);
         // call to generate the symbolic link
         Runtime.getRuntime().exec(cmd);
         return null;
