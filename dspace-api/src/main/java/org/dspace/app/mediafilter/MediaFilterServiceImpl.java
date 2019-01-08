@@ -214,6 +214,19 @@ public class MediaFilterServiceImpl implements MediaFilterService, InitializingB
             }
             //END Ying added OHMS bundle to be processed
 
+            // Ying added WEBVTT bundle to be processed
+            List<Bundle> vttBundles = itemService.getBundles(myItem, "WEBVTT");
+            for (int i = 0; i < vttBundles.size(); i++)
+            {
+                // now look at all of the bitstreams
+                List<Bitstream> myBitstreams = vttBundles.get(i).getBitstreams();
+
+                for (int k = 0; k < myBitstreams.size(); k++)
+                {
+                    done |= filterBitstream(context, myItem, myBitstreams.get(i));
+                }
+            }
+            //END Ying added WEBVTT bundle to be processed
         }
         return done;
     }
@@ -394,10 +407,11 @@ public class MediaFilterServiceImpl implements MediaFilterService, InitializingB
             System.out.println("PROCESSING: bitstream " + source.getID()
                 + " (item: " + item.getHandle() + ")");
         }
-       // Ying updated this for OHMS XML / Video Audio filter
+       // Ying updated this for OHMS XML / Video Audio filter / VTT
         //InputStream destStream;
+        String vttmedias = configurationService.getProperty("filter.org.dspace.app.mediafilter.VTTFilter.inputFormats");
         String specialmedias = configurationService.getProperty("filter.org.dspace.app.mediafilter.OHMSFilter.inputFormats");
-        specialmedias = specialmedias + ", " + vamedias;
+        specialmedias = specialmedias + ", " + vttmedias + "," + vamedias;
         System.out.println("File: " + newName);
         try
         {
@@ -420,6 +434,7 @@ public class MediaFilterServiceImpl implements MediaFilterService, InitializingB
             }
 
             // END Ying updated this for OHMS XML / Video Audio filter
+
             if (destStream == null) {
 
                 if (!isQuiet && !(specialmedias.indexOf(bitstreamService.getFormat(context, source).getMIMEType().trim()) >= 0)) {
