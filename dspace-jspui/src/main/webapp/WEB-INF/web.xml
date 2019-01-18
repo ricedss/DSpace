@@ -277,6 +277,11 @@
   </servlet>
 
   <servlet>
+        <servlet-name>xml</servlet-name>
+        <servlet-class>org.dspace.app.webui.servlet.XMLServlet</servlet-class>
+  </servlet>
+
+  <servlet>
     <servlet-name>htmlmap</servlet-name>
     <servlet-class>org.dspace.app.webui.servlet.SitemapServlet</servlet-class>
     <init-param>
@@ -630,6 +635,11 @@
     <servlet-name>html</servlet-name>
     <url-pattern>/html/*</url-pattern>
   </servlet-mapping>
+
+    <servlet-mapping>
+      <servlet-name>xml</servlet-name>
+      <url-pattern>/xml/*</url-pattern>
+    </servlet-mapping>
 
   <servlet-mapping>
     <servlet-name>htmlmap</servlet-name>
