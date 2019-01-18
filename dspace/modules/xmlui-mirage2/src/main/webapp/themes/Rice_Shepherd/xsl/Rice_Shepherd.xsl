@@ -185,10 +185,15 @@
 
     <xsl:template match="mets:file">
         <xsl:param name="context" select="."/>
-         <xsl:variable name="bitstreamurl" select="mets:FLocat[@LOCTYPE='URL']/@xlink:href"/>
-         <xsl:variable name="streamingfilename">
-             <xsl:value-of select="@ID"/>_<xsl:value-of select="mets:FLocat/@xlink:title"/>
-         </xsl:variable>
+        <xsl:variable name="repositoryURL" select="dri:document/dri:meta/dri:pageMeta/dri:trail[1]/@target"/>
+        <xsl:variable name="bitstreamurl1" select="mets:FLocat[@LOCTYPE='URL']/@xlink:href"/>
+        <xsl:variable name="bitstreamurl" select="substring-before($bitstreamurl1, '&amp;isAllowed')"/>
+        <xsl:variable name="streamingfilename">
+            <xsl:value-of select="@ID"/>_<xsl:value-of select="mets:FLocat/@xlink:title"/>
+        </xsl:variable>
+        <xsl:variable name="filename">
+            <xsl:value-of select="mets:FLocat/@xlink:title"/>
+        </xsl:variable>
         <!-- The most important part is whether this item is a performace or a piece. -->
         <xsl:variable name="itemtype">
             <xsl:choose>
@@ -199,9 +204,6 @@
                     <xsl:text>piece</xsl:text>
                 </xsl:otherwise>
             </xsl:choose>
-        </xsl:variable>
-        <xsl:variable name="filename">
-            <xsl:value-of select="mets:FLocat/@xlink:title"/>
         </xsl:variable>
 
 
@@ -233,7 +235,7 @@
                                     <xsl:variable name="mp4thumb" select="substring-before($mp4thumb1, '?')"/>
 
                                     <xsl:choose>
-                                        <xsl:when test="contains($filename, '_caption\.')">
+                                        <xsl:when test="contains($filename, '_caption')">
                                             <!-- find the sibling vtt file and get the streaming name -->
                                             <xsl:variable name="vtt_filename">
                                                 <xsl:value-of select='$filename'/><xsl:text>.vtt</xsl:text>
@@ -304,7 +306,7 @@
 
                                 <!-- With JWPlayer 6 -->
                                 <xsl:choose>
-                                    <xsl:when test="contains($filename, '_caption\.')">
+                                    <xsl:when test="contains($filename, '_caption')">
                                         <!-- find the sibling vtt file and get the streaming name -->
                                         <xsl:variable name="vtt_filename">
                                             <xsl:value-of select='$filename'/><xsl:text>.vtt</xsl:text>
@@ -332,7 +334,7 @@
                                             }]
                                             }],
                                             primary: "html5",
-                                            height: "30",
+                                            height: "100",
                                             width: "320",
                                             });
                                         </script>

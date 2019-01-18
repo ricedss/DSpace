@@ -852,7 +852,7 @@
                             <xsl:variable name="mp4thumb" select="substring-before($mp4thumb1, '?')"/>
 
                             <xsl:choose>
-                                <xsl:when test="contains($filename, '_caption\.')">
+                                <xsl:when test="contains($filename, '_caption')">
                                     <!-- find the sibling vtt file and get the streaming name -->
                                     <xsl:variable name="vtt_filename">
                                         <xsl:value-of select='$filename'/><xsl:text>.vtt</xsl:text>
@@ -923,7 +923,7 @@
 
                                     <!-- With JWPlayer 6 -->
                         <xsl:choose>
-                            <xsl:when test="contains($filename, '_caption\.')">
+                            <xsl:when test="contains($filename, '_caption')">
                                 <!-- find the sibling vtt file and get the streaming name -->
                                 <xsl:variable name="vtt_filename">
                                     <xsl:value-of select='$filename'/><xsl:text>.vtt</xsl:text>
@@ -951,7 +951,7 @@
                                         }]
                                     }],
                                     primary: "html5",
-                                    height: "30",
+                                    height: "100",
                                     width: "320",
                                 });
                                 </script>
