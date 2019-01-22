@@ -2794,6 +2794,10 @@ Data depositors can opt-out of using the CC0 waiver for datasets, especially if 
     <message key="xmlui.Submission.submit.DescribeStep.hint.researchdata.digitalspecification">A description of the technical specifications of how the dataset(s) was/were digitized, migrated or created, as well as any special hardware, software or tools needed to display/open the files. If source files were later converted to open source formats, please note that as well.<br />Example: <i>Stata was used to create the original versions of the files.</i></message>
     <message key="xmlui.Submission.submit.DescribeStep.hint.researchdata.sourceprovenance">Record information regarding anything that has changed in the dataset between publication and deposit.<br />Example: <i>Minor errors in calculations, found after publication, were fixed before deposit.</i></message>
     <message key="xmlui.administrative.item.AddBitstreamForm.bundle.OHMS">OHMS</message>
+	<message key="xmlui.administrative.item.AddBitstreamForm.bundle.MASTER">MASTER</message>
+	<message key="xmlui.administrative.item.AddBitstreamForm.bundle.HTML">HTML</message>
+	<message key="xmlui.administrative.item.AddBitstreamForm.bundle.WEBVTT">WEBVTT</message>
+	<message key="xmlui.administrative.item.AddBitstreamForm.bundle.PERMIT">PERMIT</message>
     <message key="xmlui.ArtifactBrowser.SimpleSearch.filter.doi">DOI</message>
     <message key="xmlui.Submission.submit.DescribeStep.hint.researchdata.typegenre">Content types can be free‐text terms or from the <a href="http://dictionary.casrai.org/Output_Types" target="_blank">CASRAI Publications resource type list</a>.<br /><i>Example: Census data</i></message>
     <message key="xmlui.Submission.submit.DescribeStep.hint.researchdata.grantid">The funding number(s) and agency that provided a grant used to produce the dataset(s). <br />Example: <i>P20 RR016458 (National Institutes of Health)</i></message>
