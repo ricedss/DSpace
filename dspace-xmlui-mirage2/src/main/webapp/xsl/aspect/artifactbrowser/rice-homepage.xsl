@@ -95,10 +95,10 @@
               <a href="{$repositoryURL}/handle/1911/12394"><img src="{$theme-path}/images/Dspace-slide-09.png" alt=""/>   </a>
           </div-->
           <div class="item">
-              <a href="{$repositoryURL}/handle/1911/43628"><img src="{$theme-path}/images/Dspace-slide-05.png" alt=""/>  </a>
+              <a href="{$repositoryURL}/handle/1911/43628"><img src="{$theme-path}/images/Dspace-slide-05.png" alt="Shepherd Music"/>  </a>
           </div>
           <div class="item">
-              <a href="http://openaccess.rice.edu/"><img src="{$theme-path}/images/Dspace-slide-06.png" alt=""/>  </a>
+              <a href="http://openaccess.rice.edu/"><img src="{$theme-path}/images/Dspace-slide-06.png" alt="open access"/>  </a>
           </div>
       </div>
       <a class="left carousel-control" href="#carousel-example-generic" role="button" data-slide="prev">
@@ -192,7 +192,7 @@
                 <div id="ds-search-option" class="ds-option-set">
                     <!-- The form, complete with a text box and a button, all built from attributes referenced
                  from under pageMeta. -->
-                    <form id="ds-search-form" class="" method="post">
+                    <form id="ds-search-form" class="" method="post" title="search form">
                         <xsl:attribute name="action">
                             <xsl:value-of select="/dri:document/dri:meta/dri:pageMeta/dri:metadata[@element='contextPath']"/>
                             <xsl:value-of
@@ -201,7 +201,7 @@
                         <fieldset>
                             <legend>Searching scope</legend>
                             <div class="input-group">
-                                <label for="Search" class="visuallyhidden"><xsl:text>Search: </xsl:text></label>
+                                <label for="query" class="visuallyhidden"><xsl:text>Search: </xsl:text></label>
                                 <input class="ds-text-field form-control" type="text" placeholder="xmlui.general.search"
                                        i18n:attr="placeholder">
                                     <xsl:attribute name="name">
@@ -283,5 +283,26 @@
             </xsl:if>
 
         </div>
+
     </xsl:template>
 </xsl:stylesheet>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
