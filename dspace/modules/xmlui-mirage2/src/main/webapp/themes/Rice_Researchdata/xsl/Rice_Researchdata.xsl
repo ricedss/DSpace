@@ -26,6 +26,7 @@
           <!--xsl:call-template name="itemSummaryView-DIM-title"/-->
           <xsl:call-template name="itemSummaryView-DIM-date-recorded"/>
           <xsl:call-template name="itemSummaryView-DIM-description"/>
+          <xsl:call-template name="itemSummaryView-DIM-doi"/>
           <xsl:call-template name="itemSummaryView-DIM-citation"/>
           <xsl:call-template name="itemSummaryView-DIM-subject-keyword"/>
           <xsl:call-template name="itemSummaryView-DIM-publisher"/>

@@ -2505,6 +2505,8 @@ references to stylesheets pulled directly from the pageMeta element. -->
                             <i18n:text>xmlui.dri2xhtml.structural.contact-link</i18n:text>
                         </a-->
                             <a href="mailto:cds@rice.edu"> <i18n:text>xmlui.dri2xhtml.structural.contact-link</i18n:text> </a>
+                            <xsl:text> | </xsl:text>
+                            <a href="https://privacy.rice.edu/"> <xsl:text>Privacy Notice</xsl:text> </a>
                             </div>
                         <div>
 
