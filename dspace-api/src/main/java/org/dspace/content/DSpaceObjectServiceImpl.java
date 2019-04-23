@@ -151,11 +151,11 @@ public abstract class DSpaceObjectServiceImpl<T extends DSpaceObject> implements
                         && (metadataField.getQualifier() != null) && (metadataField.getQualifier().equals("citation"))){
 
                     String name = dso.getName();
-                    System.out.println("Citation on the fly ============== NAME: " + name);
+                    //System.out.println("Citation on the fly ============== NAME: " + name);
                     if(CitationManager.isConfiged() && name != ""){
 
                         String dcvalue = CitationManager.getCitationString((Item)dso);
-                        System.out.println("Citation on the fly ============== CITATION: " + dcvalue);
+                        //System.out.println("Citation on the fly ============== CITATION: " + dcvalue);
                         if (( dcvalue != null) && dcvalue.length() > 0) {
                             dcv.setValue(dcvalue);
                             citationAdded = true;
@@ -190,11 +190,11 @@ public abstract class DSpaceObjectServiceImpl<T extends DSpaceObject> implements
 
 
             String name = dso.getName();
-            System.out.println("Citation on the fly ============== NAME: " + name);
+            //System.out.println("Citation on the fly ============== NAME: " + name);
             if (CitationManager.isConfiged() && name != "") {
 
                 String dcvalue = CitationManager.getCitationString((Item) dso);
-                System.out.println("Citation on the fly ============== CITATION: " + dcvalue);
+                //System.out.println("Citation on the fly ============== CITATION: " + dcvalue);
                 if ((dcvalue != null) && dcvalue.length() > 0) {
                     metadataValue.setValue(dcvalue);
                     values.add(metadataValue);
