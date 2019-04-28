@@ -361,7 +361,8 @@
         <xsl:variable name="xrefTarget">
             <xsl:value-of select="./dri:p/dri:xref/@target"/>
         </xsl:variable>
-        <xsl:if test="$itemDivision='item-view'">
+        <!-- we decided to remove the cc-license on the bottom and using regular metadata display-->
+        <!--xsl:if test="$itemDivision='item-view'">
             <xsl:call-template name="cc-license">
                 <xsl:with-param name="metadataURL" select="./dri:referenceSet/dri:reference/@url"/>
             </xsl:call-template>
@@ -370,7 +371,7 @@
                    <xsl:with-param name="metadataURL" select="./dri:referenceSet/dri:reference/@url"/>
                </xsl:call-template>
 
-        </xsl:if>
+        </xsl:if-->
 
         <xsl:apply-templates select="@pagination">
             <xsl:with-param name="position">bottom</xsl:with-param>
@@ -1160,6 +1161,7 @@
 
     <!--                    <xsl:call-template name="itemSummaryView-DIM-URI"/-->
                         <xsl:call-template name="itemSummaryView-DIM-alternative-title"/>
+                        <!--xsl:call-template name="itemSummaryView-DIM-subtitle"/-->
                         <xsl:call-template name="itemSummaryView-DIM-authors"/>
                         <xsl:call-template name="itemSummaryView-DIM-architect"/>
                         <xsl:call-template name="itemSummaryView-DIM-illustrator"/>
@@ -1167,23 +1169,83 @@
                         <xsl:call-template name="itemSummaryView-DIM-performer"/>
                         <xsl:call-template name="itemSummaryView-DIM-translator"/>
                         <xsl:call-template name="itemSummaryView-DIM-date"/>
+                        <xsl:call-template name="itemSummaryView-DIM-abstract"/>
                         <xsl:call-template name="itemSummaryView-DIM-description"/>
                         <xsl:call-template name="itemSummaryView-DIM-citation"/>
                         <xsl:call-template name="itemSummaryView-DIM-doi"/>
-                        <xsl:call-template name="itemSummaryView-DIM-abstract"/>
                         <xsl:call-template name="itemSummaryView-DIM-subject"/>
                         <xsl:call-template name="itemSummaryView-DIM-type"/>
                         <xsl:call-template name="itemSummaryView-DIM-publisher"/>
                         <xsl:call-template name="itemSummaryView-DIM-department"/>
                         <!--xsl:call-template name="itemSummaryView-DIM-funder"/-->
                         <xsl:call-template name="itemSummaryView-DIM-URI"/>
+                        <xsl:call-template name="itemSummaryView-DIM-relation-URI"/>
                         <xsl:if test="$ds_item_view_toggle_url != ''">
                             <xsl:call-template name="itemSummaryView-show-full"/>
                         </xsl:if>
                         <xsl:call-template name="itemSummaryView-collections"/>
 </xsl:template>
 
-        <xsl:template name="itemSummaryView-DIM-URI">
+    <xsl:template name="itemSummaryView-DIM-relation-URI">
+        <xsl:if test="dim:field[@element='relation' and @qualifier='uri' and descendant::text()]">
+            <div class="simple-item-view-uri item-page-field-wrapper table">
+                <h5><i18n:text>xmlui.Rice.relation-uri</i18n:text></h5>
+                <span>
+                    <xsl:for-each select="dim:field[@element='relation' and @qualifier='uri']">
+                        <a>
+                            <xsl:attribute name="href">
+                                <xsl:copy-of select="./node()"/>
+                            </xsl:attribute>
+                            <xsl:copy-of select="./node()"/>
+                        </a>
+                        <xsl:if test="count(following-sibling::dim:field[@element='relation' and @qualifier='uri']) != 0">
+                            <br/>
+                        </xsl:if>
+                    </xsl:for-each>
+                </span>
+            </div>
+        </xsl:if>
+    </xsl:template>
+
+    <xsl:template name="itemSummaryView-DIM-Related-Work">
+        <xsl:if test="dim:field[@element='relation'][@qualifier='HasPart' and descendant::text()]">
+            <div class="simple-item-view-architect item-page-field-wrapper table">
+                <h5><i18n:text>xmlui.Rice.related-work</i18n:text></h5>
+                <xsl:for-each select="dim:field[@element='relation' and not(@qualifier)]">
+                    <xsl:copy-of select="./node()"/>
+                    <xsl:if test="count(following-sibling::dim:field[@element='relation' and not(@qualifier)) != 0">
+                        <br/>
+                    </xsl:if>
+                </xsl:for-each>
+                <xsl:for-each select="dim:field[@element='relation' and @qualifier='IsPartOfSeries']">
+                    <xsl:copy-of select="./node()"/>
+                    <xsl:if test="count(following-sibling::dim:field[@element='relation' and @qualifier='IsPartOfSeries']) != 0">
+                        <br/>
+                    </xsl:if>
+                </xsl:for-each>
+                <xsl:for-each select="dim:field[@element='relation' and @qualifier='IsReferencedBy']">
+                    <xsl:copy-of select="./node()"/>
+                    <xsl:if test="count(following-sibling::dim:field[@element='relation' and @qualifier='IsReferencedBy']) != 0">
+                        <br/>
+                    </xsl:if>
+                </xsl:for-each>
+                <xsl:for-each select="dim:field[@element='relation' and @qualifier='IsPartOf']">
+                    <xsl:copy-of select="./node()"/>
+                    <xsl:if test="count(following-sibling::dim:field[@element='relation' and @qualifier='IsPartOf']) != 0">
+                        <br/>
+                    </xsl:if>
+                </xsl:for-each>
+                <xsl:for-each select="dim:field[@element='relation' and @qualifier='HasPart']">
+                    <xsl:copy-of select="./node()"/>
+                    <xsl:if test="count(following-sibling::dim:field[@element='relation' and @qualifier='HasPart']) != 0">
+                        <br/>
+                    </xsl:if>
+                </xsl:for-each>
+            </div>
+        </xsl:if>
+    </xsl:template>
+
+    <xsl:template name="itemSummaryView-DIM-URI">
         <xsl:if test="dim:field[@element='identifier' and @qualifier='uri' and descendant::text()]">
             <div class="simple-item-view-uri item-page-field-wrapper table">
                 <h5><i18n:text>xmlui.Rice.uri</i18n:text></h5>
@@ -1214,6 +1276,24 @@
             </span>
         </div>
     </xsl:if>
+        <xsl:if test="dim:field[@element='rights' and @qualifier='uri']">
+            <div class="simple-item-view-rights item-page-field-wrapper table">
+                <h5><i18n:text>xmlui.Rice.rights</i18n:text></h5>
+                <span>
+                    <xsl:for-each select="dim:field[@element='rights' and @qualifier='uri']">
+                    <a>
+                        <xsl:attribute name="href">
+                            <xsl:copy-of select="./node()"/>
+                        </xsl:attribute>
+                        <xsl:copy-of select="./node()"/>
+                    </a>
+                    <xsl:if test="count(following-sibling::dim:field[@element='rights' and @qualifier='uri']) != 0">
+                        <br/>
+                    </xsl:if>
+                    </xsl:for-each>
+                </span>
+            </div>
+        </xsl:if>
 </xsl:template>
     <xsl:template name="itemSummaryView-DIM-authors">
         <xsl:if test="dim:field[@element='contributor'][@qualifier='author' and descendant::text()] or dim:field[@element='creator' and descendant::text()]">
@@ -1721,6 +1801,19 @@
     <xsl:template name="itemSummaryView-DIM-date">
         <xsl:choose>
 
+            <xsl:when test="dim:field[@element='date' and @qualifier='note' and descendant::text()]">
+                <div class="simple-item-view-date word-break item-page-field-wrapper table">
+                    <h5>
+                        <i18n:text>xmlui.dri2xhtml.METS-1.0.item-date</i18n:text>
+                    </h5>
+                    <xsl:for-each select="dim:field[@element='date' and @qualifier='note']">
+                        <xsl:copy-of select="node()"/>
+                        <xsl:if test="count(following-sibling::dim:field[@element='date' and @qualifier='note']) != 0">
+                            <br/>
+                        </xsl:if>
+                    </xsl:for-each>
+                </div>
+            </xsl:when>
             <xsl:when test="dim:field[@element='date' and @qualifier='original' and descendant::text()]">
                 <div class="simple-item-view-date word-break item-page-field-wrapper table">
                     <h5>

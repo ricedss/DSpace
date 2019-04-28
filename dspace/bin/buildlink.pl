@@ -27,7 +27,7 @@ if(($srcdir eq "") or ($descdir eq "") or ($predir eq "")){
 
 # read dir
 opendir (SRCDIR, "$srcdir") || die "can't opendir $srcdir: $!";;
-my @files = grep {/^file_.*/ || /.*_caption.vtt/} readdir(SRCDIR);
+my @files = grep {/^file_.*/ || /.*_caption.*.vtt/} readdir(SRCDIR);
 
 foreach my $filename (@files){
     my $symbollink = readlink ("$srcdir/$filename");

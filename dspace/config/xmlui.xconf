@@ -151,61 +151,23 @@
         their respective items.    
     -->
     <themes>
-        <!-- Example configuration -->
 
-        <!-- <theme name="Test Theme 1" handle="123456789/1" path="theme1/"/>    -->
-        <!-- <theme name="Test Theme 2" regex="community-list" path="theme2/"/> -->
+        <theme name="TIMEA Theme" handle="123456789/1" path="TIMEA/"/>
+        <theme name="Americas Theme" handle="1911/9219" path="Americas/"/>
 
-        <!-- Mirage theme, @mire contributed theme, default since DSpace 3.0 -->
-        <!--theme name="Atmire Mirage Theme" regex=".*" path="Mirage/" /-->
+        <theme name="Rice Gallery" handle="1911/69482" path="Rice_Gallery/"/>
 
-        <!-- Reference theme, the default Manakin XMLUI layout up to DSpace 1.8 -->
-        <!-- <theme name="Default Reference Theme" regex=".*" path="Reference/" /> -->
-
-        <!-- Classic theme, inspired by the JSP UI -->
-        <!-- <theme name="Classic" regex=".*" path="Classic/" /> -->
-
-        <!-- The Kubrick theme -->
-        <!-- <theme name="Kubrick" regex=".*" path="Kubrick/" /> -->
-
-
-          <theme name="TIMEA Theme" handle="123456789/1" path="TIMEA/"/>
-
-         <theme name="Americas Theme" handle="1911/9219" path="Americas/"/>
-
-         <theme name="Rice Gallery" handle="1911/69482" path="Rice_Gallery/"/>
-
-         <theme name="Rice Patents" handle="1911/78738" path="Rice_Patents/"/>
-
-        <theme name="Rice ESCI" handle="1911/79705" path="Rice_ESCI/"/>
-
-          <theme name="Rice Centennial" handle="1911/35948" path="Rice_Centennial/"/><!-- History of Rice University-->
-          <theme name="Rice Centennial" handle="1911/35950" path="Rice_Centennial/"/><!-- Rice University General Announcements -->
-          <theme name="Rice Centennial" handle="1911/35952" path="Rice_Centennial/"/> <!-- Rice University Presidential Inauguration Speeches-->
-
-        <theme name="Rice MOH" handle="1911/36277" path="Rice_MOH/"/>
         <theme name="Rice ETD" handle="1911/13110" path="Rice_ETD/"/>
+        <theme name="Rice Undergraduate" handle="1911/90431" path="Rice_ETD/"/>
+
         <theme name="Rice CTTL" handle="1911/61419" path="Rice_CTTL/"/>
 
-        <theme name="Rice NFF" handle="1911/75119" path="Rice_NFF/"/>
-        <theme name="Rice ECE" handle="1911/10563" path="Rice_ECE/"/> <!-- ECE Publication -->
-        <theme name="Rice ECE" handle="1911/21945" path="Rice_ECE/"/> <!-- CMC Publication -->
-        <theme name="Rice ECE" handle="1911/21661" path="Rice_ECE/"/> <!-- DSP Publication -->
-
         <theme name="Rice Shepherd" handle="1911/71868" path="Rice_Shepherd/"/>
-        <theme name="Rice Shepherd Pamphlets" handle="1911/77130" path="Rice_Shepherd_Pamphlets/"/>
-        <theme name="Rice Thresher" handle="1911/64890" path="Rice_Thresher/"/>
-        <theme name="Rice RIP" handle="1911/8328" path="Rice_RIP/"/>
-        <theme name="Rice Thresher 1" handle="1911/27631" path="Rice_Thresher_1/"/>
-        <theme name="Rice Undergraduate" handle="1911/90431" path="Rice_Undergrats/"/>
-        <theme name="Rice Baker Institute" handle="1911/20460" path="Rice_Baker/"/>
-        <theme name="Rice Kinder Institute" handle="1911/105134" path="Rice_Kinder/"/>
-        <theme name="Rice Computer Science" handle="1911/94018" path="Rice_ComputerScience/"/>
-        <!--theme name="Rice CAAM Technical Reports" handle="1911/94663" path="Rice_ComputerScience/"/-->
 
-        <!--theme name="Rice Teacher Archive" handle="1911/81971" path="Rice_Teacher_Archive/"/>
-        <theme name="Rice Teacher Archive" handle="1911/81971" path="Rice_Teacher_Archive/"/>
-        <theme name="Rice Teacher Archive" handle="1911/81971" path="Rice_Teacher_Archive/"/-->
+        <theme name="Rice Thresher" handle="1911/64890" path="Rice_Thresher/"/>
+        <theme name="Rice Thresher 1" handle="1911/27631" path="Rice_Thresher_1/"/>
+        <theme name="Rice RIP" handle="1911/8328" path="Rice_RIP/"/>
+
         <theme name="Rice HART" handle="1911/82046" path="Rice_HART/"/>
 
         <!--development server--><!--theme name="Rice Researchdata" handle="1911/77660" path="Rice_Researchdata/"/-->
