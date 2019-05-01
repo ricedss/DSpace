@@ -1213,7 +1213,7 @@
                 <h5><i18n:text>xmlui.Rice.related-work</i18n:text></h5>
                 <xsl:for-each select="dim:field[@element='relation' and not(@qualifier)]">
                     <xsl:copy-of select="./node()"/>
-                    <xsl:if test="count(following-sibling::dim:field[@element='relation' and not(@qualifier)) != 0">
+                    <xsl:if test="count(following-sibling::dim:field[@element='relation' and not(@qualifier)]) != 0">
                         <br/>
                     </xsl:if>
                 </xsl:for-each>
