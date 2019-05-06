@@ -1179,6 +1179,7 @@
                         <xsl:call-template name="itemSummaryView-DIM-department"/>
                         <!--xsl:call-template name="itemSummaryView-DIM-funder"/-->
                         <xsl:call-template name="itemSummaryView-DIM-URI"/>
+                        <xsl:call-template name="itemSummaryView-DIM-rights"/>
                         <xsl:call-template name="itemSummaryView-DIM-relation-URI"/>
                         <xsl:if test="$ds_item_view_toggle_url != ''">
                             <xsl:call-template name="itemSummaryView-show-full"/>
