@@ -405,7 +405,6 @@ public class MediaFilterServiceImpl implements MediaFilterService, InitializingB
         String vttmedias = configurationService.getProperty("filter.org.dspace.app.mediafilter.VTTFilter.inputFormats");
         String specialmedias = configurationService.getProperty("filter.org.dspace.app.mediafilter.OHMSFilter.inputFormats");
         specialmedias = specialmedias + ", " + vttmedias + "," + vamedias;
-        System.out.println("File: " + newName);
         try
         {
 
