@@ -18,10 +18,8 @@ import org.dspace.core.SelfNamedPlugin;
 import org.dspace.eperson.Group;
 import org.dspace.eperson.service.GroupService;
 import org.dspace.services.ConfigurationService;
-import org.dspace.storage.bitstore.service.BitstreamStorageService;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
-import java.io.IOException;
 
 import java.io.InputStream;
 import java.util.*;
@@ -189,27 +187,26 @@ public class MediaFilterServiceImpl implements MediaFilterService, InitializingB
         else
         {
             // Normal item -- filter all bitstreams.
-        // get 'original' bundles
-        List<Bundle> myBundles = itemService.getBundles(myItem, "ORIGINAL");
-        //boolean done = false;
-        for (Bundle myBundle : myBundles) {
-            // now look at all of the bitstreams
-            List<Bitstream> myBitstreams = myBundle.getBitstreams();
+            // get 'original' bundles
+            List<Bundle> myBundles = itemService.getBundles(myItem, "ORIGINAL");
+            for (Bundle myBundle : myBundles) {
+                // now look at all of the bitstreams
+                List<Bitstream> myBitstreams = myBundle.getBitstreams();
 
-            for (Bitstream myBitstream : myBitstreams) {
-                done |= filterBitstream(context, myItem, myBitstream);
+                for (Bitstream myBitstream : myBitstreams) {
+                    done |= filterBitstream(context, myItem, myBitstream);
+                }
             }
-        }
             // Ying added OHMS bundle to be processed
             List<Bundle> ohmsBundles = itemService.getBundles(myItem, "OHMS");
             for (int i = 0; i < ohmsBundles.size(); i++)
             {
-            	// now look at all of the bitstreams
+                // now look at all of the bitstreams
                 List<Bitstream> myBitstreams = ohmsBundles.get(i).getBitstreams();
 
                 for (int k = 0; k < myBitstreams.size(); k++)
                 {
-                	done |= filterBitstream(context, myItem, myBitstreams.get(i));
+                    done |= filterBitstream(context, myItem, myBitstreams.get(i));
                 }
             }
             //END Ying added OHMS bundle to be processed
@@ -384,15 +381,11 @@ public class MediaFilterServiceImpl implements MediaFilterService, InitializingB
 
         // Ying added/updated this to make sure the softlinks will be generated for video and audio even there are thumbnails there already
         String vamedias = Arrays.asList(configurationService.getArrayProperty("filter.org.dspace.app.mediafilter.VIDEOAUDIOFilter.inputFormats")).toString();
-        // get baseDir
-        String baseDir = configurationService.getProperty("dspacebase.dir");
 
         //ConfigurationManager.getProperty("filter.org.dspace.app.mediafilter.VIDEOAUDIOFilter.inputFormats");
         // if exists and overwrite = false, exit
-        System.out.println("the VIDEO/AUDIO formats: "+vamedias);
         if (!overWrite && (existingBitstream != null) && !(vamedias.indexOf(bitstreamService.getFormat(context, source).getMIMEType().trim()) >= 0))
         {
-            //System.out.println("No video/audio: "+vamedias);
             if (!isQuiet)
             {
                 System.out.println("SKIPPED: bitstream " + source.getID()
@@ -407,7 +400,7 @@ public class MediaFilterServiceImpl implements MediaFilterService, InitializingB
             System.out.println("PROCESSING: bitstream " + source.getID()
                 + " (item: " + item.getHandle() + ")");
         }
-       // Ying updated this for OHMS XML / Video Audio filter / VTT
+        // Ying updated this for OHMS XML / Video Audio filter / VTT
         //InputStream destStream;
         String vttmedias = configurationService.getProperty("filter.org.dspace.app.mediafilter.VTTFilter.inputFormats");
         String specialmedias = configurationService.getProperty("filter.org.dspace.app.mediafilter.OHMSFilter.inputFormats");
@@ -416,24 +409,21 @@ public class MediaFilterServiceImpl implements MediaFilterService, InitializingB
         try
         {
 
-            // get the source stream
-            InputStream srcStream = bitstreamService.retrieve(context, source);
             // filter the source stream to produce the destination stream
             // this is the hard work, check for OutOfMemoryErrors at the end of the try clause.
             InputStream destStream;
 
             if (specialmedias.indexOf(bitstreamService.getFormat(context, source).getMIMEType().trim()) >= 0) {
-                //System.out.println("getting destStream!!! " + source.getFilename() + "== " + source.getName() + "=== " + getInternalId() + " ====== " + formatFilter.getFormatString());
+                // These OHMS XML / Video Audio types don't need the source stream; they just make a link.
                 destStream = formatFilter.getDestinationStream(source);
                 if (!isQuiet) {
                     System.out.println("FILTERED: bitstream " + source.getInternalId()
                             + " (item: " + item.getHandle() + ") and created the link contents.");
                 }
             } else {
+                InputStream srcStream = bitstreamService.retrieve(context, source);
                 destStream = formatFilter.getDestinationStream(item, srcStream, isVerbose);
             }
-
-            // END Ying updated this for OHMS XML / Video Audio filter
 
             if (destStream == null) {
 
@@ -444,13 +434,14 @@ public class MediaFilterServiceImpl implements MediaFilterService, InitializingB
 
                 return false;
             }
+            // END Ying updated this for OHMS XML / Video Audio filter
 
 
             Bundle targetBundle; // bundle we're modifying
             if (bundles.size() < 1)
             {
-                    // create new bundle if needed
-                    targetBundle = bundleService.create(context, item, formatFilter.getBundleName());
+                // create new bundle if needed
+                targetBundle = bundleService.create(context, item, formatFilter.getBundleName());
             }
             else
             {
