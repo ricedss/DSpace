@@ -74,18 +74,15 @@ public abstract class MediaFilter implements FormatFilter
     // Ying added this for JPEG2000
     /**
      *
-     * @param filename
-     *            the full path to the physical file in assetstore, no extension
-     * @param source
-     *            the original filename provided by the submitter
-     *
-     * @return
+     * @param bitstream to filter
+     * @param verbose verbosity flag
+     * @return null
      * @throws Exception
      */
-    @Override
-    public InputStream getDestinationStream(Bitstream bitstream)
-            throws Exception{
-           return null;
-       }
+    public InputStream getDestinationStream(Bitstream bitstream, boolean verbose)
+            throws Exception
+    {
+        return null;
+    }
     // END Ying added this for JPEG2000
 }

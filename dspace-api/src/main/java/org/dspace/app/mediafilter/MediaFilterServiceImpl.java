@@ -415,10 +415,11 @@ public class MediaFilterServiceImpl implements MediaFilterService, InitializingB
 
             if (specialmedias.indexOf(bitstreamService.getFormat(context, source).getMIMEType().trim()) >= 0) {
                 // These OHMS XML / Video Audio types don't need the source stream; they just make a link.
-                destStream = formatFilter.getDestinationStream(source);
+                destStream = formatFilter.getDestinationStream(source, isVerbose);
+                // Print now because we're about to return when it notices that destStream is null.
                 if (!isQuiet) {
                     System.out.println("FILTERED: bitstream " + source.getInternalId()
-                            + " (item: " + item.getHandle() + ") and created the link contents.");
+                            + " (item: " + item.getHandle() + ") to create streaming link");
                 }
             } else {
                 InputStream srcStream = bitstreamService.retrieve(context, source);

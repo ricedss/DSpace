@@ -7,11 +7,11 @@
  */
 package org.dspace.app.mediafilter;
 
-import java.io.InputStream;
-
 import org.dspace.content.Bitstream;
 import org.dspace.content.Item;
 import org.dspace.core.Context;
+
+import java.io.InputStream;
 
 /**
  * Public interface for any class which transforms or converts content/bitstreams 
@@ -66,13 +66,12 @@ public interface FormatFilter
     // Ying added this for JPEG2000
     /**
      *
-     * @param filename
-     * @param source
-     * @param ID
-     * @return
+     * @param bitstream to filter
+     * @param verbose verbosity flag
+     * @return null
      * @throws Exception
      */
-    public InputStream getDestinationStream(Bitstream bitstream)
+    public InputStream getDestinationStream(Bitstream bitstream, boolean verbose)
             throws Exception;
     // END Ying added this for JPEG2000
 

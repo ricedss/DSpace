@@ -67,12 +67,11 @@
 package org.dspace.app.mediafilter;
 
 
-import java.io.*;
-import java.util.HashMap;
-import org.dspace.core.ConfigurationManager;
 import org.dspace.content.Bitstream;
-
 import org.dspace.content.Item;
+import org.dspace.core.ConfigurationManager;
+
+import java.io.InputStream;
 
 /**
  * generate symbolic links for the files given
@@ -136,39 +135,24 @@ public class VIDEOAUDIOFilter extends MediaFilter
     }
 
     @Override
-    public InputStream getDestinationStream(Bitstream source)
+    public InputStream getDestinationStream(Bitstream source, boolean verbose)
         throws Exception
     {
 
         // get the location of symbolic link. 
         String streaming_dir = ConfigurationManager.getProperty("streaming.dir");
-        //String dspacebase_dir = ConfigurationManager.getProperty("dspacebase.dir");
-
         String ID = source.getID().toString();
 
         // special case here that I have to assume the assetstore dir is ending with "assetstore"
         String filename = source.getName();
         String filepath = source.getFilepath();
-        System.out.println("filename ------ " + filename + ", filepath: " + filepath);
         String softpath_to_avfile = "../assetstore/" + filepath;
-
-        //String softpath_to_avfile = "../" + filepath.substring(filepath.indexOf("assetstore"));
-        //String absolute_path_to_avfile = ConfigurationManager.getProperty("assetstore.dir");
-        //System.out.println("softpath ------ " + softpath_to_avfile);
-        //System.out.println("streaming_dir ------ " + streaming_dir);
-
-        // get relative path to the assetstore files
-
-        // get the file extension
-        // String extension = (String)extensionHash.get(mimetype);
-
-
         String streaming_name = "file_" + ID + "_" + filename;
-        //String softpath_to_avfile =
         String cmd = "ln -sf " + softpath_to_avfile + " " + streaming_dir + "/" + streaming_name;
 
-        //String cmd = "ln -sf " + filename + " " + streaming_dir + "/" + streaming_name;
-        System.out.println("~~~~~~~~~~~~~~~  ~~ ~~ ~~ ~~ In VIDEOAUDIOFilter: cmd = " + cmd);
+        if (verbose)
+            System.out.println("VIDEOAUDIOFilter link command = " + cmd);
+
         // call to generate the symbolic link
         Runtime.getRuntime().exec(cmd);
         return null;
