@@ -1,11 +1,11 @@
 # This image will be published as dspace/dspace
 # See https://dspace-labs.github.io/DSpace-Docker-Images/ for usage details
-# 
+#
 # This version is JDK8 compatible
 # - tomcat:8-jre8
 # - ANT 1.10.5
 # - maven:3-jdk-8
-# - note: 
+# - note:
 # - default tag for branch: dspace/dspace: dspace/dspace:dspace-6_x-jdk8
 
 # Step 1 - Run Maven Build
@@ -22,6 +22,7 @@ USER dspace
 # Copy the DSpace source code into the workdir (excluding .dockerignore contents)
 ADD --chown=dspace . /app/
 COPY dspace/src/main/docker/local.cfg /app/local.cfg
+####COPY dspace/config/local.cfg /app/local.cfg
 
 # Build DSpace.  Copy the dspace-install directory to /install.  Clean up the build to keep the docker image small
 RUN mvn package -Dmirage2.on=true && \
@@ -50,6 +51,10 @@ FROM tomcat:8-jre8
 ENV DSPACE_INSTALL=/dspace
 COPY --from=ant_build /dspace $DSPACE_INSTALL
 EXPOSE 8080 8009
+
+### Add asset store to /dspace/assetstore
+
+ADD loaddata/assetstore /dspace/assetstore
 
 ENV JAVA_OPTS=-Xmx2000m
 
