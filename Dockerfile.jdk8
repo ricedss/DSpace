@@ -54,7 +54,7 @@ EXPOSE 8080 8009
 
 ### Add asset store to /dspace/assetstore
 
-ADD loaddata/assetstore /dspace/assetstore
+ADD assetstore /dspace/assetstore
 
 ENV JAVA_OPTS=-Xmx2000m
 
