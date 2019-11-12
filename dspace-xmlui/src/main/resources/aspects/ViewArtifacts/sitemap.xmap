@@ -130,7 +130,7 @@ collections / items / and bitstreams
 				<!-- Inform the user that the item they are viewing is a restricted resource -->
 				<map:match pattern="handle/*/*/restricted-resource">
 					<!-- If request copy is enabled it comes here -->
-					<map:match type="ConfigurationMatcher" pattern="request.item.type">
+					<!--<map:match type="ConfigurationMatcher" pattern="request.item.type">
 						<map:act type="SendItemRequestAction">
 							<map:transform type="ItemRequestForm">
 								<map:parameter name="requesterName" value="{requesterName}" />
@@ -143,7 +143,7 @@ collections / items / and bitstreams
 						</map:act>
 						<map:transform type="ItemRequestSent" />
 						<map:serialize type="xml" />
-					</map:match>
+					</map:match> -->
 					<!-- If request copy is disabled normal flow -->
 					<map:transform type="RestrictedItem"/> 
 					<map:serialize type="xml"/> 

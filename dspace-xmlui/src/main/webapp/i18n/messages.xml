@@ -281,7 +281,7 @@
 	<message key="xmlui.ArtifactBrowser.RestrictedItem.para_community">You do not have the credentials to access the restricted community <b>{0}</b>.</message>
 	<message key="xmlui.ArtifactBrowser.RestrictedItem.para_collection">You do not have the credentials to access the restricted collection <b>{0}</b>.</message>
 	<message key="xmlui.ArtifactBrowser.RestrictedItem.para_item">You do not have the credentials to access the restricted item <b>{0}</b>.</message>
-	<message key="xmlui.ArtifactBrowser.RestrictedItem.para_bitstream">You do not have the credentials to access the restricted bitstream <b>{0}</b>.</message>
+	<message key="xmlui.ArtifactBrowser.RestrictedItem.para_bitstream">Access to <b>{0}</b> is currently restricted, likely due to an embargo on its release until a later date..</message>
 	<message key="xmlui.ArtifactBrowser.RestrictedItem.type_collection">collection</message>
 	<message key="xmlui.ArtifactBrowser.RestrictedItem.type_community">community</message>
 	<message key="xmlui.ArtifactBrowser.RestrictedItem.type_bitstream">bitstream</message>
