@@ -7,8 +7,10 @@
  */
 package org.dspace.app.xmlui.aspect.artifactbrowser;
 
+import org.apache.cocoon.ResourceNotFoundException;
 import org.apache.cocoon.environment.ObjectModelHelper;
 import org.apache.cocoon.environment.Request;
+import org.apache.cocoon.environment.http.HttpEnvironment;
 import org.apache.log4j.Logger;
 import org.dspace.app.xmlui.cocoon.AbstractDSpaceTransformer;
 import org.dspace.app.xmlui.utils.AuthenticationUtil;
@@ -16,20 +18,19 @@ import org.dspace.app.xmlui.utils.HandleUtil;
 import org.dspace.app.xmlui.utils.UIException;
 import org.dspace.app.xmlui.wing.Message;
 import org.dspace.app.xmlui.wing.WingException;
-import org.dspace.app.xmlui.wing.element.*;
+import org.dspace.app.xmlui.wing.element.Body;
+import org.dspace.app.xmlui.wing.element.Division;
+import org.dspace.app.xmlui.wing.element.PageMeta;
 import org.dspace.authorize.AuthorizeException;
 import org.dspace.content.*;
-import org.dspace.content.Item;
 import org.dspace.content.factory.ContentServiceFactory;
 import org.dspace.content.service.BitstreamService;
 import org.xml.sax.SAXException;
 
+import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.UUID;
-import javax.servlet.http.HttpServletResponse;
-import org.apache.cocoon.ResourceNotFoundException;
-import org.apache.cocoon.environment.http.HttpEnvironment;
 /**
  * Display an item restricted message.
  *
@@ -127,7 +128,7 @@ public class RestrictedItem extends AbstractDSpaceTransformer //implements Cache
         DSpaceObject dso = HandleUtil.obtainHandle(objectModel);
 
         Division unauthorized = null;
-        boolean isWithdrawn = false;
+        boolean isItem = false; // replaces isWithdrawn
         
         if (dso == null) 
         {
@@ -152,7 +153,7 @@ public class RestrictedItem extends AbstractDSpaceTransformer //implements Cache
         else if (dso instanceof Item) 
         {
             // The dso may be an item but it could still be an item's bitstream. So let's check for the parameter.
-            if (request.getParameter("bitstreamId") != null) {
+            if (false && request.getParameter("bitstreamId") != null) { // SWB for us, restricted bitstream == embargoed item. Skip ahead.
                 String identifier = "unknown";
                 try {
                     Bitstream bit = bitstreamService.find(context, UUID.fromString(request.getParameter("bitstreamId")));
@@ -168,6 +169,8 @@ public class RestrictedItem extends AbstractDSpaceTransformer //implements Cache
                 unauthorized.addPara(T_para_bitstream.parameterize(identifier));
 
             } else {
+                // SWB Item or bitstream combined.
+                isItem = true; // for our use case, any Item or Bitstream that's restricted is either withdrawn or embargoed. Neither should show login.
 
                 String identifier = "unknown";
                 String handle = dso.getHandle();
@@ -187,7 +190,6 @@ public class RestrictedItem extends AbstractDSpaceTransformer //implements Cache
                     divID = "withdrawn";
                     title = T_head_item_withdrawn;
                     status = T_para_item_withdrawn;
-                    isWithdrawn = true;
                 }//if user is not authenticated, display info to authenticate
                 else if (context.getCurrentUser() == null) 
                 {
@@ -195,7 +197,8 @@ public class RestrictedItem extends AbstractDSpaceTransformer //implements Cache
                 }
                 unauthorized = body.addDivision(divID, "primary");
                 unauthorized.setHead(title);
-                unauthorized.addPara(T_para_item.parameterize(identifier));
+                // SWB this text is unnecessary.
+                // unauthorized.addPara(T_para_item.parameterize(identifier));
                 unauthorized.addPara("item_status", status.getKey()).addContent(status);
 
             }
@@ -208,8 +211,8 @@ public class RestrictedItem extends AbstractDSpaceTransformer //implements Cache
             unauthorized.addPara(T_para_resource);
         }
 
-        // add a login link if !loggedIn & not withdrawn
-        if (!isWithdrawn && context.getCurrentUser() == null) 
+        // add a login link if !loggedIn & not withdrawn or embargoed
+        if (!isItem && context.getCurrentUser() == null)
         {
             unauthorized.addPara().addXref(contextPath+"/login", T_para_login);
 
