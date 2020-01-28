@@ -151,6 +151,9 @@ public class SimpleSearch extends AbstractSearch implements CacheableProcessingC
         Item searchBoxItem = searchList.addItem();
         Text text = searchBoxItem.addText("query");
         text.setValue(queryString);
+        // Ying added this for fixing accessibility issue
+        text.setLabel("Search query");
+        // END Ying added this for fixing accessibility issue
         searchBoxItem.addButton("submit", "search-icon").setValue(T_go);
         if(queryResults != null && StringUtils.isNotBlank(queryResults.getSpellCheckQuery()))
         {

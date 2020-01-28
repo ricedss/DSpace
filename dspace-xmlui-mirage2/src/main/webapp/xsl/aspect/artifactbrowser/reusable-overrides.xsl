@@ -1177,7 +1177,7 @@
                         <xsl:call-template name="itemSummaryView-DIM-type"/>
                         <xsl:call-template name="itemSummaryView-DIM-publisher"/>
                         <xsl:call-template name="itemSummaryView-DIM-department"/>
-                        <!--xsl:call-template name="itemSummaryView-DIM-funder"/-->
+                        <xsl:call-template name="itemSummaryView-DIM-Related-Work"/>
                         <xsl:call-template name="itemSummaryView-DIM-URI"/>
                         <xsl:call-template name="itemSummaryView-DIM-rights"/>
                         <xsl:call-template name="itemSummaryView-DIM-relation-URI"/>
@@ -1212,33 +1212,53 @@
         <xsl:if test="dim:field[@element='relation'][@qualifier='HasPart' and descendant::text()]">
             <div class="simple-item-view-architect item-page-field-wrapper table">
                 <h5><i18n:text>xmlui.Rice.related-work</i18n:text></h5>
+                <xsl:for-each select="dim:field[@element='relation' and @qualifier='HasPart']">
+                    <xsl:copy-of select="./node()"/>
+                    <xsl:if test="count(following-sibling::dim:field[@element='relation' and @qualifier='HasPart']) != 0">
+                        <br/>
+                    </xsl:if>
+                </xsl:for-each>
+            </div>
+        </xsl:if>
+        <xsl:if test="dim:field[@element='relation' and not(@qualifier) and descendant::text()]">
+        <div class="simple-item-view-architect item-page-field-wrapper table">
+        <h5><i18n:text>xmlui.Rice.related-work</i18n:text></h5>
                 <xsl:for-each select="dim:field[@element='relation' and not(@qualifier)]">
                     <xsl:copy-of select="./node()"/>
                     <xsl:if test="count(following-sibling::dim:field[@element='relation' and not(@qualifier)]) != 0">
                         <br/>
                     </xsl:if>
                 </xsl:for-each>
+        </div>
+        </xsl:if>
+        <xsl:if test="dim:field[@element='relation'][@qualifier='IsPartOfSeries' and descendant::text()]">
+            <div class="simple-item-view-architect item-page-field-wrapper table">
+            <h5><i18n:text>xmlui.Rice.related-work</i18n:text></h5>
                 <xsl:for-each select="dim:field[@element='relation' and @qualifier='IsPartOfSeries']">
                     <xsl:copy-of select="./node()"/>
                     <xsl:if test="count(following-sibling::dim:field[@element='relation' and @qualifier='IsPartOfSeries']) != 0">
                         <br/>
                     </xsl:if>
                 </xsl:for-each>
+            </div>
+        </xsl:if>
+        <xsl:if test="dim:field[@element='relation'][@qualifier='IsReferencedBy' and descendant::text()]">
+            <div class="simple-item-view-architect item-page-field-wrapper table">
+            <h5><i18n:text>xmlui.Rice.related-work</i18n:text></h5>
                 <xsl:for-each select="dim:field[@element='relation' and @qualifier='IsReferencedBy']">
                     <xsl:copy-of select="./node()"/>
                     <xsl:if test="count(following-sibling::dim:field[@element='relation' and @qualifier='IsReferencedBy']) != 0">
                         <br/>
                     </xsl:if>
                 </xsl:for-each>
+            </div>
+        </xsl:if>
+        <xsl:if test="dim:field[@element='relation'][@qualifier='IsPartOf' and descendant::text()]">
+            <div class="simple-item-view-architect item-page-field-wrapper table">
+            <h5><i18n:text>xmlui.Rice.related-work</i18n:text></h5>
                 <xsl:for-each select="dim:field[@element='relation' and @qualifier='IsPartOf']">
                     <xsl:copy-of select="./node()"/>
                     <xsl:if test="count(following-sibling::dim:field[@element='relation' and @qualifier='IsPartOf']) != 0">
-                        <br/>
-                    </xsl:if>
-                </xsl:for-each>
-                <xsl:for-each select="dim:field[@element='relation' and @qualifier='HasPart']">
-                    <xsl:copy-of select="./node()"/>
-                    <xsl:if test="count(following-sibling::dim:field[@element='relation' and @qualifier='HasPart']) != 0">
                         <br/>
                     </xsl:if>
                 </xsl:for-each>
@@ -1272,14 +1292,22 @@
             <h5><i18n:text>xmlui.Rice.rights</i18n:text></h5>
             <span>
                 <xsl:for-each select="dim:field[@element='rights' and not(@qualifier)]">
-                    <xsl:copy-of select="./node()"/>
+                    <xsl:choose>
+                        <xsl:when test="(contains(.,'http://') or contains(.,'https://') )">
+                            <xsl:call-template name="makeLinkFromText"/>
+                        </xsl:when>
+                        <xsl:otherwise>
+                            <xsl:value-of select="."></xsl:value-of><xsl:text> </xsl:text>
+                        </xsl:otherwise>
+                    </xsl:choose>
+                    <!--xsl:copy-of select="./node()"/-->
                 </xsl:for-each>
             </span>
         </div>
     </xsl:if>
         <xsl:if test="dim:field[@element='rights' and @qualifier='uri']">
             <div class="simple-item-view-rights item-page-field-wrapper table">
-                <h5><i18n:text>xmlui.Rice.rights</i18n:text></h5>
+                <h5><i18n:text>xmlui.Rice.rights.uri</i18n:text></h5>
                 <span>
                     <xsl:for-each select="dim:field[@element='rights' and @qualifier='uri']">
                     <a>
@@ -1300,7 +1328,104 @@
         <xsl:if test="dim:field[@element='contributor'][@qualifier='author' and descendant::text()] or dim:field[@element='creator' and descendant::text()]">
             <div class="simple-item-view-authors item-page-field-wrapper table">
                 <h5><i18n:text>xmlui.dri2xhtml.METS-1.0.item-author</i18n:text></h5>
-                <xsl:choose>
+                <div>
+                   <xsl:choose>
+
+                    <xsl:when test="dim:field[@element='contributor'][@qualifier='author']">
+
+                    <xsl:variable name="cc" select="count(dim:field[@element='contributor' and @qualifier='author']/node())" />
+
+                    <xsl:if test="$cc != 0">
+                        <xsl:for-each select="dim:field[@element='contributor' and @qualifier='author']">
+                            <xsl:if test="position() &lt;= 5">
+                                <span>
+
+                                    <xsl:copy-of select="node()"/>
+                                    <xsl:if test="position()!=last() ">
+                                        <xsl:text>; </xsl:text>
+                                    </xsl:if>
+                                </span>
+                            </xsl:if>
+
+                        </xsl:for-each>
+
+                        <xsl:if test="$cc &gt; 5">
+                            <a class="showHide"
+                               data-toggle="collapse"
+                               data-target="#mk"
+                               onclick="$('.showHide').toggle();"> More... </a>
+
+                            <span id="mk" class="collapse">
+                                <xsl:for-each select="dim:field[@element='contributor' and @qualifier='author']">
+
+                                    <xsl:if test="position() &gt; 5 ">
+                                        <xsl:copy-of select="node()"/>
+
+                                        <xsl:if test="position()!=last() ">
+                                            <xsl:text>; </xsl:text>
+                                        </xsl:if>
+                                    </xsl:if>
+                                </xsl:for-each>
+
+                                <a class=" showHide"
+                                   style="display:none"
+                                   data-toggle="collapse"
+                                   data-target="#mk"
+                                   onclick="$('.showHide').toggle();"> Less... </a>
+                            </span>
+                        </xsl:if>
+                    </xsl:if>
+                    </xsl:when>
+                    <xsl:when test="dim:field[@element='creator']">
+
+                        <xsl:variable name="cc" select="count(dim:field[@element='creator'])" />
+
+                        <xsl:if test="$cc != 0">
+                            <xsl:for-each select="dim:field[@element='creator']">
+                                <xsl:if test="position() &lt;= 5">
+                                    <span>
+
+                                        <xsl:copy-of select="node()"/>
+                                        <xsl:if test="position()!=last() ">
+                                            <xsl:text>; </xsl:text>
+                                        </xsl:if>
+                                    </span>
+                                </xsl:if>
+
+                            </xsl:for-each>
+
+                            <xsl:if test="$cc &gt; 5">
+                                <a class="showHide"
+                                   data-toggle="collapse"
+                                   data-target="#mk"
+                                   onclick="$('.showHide').toggle();"> More... </a>
+
+                                <span id="mk" class="collapse">
+                                    <xsl:for-each select="dim:field[@element='creator']">
+
+                                        <xsl:if test="position() &gt; 5 ">
+                                            <xsl:copy-of select="node()"/>
+
+                                            <xsl:if test="position()!=last() ">
+                                                <xsl:text>; </xsl:text>
+                                            </xsl:if>
+                                        </xsl:if>
+                                    </xsl:for-each>
+
+                                    <a class=" showHide"
+                                       style="display:none"
+                                       data-toggle="collapse"
+                                       data-target="#mk"
+                                       onclick="$('.showHide').toggle();"> Less... </a>
+                                </span>
+                            </xsl:if>
+                        </xsl:if>
+                    </xsl:when>
+                   </xsl:choose>
+                </div>
+            </div>
+        </xsl:if>
+                <!--xsl:choose>
                     <xsl:when test="dim:field[@element='contributor'][@qualifier='author']">
                         <xsl:for-each select="dim:field[@element='contributor'][@qualifier='author']">
                             <div>
@@ -1324,7 +1449,7 @@
                     </xsl:otherwise>
                 </xsl:choose>
             </div>
-        </xsl:if>
+        </xsl:if-->
     </xsl:template>
 
     <xsl:template name="itemSummaryView-DIM-architect">
@@ -1962,13 +2087,59 @@
              <div class="simple-item-view-performer item-page-field-wrapper table">
                  <h5><i18n:text>xmlui.Shepherd.Performedby</i18n:text></h5>
                  <div>
+
+                     <xsl:variable name="cc" select="count(dim:field[@element='contributor' and @qualifier='performer']/node())" />
+
+                     <xsl:if test="$cc != 0">
+                         <xsl:for-each select="dim:field[@element='contributor' and @qualifier='performer']">
+                             <xsl:if test="position() &lt;= 5">
+                                 <span>
+
+                                     <xsl:copy-of select="node()"/>
+                                     <xsl:if test="position()!=last() ">
+                                         <xsl:text>; </xsl:text>
+                                     </xsl:if>
+                                 </span>
+                             </xsl:if>
+
+                         </xsl:for-each>
+
+                         <xsl:if test="$cc &gt; 5">
+                             <a class="showHide"
+                                data-toggle="collapse"
+                                data-target="#mk"
+                                onclick="$('.showHide').toggle();"> More... </a>
+
+                             <span id="mk" class="collapse">
+                                 <xsl:for-each select="dim:field[@element='contributor' and @qualifier='performer']">
+
+                                     <xsl:if test="position() &gt; 5 ">
+                                         <xsl:copy-of select="node()"/>
+
+                                         <xsl:if test="position()!=last() ">
+                                             <xsl:text>; </xsl:text>
+                                         </xsl:if>
+                                     </xsl:if>
+                                 </xsl:for-each>
+
+                                 <a class=" showHide"
+                                    style="display:none"
+                                    data-toggle="collapse"
+                                    data-target="#mk"
+                                    onclick="$('.showHide').toggle();"> Less... </a>
+                             </span>
+                         </xsl:if>
+
+                     </xsl:if>
+                 </div>
+                 <!--div>
                    <xsl:for-each select="dim:field[@element='contributor'][@qualifier='performer']">
                                  <xsl:copy-of select="node()"/>
                                  <xsl:if test="count(following-sibling::dim:field[@element='contributor'][@qualifier='performer']) != 0">
                                      <br />
                                  </xsl:if>
                      </xsl:for-each>
-                 </div>
+                 </div-->
              </div>
           </xsl:if>
      </xsl:template>
@@ -2458,8 +2629,10 @@ references to stylesheets pulled directly from the pageMeta element. -->
                         <xsl:choose>
                             <xsl:when test="/dri:document/dri:meta/dri:userMeta/@authenticated = 'yes'">
                                 <li class="dropdown">
-                                    <button class="dropdown-toggle navbar-toggle navbar-link" id="user-dropdown-toggle-xs" href="#" role="button"  data-toggle="dropdown">
+
+                                    <button class="dropdown-toggle navbar-toggle navbar-link" id="user-dropdown-toggle-xs" href="#" role="button"  data-toggle="dropdown" >
                                         <b class="visible-xs glyphicon glyphicon-user" aria-hidden="true"/>
+                                        <span class="sr-only">User dropdown toggle</span>
                                     </button>
                                     <ul class="dropdown-menu pull-right" role="menu"
                                         aria-labelledby="user-dropdown-toggle-xs" data-no-collapse="true">
@@ -2482,8 +2655,10 @@ references to stylesheets pulled directly from the pageMeta element. -->
                                 <li>
                                     <form style="display: inline" action="{/dri:document/dri:meta/dri:userMeta/
                         dri:metadata[@element='identifier' and @qualifier='loginURL']}" method="get">
-                                        <button class="navbar-toggle navbar-link">
+                                        <!--label for="buttonlogin" class="visuallyhidden"><xsl:text>Login</xsl:text></label-->
+                                        <button class="navbar-toggle navbar-link" id="buttonlogin">
                                         <b class="visible-xs glyphicon glyphicon-user" aria-hidden="true"/>
+                                            <span class="sr-only">login</span>
                                         </button>
                                     </form>
                                 </li>
@@ -2562,7 +2737,7 @@ references to stylesheets pulled directly from the pageMeta element. -->
                         </xsl:choose>
                     </ul>
 
-                    <button data-toggle="offcanvas" class="navbar-toggle visible-sm" type="button">
+                    <button data-toggle="offcanvas" class="navbar-toggle visible-sm" type="button" >
                         <span class="sr-only"><i18n:text>xmlui.mirage2.page-structure.toggleNavigation</i18n:text></span>
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
@@ -2626,7 +2801,8 @@ references to stylesheets pulled directly from the pageMeta element. -->
                             select="/dri:document/dri:meta/dri:pageMeta/dri:metadata[@element='contextPath'][not(@qualifier)]"/>
                     <xsl:text>/htmlmap</xsl:text>
                 </xsl:attribute>
-                <xsl:text>&#160;</xsl:text>
+                <!--xsl:text>&#160;</xsl:text-->
+                <xsl:text>Site Map</xsl:text>
             </a>
         <p>&#160;</p>
     </footer>

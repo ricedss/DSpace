@@ -200,18 +200,20 @@
                         </xsl:attribute>
                         <fieldset>
                             <legend>Searching scope</legend>
+                            <label for="queryinput" class="visuallyhidden"><xsl:text>Search: </xsl:text></label>
                             <div class="input-group">
-                                <label for="query" class="visuallyhidden"><xsl:text>Search: </xsl:text></label>
                                 <input class="ds-text-field form-control" type="text" placeholder="xmlui.general.search"
-                                       i18n:attr="placeholder">
+                                       i18n:attr="placeholder" id="queryinput">
                                     <xsl:attribute name="name">
                                         <xsl:value-of
                                                 select="/dri:document/dri:meta/dri:pageMeta/dri:metadata[@element='search'][@qualifier='queryField']"/>
                                     </xsl:attribute>
                                 </input>
                                 <span class="input-group-btn">
-                                    <button class="ds-button-field btn btn-primary" title="xmlui.general.go" i18n:attr="title">
+                                    <label for="searchbutton" class="visuallyhidden"><xsl:text>Go Search</xsl:text></label>
+                                    <button class="ds-button-field btn btn-primary" title="xmlui.general.go" i18n:attr="title" id="searchbutton">
                                         <span class="glyphicon glyphicon-search" aria-hidden="true"/>
+                                        <span class="sr-only">search</span>
                                         <xsl:attribute name="onclick">
                                                     <xsl:text>
                                                         var radio = document.getElementById(&quot;ds-search-form-scope-container&quot;);
@@ -236,6 +238,7 @@
                             </div>
 
                             <xsl:if test="/dri:document/dri:meta/dri:pageMeta/dri:metadata[@element='focus'][@qualifier='container']">
+
                                 <div class="radio">
                                     <label>
                                         <input id="ds-search-form-scope-all" type="radio" name="scope" value=""

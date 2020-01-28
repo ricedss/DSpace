@@ -188,6 +188,7 @@
                                         <xsl:value-of select="$prev-page"/>
                                     </xsl:attribute>
                                     <span class="glyphicon glyphicon-arrow-left"></span>
+                                    <span class="sr-only">previous page</span>
                                 </a>
                             </li>
                             <li>
@@ -203,6 +204,7 @@
                                         <xsl:value-of select="$next-page"/>
                                     </xsl:attribute>
                                     <span class="glyphicon glyphicon-arrow-right"></span>
+                                    <span class="sr-only">next page</span>
                                 </a>
                             </li>
                         </ul>
@@ -292,6 +294,7 @@
                                                     select="substring-after(parent::node()/@pageURLMask,'{pageNum}')"/>
                                         </xsl:attribute>
                                         <span class="glyphicon glyphicon-arrow-left"></span>
+                                        <span class="sr-only">previous page</span>
                                     </a>
                                 </li>
                                 <xsl:if test="(parent::node()/@currentPage - 4) &gt; 0">
@@ -366,6 +369,7 @@
                                                         select="substring-after(parent::node()/@pageURLMask,'{pageNum}')"/>
                                             </xsl:attribute>
                                             <span class="glyphicon glyphicon-arrow-right"></span>
+                                            <span class="sr-only">next page</span>
                                         </a>
                                     </li>
                                 </xsl:if>
@@ -423,7 +427,7 @@
                         <xsl:apply-templates select="preceding-sibling::i18n:text[1]"/>
                     </li>
                     <xsl:for-each select="dri:option">
-                        <li>
+                        <li role="menuitem">
                             <a href="#" data-returnvalue="{@returnValue}" data-name="{../@n}">
                                 <span aria-hidden="true">
                                     <xsl:attribute name="class">
@@ -459,6 +463,7 @@
     <xsl:template name="renderGearButton">
         <button class="btn btn-default dropdown-toggle" data-toggle="dropdown">
             <span class="glyphicon glyphicon-cog" aria-hidden="true"/>
+            <span class="sr-only">settings</span>
         </button>
     </xsl:template>
 

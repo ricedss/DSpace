@@ -489,6 +489,7 @@
                 </xsl:otherwise>
             </xsl:choose>
             <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"/>
+            <span class="sr-only">add filter</span>
         </button>
     </xsl:template>
 
@@ -512,6 +513,7 @@
                 </xsl:otherwise>
             </xsl:choose>
             <span class="glyphicon glyphicon-minus-sign" aria-hidden="true"/>
+            <span class="sr-only">remove filter</span>
         </button>
     </xsl:template>
 
@@ -574,9 +576,9 @@
 
     <xsl:template match="dri:list[@rend='gear-selection' and @n='sort-options']/dri:item">
         <xsl:if test="contains(@rend, 'dropdown-header') and position() > 1">
-            <li class="divider"/>
+            <li class="divider" role="menuitem"/>
         </xsl:if>
-        <li>
+        <li role="menuitem">
             <xsl:call-template name="standardAttributes"/>
             <xsl:apply-templates/>
         </li>

@@ -28,6 +28,12 @@ public class DiscoveryConfiguration implements InitializingBean{
     /** The default filter queries which will be applied to any search & the recent submissions **/
     private List<String> defaultFilterQueries;
 
+    /** Ying added this for special home items
+     * Configuration object for the collection home items **/
+    private DiscoveryCollectionHomeConfiguration collectionHomeConfiguration;
+    /** END Ying added following two method for collection home items */
+
+
     /** Configuration object for the recent submissions **/
     private DiscoveryRecentSubmissionsConfiguration recentSubmissionConfiguration;
 
@@ -92,6 +98,17 @@ public class DiscoveryConfiguration implements InitializingBean{
     public List<DiscoverySearchFilter> getSearchFilters() {
         return searchFilters;
     }
+
+    /** Ying added following two method for collection home items */
+    public DiscoveryCollectionHomeConfiguration getCollectionHomeConfiguration() {
+        return collectionHomeConfiguration;
+    }
+
+    public void setCollectionHomeConfiguration(DiscoveryCollectionHomeConfiguration collectionHomeConfiguration) {
+        this.collectionHomeConfiguration = collectionHomeConfiguration;
+    }
+
+    /** END Ying added following two method for collection home items */
 
     @Required
     public void setSearchFilters(List<DiscoverySearchFilter> searchFilters) {
