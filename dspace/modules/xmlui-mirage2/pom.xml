@@ -499,13 +499,13 @@
     </profiles>
 
     <dependencies>
-        <dependency>
+        <!--dependency>
             <groupId>rubygems</groupId>
-            <artifactId>rb-inotify</artifactId>
+            <artifactId>rb-inotify</artifactId-->
             <!--version>0.9.10</version-->
-            <version>[0.9,)</version>
+            <!--<version>[0.9,)</version>
             <type>gem</type>
-        </dependency>
+        </dependency>-->
         <dependency>
             <groupId>org.dspace</groupId>
             <artifactId>dspace-xmlui-mirage2</artifactId>
