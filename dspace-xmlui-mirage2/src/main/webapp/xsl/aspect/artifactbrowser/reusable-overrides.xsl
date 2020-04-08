@@ -1213,10 +1213,22 @@
             <div class="simple-item-view-architect item-page-field-wrapper table">
                 <h5><i18n:text>xmlui.Rice.related-work</i18n:text></h5>
                 <xsl:for-each select="dim:field[@element='relation' and @qualifier='HasPart']">
-                    <xsl:copy-of select="./node()"/>
+                    <xsl:choose>
+                        <xsl:when test="(contains(.,'http://') or contains(.,'https://') )">
+                            <xsl:call-template name="makeLinkFromText"/>
+                        </xsl:when>
+                        <xsl:otherwise>
+                            <xsl:value-of select="."></xsl:value-of><xsl:text> </xsl:text>
+                        </xsl:otherwise>
+                    </xsl:choose>
                     <xsl:if test="count(following-sibling::dim:field[@element='relation' and @qualifier='HasPart']) != 0">
                         <br/>
                     </xsl:if>
+
+                    <!--xsl:copy-of select="./node()"/>
+                    <xsl:if test="count(following-sibling::dim:field[@element='relation' and @qualifier='HasPart']) != 0">
+                        <br/>
+                    </xsl:if-->
                 </xsl:for-each>
             </div>
         </xsl:if>
@@ -1224,10 +1236,22 @@
         <div class="simple-item-view-architect item-page-field-wrapper table">
         <h5><i18n:text>xmlui.Rice.related-work</i18n:text></h5>
                 <xsl:for-each select="dim:field[@element='relation' and not(@qualifier)]">
-                    <xsl:copy-of select="./node()"/>
+                    <xsl:choose>
+                        <xsl:when test="(contains(.,'http://') or contains(.,'https://') )">
+                            <xsl:call-template name="makeLinkFromText"/>
+                        </xsl:when>
+                        <xsl:otherwise>
+                            <xsl:value-of select="."></xsl:value-of><xsl:text> </xsl:text>
+                        </xsl:otherwise>
+                    </xsl:choose>
                     <xsl:if test="count(following-sibling::dim:field[@element='relation' and not(@qualifier)]) != 0">
                         <br/>
                     </xsl:if>
+
+                    <!--xsl:copy-of select="./node()"/>
+                      <xsl:if test="count(following-sibling::dim:field[@element='relation' and not(@qualifier)]) != 0">
+                          <br/>
+                      </xsl:if-->
                 </xsl:for-each>
         </div>
         </xsl:if>
@@ -1235,10 +1259,21 @@
             <div class="simple-item-view-architect item-page-field-wrapper table">
             <h5><i18n:text>xmlui.Rice.related-work</i18n:text></h5>
                 <xsl:for-each select="dim:field[@element='relation' and @qualifier='IsPartOfSeries']">
-                    <xsl:copy-of select="./node()"/>
+                    <xsl:choose>
+                        <xsl:when test="(contains(.,'http://') or contains(.,'https://') )">
+                            <xsl:call-template name="makeLinkFromText"/>
+                        </xsl:when>
+                        <xsl:otherwise>
+                            <xsl:value-of select="."></xsl:value-of><xsl:text> </xsl:text>
+                        </xsl:otherwise>
+                    </xsl:choose>
                     <xsl:if test="count(following-sibling::dim:field[@element='relation' and @qualifier='IsPartOfSeries']) != 0">
                         <br/>
                     </xsl:if>
+                    <!--xsl:copy-of select="./node()"/>
+                    <xsl:if test="count(following-sibling::dim:field[@element='relation' and @qualifier='IsPartOfSeries']) != 0">
+                        <br/>
+                    </xsl:if-->
                 </xsl:for-each>
             </div>
         </xsl:if>
@@ -1246,10 +1281,21 @@
             <div class="simple-item-view-architect item-page-field-wrapper table">
             <h5><i18n:text>xmlui.Rice.related-work</i18n:text></h5>
                 <xsl:for-each select="dim:field[@element='relation' and @qualifier='IsReferencedBy']">
-                    <xsl:copy-of select="./node()"/>
+                    <xsl:choose>
+                        <xsl:when test="(contains(.,'http://') or contains(.,'https://') )">
+                            <xsl:call-template name="makeLinkFromText"/>
+                        </xsl:when>
+                        <xsl:otherwise>
+                            <xsl:value-of select="."></xsl:value-of><xsl:text> </xsl:text>
+                        </xsl:otherwise>
+                    </xsl:choose>
                     <xsl:if test="count(following-sibling::dim:field[@element='relation' and @qualifier='IsReferencedBy']) != 0">
                         <br/>
                     </xsl:if>
+                    <!--xsl:copy-of select="./node()"/>
+                    <xsl:if test="count(following-sibling::dim:field[@element='relation' and @qualifier='IsReferencedBy']) != 0">
+                        <br/>
+                    </xsl:if-->
                 </xsl:for-each>
             </div>
         </xsl:if>
@@ -1257,10 +1303,21 @@
             <div class="simple-item-view-architect item-page-field-wrapper table">
             <h5><i18n:text>xmlui.Rice.related-work</i18n:text></h5>
                 <xsl:for-each select="dim:field[@element='relation' and @qualifier='IsPartOf']">
-                    <xsl:copy-of select="./node()"/>
+                    <xsl:choose>
+                        <xsl:when test="(contains(.,'http://') or contains(.,'https://') )">
+                            <xsl:call-template name="makeLinkFromText"/>
+                        </xsl:when>
+                        <xsl:otherwise>
+                            <xsl:value-of select="."></xsl:value-of><xsl:text> </xsl:text>
+                        </xsl:otherwise>
+                    </xsl:choose>
                     <xsl:if test="count(following-sibling::dim:field[@element='relation' and @qualifier='IsPartOf']) != 0">
                         <br/>
                     </xsl:if>
+                    <!--xsl:copy-of select="./node()"/>
+                     <xsl:if test="count(following-sibling::dim:field[@element='relation' and @qualifier='IsPartOf']) != 0">
+                         <br/>
+                     </xsl:if-->
                 </xsl:for-each>
             </div>
         </xsl:if>

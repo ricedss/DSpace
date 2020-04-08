@@ -297,40 +297,33 @@
         </xsl:variable>
 
         <xsl:variable name="url-body" select="substring-after(.,$url-protocol)"/>
+        <!--
+            Ying (2020-04-08)
+            Update this to a two-step analysis -
+            First, get pre-url by removing the first occurring space;
+            Second, remove any extra symbols may not belong to the url in pre-url (. , ) ; etc.)
+        -->
+        <xsl:variable name="pre-url" select="substring-after($url-body,' ')"/>
         <xsl:variable name="url">
             <xsl:value-of select="$url-protocol"/>
             <xsl:choose>
-                <!-- MMS: If it there is a closing paren before the end of a string, we can probably be fairly certain that
-                     it's not supposed to be part of the link (e.g. "DSP (http://dsp.rice.edu)"). -->
-                <xsl:when test="contains($url-body, ')')">
-                    <xsl:value-of select="substring-before($url-body, ')')"/>
+                <xsl:when test="contains($pre-url, ')')">
+                    <xsl:value-of select="substring-before($pre-url, ')')"/>
                 </xsl:when>
-                <xsl:when test="substring($url-body, string-length($url-body)) = '.'">
+                <!--xsl:when test="substring($pre-url, string-length($url-body)) = '.'">
                     <xsl:value-of select="substring($url-body, 1, string-length($url-body) - 1)"/>
+                </xsl:when-->
+                <xsl:when test="contains($pre-url, '.')">
+                    <xsl:value-of select="substring-before($pre-url, '.')"/>
                 </xsl:when>
-                <!-- MMS: If there is a space preceded by a period, we can probably be fairly certain that it's not supposed
-                     to be part of the link. -->
-                <xsl:when test="contains($url-body, ' ')">
-                    <xsl:choose>
-                        <xsl:when test="contains($url-body, '. ')">
-                            <xsl:value-of select="substring-before($url-body, '. ')"/>
-                        </xsl:when>
-                        <xsl:when test="contains($url-body, '. ')">
-                          <xsl:value-of select="substring-before($url-body, '. ')"/>
-                        </xsl:when>
-                        <!-- MMS: Ditto for a comma preceded by a period.  -->
-                        <xsl:when test="contains($url-body, ', ')">
-                            <xsl:value-of select="substring-before($url-body, ', ')"/>
-                        </xsl:when>
-                        <xsl:otherwise>
-                            <xsl:value-of select="substring-before($url-body, ' ')"/>
-                        </xsl:otherwise>
-                    </xsl:choose>
-                    <!-- MMS: If none of the above cases are met and the last character is a period, it's more likely to be the
-                         end of a sentence than the end of the link. -->
+                <xsl:when test="contains($pre-url, ',')">
+                    <xsl:value-of select="substring-before($pre-url, ',')"/>
+                </xsl:when>
+                <xsl:when test="contains($pre-url, ';')">
+                    <xsl:value-of select="substring-before($pre-url, ';')"/>
                 </xsl:when>
                 <xsl:otherwise>
-                    <xsl:value-of select="$url-body"/>
+                    <xsl:value-of select="$pre-url"/>
                 </xsl:otherwise>
             </xsl:choose>
         </xsl:variable>
