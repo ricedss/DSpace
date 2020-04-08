@@ -313,19 +313,19 @@
                 </xsl:otherwise>
             </xsl:choose>
         </xsl:variable>
-        
+
         <xsl:variable name="url">
             <xsl:value-of select="$url-protocol"/>
             <xsl:choose>
                 <xsl:when test="contains($pre-url, ')')">
                     <xsl:value-of select="substring-before($pre-url, ')')"/>
                 </xsl:when>
-                <!--xsl:when test="substring($pre-url, string-length($url-body)) = '.'">
+                <xsl:when test="substring($pre-url, string-length($url-body)) = '.'">
                     <xsl:value-of select="substring($url-body, 1, string-length($url-body) - 1)"/>
-                </xsl:when-->
-                <xsl:when test="contains($pre-url, '.')">
-                    <xsl:value-of select="substring-before($pre-url, '.')"/>
                 </xsl:when>
+                <!--xsl:when test="contains($pre-url, '.')">
+                    <xsl:value-of select="substring-before($pre-url, '.')"/>
+                </xsl:when-->
                 <xsl:when test="contains($pre-url, ',')">
                     <xsl:value-of select="substring-before($pre-url, ',')"/>
                 </xsl:when>
