@@ -320,9 +320,10 @@
                 <xsl:when test="contains($pre-url, ')')">
                     <xsl:value-of select="substring-before($pre-url, ')')"/>
                 </xsl:when>
-                <xsl:when test="substring($pre-url, string-length($url-body)) = '.'">
-                    <xsl:value-of select="substring($url-body, 1, string-length($url-body) - 1)"/>
+                <xsl:when test="substring($pre-url, string-length($pre-url)) = '.'">
+                    <xsl:value-of select="substring($pre-url, 1, string-length($pre-url) - 1)"/>
                 </xsl:when>
+                <!-- this won't work since . is valid input in the url. above only remove the last one-->
                 <!--xsl:when test="contains($pre-url, '.')">
                     <xsl:value-of select="substring-before($pre-url, '.')"/>
                 </xsl:when-->
