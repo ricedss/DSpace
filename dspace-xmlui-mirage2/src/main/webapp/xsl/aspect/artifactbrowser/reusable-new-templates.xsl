@@ -303,7 +303,17 @@
             First, get pre-url by removing the first occurring space;
             Second, remove any extra symbols may not belong to the url in pre-url (. , ) ; etc.)
         -->
-        <xsl:variable name="pre-url" select="substring-before($url-body,' ')"/>
+        <xsl:variable name="pre-url">
+            <xsl:choose>
+                <xsl:when test="contains($url-body, ' ')">
+                    <xsl:value-of select="substring-before($url-body,' ')"/>
+                </xsl:when>
+                <xsl:otherwise>
+                    <xsl:value-of select="$url-body"/>
+                </xsl:otherwise>
+            </xsl:choose>
+        </xsl:variable>
+        
         <xsl:variable name="url">
             <xsl:value-of select="$url-protocol"/>
             <xsl:choose>
