@@ -303,7 +303,7 @@
             First, get pre-url by removing the first occurring space;
             Second, remove any extra symbols may not belong to the url in pre-url (. , ) ; etc.)
         -->
-        <xsl:variable name="pre-url" select="substring-after($url-body,' ')"/>
+        <xsl:variable name="pre-url" select="substring-before($url-body,' ')"/>
         <xsl:variable name="url">
             <xsl:value-of select="$url-protocol"/>
             <xsl:choose>
