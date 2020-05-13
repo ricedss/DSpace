@@ -51,7 +51,7 @@ FROM tomcat:8-jre8
 ENV DSPACE_INSTALL=/dspace
 COPY --from=ant_build /dspace $DSPACE_INSTALL
 # copy server.xml over
-COPY docker-config/tomcat.server.xml /usr/local/tomcat/conf/
+COPY docker-config/tomcat.server.xml /usr/local/tomcat/conf/server.xml
 EXPOSE 8080 8009
 
 ### Add asset store to /dspace/assetstore
