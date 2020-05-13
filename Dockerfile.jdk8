@@ -60,7 +60,9 @@ EXPOSE 8080 8009
 
 ENV JAVA_OPTS=-Xmx2000m
 
-RUN ln -s $DSPACE_INSTALL/webapps/solr    /usr/local/tomcat/webapps/solr    && \
+# in order to put xmlui as default, delete ROOT directory and link it to xmlui
+RUN rm -rf /usr/local/tomcat/webapps/ROOT && \
+    ln -s $DSPACE_INSTALL/webapps/solr    /usr/local/tomcat/webapps/solr    && \
     ln -s $DSPACE_INSTALL/webapps/xmlui   /usr/local/tomcat/webapps/ROOT   && \
     ln -s $DSPACE_INSTALL/webapps/jspui   /usr/local/tomcat/webapps/jspui   && \
     ln -s $DSPACE_INSTALL/webapps/rest    /usr/local/tomcat/webapps/rest    && \
