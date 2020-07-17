@@ -12,6 +12,7 @@ import org.dspace.authorize.service.AuthorizeService;
 import org.dspace.content.*;
 import org.dspace.content.Collection;
 import org.dspace.content.service.*;
+import org.dspace.core.ConfigurationManager;
 import org.dspace.core.Constants;
 import org.dspace.core.Context;
 import org.dspace.core.SelfNamedPlugin;
@@ -21,6 +22,8 @@ import org.dspace.services.ConfigurationService;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.io.File;
+import java.io.IOException;
 import java.io.InputStream;
 import java.util.*;
 
@@ -193,49 +196,21 @@ public class MediaFilterServiceImpl implements MediaFilterService, InitializingB
                 // now look at all of the bitstreams
                 List<Bitstream> myBitstreams = myBundle.getBitstreams();
 
-                for (Bitstream myBitstream : myBitstreams) {
-                    done |= filterBitstream(context, myItem, myBitstream);
-                }
+            for (Bitstream myBitstream : myBitstreams) {
+                done |= filterBitstream(context, myItem, myBitstream);
             }
-            // Ying added OHMS bundle to be processed
-            List<Bundle> ohmsBundles = itemService.getBundles(myItem, "OHMS");
-            for (int i = 0; i < ohmsBundles.size(); i++)
-            {
-                // now look at all of the bitstreams
-                List<Bitstream> myBitstreams = ohmsBundles.get(i).getBitstreams();
-
-                for (int k = 0; k < myBitstreams.size(); k++)
-                {
-                    done |= filterBitstream(context, myItem, myBitstreams.get(i));
-                }
-            }
-            //END Ying added OHMS bundle to be processed
-
-            // Ying added WEBVTT bundle to be processed
-            List<Bundle> vttBundles = itemService.getBundles(myItem, "WEBVTT");
-            for (int i = 0; i < vttBundles.size(); i++)
-            {
-                // now look at all of the bitstreams
-                List<Bitstream> myBitstreams = vttBundles.get(i).getBitstreams();
-
-                for (int k = 0; k < myBitstreams.size(); k++)
-                {
-                    done |= filterBitstream(context, myItem, myBitstreams.get(i));
-                }
-            }
-            //END Ying added WEBVTT bundle to be processed
         }
         return done;
     }
 
     @Override
     public boolean filterBitstream(Context context, Item myItem,
-            Bitstream myBitstream) throws Exception
+                                   Bitstream myBitstream) throws Exception
     {
-    	boolean filtered = false;
-    	
-    	// iterate through filter classes. A single format may be actioned
-    	// by more than one filter
+        boolean filtered = false;
+
+        // iterate through filter classes. A single format may be actioned
+        // by more than one filter
         for (FormatFilter filterClass : filterClasses) {
             //List fmts = (List)filterFormats.get(filterClasses[i].getClass().getName());
             String pluginName = null;
@@ -258,11 +233,25 @@ public class MediaFilterServiceImpl implements MediaFilterService, InitializingB
 
             if (fmts.contains(myBitstream.getFormat(context).getShortDescription())) {
                 try {
-                    // only update item if bitstream not skipped
-                    if (processBitstream(context, myItem, myBitstream, filterClass)) {
-                        itemService.update(context, myItem); // Make sure new bitstream has a sequence
-                        // number
-                        filtered = true;
+
+                    // Ying added this for symbolic links. It will be skipped in processBitstream but we force to do it anyway
+                    // check if the plugin is for symbolic link; hope not have to hard code this but what the other way around?
+                    //System.out.println("Class name: --------- " + filterClass.getClass().getName());
+                    if(filterClass.getClass().getName().contains("SymbolicLinkFilter")) {
+                        if(generateSymbolicLink(context, myBitstream)){
+                            System.out.println("Symbolic link Generated!");
+                        }else{
+                            System.out.println("Symbolic link generation failed! Stream may not have a name or extension.");
+                        }
+                        // END Ying added this for generating symbolic links for the bitstreams
+                    }else {
+
+                        // only update item if bitstream not skipped
+                        if (processBitstream(context, myItem, myBitstream, filterClass)) {
+                            itemService.update(context, myItem); // Make sure new bitstream has a sequence
+                            // number
+                            filtered = true;
+                        }
                     }
                 } catch (Exception e) {
                     String handle = myItem.getHandle();
@@ -378,13 +367,8 @@ public class MediaFilterServiceImpl implements MediaFilterService, InitializingB
                 }
             }
         }
-
-        // Ying added/updated this to make sure the softlinks will be generated for video and audio even there are thumbnails there already
-        String vamedias = Arrays.asList(configurationService.getArrayProperty("filter.org.dspace.app.mediafilter.VIDEOAUDIOFilter.inputFormats")).toString();
-
-        //ConfigurationManager.getProperty("filter.org.dspace.app.mediafilter.VIDEOAUDIOFilter.inputFormats");
         // if exists and overwrite = false, exit
-        if (!overWrite && (existingBitstream != null) && !(vamedias.indexOf(bitstreamService.getFormat(context, source).getMIMEType().trim()) >= 0))
+        if (!overWrite && (existingBitstream != null))
         {
             if (!isQuiet)
             {
@@ -394,48 +378,29 @@ public class MediaFilterServiceImpl implements MediaFilterService, InitializingB
 
             return false;
         }
-        // END Ying added/updated this to make sure the softlinks will be generated for video and audio even there are thumbnails there already
 
         if(isVerbose) {
             System.out.println("PROCESSING: bitstream " + source.getID()
-                + " (item: " + item.getHandle() + ")");
+                    + " (item: " + item.getHandle() + ")");
         }
-        // Ying updated this for OHMS XML / Video Audio filter / VTT
-        //InputStream destStream;
-        String vttmedias = configurationService.getProperty("filter.org.dspace.app.mediafilter.VTTFilter.inputFormats");
-        String specialmedias = configurationService.getProperty("filter.org.dspace.app.mediafilter.OHMSFilter.inputFormats");
-        specialmedias = specialmedias + ", " + vttmedias + "," + vamedias;
-        try
-        {
 
-            // filter the source stream to produce the destination stream
-            // this is the hard work, check for OutOfMemoryErrors at the end of the try clause.
-            InputStream destStream;
+        System.out.println("File: " + newName);
 
-            if (specialmedias.indexOf(bitstreamService.getFormat(context, source).getMIMEType().trim()) >= 0) {
-                // These OHMS XML / Video Audio types don't need the source stream; they just make a link.
-                destStream = formatFilter.getDestinationStream(source, isVerbose);
-                // Print now because we're about to return when it notices that destStream is null.
-                if (!isQuiet) {
-                    System.out.println("FILTERED: bitstream " + source.getInternalId()
-                            + " (item: " + item.getHandle() + ") to create streaming link");
-                }
-            } else {
+        // start filtering of the bitstream, using try with resource to close all InputStreams properly
+        try (
+                // get the source stream
                 InputStream srcStream = bitstreamService.retrieve(context, source);
-                destStream = formatFilter.getDestinationStream(item, srcStream, isVerbose);
-            }
-
+                // filter the source stream to produce the destination stream
+                // this is the hard work, check for OutOfMemoryErrors at the end of the try clause.
+                InputStream destStream = formatFilter.getDestinationStream(item, srcStream, isVerbose);
+        ) {
             if (destStream == null) {
-
-                if (!isQuiet && !(specialmedias.indexOf(bitstreamService.getFormat(context, source).getMIMEType().trim()) >= 0)) {
-                    System.out.println("SKIPPED: bitstream " + source.getInternalId()
+                if (!isQuiet) {
+                    System.out.println("SKIPPED: bitstream " + source.getID()
                             + " (item: " + item.getHandle() + ") because filtering was unsuccessful");
                 }
-
                 return false;
             }
-            // END Ying updated this for OHMS XML / Video Audio filter
-
 
             Bundle targetBundle; // bundle we're modifying
             if (bundles.size() < 1)
@@ -454,7 +419,7 @@ public class MediaFilterServiceImpl implements MediaFilterService, InitializingB
             // set the name, source and description of the bitstream
             b.setName(context, newName);
             b.setSource(context, "Written by FormatFilter " + formatFilter.getClass().getName() +
-                       " on " + DCDate.getCurrent() + " (GMT).");
+                    " on " + DCDate.getCurrent() + " (GMT).");
             b.setDescription(context, formatFilter.getDescription());
             // Set the format of the bitstream
             BitstreamFormat bf = bitstreamFormatService.findByShortDescription(context,
@@ -476,15 +441,13 @@ public class MediaFilterServiceImpl implements MediaFilterService, InitializingB
                 authorizeService.inheritPolicies(context, source, b);
             }
 
-
             //do post-processing of the generated bitstream
             formatFilter.postProcessBitstream(context, item, b);
 
+
         } catch (OutOfMemoryError oome) {
             System.out.println("!!! OutOfMemoryError !!!");
-            //return false;
         }
-
 
         // fixme - set date?
         // we are overwriting, so remove old bitstream
@@ -499,16 +462,93 @@ public class MediaFilterServiceImpl implements MediaFilterService, InitializingB
                     + " (item: " + item.getHandle() + ") and created '" + newName + "'");
         }
 
-        
         return true;
     }
-    
+
+
+    // Ying added this for generating symbolic links for the bitstreams
+    public boolean generateSymbolicLink(Context c, Bitstream source)
+            throws Exception
+    {
+        // Ying added this to generate the symbolic links for the bitstreams
+        String streaming_dir = configurationService.getProperty("streaming.dir");
+
+        // get the file extension and use it as part of the path
+        String filename = source.getName();
+
+        if (filename == null) {
+            return false;
+        }
+
+        //filename = filename.toLowerCase();
+
+        String extension = filename;
+        int ld = filename.lastIndexOf('.');
+
+        if (ld != -1) {
+            extension = filename.substring(ld + 1);
+        }
+
+        if (extension.equals("")) {
+            return false;
+        }
+
+        String filepath = source.getFilepath();
+        String streaming_name = "";
+
+        // special case for vtt file, they don't have the id part as the file name, just original file name plus .vtt
+        if(extension.equals("vtt")){
+            String file_dir = filename.substring(0,1);
+            streaming_dir = streaming_dir +"/" + extension.toLowerCase() +"/" + file_dir;
+            streaming_name = filename;
+        }else{
+            String ID = source.getID().toString();
+            // first letter of the ID will be part of the path.
+            String id_dir = ID.substring(0,1);
+
+            streaming_dir = streaming_dir + "/" + extension.toLowerCase() +"/" + id_dir;
+
+            streaming_name = "file_" + ID + "_" + filename;
+        }
+        // check if the dir exists
+        File sd = new File(streaming_dir);
+        if (!sd.exists()){
+            sd.mkdirs();
+        }
+
+        // special case here that I have to assume the assetstore dir is ending with "assetstore"
+        //System.out.println("filename ------: " + filename + ", filepath ----------: " + filepath);
+        String softpath_to_avfile = "../../../assetstore/" + filepath;
+
+        //String softpath_to_avfile = "../" + filepath.substring(filepath.indexOf("assetstore"));
+        //String absolute_path_to_avfile = ConfigurationManager.getProperty("assetstore.dir");
+        //System.out.println("softpath ------ " + softpath_to_avfile);
+        //System.out.println("streaming_dir ------ " + streaming_dir);
+
+        // get relative path to the assetstore files
+
+
+        //String softpath_to_avfile =
+        String cmd = "ln -sf " + softpath_to_avfile + " " + streaming_dir + "/" + streaming_name;
+
+        System.out.println("Generating symbolic link for" + streaming_name +" at " + streaming_dir);
+
+        //String cmd = "ln -sf " + softpath_to_avfile + " " + streaming_dir + "/" + streaming_name;
+        //System.out.println("cmd -----------: " + cmd);
+        // call to generate the symbolic links
+        Runtime.getRuntime().exec(cmd);
+        // Ying added this to generate the symbolic links for the bitstreams that requested
+
+        return true;
+    }
+    // END Ying added this for generating symbolic links for the bitstreams
+
     @Override
     public Item getCurrentItem()
     {
         return currentItem;
     }
-    
+
     @Override
     public boolean inSkipList(String identifier)
     {
@@ -519,7 +559,7 @@ public class MediaFilterServiceImpl implements MediaFilterService, InitializingB
                 System.out.println("SKIP-LIST: skipped bitstreams within identifier " + identifier);
             }
             return true;
-        }    
+        }
         else
         {
             return false;

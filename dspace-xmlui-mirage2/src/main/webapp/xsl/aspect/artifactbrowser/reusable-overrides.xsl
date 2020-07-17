@@ -757,16 +757,39 @@
                    Item record page (general)
          ============================================ -->
     
-    <!-- MMS: Copied from General-Handler.xsl with what appears to be several customizations for different file types (Ying or Sid could elaborate). -->
+    <!-- Ying added this template for jp2 in iiif image -->
+    <xsl:template match="mets:file[@MIMETYPE='image/jp2']" mode="itemSummaryView-DIM">
+        <xsl:param name="context"/>
+        <xsl:param name="handle"/>
 
+        <a class="image-link" href="http://localhost:5000/{$handle}">
+            <img alt="Thumbnail">
+                <xsl:attribute name="src">
+                    <xsl:value-of select="$context/mets:fileSec/mets:fileGrp[@USE='THUMBNAIL']/
+                                                mets:file[@GROUPID=current()/@GROUPID]/mets:FLocat[@LOCTYPE='URL']/@xlink:href"/>
+                </xsl:attribute>
+            </img>
+        </a>
+    </xsl:template>
+    <!-- END Ying added this template for jp2 in iiif image -->
 
     <!-- Ying: Updated this for our new theme -->
      <xsl:template match="dim:dim" mode="itemSummaryView-DIM">
          <div class="item-summary-view-metadata">
              <xsl:call-template name="itemSummaryView-DIM-title"/>
-             <div class="row">
-                      <!-- Generate the bitstream information from the file section -->
-        <xsl:choose>
+         <div class="row">
+
+          <!-- Generate the bitstream information from the file section -->
+         <xsl:if test="//mets:fileSec/mets:fileGrp[@USE='CONTENT' and @USE='ORIGINAL']/mets:file[@MIMETYPE='image/jp2']">
+             <!--h3><i18n:text>xmlui.dri2xhtml.METS-1.0.item-files-head</i18n:text></h3-->
+             <div class="file-list">
+                 <xsl:apply-templates select="//mets:fileSec/mets:fileGrp[@USE='CONTENT' and @USE='ORIGINAL']/mets:file[@MIMETYPE='image/jp2']" mode="itemSummaryView-DIM">
+                     <xsl:with-param name="context" select="//mets:METS"/>
+                     <xsl:with-param name="handle" select="//mets:METS[@OBJID]"/>
+                 </xsl:apply-templates>
+             </div>
+         </xsl:if>
+         <xsl:choose>
             <xsl:when test="//mets:fileSec/mets:fileGrp[@USE='CONTENT' or @USE='ORIGINAL' or @USE='LICENSE']/mets:file">
                 <!--h3><i18n:text>xmlui.dri2xhtml.METS-1.0.item-files-head</i18n:text></h3-->
                 <div class="file-list">
@@ -819,11 +842,20 @@
          <xsl:variable name="repositoryURL" select="dri:document/dri:meta/dri:pageMeta/dri:trail[1]/@target"/>
          <xsl:variable name="bitstreamurl1" select="mets:FLocat[@LOCTYPE='URL']/@xlink:href"/>
          <xsl:variable name="bitstreamurl" select="substring-before($bitstreamurl1, '&amp;isAllowed')"/>
+         <xsl:variable name="ID"><xsl:value-of select="@ID"/></xsl:variable>
          <xsl:variable name="streamingfilename">
-             <xsl:value-of select="@ID"/>_<xsl:value-of select="mets:FLocat/@xlink:title"/>
+             <xsl:value-of select="$ID"/>_<xsl:value-of select="mets:FLocat/@xlink:title"/>
          </xsl:variable>
          <xsl:variable name="filename">
              <xsl:value-of select="mets:FLocat/@xlink:title"/>
+         </xsl:variable>
+         <xsl:variable name="first_lf">
+             <xsl:value-of select='substring($filename, 0, 1)'/><xsl:text>.vtt</xsl:text>
+         </xsl:variable>
+
+
+         <xsl:variable name="FL_ID"> <!--remove file_ from the beginning -->
+             <xsl:value-of select="substring($ID, 6,1)"/>
          </xsl:variable>
 
         <div class="file-wrapper row">
@@ -845,6 +877,15 @@
                             <!--div class="videoContainer" style="height: 0;overflow: hidden;padding-bottom: 56.25%;padding-top: 25px;position: relative;">
                             <div id="{$streamingfilename}" style="position:absolute;width:100% !important;height: 100% !important;">Loading the player...</div>
                             -->
+                            <xsl:variable name="filename_suffix">
+                                <xsl:if test="@MIMETYPE='video/mp4'">
+                                    <xsl:text>mp4</xsl:text>
+                                </xsl:if>
+                                <xsl:if test="@MIMETYPE='video/m4v'">
+                                    <xsl:text>m4v</xsl:text>
+                                </xsl:if>
+                            </xsl:variable>)
+
                             <div class="videoContainer">
                             <div id="{$streamingfilename}">Loading the player...</div>
 
@@ -866,13 +907,12 @@
                                             playlist: [{
                                                 image: "<xsl:value-of select='$mp4thumb'/>",
                                                 sources: [{
-                                                    file: "<xsl:value-of select="$baseURL"/>/streaming/<xsl:value-of select='$streamingfilename'/>"
+                                                    file: "<xsl:value-of select="$baseURL"/>/streaming/<xsl:value-of select="$filename_suffix" />/<xsl:value-of select="$FL_ID"/>/<xsl:value-of select="$streamingfilename"/>"
                                                 },{
                                                     file: "rtmp://fldp.rice.edu/fondren/mp4:<xsl:value-of select='$streamingfilename'/>"
                                                 }],
                                                 tracks: [{
-                                                    file: "<xsl:value-of select="$baseURL"/>/streaming/<xsl:value-of
-                                                        select='$vtt_filename'/>",
+                                                    file: "<xsl:value-of select="$baseURL"/>/streaming/vtt/<xsl:value-of select="$first_lf"/>/<xsl:value-of select="$vtt_filename"/>",
                                                     label: "English",
                                                     kind: "captions",
                                                     "default": true
@@ -898,7 +938,7 @@
                                             playlist: [{
                                                 image: "<xsl:value-of select='$mp4thumb'/>",
                                                 sources: [{
-                                                    file: "<xsl:value-of select="$baseURL"/>/streaming/<xsl:value-of select='$streamingfilename'/>"
+                                                    file: "<xsl:value-of select="$baseURL"/>/streaming/<xsl:value-of select='$filename_suffix' />/<xsl:value-of select='$FL_ID'/>/<xsl:value-of select='$streamingfilename'/>"
                                                 },{
                                                     file: "rtmp://fldp.rice.edu/fondren/mp4:<xsl:value-of select='$streamingfilename'/>"
                                                 }],
@@ -930,6 +970,7 @@
                                     <xsl:value-of select='$filename'/><xsl:text>.vtt</xsl:text>
                                 </xsl:variable>
 
+
                                 <div id="{$streamingfilename}">Loading the player...</div>
 
                                 <script type="text/javascript">
@@ -939,13 +980,13 @@
                                     playlist: [{
 
                                         sources: [{
-                                             file: "<xsl:value-of select="$baseURL"/>/streaming/<xsl:value-of select="$streamingfilename"/>"
+                                             file: "<xsl:value-of select="$baseURL"/>/streaming/mp3/<xsl:value-of select="$FL_ID"/>/<xsl:value-of select="$streamingfilename"/>"
                                         },{
                                             file: "rtmp://fldp.rice.edu/fondren/mp3:<xsl:value-of select='$streamingfilename'/>"
                                         }],
                                         tracks: [{
-                                            file: "<xsl:value-of select="$baseURL"/>/streaming/<xsl:value-of
-                                                select='$vtt_filename'/>",
+                                            file: "<xsl:value-of select="$baseURL"/>/streaming/vtt/<xsl:value-of
+                                        select='$first_lf'/>/<xsl:value-of select='$vtt_filename'/>",
                                             label: "English",
                                             kind: "captions",
                                             "default": true
@@ -968,7 +1009,7 @@
                                         playlist: [{
 
                                             sources: [{
-                                                file: "<xsl:value-of select="$baseURL"/>/streaming/<xsl:value-of select="$streamingfilename"/>"
+                                                file: "<xsl:value-of select="$baseURL"/>/streaming/mp3/<xsl:value-of select="$FL_ID"/>/<xsl:value-of select="$streamingfilename"/>"
                                                 },{
                                                 file: "rtmp://fldp.rice.edu/fondren/mp3:<xsl:value-of select='$streamingfilename'/>"
                                             }],
