@@ -73,4 +73,8 @@ RUN rm -rf /usr/local/tomcat/webapps/ROOT && \
 
 ### install cron
 RUN echo 'debconf debconf/frontend select Noninteractive' | debconf-set-selections
-RUN apt-get update && apt-get install -y cron
+RUN apt-get update && apt-get install -y cron && \
+    apt-get install -y libdbd-pg-perl && \
+    apt-get install -y emacs && \
+    apt-get install -y libxml-xpath-perl && \
+    apt-get install -y libxml-writer-perl
