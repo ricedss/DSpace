@@ -187,8 +187,7 @@ public class MediaFilterServiceImpl implements MediaFilterService, InitializingB
             done = filterBitstream(context, myItem, primaryBitstream);
         }
         // END Sid updated this for TEI
-        else
-        {
+        else {
             // Normal item -- filter all bitstreams.
             // get 'original' bundles
             List<Bundle> myBundles = itemService.getBundles(myItem, "ORIGINAL");
@@ -196,12 +195,13 @@ public class MediaFilterServiceImpl implements MediaFilterService, InitializingB
                 // now look at all of the bitstreams
                 List<Bitstream> myBitstreams = myBundle.getBitstreams();
 
-            for (Bitstream myBitstream : myBitstreams) {
-                done |= filterBitstream(context, myItem, myBitstream);
+                for (Bitstream myBitstream : myBitstreams) {
+                    done |= filterBitstream(context, myItem, myBitstream);
+                }
             }
         }
         return done;
-    }
+    }   
 
     @Override
     public boolean filterBitstream(Context context, Item myItem,
