@@ -201,7 +201,7 @@ public class MediaFilterServiceImpl implements MediaFilterService, InitializingB
             }
         }
         return done;
-    }   
+    }
 
     @Override
     public boolean filterBitstream(Context context, Item myItem,
