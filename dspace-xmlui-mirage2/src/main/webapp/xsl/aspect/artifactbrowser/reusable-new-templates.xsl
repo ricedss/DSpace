@@ -286,7 +286,16 @@
     <!-- MMS: This turns text starting with 'http://' into a link -->
     <!-- Ying: updated to parse https also -->
     <!-- TODO make this handle https as well -->
+    <!--
+        Ying (2020-04-14)
+        Update this to extract multiple occurrence of the urls -
+        First, you have to work on one protocol at a time
+        Second, recursive over the text util there is no urls left
+    -->
     <xsl:template name="makeLinkFromText">
+        <xsl:variable name="url-body">
+            <xsl:value-of select="."/>
+        </xsl:variable>
         <xsl:variable name="url-protocol">
             <xsl:if test="contains(., 'https://')">
                 <xsl:text>https://</xsl:text>
@@ -295,6 +304,34 @@
                 <xsl:text>http://</xsl:text>
             </xsl:if>
         </xsl:variable>
+        <xsl:variable name="url-body">
+            <xsl:call-template name="find_url">
+                <xsl:with-param name="url-body"/>
+                <xsl:with-param name="url-protocol">
+                    <xsl:text>https://</xsl:text>
+                </xsl:with-param>
+            </xsl:call-template>
+        </xsl:variable>
+        <xsl:call-template name="find_url">
+            <xsl:with-param name="url-body"/>
+            <xsl:with-param name="url-protocol">
+                <xsl:text>http://</xsl:text>
+            </xsl:with-param>
+        </xsl:call-template>
+
+    </xsl:template>
+
+    <!--
+        Ying (2020-04-14)
+        Add this template to extract multiple urls in a text
+    -->
+    <xsl:template name="find_url">
+        <xsl:param name="url-protocol">
+
+        </xsl:param>
+        <xsl:param name="url-body">
+
+        </xsl:param>
 
         <xsl:variable name="url-body" select="substring-after(.,$url-protocol)"/>
         <!--
@@ -343,7 +380,6 @@
             <xsl:value-of select="$url"/>
         </a>
         <xsl:value-of select="substring-after(.,$url)"/>
+
     </xsl:template>
-	
- 
 </xsl:stylesheet>

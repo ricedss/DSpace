@@ -850,12 +850,12 @@
              <xsl:value-of select="mets:FLocat/@xlink:title"/>
          </xsl:variable>
          <xsl:variable name="first_lf">
-             <xsl:value-of select='substring($filename, 1, 1)'/>
+             <xsl:value-of select='substring($filename, 0, 2)'/><xsl:text>.vtt</xsl:text>
          </xsl:variable>
 
 
          <xsl:variable name="FL_ID"> <!--remove file_ from the beginning -->
-             <xsl:value-of select="substring($ID, 6,1)"/>
+             <xsl:value-of select="substring($ID, 6,2)"/>
          </xsl:variable>
 
         <div class="file-wrapper row">
@@ -1212,6 +1212,7 @@
                         <xsl:call-template name="itemSummaryView-DIM-date"/>
                         <xsl:call-template name="itemSummaryView-DIM-abstract"/>
                         <xsl:call-template name="itemSummaryView-DIM-description"/>
+                        <xsl:call-template name="itemSummaryView-DIM-description-note"/>
                         <xsl:call-template name="itemSummaryView-DIM-citation"/>
                         <xsl:call-template name="itemSummaryView-DIM-doi"/>
                         <xsl:call-template name="itemSummaryView-DIM-subject"/>
@@ -1949,6 +1950,26 @@
              </div>
          </xsl:if>
      </xsl:template>
+
+    <xsl:template name="itemSummaryView-DIM-description-note">
+        <xsl:if test="dim:field[@element='description' and @qualifier='note']">
+            <div class="simple-item-view-description item-page-field-wrapper table">
+                <h5><i18n:text>xmlui.Rice.description-note</i18n:text></h5>
+                <div>
+                    <xsl:for-each select="dim:field[@element='description' and  @qualifier='note']">
+                        <xsl:choose>
+                            <xsl:when test="(contains(.,'http://') or contains(.,'https://') )">
+                                <xsl:call-template name="makeLinkFromText"/>
+                            </xsl:when>
+                            <xsl:otherwise>
+                                <xsl:value-of select="."></xsl:value-of><xsl:text> </xsl:text>
+                            </xsl:otherwise>
+                        </xsl:choose>
+                    </xsl:for-each>
+                </div>
+            </div>
+        </xsl:if>
+    </xsl:template>
 
     <xsl:template name="itemSummaryView-DIM-type">
          <xsl:if test="dim:field[@element='type' and not(@qualifier)]/child::node()">

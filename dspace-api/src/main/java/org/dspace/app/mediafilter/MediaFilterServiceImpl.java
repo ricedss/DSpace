@@ -498,13 +498,13 @@ public class MediaFilterServiceImpl implements MediaFilterService, InitializingB
 
         // special case for vtt file, they don't have the id part as the file name, just original file name plus .vtt
         if(extension.equals("vtt")){
-            String file_dir = filename.substring(0,1);
+            String file_dir = filename.substring(0,2);
             streaming_dir = streaming_dir +"/" + extension.toLowerCase() +"/" + file_dir;
             streaming_name = filename;
         }else{
             String ID = source.getID().toString();
             // first letter of the ID will be part of the path.
-            String id_dir = ID.substring(0,1);
+            String id_dir = ID.substring(0,2);
 
             streaming_dir = streaming_dir + "/" + extension.toLowerCase() +"/" + id_dir;
 
