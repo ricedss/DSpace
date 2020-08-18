@@ -17,13 +17,15 @@ use Cwd;
 
 #my $tsrcdir = "";
 #my $tdestdir = "";
-my $srcdir = "";
-my $descdir = "";
-my $predir = "/ds/data/dspace/";
+my $srcdir = "/mnt/isilon/fondren-dss/dspace-test/streaming";
+my $descdir = "/mnt/isilon/fondren-dss/dspace-test/ohms/cachefiles";
+#my $descdir = "/ohms/cachefiles";
+my $predir = "../..";
+
 my $result = GetOptions(       "srcdir=s"    => \$srcdir,
                                "descdir=s"  => \$descdir,
                                "predir=s" => \$predir);
-# opions are required, check to make sure
+# options are required, check to make sure
 if(($srcdir eq "") or ($descdir eq "") or ($predir eq "")){
     print "buildlink.pl --srcdir <srcdir> --descdir <descdir> --predir <predir>\n";
     exit;
@@ -38,36 +40,38 @@ print @typedirs;
 
 foreach my $typedir (@typedirs){
 
-    opendir TYPEDIR, "$srcdir/$typedir" || die "can't opendir $srcdir/$typedir: $!";
-    my @ramdirs = grep {-d "$srcdir/$typedir/$_" && ! /^\.{1,2}$/} readdir(TYPEDIR);
+    if ($typedir eq 'ohms'){
+        opendir TYPEDIR, "$srcdir/$typedir" || die "can't opendir $srcdir/$typedir: $!";
+        my @ramdirs = grep {-d "$srcdir/$typedir/$_" && ! /^\.{1,2}$/} readdir(TYPEDIR);
 
-    print @ramdirs;
+        print @ramdirs;
 
-    foreach my $ramdir (@ramdirs){
+        foreach my $ramdir (@ramdirs){
 
-	my $finaldir = $srcdir."/".$typedir."/".$ramdir;
+            my $finaldir = $srcdir."/".$typedir."/".$ramdir;
 
-	opendir FINALDIR, $finaldir || die "can't opendir $finaldir: $!";
-    my @files = grep {/^file_.*.ohms/} readdir(FINALDIR);
+            opendir FINALDIR, $finaldir || die "can't opendir $finaldir: $!";
+            my @files = grep {/^file_.*.ohms/} readdir(FINALDIR);
 
-	foreach my $filename (@files){
-	    my $symbollink = readlink ("$finaldir/$filename");
+            foreach my $filename (@files){
+                my $symbollink = readlink ("$finaldir/$filename");
 
-	    my $newsymbollink = "";
+                my $newsymbollink = "";
 
-	    if($symbollink =~ /^(..\/..\/..\/)(.*)/){
+                if($symbollink =~ /^(..\/..\/..\/)(.*)/){
 
-		$newsymbollink =  $predir.$2;
-	    }
-	    print ("ln -s $newsymbollink $descdir/$typedir/$ramdir/$filename");
-	    `mkdir -p $descdir/$typedir/$ramdir`;
-	    `ln -s  $newsymbollink $descdir/$typedir/$ramdir/$filename`;
+                    $newsymbollink = "$predir/$2";
+                }
+                print ("ln -s $newsymbollink $descdir/$filename");
+                #`mkdir -p $descdir/$typedir/$ramdir`;
+                `ln -s  $newsymbollink $descdir/$filename`;
 
-	}
-	close(FINALDIR)
+            }
+            close(FINALDIR)
 
+        }
+        close(TYPEDIR)
     }
-    close(TYPEDIR)
 }
 close(SRCDIR);
 

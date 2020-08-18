@@ -19,7 +19,7 @@ use Cwd;
 #my $tsrcdir = "";
 #my $tdestdir = "";
 my $srcdir = "/dspace/streaming";
-my $descdir = "/dspace/dark-archive/transfer/ying/scripts/buildlink/streaming/";
+my $descdir = "/dspace/httpd/streaming";
 my $predir = "/dspace/";
 my $result = GetOptions(       "srcdir=s"    => \$srcdir,
                                "descdir=s"  => \$descdir,
@@ -46,26 +46,26 @@ foreach my $typedir (@typedirs){
 
     foreach my $ramdir (@ramdirs){
 
-	my $finaldir = $srcdir."/".$typedir."/".$ramdir;
+        my $finaldir = $srcdir."/".$typedir."/".$ramdir;
 
-	opendir FINALDIR, $finaldir || die "can't opendir $finaldir: $!";
-	my @files = grep {/^file_.*/ || /.*_caption.*.vtt/} readdir(FINALDIR);
+        opendir FINALDIR, $finaldir || die "can't opendir $finaldir: $!";
+        my @files = grep {/^file_.*/ || /.*_caption.*.vtt/} readdir(FINALDIR);
 
-	foreach my $filename (@files){
-	    my $symbollink = readlink ("$finaldir/$filename");
+        foreach my $filename (@files){
+            my $symbollink = readlink ("$finaldir/$filename");
 
-	    my $newsymbollink = "";
+            my $newsymbollink = "";
 
-	    if($symbollink =~ /^(..\/..\/..\/)(.*)/){
+            if($symbollink =~ /^(..\/..\/..\/)(.*)/){
 
-		$newsymbollink =  $predir."/".$2;
-	    }
-	    print ("ln -s $newsymbollink $descdir/$typedir/$ramdir/$filename");
-	    `mkdir -p $descdir/$typedir/$ramdir`;
-	    `ln -s  $newsymbollink $descdir/$typedir/$ramdir/$filename`;
+            $newsymbollink =  $predir."/".$2;
+            }
+            print ("ln -s $newsymbollink $descdir/$typedir/$ramdir/$filename");
+            `mkdir -p $descdir/$typedir/$ramdir`;
+            `ln -s  $newsymbollink $descdir/$typedir/$ramdir/$filename`;
 
-	}
-	close(FINALDIR)
+        }
+        close(FINALDIR)
 
     }
     close(TYPEDIR)
