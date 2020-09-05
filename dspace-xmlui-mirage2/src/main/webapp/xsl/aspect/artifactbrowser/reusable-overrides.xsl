@@ -884,7 +884,7 @@
                                 <xsl:if test="@MIMETYPE='video/m4v'">
                                     <xsl:text>m4v</xsl:text>
                                 </xsl:if>
-                            </xsl:variable>)
+                            </xsl:variable>
 
                             <div class="videoContainer">
                             <div id="{$streamingfilename}">Loading the player...</div>

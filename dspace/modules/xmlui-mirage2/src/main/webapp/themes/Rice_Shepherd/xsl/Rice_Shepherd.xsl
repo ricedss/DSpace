@@ -182,18 +182,27 @@
         </xsl:if>
     </xsl:template>
 
-
     <xsl:template match="mets:file">
         <xsl:param name="context" select="."/>
         <xsl:variable name="repositoryURL" select="dri:document/dri:meta/dri:pageMeta/dri:trail[1]/@target"/>
         <xsl:variable name="bitstreamurl1" select="mets:FLocat[@LOCTYPE='URL']/@xlink:href"/>
         <xsl:variable name="bitstreamurl" select="substring-before($bitstreamurl1, '&amp;isAllowed')"/>
+        <xsl:variable name="ID"><xsl:value-of select="@ID"/></xsl:variable>
         <xsl:variable name="streamingfilename">
-            <xsl:value-of select="@ID"/>_<xsl:value-of select="mets:FLocat/@xlink:title"/>
+            <xsl:value-of select="$ID"/>_<xsl:value-of select="mets:FLocat/@xlink:title"/>
         </xsl:variable>
         <xsl:variable name="filename">
             <xsl:value-of select="mets:FLocat/@xlink:title"/>
         </xsl:variable>
+        <xsl:variable name="first_lf">
+            <xsl:value-of select='substring($filename, 0, 2)'/><xsl:text>.vtt</xsl:text>
+        </xsl:variable>
+
+
+        <xsl:variable name="FL_ID"> <!--remove file_ from the beginning -->
+            <xsl:value-of select="substring($ID, 6,2)"/>
+        </xsl:variable>
+
         <!-- The most important part is whether this item is a performace or a piece. -->
         <xsl:variable name="itemtype">
             <xsl:choose>
@@ -206,12 +215,10 @@
             </xsl:choose>
         </xsl:variable>
 
-
-        <div>
-            <div class="col-xs-6 col-sm-4">
+        <div class="file-wrapper row">
+            <div class="col-xs-6 col-sm-5">
                 <div class="thumbnail">
-                        <xsl:choose>
-
+                    <xsl:choose>
                         <xsl:when test="@MIMETYPE='image/jp2'">
                             <a class="image-link" href="javascript:showJPEG2000Viewer('{$bitstreamurl}')">
                                 <img alt="Thumbnail">
@@ -223,154 +230,173 @@
                             </a>
                         </xsl:when>
 
-                            <xsl:when test="@MIMETYPE='video/mp4' or @MIMETYPE='video/m4v'">
-                                <!--div class="videoContainer" style="height: 0;overflow: hidden;padding-bottom: 56.25%;padding-top: 25px;position: relative;">
-                                <div id="{$streamingfilename}" style="position:absolute;width:100% !important;height: 100% !important;">Loading the player...</div>
-                                -->
-                                <div class="videoContainer">
-                                    <div id="{$streamingfilename}">Loading the player...</div>
+                        <xsl:when test="@MIMETYPE='video/mp4' or @MIMETYPE='video/m4v'">
+                            <!--div class="videoContainer" style="height: 0;overflow: hidden;padding-bottom: 56.25%;padding-top: 25px;position: relative;">
+                            <div id="{$streamingfilename}" style="position:absolute;width:100% !important;height: 100% !important;">Loading the player...</div>
+                            -->
+                            <xsl:variable name="filename_suffix">
+                                <xsl:if test="@MIMETYPE='video/mp4'">
+                                    <xsl:text>mp4</xsl:text>
+                                </xsl:if>
+                                <xsl:if test="@MIMETYPE='video/m4v'">
+                                    <xsl:text>m4v</xsl:text>
+                                </xsl:if>
+                            </xsl:variable>
 
-                                    <xsl:variable name="mp4thumb1" select="$context/mets:fileSec/mets:fileGrp[@USE='THUMBNAIL']/
+                            <div class="videoContainer">
+                                <div id="{$streamingfilename}">Loading the player...</div>
+
+                                <xsl:variable name="mp4thumb1" select="$context/mets:fileSec/mets:fileGrp[@USE='THUMBNAIL']/
                                 mets:file[@GROUPID=current()/@GROUPID]/mets:FLocat[@LOCTYPE='URL']/@xlink:href"/>
-                                    <xsl:variable name="mp4thumb" select="substring-before($mp4thumb1, '?')"/>
+                                <xsl:variable name="mp4thumb" select="substring-before($mp4thumb1, '?')"/>
 
-                                    <xsl:choose>
-                                        <xsl:when test="contains($filename, '_caption')">
-                                            <!-- find the sibling vtt file and get the streaming name -->
-                                            <xsl:variable name="vtt_filename">
-                                                <xsl:value-of select='$filename'/><xsl:text>.vtt</xsl:text>
-                                            </xsl:variable>
-                                            <script type="text/javascript">
-                                                jwplayer.key = "7v+RIu3+q3k5BpVlhvaNE9PseQLW8aQiUgoyLA==";
-                                                var playerInstance = jwplayer('<xsl:value-of select="$streamingfilename"/>');
-                                                playerInstance.setup({
-
-                                                playlist: [{
-                                                image: "<xsl:value-of select='$mp4thumb'/>",
-                                                sources: [{
-                                                file: "<xsl:value-of select="$baseURL"/>/streaming/<xsl:value-of select='$streamingfilename'/>"
-                                                },{
-                                                file: "rtmp://fldp.rice.edu/fondren/mp4:<xsl:value-of select='$streamingfilename'/>"
-                                                }],
-                                                tracks: [{
-                                                file: "<xsl:value-of select="$baseURL"/>/streaming/<xsl:value-of
-                                                    select='$vtt_filename'/>",
-                                                label: "English",
-                                                kind: "captions",
-                                                "default": true
-                                                }]
-
-                                                }],
-                                                primary: "html5",
-                                                rtmp: {
-                                                bufferlength: 10
-                                                },
-                                                aspectratio:"16:9",
-                                                allowfullscreen: true,
-                                                width: "100%",
-                                                });
-                                            </script>
-                                        </xsl:when>
-                                        <xsl:otherwise>
-                                            <script type="text/javascript">
-                                                jwplayer.key = "7v+RIu3+q3k5BpVlhvaNE9PseQLW8aQiUgoyLA==";
-                                                var playerInstance = jwplayer('<xsl:value-of select="$streamingfilename"/>');
-                                                playerInstance.setup({
-
-                                                playlist: [{
-                                                image: "<xsl:value-of select='$mp4thumb'/>",
-                                                sources: [{
-                                                file: "<xsl:value-of select="$baseURL"/>/streaming/<xsl:value-of select='$streamingfilename'/>"
-                                                },{
-                                                file: "rtmp://fldp.rice.edu/fondren/mp4:<xsl:value-of select='$streamingfilename'/>"
-                                                }],
-
-                                                }],
-                                                primary: "html5",
-                                                rtmp: {
-                                                bufferlength: 10
-                                                },
-                                                aspectratio:"16:9",
-                                                allowfullscreen: true,
-                                                width: "100%",
-                                                });
-                                            </script>
-                                        </xsl:otherwise>
-
-                                    </xsl:choose>
-
-                                </div>
-                            </xsl:when>
-
-                            <xsl:when test="@MIMETYPE='audio/x-mp3'">
-
-                                <!-- With JWPlayer 6 -->
                                 <xsl:choose>
                                     <xsl:when test="contains($filename, '_caption')">
                                         <!-- find the sibling vtt file and get the streaming name -->
                                         <xsl:variable name="vtt_filename">
                                             <xsl:value-of select='$filename'/><xsl:text>.vtt</xsl:text>
                                         </xsl:variable>
-
-                                        <div id="{$streamingfilename}">Loading the player...</div>
-
                                         <script type="text/javascript">
                                             jwplayer.key = "7v+RIu3+q3k5BpVlhvaNE9PseQLW8aQiUgoyLA==";
                                             var playerInstance = jwplayer('<xsl:value-of select="$streamingfilename"/>');
                                             playerInstance.setup({
-                                            playlist: [{
 
+                                            playlist: [{
+                                            image: "<xsl:value-of select='$mp4thumb'/>",
                                             sources: [{
-                                            file: "<xsl:value-of select="$baseURL"/>/streaming/<xsl:value-of select="$streamingfilename"/>"
+                                            file: "<xsl:value-of select="$baseURL"/>/streaming/<xsl:value-of select="$filename_suffix" />/<xsl:value-of select="$FL_ID"/>/<xsl:value-of select="$streamingfilename"/>"
                                             },{
-                                            file: "rtmp://fldp.rice.edu/fondren/mp3:<xsl:value-of select='$streamingfilename'/>"
+                                            file: "rtmp://fldp.rice.edu/fondren/mp4:<xsl:value-of select='$streamingfilename'/>"
                                             }],
                                             tracks: [{
-                                            file: "<xsl:value-of select="$baseURL"/>/streaming/<xsl:value-of
-                                                select='$vtt_filename'/>",
+                                            file: "<xsl:value-of select="$baseURL"/>/streaming/vtt/<xsl:value-of select="$first_lf"/>/<xsl:value-of select="$vtt_filename"/>",
                                             label: "English",
                                             kind: "captions",
                                             "default": true
                                             }]
+
                                             }],
                                             primary: "html5",
-                                            height: "100",
-                                            width: "320",
+                                            rtmp: {
+                                            bufferlength: 10
+                                            },
+                                            aspectratio:"16:9",
+                                            allowfullscreen: true,
+                                            width: "100%",
                                             });
                                         </script>
                                     </xsl:when>
                                     <xsl:otherwise>
-
-                                        <div id="{$streamingfilename}">Loading the player...</div>
-
                                         <script type="text/javascript">
                                             jwplayer.key = "7v+RIu3+q3k5BpVlhvaNE9PseQLW8aQiUgoyLA==";
                                             var playerInstance = jwplayer('<xsl:value-of select="$streamingfilename"/>');
                                             playerInstance.setup({
-                                            playlist: [{
 
+                                            playlist: [{
+                                            image: "<xsl:value-of select='$mp4thumb'/>",
                                             sources: [{
-                                            file: "<xsl:value-of select="$baseURL"/>/streaming/<xsl:value-of select="$streamingfilename"/>"
+                                            file: "<xsl:value-of select="$baseURL"/>/streaming/<xsl:value-of select='$filename_suffix' />/<xsl:value-of select='$FL_ID'/>/<xsl:value-of select='$streamingfilename'/>"
                                             },{
-                                            file: "rtmp://fldp.rice.edu/fondren/mp3:<xsl:value-of select='$streamingfilename'/>"
+                                            file: "rtmp://fldp.rice.edu/fondren/mp4:<xsl:value-of select='$streamingfilename'/>"
                                             }],
 
                                             }],
                                             primary: "html5",
-                                            height: "30",
-                                            width: "320",
+                                            rtmp: {
+                                            bufferlength: 10
+                                            },
+                                            aspectratio:"16:9",
+                                            allowfullscreen: true,
+                                            width: "100%",
                                             });
                                         </script>
-
                                     </xsl:otherwise>
+
                                 </xsl:choose>
-                            </xsl:when>
-                            <xsl:otherwise>
-                                <a class="image-link">
-                                       <xsl:attribute name="href">
-                                           <xsl:value-of select="mets:FLocat[@LOCTYPE='URL']/@xlink:href"/>
-                                       </xsl:attribute>
-                                  <xsl:choose>
+
+                            </div>
+                        </xsl:when>
+
+                        <xsl:when test="@MIMETYPE='audio/x-mp3'">
+
+                            <!-- With JWPlayer 6 -->
+                            <xsl:choose>
+                                <xsl:when test="contains($filename, '_caption')">
+                                    <!-- find the sibling vtt file and get the streaming name -->
+                                    <xsl:variable name="vtt_filename">
+                                        <xsl:value-of select='$filename'/><xsl:text>.vtt</xsl:text>
+                                    </xsl:variable>
+
+
+                                    <div id="{$streamingfilename}">Loading the player...</div>
+
+                                    <script type="text/javascript">
+                                        jwplayer.key = "7v+RIu3+q3k5BpVlhvaNE9PseQLW8aQiUgoyLA==";
+                                        var playerInstance = jwplayer('<xsl:value-of select="$streamingfilename"/>');
+                                        playerInstance.setup({
+                                        playlist: [{
+
+                                        sources: [{
+                                        file: "<xsl:value-of select="$baseURL"/>/streaming/mp3/<xsl:value-of select="$FL_ID"/>/<xsl:value-of select="$streamingfilename"/>"
+                                        },{
+                                        file: "rtmp://fldp.rice.edu/fondren/mp3:<xsl:value-of select='$streamingfilename'/>"
+                                        }],
+                                        tracks: [{
+                                        file: "<xsl:value-of select="$baseURL"/>/streaming/vtt/<xsl:value-of
+                                            select='$first_lf'/>/<xsl:value-of select='$vtt_filename'/>",
+                                        label: "English",
+                                        kind: "captions",
+                                        "default": true
+                                        }]
+                                        }],
+                                        primary: "html5",
+                                        height: "100",
+                                        width: "320",
+                                        });
+                                    </script>
+                                </xsl:when>
+                                <xsl:otherwise>
+
+                                    <div id="{$streamingfilename}">Loading the player...</div>
+
+                                    <script type="text/javascript">
+                                        jwplayer.key = "7v+RIu3+q3k5BpVlhvaNE9PseQLW8aQiUgoyLA==";
+                                        var playerInstance = jwplayer('<xsl:value-of select="$streamingfilename"/>');
+                                        playerInstance.setup({
+                                        playlist: [{
+
+                                        sources: [{
+                                        file: "<xsl:value-of select="$baseURL"/>/streaming/mp3/<xsl:value-of select="$FL_ID"/>/<xsl:value-of select="$streamingfilename"/>"
+                                        },{
+                                        file: "rtmp://fldp.rice.edu/fondren/mp3:<xsl:value-of select='$streamingfilename'/>"
+                                        }],
+
+                                        }],
+                                        primary: "html5",
+                                        height: "30",
+                                        width: "320",
+                                        });
+                                    </script>
+
+                                </xsl:otherwise>
+                            </xsl:choose>
+                        </xsl:when>
+                        <xsl:when test="(@MIMETYPE='ohms/xml')">
+                            <a type="button" class="btn btn-primary">
+                                <xsl:attribute name="href">
+                                    <xsl:value-of select="$baseURL"/>/ohms/viewer.php?cachefile=<xsl:value-of select="$streamingfilename"/>
+                                </xsl:attribute>
+                                <span class="glyphicon glyphicon-arrow-down" style="visibility: hidden"></span><span class="glyphicon glyphicon-headphones"></span><xsl:text> </xsl:text><span class="glyphicon glyphicon-comment"></span><xsl:text> Synchronized Viewer</xsl:text>
+                            </a>
+                        </xsl:when>
+
+                        <xsl:otherwise>
+
+                            <a class="image-link">
+                                <xsl:attribute name="href">
+                                    <xsl:value-of select="mets:FLocat[@LOCTYPE='URL']/@xlink:href"/>
+                                </xsl:attribute>
+                                <xsl:choose>
                                     <xsl:when test="$context/mets:fileSec/mets:fileGrp[@USE='THUMBNAIL']/
                                         mets:file[@GROUPID=current()/@GROUPID]">
                                         <img alt="Thumbnail">
@@ -381,248 +407,254 @@
                                         </img>
                                     </xsl:when>
                                     <xsl:otherwise>
-                                        <img alt="Thumbnail">
-                                            <xsl:attribute name="data-src">
+                                        <img alt="xmlui.mirage2.item-list.thumbnail" i18n:attr="alt" src="{concat($theme-path,'/images/Text_Page_Icon.png')}">
+                                        </img>
+                                        <!--img alt="Thumbnail">
+                                                <xsl:attribute name="data-src">
                                                 <xsl:text>holder.js/100%x</xsl:text>
                                                 <xsl:value-of select="$thumbnail.maxheight"/>
                                                 <xsl:text>/text:No Thumbnail</xsl:text>
                                             </xsl:attribute>
-                                        </img>
+                                        </img-->
                                     </xsl:otherwise>
                                 </xsl:choose>
-                                </a>
-                          </xsl:otherwise>
-                        </xsl:choose>
+                            </a>
+                        </xsl:otherwise>
+                    </xsl:choose>
                 </div>
             </div>
 
+
+
             <div class="col-xs-6 col-sm-6">
-                <dl class="file-metadata dl-horizontal">
+<dl class="file-metadata dl-horizontal">
+    <xsl:choose>
+        <xsl:when test="$itemtype='piece'">
+            <xsl:variable name="filelabel">
+                <xsl:choose>
+                    <xsl:when test="contains(mets:FLocat[@LOCTYPE='URL']/@xlink:label, '(')">
+                        <xsl:value-of select="substring-before(mets:FLocat[@LOCTYPE='URL']/@xlink:label, ' (')"/>
+                    </xsl:when>
+                    <xsl:otherwise>
+                        <xsl:value-of select="mets:FLocat[@LOCTYPE='URL']/@xlink:label"/>
+                    </xsl:otherwise>
+                </xsl:choose>
+            </xsl:variable>
+            <!-- Get the duration text for use below. -->
+            <xsl:variable name="fileduration">
+                <xsl:choose>
+                    <xsl:when test="contains(mets:FLocat[@LOCTYPE='URL']/@xlink:label, '(')">
+                        <xsl:variable name="raw">
+                            <xsl:call-template name="substring-after-last">
+                                <xsl:with-param name="string" select="mets:FLocat[@LOCTYPE='URL']/@xlink:label"/>
+                                <xsl:with-param name="delimiter"><xsl:text> (</xsl:text></xsl:with-param>
+                            </xsl:call-template>
+                        </xsl:variable>
+                        <xsl:value-of select="substring-before($raw, ')')"/>
+                    </xsl:when>
+                    <xsl:otherwise>
+                        <xsl:text>--:--</xsl:text>/>
+                    </xsl:otherwise>
+                </xsl:choose>
+            </xsl:variable>
+            <dl>
+                <dt>
+                    <i18n:text>xmlui.Shepherd.Movement</i18n:text>
+                    <xsl:text>:</xsl:text>
+                </dt>
+                <dd class="word-break">
                     <xsl:choose>
-                        <xsl:when test="$itemtype='piece'">
-                            <xsl:variable name="filelabel">
-                            <xsl:choose>
-                                <xsl:when test="contains(mets:FLocat[@LOCTYPE='URL']/@xlink:label, '(')">
-                                    <xsl:value-of select="substring-before(mets:FLocat[@LOCTYPE='URL']/@xlink:label, ' (')"/>
-                                </xsl:when>
-                                <xsl:otherwise>
-                                    <xsl:value-of select="mets:FLocat[@LOCTYPE='URL']/@xlink:label"/>
-                                </xsl:otherwise>
-                            </xsl:choose>
-                        </xsl:variable>
-                         <!-- Get the duration text for use below. -->
-                        <xsl:variable name="fileduration">
-                            <xsl:choose>
-                                <xsl:when test="contains(mets:FLocat[@LOCTYPE='URL']/@xlink:label, '(')">
-                                    <xsl:variable name="raw">
-                                        <xsl:call-template name="substring-after-last">
-                                            <xsl:with-param name="string" select="mets:FLocat[@LOCTYPE='URL']/@xlink:label"/>
-                                            <xsl:with-param name="delimiter"><xsl:text> (</xsl:text></xsl:with-param>
-                                        </xsl:call-template>
-                                    </xsl:variable>
-                                    <xsl:value-of select="substring-before($raw, ')')"/>
-                                </xsl:when>
-                                <xsl:otherwise>
-                                    <xsl:text>--:--</xsl:text>/>
-                                </xsl:otherwise>
-                            </xsl:choose>
-                        </xsl:variable>
-                        <dl>
-                            <dt>
-                                <i18n:text>xmlui.Shepherd.Movement</i18n:text>
-                                <xsl:text>:</xsl:text>
-                            </dt>
-                            <dd class="word-break">
-                                <xsl:choose>
-                                    <!-- If filesize is 0, that means this is a placeholder file whose only purpose is to provide
-                                         a place to put descriptive text about why there isn't a real file here instead. -->
-                                    <xsl:when test="@SIZE='0'">
-                                        <p>
-                                            <xsl:value-of select="$filelabel"/>
-                                        </p>
-                                    </xsl:when>
-                                    <xsl:otherwise>
-                                        <a>
-                                            <xsl:attribute name="href">
-                                                <xsl:value-of select="mets:FLocat[@LOCTYPE='URL']/@xlink:href"/>
-                                            </xsl:attribute>
-                                            <xsl:attribute name="title">
-                                                <xsl:value-of select="mets:FLocat[@LOCTYPE='URL']/@xlink:title"/>
-                                            </xsl:attribute>
-                                            <xsl:value-of select="$filelabel"/>
-                                        </a>
-                                    </xsl:otherwise>
-                                </xsl:choose>
-                            </dd>
-                        <!-- File size always comes in bytes and thus needs conversion -->
-                            <dt>
-                                <i18n:text>xmlui.dri2xhtml.METS-1.0.item-files-size</i18n:text>
-                                <xsl:text>:</xsl:text>
-                            </dt>
-                            <dd class="word-break">
-                                <!-- If filesize is 0, that means this is a placeholder file,
-                                      and fill the rest of the cells with the duration info. -->
-                                 <xsl:if test="@SIZE='0'">
-                                     <xsl:attribute name="colspan">
-                                         <xsl:text>3</xsl:text>
-                                     </xsl:attribute>
-                                 </xsl:if>
-                             <!-- "Size" -->
-                             <xsl:if test="@SIZE &gt; 0">
-
-                                <xsl:choose>
-                                    <xsl:when test="@SIZE &lt; 1024">
-                                        <xsl:value-of select="@SIZE"/>
-                                        <i18n:text>xmlui.dri2xhtml.METS-1.0.size-bytes</i18n:text>
-                                    </xsl:when>
-                                    <xsl:when test="@SIZE &lt; 1024 * 1024">
-                                        <xsl:value-of select="substring(string(@SIZE div 1024),1,5)"/>
-                                        <i18n:text>xmlui.dri2xhtml.METS-1.0.size-kilobytes</i18n:text>
-                                    </xsl:when>
-                                    <xsl:when test="@SIZE &lt; 1024 * 1024 * 1024">
-                                        <xsl:value-of select="substring(string(@SIZE div (1024 * 1024)),1,5)"/>
-                                        <i18n:text>xmlui.dri2xhtml.METS-1.0.size-megabytes</i18n:text>
-                                    </xsl:when>
-                                    <xsl:otherwise>
-                                        <xsl:value-of select="substring(string(@SIZE div (1024 * 1024 * 1024)),1,5)"/>
-                                        <i18n:text>xmlui.dri2xhtml.METS-1.0.size-gigabytes</i18n:text>
-                                    </xsl:otherwise>
-                                </xsl:choose>
-                                </xsl:if>
-                            </dd>
-                        <!-- Lookup File Type description in local messages.xml based on MIME Type.
-                             In the original DSpace, this would get resolved to an application via
-                             the Bitstream Registry, but we are constrained by the capabilities of METS
-                             and can't really pass that info through. -->
-                            <dt>
-                                <i18n:text>xmlui.dri2xhtml.METS-1.0.item-files-format</i18n:text>
-                                <xsl:text>:</xsl:text>
-                            </dt>
-                            <dd class="word-break">
-                                <xsl:call-template name="getFileTypeDesc">
-                                    <xsl:with-param name="mimetype">
-                                        <xsl:value-of select="substring-before(@MIMETYPE,'/')"/>
-                                        <xsl:text>/</xsl:text>
-                                        <xsl:choose>
-                                            <xsl:when test="contains(@MIMETYPE,';')">
-                                        <xsl:value-of select="substring-before(substring-after(@MIMETYPE,'/'),';')"/>
-                                            </xsl:when>
-                                            <xsl:otherwise>
-                                                <xsl:value-of select="substring-after(@MIMETYPE,'/')"/>
-                                            </xsl:otherwise>
-                                        </xsl:choose>
-
-                                    </xsl:with-param>
-                                </xsl:call-template>
-                            </dd>
-
-                            <xsl:if test="mets:FLocat[@LOCTYPE='URL']/@xlink:label != ''">
-                                    <dt>
-                                        <i18n:text>xmlui.Shepherd.Duration</i18n:text>
-                                        <xsl:text>:</xsl:text>
-                                    </dt>
-                                    <dd class="word-break">
-                                        <xsl:value-of select="$fileduration"/>
-                                    </dd>
-                            </xsl:if>
-
-
-                        </dl>
+                        <!-- If filesize is 0, that means this is a placeholder file whose only purpose is to provide
+                             a place to put descriptive text about why there isn't a real file here instead. -->
+                        <xsl:when test="@SIZE='0'">
+                            <p>
+                                <xsl:value-of select="$filelabel"/>
+                            </p>
                         </xsl:when>
                         <xsl:otherwise>
-                            <dt>
-                                <i18n:text>xmlui.dri2xhtml.METS-1.0.item-files-name</i18n:text>
-                                <xsl:text>:</xsl:text>
-                            </dt>
-                            <dd class="word-break">
+                            <a>
+                                <xsl:attribute name="href">
+                                    <xsl:value-of select="mets:FLocat[@LOCTYPE='URL']/@xlink:href"/>
+                                </xsl:attribute>
                                 <xsl:attribute name="title">
                                     <xsl:value-of select="mets:FLocat[@LOCTYPE='URL']/@xlink:title"/>
                                 </xsl:attribute>
-                                <xsl:value-of select="util:shortenString(mets:FLocat[@LOCTYPE='URL']/@xlink:title, 30, 5)"/>
-                            </dd>
-                        <!-- File size always comes in bytes and thus needs conversion -->
-                            <dt>
-                                <i18n:text>xmlui.dri2xhtml.METS-1.0.item-files-size</i18n:text>
-                                <xsl:text>:</xsl:text>
-                            </dt>
-                            <dd class="word-break">
-                                <xsl:choose>
-                                    <xsl:when test="@SIZE &lt; 1024">
-                                        <xsl:value-of select="@SIZE"/>
-                                        <i18n:text>xmlui.dri2xhtml.METS-1.0.size-bytes</i18n:text>
-                                    </xsl:when>
-                                    <xsl:when test="@SIZE &lt; 1024 * 1024">
-                                        <xsl:value-of select="substring(string(@SIZE div 1024),1,5)"/>
-                                        <i18n:text>xmlui.dri2xhtml.METS-1.0.size-kilobytes</i18n:text>
-                                    </xsl:when>
-                                    <xsl:when test="@SIZE &lt; 1024 * 1024 * 1024">
-                                        <xsl:value-of select="substring(string(@SIZE div (1024 * 1024)),1,5)"/>
-                                        <i18n:text>xmlui.dri2xhtml.METS-1.0.size-megabytes</i18n:text>
-                                    </xsl:when>
-                                    <xsl:otherwise>
-                                        <xsl:value-of select="substring(string(@SIZE div (1024 * 1024 * 1024)),1,5)"/>
-                                        <i18n:text>xmlui.dri2xhtml.METS-1.0.size-gigabytes</i18n:text>
-                                    </xsl:otherwise>
-                                </xsl:choose>
-                            </dd>
-                        <!-- Lookup File Type description in local messages.xml based on MIME Type.
-                             In the original DSpace, this would get resolved to an application via
-                             the Bitstream Registry, but we are constrained by the capabilities of METS
-                             and can't really pass that info through. -->
-                            <dt>
-                                <i18n:text>xmlui.dri2xhtml.METS-1.0.item-files-format</i18n:text>
-                                <xsl:text>:</xsl:text>
-                            </dt>
-                            <dd class="word-break">
-                                <xsl:call-template name="getFileTypeDesc">
-                                    <xsl:with-param name="mimetype">
-                                        <xsl:value-of select="substring-before(@MIMETYPE,'/')"/>
-                                        <xsl:text>/</xsl:text>
-                                        <xsl:choose>
-                                            <xsl:when test="contains(@MIMETYPE,';')">
-                                        <xsl:value-of select="substring-before(substring-after(@MIMETYPE,'/'),';')"/>
-                                            </xsl:when>
-                                            <xsl:otherwise>
-                                                <xsl:value-of select="substring-after(@MIMETYPE,'/')"/>
-                                            </xsl:otherwise>
-                                        </xsl:choose>
+                                <xsl:value-of select="$filelabel"/>
+                            </a>
+                        </xsl:otherwise>
+                    </xsl:choose>
+                </dd>
+                <!-- File size always comes in bytes and thus needs conversion -->
+                <dt>
+                    <i18n:text>xmlui.dri2xhtml.METS-1.0.item-files-size</i18n:text>
+                    <xsl:text>:</xsl:text>
+                </dt>
+                <dd class="word-break">
+                    <!-- If filesize is 0, that means this is a placeholder file,
+                          and fill the rest of the cells with the duration info. -->
+                    <xsl:if test="@SIZE='0'">
+                        <xsl:attribute name="colspan">
+                            <xsl:text>3</xsl:text>
+                        </xsl:attribute>
+                    </xsl:if>
+                    <!-- "Size" -->
+                    <xsl:if test="@SIZE &gt; 0">
 
-                                    </xsl:with-param>
-                                </xsl:call-template>
-                            </dd>
+                        <xsl:choose>
+                            <xsl:when test="@SIZE &lt; 1024">
+                                <xsl:value-of select="@SIZE"/>
+                                <i18n:text>xmlui.dri2xhtml.METS-1.0.size-bytes</i18n:text>
+                            </xsl:when>
+                            <xsl:when test="@SIZE &lt; 1024 * 1024">
+                                <xsl:value-of select="substring(string(@SIZE div 1024),1,5)"/>
+                                <i18n:text>xmlui.dri2xhtml.METS-1.0.size-kilobytes</i18n:text>
+                            </xsl:when>
+                            <xsl:when test="@SIZE &lt; 1024 * 1024 * 1024">
+                                <xsl:value-of select="substring(string(@SIZE div (1024 * 1024)),1,5)"/>
+                                <i18n:text>xmlui.dri2xhtml.METS-1.0.size-megabytes</i18n:text>
+                            </xsl:when>
+                            <xsl:otherwise>
+                                <xsl:value-of select="substring(string(@SIZE div (1024 * 1024 * 1024)),1,5)"/>
+                                <i18n:text>xmlui.dri2xhtml.METS-1.0.size-gigabytes</i18n:text>
+                            </xsl:otherwise>
+                        </xsl:choose>
+                    </xsl:if>
+                </dd>
+                <!-- Lookup File Type description in local messages.xml based on MIME Type.
+                     In the original DSpace, this would get resolved to an application via
+                     the Bitstream Registry, but we are constrained by the capabilities of METS
+                     and can't really pass that info through. -->
+                <dt>
+                    <i18n:text>xmlui.dri2xhtml.METS-1.0.item-files-format</i18n:text>
+                    <xsl:text>:</xsl:text>
+                </dt>
+                <dd class="word-break">
+                    <xsl:call-template name="getFileTypeDesc">
+                        <xsl:with-param name="mimetype">
+                            <xsl:value-of select="substring-before(@MIMETYPE,'/')"/>
+                            <xsl:text>/</xsl:text>
+                            <xsl:choose>
+                                <xsl:when test="contains(@MIMETYPE,';')">
+                                    <xsl:value-of select="substring-before(substring-after(@MIMETYPE,'/'),';')"/>
+                                </xsl:when>
+                                <xsl:otherwise>
+                                    <xsl:value-of select="substring-after(@MIMETYPE,'/')"/>
+                                </xsl:otherwise>
+                            </xsl:choose>
 
-                            <!-- Display the contents of 'Description' only if bitstream contains a description -->
-                            <xsl:if test="mets:FLocat[@LOCTYPE='URL']/@xlink:label != ''">
-                                    <dt>
-                                        <i18n:text>xmlui.dri2xhtml.METS-1.0.item-files-description</i18n:text>
-                                        <xsl:text>:</xsl:text>
-                                    </dt>
-                                    <dd class="word-break">
-                                        <xsl:attribute name="title">
-                                            <xsl:value-of select="mets:FLocat[@LOCTYPE='URL']/@xlink:label"/>
-                                        </xsl:attribute>
-                                        <xsl:value-of select="util:shortenString(mets:FLocat[@LOCTYPE='URL']/@xlink:label, 30, 5)"/>
-                                    </dd>
-                            </xsl:if>
+                        </xsl:with-param>
+                    </xsl:call-template>
+                </dd>
 
+                <xsl:if test="mets:FLocat[@LOCTYPE='URL']/@xlink:label != ''">
+                    <dt>
+                        <i18n:text>xmlui.Shepherd.Duration</i18n:text>
+                        <xsl:text>:</xsl:text>
+                    </dt>
+                    <dd class="word-break">
+                        <xsl:value-of select="$fileduration"/>
+                    </dd>
+                </xsl:if>
+
+
+            </dl>
+        </xsl:when>
+        <xsl:otherwise>
+            <dt>
+                <i18n:text>xmlui.dri2xhtml.METS-1.0.item-files-name</i18n:text>
+                <xsl:text>:</xsl:text>
+            </dt>
+            <dd class="word-break">
+                <xsl:attribute name="title">
+                    <xsl:value-of select="mets:FLocat[@LOCTYPE='URL']/@xlink:title"/>
+                </xsl:attribute>
+                <xsl:value-of select="util:shortenString(mets:FLocat[@LOCTYPE='URL']/@xlink:title, 30, 5)"/>
+            </dd>
+            <!-- File size always comes in bytes and thus needs conversion -->
+            <dt>
+                <i18n:text>xmlui.dri2xhtml.METS-1.0.item-files-size</i18n:text>
+                <xsl:text>:</xsl:text>
+            </dt>
+            <dd class="word-break">
+                <xsl:choose>
+                    <xsl:when test="@SIZE &lt; 1024">
+                        <xsl:value-of select="@SIZE"/>
+                        <i18n:text>xmlui.dri2xhtml.METS-1.0.size-bytes</i18n:text>
+                    </xsl:when>
+                    <xsl:when test="@SIZE &lt; 1024 * 1024">
+                        <xsl:value-of select="substring(string(@SIZE div 1024),1,5)"/>
+                        <i18n:text>xmlui.dri2xhtml.METS-1.0.size-kilobytes</i18n:text>
+                    </xsl:when>
+                    <xsl:when test="@SIZE &lt; 1024 * 1024 * 1024">
+                        <xsl:value-of select="substring(string(@SIZE div (1024 * 1024)),1,5)"/>
+                        <i18n:text>xmlui.dri2xhtml.METS-1.0.size-megabytes</i18n:text>
+                    </xsl:when>
+                    <xsl:otherwise>
+                        <xsl:value-of select="substring(string(@SIZE div (1024 * 1024 * 1024)),1,5)"/>
+                        <i18n:text>xmlui.dri2xhtml.METS-1.0.size-gigabytes</i18n:text>
+                    </xsl:otherwise>
+                </xsl:choose>
+            </dd>
+            <!-- Lookup File Type description in local messages.xml based on MIME Type.
+                 In the original DSpace, this would get resolved to an application via
+                 the Bitstream Registry, but we are constrained by the capabilities of METS
+                 and can't really pass that info through. -->
+            <dt>
+                <i18n:text>xmlui.dri2xhtml.METS-1.0.item-files-format</i18n:text>
+                <xsl:text>:</xsl:text>
+            </dt>
+            <dd class="word-break">
+                <xsl:call-template name="getFileTypeDesc">
+                    <xsl:with-param name="mimetype">
+                        <xsl:value-of select="substring-before(@MIMETYPE,'/')"/>
+                        <xsl:text>/</xsl:text>
+                        <xsl:choose>
+                            <xsl:when test="contains(@MIMETYPE,';')">
+                                <xsl:value-of select="substring-before(substring-after(@MIMETYPE,'/'),';')"/>
+                            </xsl:when>
+                            <xsl:otherwise>
+                                <xsl:value-of select="substring-after(@MIMETYPE,'/')"/>
                             </xsl:otherwise>
                         </xsl:choose>
 
-                        </dl>
-                        </div>
+                    </xsl:with-param>
+                </xsl:call-template>
+            </dd>
 
-                        <div class="file-link col-xs-6 col-xs-offset-6 col-sm-2 col-sm-offset-0">
-                            <xsl:choose>
-                                <xsl:when test="@ADMID">
-                                    <xsl:call-template name="display-rights"/>
-                                </xsl:when>
-                                <xsl:otherwise>
-                                    <xsl:call-template name="view-open"/>
-                                </xsl:otherwise>
-                            </xsl:choose>
-                        </div>
+            <!-- Display the contents of 'Description' only if bitstream contains a description -->
+            <xsl:if test="mets:FLocat[@LOCTYPE='URL']/@xlink:label != ''">
+                <dt>
+
+                    <i18n:text>xmlui.dri2xhtml.METS-1.0.item-files-description</i18n:text>
+                    <xsl:text>:</xsl:text>
+                </dt>
+                <dd class="word-break">
+                    <xsl:attribute name="title">
+                        <xsl:value-of select="mets:FLocat[@LOCTYPE='URL']/@xlink:label"/>
+                    </xsl:attribute>
+                    <xsl:value-of select="util:shortenString(mets:FLocat[@LOCTYPE='URL']/@xlink:label, 30, 5)"/>
+                </dd>
+            </xsl:if>
+
+        </xsl:otherwise>
+    </xsl:choose>
+
+        </dl>
+        </div>
+
+        <div class="file-link col-xs-6 col-xs-offset-6 col-sm-2 col-sm-offset-0">
+        <xsl:choose>
+            <xsl:when test="@ADMID">
+                <xsl:call-template name="display-rights"/>
+            </xsl:when>
+            <xsl:otherwise>
+                <xsl:call-template name="view-open"/>
+            </xsl:otherwise>
+        </xsl:choose>
+        </div>
     </div>
-</xsl:template>
+    </xsl:template>
+
 
     <!-- MMS: Give "Files in this item" table and header a CSS wrapper.  Change header size.  Copied from DIM-Handler.xsl -->
     <xsl:template match="mets:fileGrp[@USE='ORE']">
