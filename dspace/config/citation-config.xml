@@ -253,7 +253,7 @@
                   </field>
 
                   <!-- URI -->
-                 <field>
+                 <field noshow-if-exist="dc.identifier.doi">
                    <dc-schema>dc</dc-schema>
                    <dc-element>identifier</dc-element>
                    <dc-qualifier>uri</dc-qualifier>
