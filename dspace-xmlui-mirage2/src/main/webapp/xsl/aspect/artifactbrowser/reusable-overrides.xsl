@@ -3119,7 +3119,10 @@ references to stylesheets pulled directly from the pageMeta element. -->
             </xsl:when>
             <xsl:when test="count(dim:field[@element='title'][not(@qualifier)]) = 1">
                 <h2 class="page-header first-page-header">
-                    <xsl:value-of select="dim:field[@element='title'][not(@qualifier)][1]/node()"/>[<xsl:value-of select="dim:field[@element='title'][@qualifier='subtitle']/node()"/>]
+                    <xsl:value-of select="dim:field[@element='title'][not(@qualifier)][1]/node()"/>
+                    <xsl:if test="count(dim:field[@element='title'][@qualifier='subtitle']) = 1">
+                        [<xsl:value-of select="dim:field[@element='title'][@qualifier='subtitle']/node()"/>]
+                    </xsl:if>
                 </h2>
             </xsl:when>
             <xsl:otherwise>
