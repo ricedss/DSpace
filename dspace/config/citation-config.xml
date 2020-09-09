@@ -244,6 +244,13 @@
                    <display-format format-it="year-only">, @field@. </display-format>
                  </field>
 
+                  <!-- DOI -->
+                  <field>
+                      <dc-schema>dc</dc-schema>
+                      <dc-element>identifier</dc-element>
+                      <dc-qualifier>doi</dc-qualifier>
+                      <display-format> @field@.</display-format>
+                  </field>
 
                   <!-- URI -->
                  <field>

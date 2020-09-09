@@ -1170,14 +1170,14 @@
            </xsl:variable>
 
         <xsl:choose>
-            <xsl:when test="(@MIMETYPE='audio/x-mp3') or (@MIMETYPE='video/mp4') or (@MIMETYPE='video/m4v')">
+            <!--xsl:when test="(@MIMETYPE='audio/x-mp3') or (@MIMETYPE='video/mp4') or (@MIMETYPE='video/m4v')">
                  <a>
                     <xsl:attribute name="href">
                         <xsl:value-of select="$baseURL"/>/streaming/<xsl:value-of select="$streamingfilename"/>
                     </xsl:attribute>
                     <i18n:text>xmlui.dri2xhtml.METS-1.0.item-files-viewOpen</i18n:text>
                  </a>
-            </xsl:when>
+            </xsl:when-->
             <xsl:when test="(@MIMETYPE='ohms/xml')">
                  <a>
                     <xsl:attribute name="href">
@@ -2369,7 +2369,7 @@
                 </tr>
             </xsl:when>
             <!-- Ying (via MMS): If this field is a URL, turn it into a link -->
-            <xsl:when test="$metadatafieldname='dc.rights.uri' or $metadatafieldname='dc.identifier.uri' or $metadatafieldname='dc.relations'">
+            <xsl:when test="$metadatafieldname='dc.rights.uri' or $metadatafieldname='dc.identifier.uri' or $metadatafieldname='dc.relations' or $metadatafieldname='dc.identifier.doi'">
                 <tr class="ds-table-row">
                     <th>
                         <xsl:copy-of select="$metadatafieldname" />
@@ -3095,5 +3095,39 @@ references to stylesheets pulled directly from the pageMeta element. -->
         </div>
     </xsl:template>
 
+    <!-- Ying for adding subtitle to title; Only do this when there is one title  -->
+    <xsl:template name="itemSummaryView-DIM-title">
+        <xsl:choose>
+            <xsl:when test="count(dim:field[@element='title'][not(@qualifier)]) &gt; 1">
+                <h2 class="page-header first-page-header">
+                    <xsl:value-of select="dim:field[@element='title'][not(@qualifier)][1]/node()"/>
+                </h2>
+                <div class="simple-item-view-other">
+                    <p class="lead">
+                        <xsl:for-each select="dim:field[@element='title'][not(@qualifier)]">
+                            <xsl:if test="not(position() = 1)">
+                                <xsl:value-of select="./node()"/>
+                                <xsl:if test="count(following-sibling::dim:field[@element='title'][not(@qualifier)]) != 0">
+                                    <xsl:text>; </xsl:text>
+                                    <br/>
+                                </xsl:if>
+                            </xsl:if>
+
+                        </xsl:for-each>
+                    </p>
+                </div>
+            </xsl:when>
+            <xsl:when test="count(dim:field[@element='title'][not(@qualifier)]) = 1">
+                <h2 class="page-header first-page-header">
+                    <xsl:value-of select="dim:field[@element='title'][not(@qualifier)][1]/node()"/>[<xsl:value-of select="dim:field[@element='title'][@qualifier='subtitle']/node()"/>]
+                </h2>
+            </xsl:when>
+            <xsl:otherwise>
+                <h2 class="page-header first-page-header">
+                    <i18n:text>xmlui.dri2xhtml.METS-1.0.no-title</i18n:text>
+                </h2>
+            </xsl:otherwise>
+        </xsl:choose>
+    </xsl:template>
 
 </xsl:stylesheet>
