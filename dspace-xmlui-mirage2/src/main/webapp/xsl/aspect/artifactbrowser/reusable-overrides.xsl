@@ -1165,19 +1165,45 @@
            <xsl:variable name="repositoryURL" select="dri:document/dri:meta/dri:pageMeta/dri:trail[1]/@target"/>
            <xsl:variable name="bitstreamurl1" select="mets:FLocat[@LOCTYPE='URL']/@xlink:href"/>
            <xsl:variable name="bitstreamurl" select="substring-before($bitstreamurl1, '&amp;isAllowed')"/>
-           <xsl:variable name="streamingfilename">
-               <xsl:value-of select="@ID"/>_<xsl:value-of select="mets:FLocat/@xlink:title"/>
-           </xsl:variable>
+
+        <xsl:variable name="ID"><xsl:value-of select="@ID"/></xsl:variable>
+        <xsl:variable name="streamingfilename">
+            <xsl:value-of select="$ID"/>_<xsl:value-of select="mets:FLocat/@xlink:title"/>
+        </xsl:variable>
+        <xsl:variable name="filename">
+            <xsl:value-of select="mets:FLocat/@xlink:title"/>
+        </xsl:variable>
+        <xsl:variable name="first_lf">
+            <xsl:value-of select='substring($filename, 0, 2)'/><xsl:text>.vtt</xsl:text>
+        </xsl:variable>
+
+        <xsl:variable name="FL_ID"> <!--remove file_ from the beginning -->
+            <xsl:value-of select="substring($ID, 6,2)"/>
+        </xsl:variable>
+
 
         <xsl:choose>
-            <!--xsl:when test="(@MIMETYPE='audio/x-mp3') or (@MIMETYPE='video/mp4') or (@MIMETYPE='video/m4v')">
+            <xsl:when test="(@MIMETYPE='audio/x-mp3') or (@MIMETYPE='video/mp4') or (@MIMETYPE='video/m4v')">
+
+                <xsl:variable name="filename_suffix">
+                    <xsl:if test="@MIMETYPE='video/mp4'">
+                        <xsl:text>mp4</xsl:text>
+                    </xsl:if>
+                    <xsl:if test="@MIMETYPE='video/m4v'">
+                        <xsl:text>m4v</xsl:text>
+                    </xsl:if>
+                    <xsl:if test="@MIMETYPE='audio/x-mp3'">
+                        <xsl:text>mp3</xsl:text>
+                    </xsl:if>
+                </xsl:variable>
+
                  <a>
                     <xsl:attribute name="href">
-                        <xsl:value-of select="$baseURL"/>/streaming/<xsl:value-of select="$streamingfilename"/>
+                        <xsl:value-of select="$baseURL"/>/streaming/<xsl:value-of select='$filename_suffix' />/<xsl:value-of select='$FL_ID'/>/<xsl:value-of select='$streamingfilename'/>
                     </xsl:attribute>
                     <i18n:text>xmlui.dri2xhtml.METS-1.0.item-files-viewOpen</i18n:text>
                  </a>
-            </xsl:when-->
+            </xsl:when>
             <xsl:when test="(@MIMETYPE='ohms/xml')">
                  <a>
                     <xsl:attribute name="href">
