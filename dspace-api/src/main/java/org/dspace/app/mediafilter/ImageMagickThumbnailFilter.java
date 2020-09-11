@@ -142,6 +142,7 @@ public abstract class ImageMagickThumbnailFilter extends MediaFilter {
 		String s = "[" + page + "]";
 		op.addImage(f.getAbsolutePath() + s);
 		if (flatten) {
+			op.alpha();
 			op.flatten();
 		}
 		// PDFs using the CMYK color system can be handled specially if
