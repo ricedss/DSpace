@@ -292,7 +292,69 @@
         First, you have to work on one protocol at a time
         Second, recursive over the text util there is no urls left
     -->
+    <!-- Ying: updated to parse https also -->
+    <!-- TODO make this handle https as well -->
     <xsl:template name="makeLinkFromText">
+    <xsl:variable name="url-protocol">
+        <xsl:if test="contains(., 'https://')">
+            <xsl:text>https://</xsl:text>
+        </xsl:if>
+        <xsl:if test="contains(., 'http://')">
+            <xsl:text>http://</xsl:text>
+        </xsl:if>
+    </xsl:variable>
+
+    <xsl:variable name="url-body" select="substring-after(.,$url-protocol)"/>
+    <!--
+        Ying (2020-04-08)
+        Update this to a two-step analysis -
+        First, get pre-url by removing the first occurring space;
+        Second, remove any extra symbols may not belong to the url in pre-url (. , ) ; etc.)
+    -->
+    <xsl:variable name="pre-url">
+        <xsl:choose>
+            <xsl:when test="contains($url-body, ' ')">
+                <xsl:value-of select="substring-before($url-body,' ')"/>
+            </xsl:when>
+            <xsl:otherwise>
+                <xsl:value-of select="$url-body"/>
+            </xsl:otherwise>
+        </xsl:choose>
+    </xsl:variable>
+
+    <xsl:variable name="url">
+        <xsl:value-of select="$url-protocol"/>
+        <xsl:choose>
+            <xsl:when test="contains($pre-url, ')')">
+                <xsl:value-of select="substring-before($pre-url, ')')"/>
+            </xsl:when>
+            <xsl:when test="substring($pre-url, string-length($pre-url)) = '.'">
+                <xsl:value-of select="substring($pre-url, 1, string-length($pre-url) - 1)"/>
+            </xsl:when>
+            <!-- this won't work since . is valid input in the url. above only remove the last one-->
+            <!--xsl:when test="contains($pre-url, '.')">
+                <xsl:value-of select="substring-before($pre-url, '.')"/>
+            </xsl:when-->
+            <xsl:when test="contains($pre-url, ',')">
+                <xsl:value-of select="substring-before($pre-url, ',')"/>
+            </xsl:when>
+            <xsl:when test="contains($pre-url, ';')">
+                <xsl:value-of select="substring-before($pre-url, ';')"/>
+            </xsl:when>
+            <xsl:otherwise>
+                <xsl:value-of select="$pre-url"/>
+            </xsl:otherwise>
+        </xsl:choose>
+    </xsl:variable>
+    <xsl:value-of select="substring-before(.,$url)"/>
+    <a href="{$url}">
+        <xsl:value-of select="$url"/>
+    </a>
+    <xsl:value-of select="substring-after(.,$url)"/>
+    </xsl:template>
+
+    <!-- trying to parse multiple links in the text and it's quite complicated, we decided not do it-->
+    <xsl:template name="makeLinkFromText-v2">
         <xsl:variable name="url-body">
             <xsl:value-of select="."/>
         </xsl:variable>
@@ -325,7 +387,7 @@
         Ying (2020-04-14)
         Add this template to extract multiple urls in a text
     -->
-    <xsl:template name="find_url">
+    <xsl:template name="find_url-with-v2">
         <xsl:param name="url-protocol">
 
         </xsl:param>
