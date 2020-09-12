@@ -387,7 +387,7 @@
         Ying (2020-04-14)
         Add this template to extract multiple urls in a text
     -->
-    <xsl:template name="find_url-with-v2">
+    <xsl:template name="find_url">
         <xsl:param name="url-protocol">
 
         </xsl:param>
