@@ -139,12 +139,15 @@ public abstract class ImageMagickThumbnailFilter extends MediaFilter {
 		f2.deleteOnExit();
 		ConvertCmd cmd = new ConvertCmd();
 		IMOperation op = new IMOperation();
-		// Ying added this for black background thumbnail problem with pdf
-		op.alpha("remove");
-		// END Ying added this for black background thumbnail problem with pdf
 		String s = "[" + page + "]";
 		op.addImage(f.getAbsolutePath() + s);
 		if (flatten) {
+			// set the background colour to white (could also try using, e.g. "white" or "rgb(255,255,255)")
+			op.background("#ffffff");
+			// flatten the image
+			// Ying added this for black background thumbnail problem with pdf
+			op.alpha("remove");
+			// END Ying added this for black background thumbnail problem with pdf
 			op.flatten();
 		}
 		// PDFs using the CMYK color system can be handled specially if
