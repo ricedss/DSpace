@@ -143,10 +143,12 @@ public abstract class ImageMagickThumbnailFilter extends MediaFilter {
 		op.addImage(f.getAbsolutePath() + s);
 		if (flatten) {
 			// set the background colour to white (could also try using, e.g. "white" or "rgb(255,255,255)")
-			op.background("#ffffff");
+			//op.background("#ffffff");
 			// flatten the image
 			// Ying added this for black background thumbnail problem with pdf
-			op.alpha("remove");
+			//op.alpha("remove");
+			// change color space to sRGB
+			op.colorspace('sRGB');
 			// END Ying added this for black background thumbnail problem with pdf
 			op.flatten();
 		}
