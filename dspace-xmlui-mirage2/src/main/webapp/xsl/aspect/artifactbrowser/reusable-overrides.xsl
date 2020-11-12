@@ -850,7 +850,7 @@
              <xsl:value-of select="mets:FLocat/@xlink:title"/>
          </xsl:variable>
          <xsl:variable name="first_lf">
-             <xsl:value-of select='substring($filename, 0, 2)'/><xsl:text>.vtt</xsl:text>
+             <xsl:value-of select='substring($filename, 0, 2)'/>
          </xsl:variable>
 
 
@@ -874,9 +874,7 @@
                         </xsl:when>
 
                         <xsl:when test="@MIMETYPE='video/mp4' or @MIMETYPE='video/m4v'">
-                            <!--div class="videoContainer" style="height: 0;overflow: hidden;padding-bottom: 56.25%;padding-top: 25px;position: relative;">
-                            <div id="{$streamingfilename}" style="position:absolute;width:100% !important;height: 100% !important;">Loading the player...</div>
-                            -->
+
                             <xsl:variable name="filename_suffix">
                                 <xsl:if test="@MIMETYPE='video/mp4'">
                                     <xsl:text>mp4</xsl:text>
@@ -893,9 +891,9 @@
                                 mets:file[@GROUPID=current()/@GROUPID]/mets:FLocat[@LOCTYPE='URL']/@xlink:href"/>
                             <xsl:variable name="mp4thumb" select="substring-before($mp4thumb1, '?')"/>
 
-                            <xsl:choose>
+                            <!--xsl:choose>
                                 <xsl:when test="contains($filename, '_caption')">
-                                    <!-- find the sibling vtt file and get the streaming name -->
+
                                     <xsl:variable name="vtt_filename">
                                         <xsl:value-of select='$filename'/><xsl:text>.vtt</xsl:text>
                                     </xsl:variable>
@@ -929,7 +927,7 @@
                                         });
                                     </script>
                                 </xsl:when>
-                                <xsl:otherwise>
+                                <xsl:otherwise-->
                                     <script type="text/javascript">
                                         jwplayer.key = "7v+RIu3+q3k5BpVlhvaNE9PseQLW8aQiUgoyLA==";
                                         var playerInstance = jwplayer('<xsl:value-of select="$streamingfilename"/>');
@@ -953,9 +951,9 @@
                                             width: "100%",
                                         });
                                     </script>
-                                </xsl:otherwise>
+                                <!--/xsl:otherwise>
 
-                            </xsl:choose>
+                            </xsl:choose-->
 
                         </div>
                     </xsl:when>
@@ -985,8 +983,7 @@
                                             file: "rtmp://fldp.rice.edu/fondren/mp3:<xsl:value-of select='$streamingfilename'/>"
                                         }],
                                         tracks: [{
-                                            file: "<xsl:value-of select="$baseURL"/>/streaming/vtt/<xsl:value-of
-                                        select='$first_lf'/>/<xsl:value-of select='$vtt_filename'/>",
+                                            file: "<xsl:value-of select="$baseURL"/>/streaming/vtt/<xsl:value-of select='$first_lf'/>/<xsl:value-of select='$vtt_filename'/>",
                                             label: "English",
                                             kind: "captions",
                                             "default": true
