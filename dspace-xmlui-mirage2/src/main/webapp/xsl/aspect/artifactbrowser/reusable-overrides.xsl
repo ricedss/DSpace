@@ -850,7 +850,7 @@
              <xsl:value-of select="mets:FLocat/@xlink:title"/>
          </xsl:variable>
          <xsl:variable name="first_lf">
-             <xsl:value-of select='substring($filename, 0, 2)'/>
+             <xsl:value-of select='substring($filename, 1, 2)'/>
          </xsl:variable>
 
 
