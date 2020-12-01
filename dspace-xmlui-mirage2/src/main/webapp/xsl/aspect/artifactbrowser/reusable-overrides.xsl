@@ -891,7 +891,7 @@
                                 mets:file[@GROUPID=current()/@GROUPID]/mets:FLocat[@LOCTYPE='URL']/@xlink:href"/>
                             <xsl:variable name="mp4thumb" select="substring-before($mp4thumb1, '?')"/>
 
-                            <!--xsl:choose>
+                            <xsl:choose>
                                 <xsl:when test="contains($filename, '_caption')">
 
                                     <xsl:variable name="vtt_filename">
@@ -927,7 +927,7 @@
                                         });
                                     </script>
                                 </xsl:when>
-                                <xsl:otherwise-->
+                                <xsl:otherwise>
                                     <script type="text/javascript">
                                         jwplayer.key = "7v+RIu3+q3k5BpVlhvaNE9PseQLW8aQiUgoyLA==";
                                         var playerInstance = jwplayer('<xsl:value-of select="$streamingfilename"/>');
@@ -951,9 +951,9 @@
                                             width: "100%",
                                         });
                                     </script>
-                                <!--/xsl:otherwise>
+                                </xsl:otherwise>
 
-                            </xsl:choose-->
+                            </xsl:choose>
 
                         </div>
                     </xsl:when>
