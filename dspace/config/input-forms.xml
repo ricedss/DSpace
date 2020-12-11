@@ -620,26 +620,25 @@
      <!--Research Data Form -->
       <form name="researchdataform">
         <page number="1">
-          <field>
-            <dc-schema>dc</dc-schema>
-            <dc-element>type</dc-element>
-            <dc-qualifier></dc-qualifier>
-            <repeatable>false</repeatable>
-            <label>Content Format</label>
-            <input-type value-pairs-name="researchdata_dcmitype">dropdown</input-type>
-             <hint>Select the appropriate term from the dropdown list. Most often, this will be Dataset, defined as "data encoded in a defined structure."</hint>
-            <required>You must enter Content Format for this item.</required>
-              <!--visibility>workflow</visibility-->
-          </field>
-          <field>
+            <!--<field>
                 <dc-schema>dc</dc-schema>
                 <dc-element>type</dc-element>
-                <dc-qualifier>genre</dc-qualifier>
-                <label>Content Type</label>
-                <input-type>onebox</input-type>
-                <hint>xmlui.Submission.submit.DescribeStep.hint.researchdata.typegenre</hint>
-		        <required></required>
-          </field>
+                <dc-qualifier></dc-qualifier>
+                <repeatable>false</repeatable>
+                <label>Content Format</label>
+                <input-type value-pairs-name="researchdata_dcmitype">dropdown</input-type>
+                <hint>Select the appropriate term from the dropdown list. Most often, this will be Dataset, defined as "data encoded in a defined structure."</hint>
+                <required>You must enter Content Format for this item.</required>
+            </field>-->
+            <field>
+                  <dc-schema>dc</dc-schema>
+                  <dc-element>type</dc-element>
+                  <dc-qualifier>genre</dc-qualifier>
+                  <label>Content Type</label>
+                  <input-type>onebox</input-type>
+                  <hint>xmlui.Submission.submit.DescribeStep.hint.researchdata.typegenre</hint>
+                  <required></required>
+            </field>
 
           <field>
             <dc-schema>dc</dc-schema>
@@ -659,7 +658,6 @@
                 <label>Subtitle of Dataset</label>
                 <input-type value-pairs-name="Researchdata_subtitle">list</input-type>
                 <hint>If your data is supplemental and/or for replication purposes, check the appropriate box(es). If neither apply, please check “Dataset.”</hint>
-                <required>You must enter a Subtitle of Dataset for this item.</required>
               </field>
             <field>
               <dc-schema>dc</dc-schema>
@@ -669,6 +667,26 @@
               <label>Creator(s) of the dataset</label>
               <input-type>name</input-type>
               <hint>Last name, e.g. Smith First name (s) + “Jr,” e.g. Donald, Jr</hint>
+              <required></required>
+            </field>
+            <field>
+                <dc-schema>dc</dc-schema>
+                <dc-element>contributor</dc-element>
+                <dc-qualifier>org</dc-qualifier>
+                <repeatable>true</repeatable>
+                <label>Rice affiliated department</label>
+                <input-type>onebox</input-type>
+                <hint>Rice affiliated department</hint>
+            </field>
+
+            <field>
+              <dc-schema>dc</dc-schema>
+              <dc-element>description</dc-element>
+              <dc-qualifier>abstract</dc-qualifier>
+              <repeatable>false</repeatable>
+              <label>Abstract</label>
+              <input-type>textarea</input-type>
+              <hint>Abstract</hint>
               <required></required>
             </field>
 
@@ -737,7 +755,6 @@
               <label>Language of the dataset</label>
               <input-type>onebox</input-type>
               <hint>xmlui.Submission.submit.DescribeStep.hint.researchdata.language</hint>
-              <required>You must enter Language of the dataset for this item.</required>
             </field>
 
             <field>
@@ -805,7 +822,7 @@
                 <required></required>
               </field>
 
-            <field>
+            <!--<field>
                 <dc-schema>dc</dc-schema>
                 <dc-element>description</dc-element>
                 <dc-qualifier>tableofcontents</dc-qualifier>
@@ -814,7 +831,7 @@
                 <input-type>textarea</input-type>
                 <hint>xmlui.Submission.submit.DescribeStep.hint.researchdata.tableofcontents</hint>
                 <required></required>
-              </field>
+              </field>-->
 
              <field>
                 <dc-schema>dc</dc-schema>
@@ -861,7 +878,7 @@
               <required></required>
             </field>
 
-            <field>
+            <!--<field>
               <dc-schema>dc</dc-schema>
               <dc-element>identifier</dc-element>
               <dc-qualifier>doi</dc-qualifier>
@@ -870,7 +887,7 @@
               <input-type>onebox</input-type>
               <hint>xmlui.Submission.submit.DescribeStep.hint.researchdata.DOI</hint>
               <required></required>
-            </field>
+            </field>-->
 
             <field>
               <dc-schema>dc</dc-schema>
@@ -2575,7 +2592,7 @@
              <type-bind>Conference paper</type-bind>
            <label>Conference Location</label>
            <input-type>onebox</input-type>
-           <hint></hint>
+           <hint>Conference Location</hint>
            <required></required>
          </field>
 
@@ -3017,7 +3034,7 @@ it, please enter the types and the actual numbers or codes below.</hint>
              <type-bind>Conference paper</type-bind>
            <label>Conference Location</label>
            <input-type>onebox</input-type>
-           <hint></hint>
+           <hint>Conference Paper</hint>
            <required></required>
          </field>
 
@@ -3264,7 +3281,7 @@ it, please enter the types and the actual numbers or codes below.</hint>
              <type-bind>Conference paper</type-bind>
            <label>Conference Location</label>
            <input-type>onebox</input-type>
-           <hint></hint>
+           <hint>Conference Location</hint>
            <required></required>
          </field>
 
