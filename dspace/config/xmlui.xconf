@@ -152,7 +152,7 @@
     -->
     <themes>
 
-        <theme name="TIMEA Theme" handle="123456789/1" path="TIMEA/"/>
+        <!--<theme name="TIMEA Theme" handle="123456789/1" path="TIMEA/"/>-->
         <theme name="Americas Theme" handle="1911/9219" path="Americas/"/>
 
         <theme name="Rice Gallery" handle="1911/69482" path="Rice_Gallery/"/>
