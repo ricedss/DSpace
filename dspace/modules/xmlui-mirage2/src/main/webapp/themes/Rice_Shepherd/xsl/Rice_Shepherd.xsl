@@ -287,7 +287,44 @@
                                     });
                                 </script>
                             </xsl:when>
-                            <xsl:otherwise>
+                                    <xsl:when test="contains($filename, '_srtcaption')">
+
+
+                                        <xsl:variable name="srt_filename">
+                                            <xsl:value-of select='$filename'/><xsl:text>.srt</xsl:text>
+                                        </xsl:variable>
+                                        <script type="text/javascript">
+                                            jwplayer.key = "7v+RIu3+q3k5BpVlhvaNE9PseQLW8aQiUgoyLA==";
+                                            var playerInstance = jwplayer('<xsl:value-of select="$streamingfilename"/>');
+                                            playerInstance.setup({
+
+                                            playlist: [{
+                                            image: "<xsl:value-of select='$mp4thumb'/>",
+                                            sources: [{
+                                            file: "<xsl:value-of select="$baseURL"/>/streaming/<xsl:value-of select="$filename_suffix" />/<xsl:value-of select="$FL_ID"/>/<xsl:value-of select="$streamingfilename"/>"
+                                            },{
+                                            file: "rtmp://fldp.rice.edu/fondren/mp4:<xsl:value-of select='$streamingfilename'/>"
+                                            }],
+                                            tracks: [{
+                                            file: "<xsl:value-of select="$baseURL"/>/streaming/srt/<xsl:value-of select="$first_lf"/>/<xsl:value-of select="$srt_filename"/>",
+                                            label: "English",
+                                            kind: "captions",
+                                            "default": true
+                                            }]
+
+                                            }],
+                                            primary: "html5",
+                                            rtmp: {
+                                            bufferlength: 10
+                                            },
+                                            aspectratio:"16:9",
+                                            allowfullscreen: true,
+                                            width: "100%",
+                                            });
+                                        </script>
+                                    </xsl:when>
+
+                                    <xsl:otherwise>
                                         <script type="text/javascript">
                                             jwplayer.key = "7v+RIu3+q3k5BpVlhvaNE9PseQLW8aQiUgoyLA==";
                                             var playerInstance = jwplayer('<xsl:value-of select="$streamingfilename"/>');
