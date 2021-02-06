@@ -497,7 +497,7 @@ public class MediaFilterServiceImpl implements MediaFilterService, InitializingB
         String streaming_name = "";
 
         // special case for vtt file, they don't have the id part as the file name, just original file name plus .vtt
-        if(extension.equals("vtt")){
+        if(extension.equals("vtt") || extension.equals("srt")){
             String file_dir = filename.substring(0,2);
             streaming_dir = streaming_dir +"/" + extension.toLowerCase() +"/" + file_dir;
             streaming_name = filename;
